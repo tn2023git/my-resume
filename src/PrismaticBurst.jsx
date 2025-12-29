@@ -119,7 +119,6 @@ void main(){
       hoverMat = rotY(ang.y) * rotX(ang.x);
     }
 
-    // افزایش تعداد حلقه‌ها برای پرتر شدن بک‌گراند در موبایل
     int loops = uIsMobile ? 22 : 44; 
     float marchT = 0.0;
 
@@ -224,7 +223,6 @@ const PrismaticBurst = ({
   const isMobile = typeof window !== 'undefined' && window.matchMedia("(pointer: coarse)").matches;
 
   useEffect(() => {
-    // تاخیر ۷۰۰ میلی‌ثانیه‌ای برای بهبود لود اولیه
     const timer = setTimeout(() => setReady(true), 700);
     return () => clearTimeout(timer);
   }, []);
@@ -233,7 +231,6 @@ const PrismaticBurst = ({
     if (!ready || !containerRef.current) return;
 
     const container = containerRef.current;
-    // dpr 0.8 برای موبایل جهت تعادل بین کیفیت و پرفورمنس
     const dpr = isMobile ? 0.8 : Math.min(window.devicePixelRatio || 1, 2);
     const renderer = new Renderer({ dpr, alpha: false, antialias: false });
     rendererRef.current = renderer;
@@ -248,10 +245,17 @@ const PrismaticBurst = ({
     
     requestAnimationFrame(() => { if(gl.canvas) gl.canvas.style.opacity = '1'; });
 
-    const white = new Uint8Array([255, 255, 255, 255]);
+    // تعریف اولیه بافت با مقادیر واقعی رنگ‌ها برای جلوگیری از سفیدی در فریم اول
+    const colors = [color0, color1, color2];
+    const data = new Uint8Array(colors.length * 4);
+    colors.forEach((c, i) => {
+      const [r, g, b] = hexToRgb01(c);
+      data.set([Math.round(r * 255), Math.round(g * 255), Math.round(b * 255), 255], i * 4);
+    });
+
     const gradientTex = new Texture(gl, {
-      image: white,
-      width: 1,
+      image: data,
+      width: colors.length,
       height: 1,
       generateMipmaps: false,
       flipY: false
@@ -271,9 +275,9 @@ const PrismaticBurst = ({
         uTime: { value: 0 },
         uIntensity: { value: intensity },
         uSpeed: { value: speed },
-        uAnimType: { value: 2 }, 
+        uAnimType: { value: animationType === 'rotate' ? 0 : animationType === 'rotate3d' ? 1 : 2 }, 
         uMouse: { value: [0.5, 0.5] },
-        uColorCount: { value: 3 },
+        uColorCount: { value: colors.length },
         uDistort: { value: distort },
         uOffset: { value: [offset.x, offset.y] },
         uGradient: { value: gradientTex },
@@ -326,31 +330,27 @@ const PrismaticBurst = ({
   }, [ready, isMobile]);
 
   useEffect(() => {
-    if (!programRef.current || !rendererRef.current || !gradTexRef.current) return;
+    if (!programRef.current || !gradTexRef.current) return;
     
-    const colorsArray = [color0, color1, color2];
-    const data = new Uint8Array(colorsArray.length * 4);
-    for (let i = 0; i < colorsArray.length; i++) {
-        const [r, g, b] = hexToRgb01(colorsArray[i]);
-        data[i * 4 + 0] = Math.round(r * 255);
-        data[i * 4 + 1] = Math.round(g * 255);
-        data[i * 4 + 2] = Math.round(b * 255);
-        data[i * 4 + 3] = 255;
-    }
+    const colors = [color0, color1, color2];
+    const data = new Uint8Array(colors.length * 4);
+    colors.forEach((c, i) => {
+      const [r, g, b] = hexToRgb01(c);
+      data.set([Math.round(r * 255), Math.round(g * 255), Math.round(b * 255), 255], i * 4);
+    });
     
     const tex = gradTexRef.current;
     tex.image = data;
-    tex.width = colorsArray.length;
-    tex.height = 1;
+    tex.width = colors.length;
     tex.needsUpdate = true;
     
-    programRef.current.uniforms.uIntensity.value = intensity;
-    programRef.current.uniforms.uSpeed.value = speed;
-    const animTypeMap = { rotate: 0, rotate3d: 1, hover: 2 };
-    programRef.current.uniforms.uAnimType.value = animTypeMap[animationType];
-    programRef.current.uniforms.uDistort.value = distort;
-    programRef.current.uniforms.uColorCount.value = colorsArray.length;
-  }, [intensity, speed, animationType, color0, color1, color2, distort]);
+    const program = programRef.current;
+    program.uniforms.uColorCount.value = colors.length;
+    program.uniforms.uIntensity.value = intensity;
+    program.uniforms.uSpeed.value = speed;
+    program.uniforms.uDistort.value = distort;
+    program.uniforms.uAnimType.value = animationType === 'rotate' ? 0 : animationType === 'rotate3d' ? 1 : 2;
+  }, [color0, color1, color2, intensity, speed, distort, animationType]);
 
   return <div style={{width: '100%', height: '100%', position: 'absolute', inset: 0, overflow: 'hidden'}} ref={containerRef} />;
 };
