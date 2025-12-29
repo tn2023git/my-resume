@@ -86,7 +86,7 @@ body, html {
   width: 100% !important;
   height: auto !important;
   display: block !important;
-  overflow: hidden; /* جلوگیری از بیرون زدن محتوای داخلی */
+  overflow: hidden;
 }
 
 /* --- Content Padding --- */
@@ -110,7 +110,7 @@ body, html {
   font-size: 3.5rem; 
   line-height: 1.1; 
   margin-bottom: 10px;
-  word-wrap: break-word; /* جلوگیری از سرریز متن */
+  word-wrap: break-word;
   overflow-wrap: break-word;
 }
 
@@ -126,7 +126,7 @@ body, html {
   border: 3px solid var(--purple);
   border-radius: 20px;
   object-fit: cover;
-  flex-shrink: 0; /* جلوگیری از دفرمه شدن عکس در موبایل */
+  flex-shrink: 0;
 }
 
 /* --- Grid Layout --- */
@@ -203,7 +203,7 @@ body, html {
   text-align: justify;
 }
 
-/* --- Language Switcher --- */
+/* --- REVERTED Language Switcher (Fixing Animations and Layout) --- */
 .floating-lang-switcher {
   position: fixed;
   bottom: 35px;
@@ -217,44 +217,51 @@ body, html {
   gap: 20px;
   border: 1px solid rgba(160, 16, 214, 0.5);
   z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.flag-btn { background: none; border: 2px solid transparent; border-radius: 50%; cursor: pointer; padding: 0; }
-.flag-btn.active { border-color: var(--c1); transform: scale(1.1); }
-.flag-btn img { width: 35px; height: 35px; border-radius: 50%; }
+.flag-btn { 
+  background: none; 
+  border: 2px solid transparent; 
+  border-radius: 50%; 
+  cursor: pointer; 
+  padding: 0; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
 
-/* --- Responsive & Mobile Fixes --- */
+.flag-btn:hover {
+  transform: translateY(-5px) scale(1.1);
+}
+
+.flag-btn.active { 
+  border-color: var(--c1); 
+  box-shadow: 0 0 15px rgba(243, 188, 8, 0.4);
+}
+
+.flag-btn img { 
+  width: 35px; 
+  height: 35px; 
+  border-radius: 50%; 
+  object-fit: cover;
+  display: block;
+}
+
+/* --- Responsive --- */
 @media (max-width: 1150px) {
   .resume-grid { grid-template-columns: 1fr; }
   .resume-header { flex-direction: column; text-align: center; gap: 20px; }
 }
 
 @media (max-width: 768px) {
-  .main-name {
-    font-size: 2.2rem; /* کاهش سایز برای موبایل */
-    text-align: center;
-  }
-  
-  .subtitle {
-    font-size: 1.2rem;
-  }
-
-  .resume-header, .side-section, .exp-card {
-    padding: 20px; /* کاهش پدینگ در موبایل */
-  }
-
-  .profile-img {
-    width: 130px;
-    height: 130px;
-  }
-  
-  .app-wrapper {
-    padding: 30px 15px 100px 15px;
-  }
-}
-
-@media (max-width: 480px) {
-  .main-name {
-    font-size: 1.8rem; /* سایز خیلی کوچک برای گوشی‌های باریک */
-  }
+  .main-name { font-size: 2.2rem; text-align: center; }
+  .subtitle { font-size: 1.2rem; }
+  .resume-header, .side-section, .exp-card { padding: 20px; }
+  .profile-img { width: 130px; height: 130px; }
+  .app-wrapper { padding: 30px 15px 100px 15px; }
 }
