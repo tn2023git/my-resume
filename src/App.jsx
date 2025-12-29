@@ -24,9 +24,7 @@ function App() {
       salary: "20-25 Million Tomans",
       software: [
         { name: "Adobe Photoshop", dots: 3 }, { name: "Adobe Premiere", dots: 3 },
-        { name: "Microsoft Word", dots: 4 }, { name: "Microsoft Powerpoint", dots: 3 },
-        { name: "Microsoft Excel", dots: 2 }, { name: "Wordpress", dots: 3 },
-        { name: "Google Search Console", dots: 1 }
+        { name: "WordPress", dots: 3 }, { name: "Google Search Console", dots: 1 }
       ],
       skills: ["Farsi to English Translation", "Teaching English", "English to Farsi translation", "Computer software repairs", "Fast learner", "Team Worker", "WordPress Website Design", "Creativity"],
       projects: [
@@ -35,12 +33,48 @@ function App() {
         { name: "Atena Zist Darman", url: "https://atenazistdarman.co" }
       ],
       experience: [
-        { role: "Office Assistant", company: "Atena Zist Darman", date: "Apr 2024 - Nov 2025", duration: "1 year and 7 months", desc: "Administrative support and office coordination." },
-        { role: "English Teacher", company: "Pardisan - Tehranpars", date: "Oct 2022 - Feb 2024", duration: "1 year and 4 months", desc: "Teaching English privately and in groups." },
-        { role: "English Teacher", company: "Pooya Middle School", date: "Sep 2021 - May 2022", duration: "8 months", desc: "Teaching English to 7th and 8th graders." },
-        { role: "English Teacher", company: "Pardisan - Tehranpars", date: "Apr 2021 - Sep 2021", duration: "5 months", desc: "Teaching English privately and in groups." },
-        { role: "Customer Support Specialist", company: "Tempus Logix", date: "Jan 2020 - Sep 2020", duration: "8 months", desc: "Handling international logistics in English." },
-        { role: "Salesperson", company: "Matin Mobile", date: "Jun 2016 - Dec 2016", duration: "6 months", desc: "Cellphone software repairs and sales." }
+        { 
+          role: "Office Assistant", 
+          company: "Atena Zist Darman", 
+          date: "Apr 2024 - Nov 2025", 
+          duration: "1 year and 7 months", 
+          desc: "Handling administrative tasks, coordinating office activities, managing phone calls, and providing general support to the team. Assisted in organizing schedules and preparing necessary documents for the office's daily operations." 
+        },
+        { 
+          role: "English Teacher", 
+          company: "Pardisan - Tehranpars", 
+          date: "Oct 2022 - Feb 2024", 
+          duration: "1 year and 4 months", 
+          desc: "Teaching English to various age groups, focusing on conversation and grammar. Developed lesson plans tailored to student needs and conducted both group and private sessions." 
+        },
+        { 
+          role: "English Teacher", 
+          company: "Pooya Middle School", 
+          date: "Sep 2021 - May 2022", 
+          duration: "8 months", 
+          desc: "Taught English to 7th and 8th graders using online education platforms like Skyroom and Adobe Connect during the pandemic." 
+        },
+        { 
+          role: "English Teacher", 
+          company: "Pardisan - Tehranpars", 
+          date: "Apr 2021 - Sep 2021", 
+          duration: "5 months", 
+          desc: "Instructed English learners through structured curriculum and interactive teaching methods to improve language proficiency." 
+        },
+        { 
+          role: "Customer Support Specialist", 
+          company: "Tempus Logix", 
+          date: "Jan 2020 - Sep 2020", 
+          duration: "8 months", 
+          desc: "Managed customer inquiries in English, coordinated between drivers and clients for car transportation across the US, and resolved logistics issues in a fast-paced environment." 
+        },
+        { 
+          role: "Salesperson", 
+          company: "Matin Mobile", 
+          date: "Jun 2016 - Dec 2016", 
+          duration: "6 months", 
+          desc: "Cellphone software repairs, sale of peripherals and accessories." 
+        }
       ]
     },
     fa: {
@@ -60,9 +94,7 @@ function App() {
       salary: "۲۰-۲۵ میلیون تومان",
       software: [
         { name: "Adobe Photoshop", dots: 3 }, { name: "Adobe Premiere", dots: 3 },
-        { name: "Microsoft Word", dots: 4 }, { name: "Microsoft Powerpoint", dots: 3 },
-        { name: "Microsoft Excel", dots: 2 }, { name: "Wordpress", dots: 3 },
-        { name: "Google Search Console", dots: 1 }
+        { name: "WordPress", dots: 3 }, { name: "Google Search Console", dots: 1 }
       ],
       skills: ["ترجمه فارسی به انگلیسی", "تدریس زبان انگلیسی", "ترجمه انگلیسی به فارسی", "تعمیرات نرم‌افزاری کامپیوتر", "یادگیری سریع", "کار تیمی", "طراحی سایت وردپرس", "خلاقیت"],
       projects: [
@@ -71,12 +103,48 @@ function App() {
         { name: "آتنا زیست درمان", url: "https://atenazistdarman.co" }
       ],
       experience: [
-        { role: "منشی و مسئول دفتر", company: "آتنا زیست درمان", date: "۱۴۰۳ - ۱۴۰۴", duration: "۱ سال و ۷ ماه", desc: "مدیریت امور اداری و هماهنگی‌های دفتر." },
-        { role: "مدرس زبان انگلیسی", company: "آموزشگاه پردیسان", date: "۱۴۰۱ - ۱۴۰۲", duration: "۱ سال و ۴ ماه", desc: "تدریس زبان انگلیسی به‌صورت خصوصی و گروهی." },
-        { role: "تدریس زبان انگلیسی", company: "مدرسه پویا", date: "۱۴۰۰ - ۱۴۰۱", duration: "۸ ماه", desc: "آموزش زبان با ابزارهای هوشمند." },
-        { role: "مدرس زبان انگلیسی", company: "آموزشگاه پردیسان", date: "۱۴۰۰", duration: "۵ ماه", desc: "تدریس زبان انگلیسی به‌صورت خصوصی و گروهی." },
-        { role: "کارشناس خدمات مشتریان", company: "Tempus Logix", date: "۱۳۹۸ - ۱۳۹۹", duration: "۸ ماه", desc: "پاسخگویی به مشتریان خارجی." },
-        { role: "فروشنده", company: "موبایل متین", date: "۱۳۹۵", duration: "۶ ماه", desc: "حل مشکلات نرم افزاری موبایل و فروش گوشی." }
+        { 
+          role: "منشی و مسئول دفتر", 
+          company: "آتنا زیست درمان", 
+          date: "۱۴۰۳ - ۱۴۰۴", 
+          duration: "۱ سال و ۷ ماه", 
+          desc: "انجام کلیه امور اداری و دفتری، هماهنگی قرارها، پاسخگویی به تلفن‌ها و مدیریت جریان کاری دفتر. تهیه گزارش‌ها و نامه‌های اداری لازم برای پیشبرد اهداف شرکت." 
+        },
+        { 
+          role: "مدرس زبان انگلیسی", 
+          company: "آموزشگاه پردیسان", 
+          date: "۱۴۰۱ - ۱۴۰۲", 
+          duration: "۱ سال و ۴ ماه", 
+          desc: "تدریس زبان انگلیسی به رده‌های سنی مختلف با تمرکز بر مهارت‌های گفتاری و گرامر. برنامه‌ریزی آموزشی بر اساس نیاز شاگردان در کلاس‌های گروهی و خصوصی." 
+        },
+        { 
+          role: "تدریس زبان انگلیسی", 
+          company: "مدرسه پویا", 
+          date: "۱۴۰۰ - ۱۴۰۱", 
+          duration: "۸ ماه", 
+          desc: "تدریس زبان انگلیسی به دانش‌آموزان پایه‌های هفتم و هشتم با استفاده از پلتفرم‌های آموزش آنلاین اسکای‌روم و ادوبی کانکت." 
+        },
+        { 
+          role: "مدرس زبان انگلیسی", 
+          company: "آموزشگاه پردیسان", 
+          date: "۱۴۰۰", 
+          duration: "۵ ماه", 
+          desc: "ارائه آموزش‌های زبانی طبق متدهای استاندارد آموزشگاه برای تقویت سطح زبان‌آموزان." 
+        },
+        { 
+          role: "کارشناس خدمات مشتریان", 
+          company: "Tempus Logix", 
+          date: "۱۳۹۸ - ۱۳۹۹", 
+          duration: "۸ ماه", 
+          desc: "برقراری ارتباط مستقیم با مشتریان خارجی به زبان انگلیسی، هماهنگی حمل و نقل خودروها بین رانندگان و مشتریان در سراسر آمریکا و حل مشکلات لجستیکی." 
+        },
+        { 
+          role: "فروشنده", 
+          company: "موبایل متین", 
+          date: "۱۳۹۵", 
+          duration: "۶ ماه", 
+          desc: "حل مشکلات نرم افزاری موبایل، فروش لوازم جانبی و فروش گوشی موبایل" 
+        }
       ]
     }
   };
@@ -89,7 +157,7 @@ function App() {
       <div className="pdf-page">
         <header className="resume-header">
           <div className="header-text">
-            <h1>{content.name}</h1>
+            <h1 className="bold-font">{content.name}</h1>
             <p className="subtitle">{content.title}</p>
           </div>
           <img src={profilePic} alt="Amirali" className="profile-img" />
@@ -98,44 +166,48 @@ function App() {
         <div className="resume-grid">
           <aside className="sidebar">
             <section className="side-section">
-              <h3 className="yellow-text">{isEn ? "Personal & Contact" : "اطلاعات فردی و تماس"}</h3>
-              {content.personal.map((p, i) => <p key={i}><b>{p.label}:</b> {p.value}</p>)}
-              {content.contact.map((c, i) => <p key={i}><b>{c.label}:</b> {c.value}</p>)}
-              <p><b>{isEn ? "Salary Request" : "حقوق درخواستی"}:</b> {content.salary}</p>
+              <h3 className="yellow-text bold-font">{isEn ? "Personal & Contact" : "اطلاعات فردی و تماس"}</h3>
+              {content.personal.map((p, i) => <p key={i}><b className="bold-font">{p.label}:</b> {p.value}</p>)}
+              {content.contact.map((c, i) => <p key={i}><b className="bold-font">{c.label}:</b> {c.value}</p>)}
+              <p><b className="bold-font">{isEn ? "Salary Request" : "حقوق درخواستی"}:</b> {content.salary}</p>
             </section>
 
             <section className="side-section">
-              <h3 className="yellow-text">{isEn ? "Software" : "نرم‌افزارها"}</h3>
-              {content.software.map((s, i) => (
-                <div key={i} className="software-item">
-                  <span className="soft-name">{s.name}</span>
-                  <div className="dots-container">{renderDots(s.dots)}</div>
-                </div>
-              ))}
+              <h3 className="yellow-text bold-font">{isEn ? "Software" : "نرم‌افزارها"}</h3>
+              <div className="software-container">
+                {content.software.map((s, i) => (
+                  <div key={i} className="software-item">
+                    <span className="soft-name">{s.name}</span>
+                    <div className="dots-container">{renderDots(s.dots)}</div>
+                  </div>
+                ))}
+              </div>
             </section>
 
             <section className="side-section">
-              <h3 className="yellow-text">{isEn ? "Additional Skills" : "مهارت‌های تکمیلی"}</h3>
+              <h3 className="yellow-text bold-font">{isEn ? "Additional Skills" : "مهارت‌های تکمیلی"}</h3>
               <div className="skills-grid">
                 {content.skills.map((skill, i) => <span key={i} className="skill-tag">{skill}</span>)}
               </div>
             </section>
 
             <section className="side-section">
-              <h3 className="yellow-text">{isEn ? "Projects" : "پروژه‌ها"}</h3>
-              {content.projects.map((proj, i) => <a key={i} href={proj.url} target="_blank" rel="noreferrer" className="project-link">{proj.name}</a>)}
+              <h3 className="yellow-text bold-font">{isEn ? "Projects" : "پروژه‌ها"}</h3>
+              <div className="projects-list">
+                {content.projects.map((proj, i) => <a key={i} href={proj.url} target="_blank" rel="noreferrer" className="project-link">{proj.name}</a>)}
+              </div>
             </section>
           </aside>
 
           <main className="main-content">
-            <h2 className="yellow-text">{isEn ? "Work Experience" : "سوابق شغلی"}</h2>
+            <h2 className="yellow-text bold-font">{isEn ? "Work Experience" : "سوابق شغلی"}</h2>
             {content.experience.map((job, i) => (
               <div key={i} className="exp-card">
                 <div className="exp-row">
-                  <span className="job-role">{job.role}</span>
-                  <span className="job-duration yellow-text">{job.duration}</span>
+                  <span className="job-role bold-font">{job.role}</span>
+                  <span className="job-duration yellow-text bold-font">{job.duration}</span>
                 </div>
-                <div className="job-company purple-text">{job.company}</div>
+                <div className="job-company purple-text bold-font">{job.company}</div>
                 <div className="job-date">{job.date}</div>
                 <p className="job-desc">{job.desc}</p>
               </div>
