@@ -25,11 +25,11 @@ function App() {
       software: [
         { name: "Adobe Photoshop", dots: 3 }, 
         { name: "Adobe Premiere", dots: 3 },
-        { name: "Microsoft Word", dots: 4 }, 
-        { name: "Microsoft Powerpoint", dots: 3 },
-        { name: "Microsoft Excel", dots: 2 }, 
-        { name: "WordPress", dots: 3 }, 
-        { name: "Google Search Console", dots: 1 }
+        { name: "Microsoft Word", dots: 5 }, 
+        { name: "Microsoft Powerpoint", dots: 4 },
+        { name: "Microsoft Excel", dots: 3 }, 
+        { name: "WordPress", dots: 4 }, 
+        { name: "Google Search Console", dots: 2 }
       ],
       skills: ["Farsi to English Translation", "Teaching English", "English to Farsi translation", "Computer software repairs", "Fast learner", "Team Worker", "WordPress Website Design", "Creativity"],
       projects: [
@@ -100,11 +100,11 @@ function App() {
       software: [
         { name: "Adobe Photoshop", dots: 3 }, 
         { name: "Adobe Premiere", dots: 3 },
-        { name: "Microsoft Word", dots: 4 }, 
-        { name: "Microsoft Powerpoint", dots: 3 },
-        { name: "Microsoft Excel", dots: 2 }, 
-        { name: "WordPress", dots: 3 }, 
-        { name: "Google Search Console", dots: 1 }
+        { name: "Microsoft Word", dots: 5 }, 
+        { name: "Microsoft Powerpoint", dots: 4 },
+        { name: "Microsoft Excel", dots: 3 }, 
+        { name: "WordPress", dots: 4 }, 
+        { name: "Google Search Console", dots: 2 }
       ],
       skills: ["ترجمه فارسی به انگلیسی", "تدریس زبان انگلیسی", "ترجمه انگلیسی به فارسی", "تعمیرات نرم‌افزاری کامپیوتر", "یادگیری سریع", "کار تیمی", "طراحی سایت وردپرس", "خلاقیت"],
       projects: [
@@ -116,42 +116,42 @@ function App() {
         { 
           role: "منشی و مسئول دفتر", 
           company: "آتنا زیست درمان", 
-          date: "۱۴۰۳ - ۱۴۰۴", 
+          date: "فروردین ۱۴۰۳ - آبان ۱۴۰۴", 
           duration: "۱ سال و ۷ ماه", 
           desc: "انجام کلیه امور اداری و دفتری، هماهنگی قرارها، پاسخگویی به تلفن‌ها و مدیریت جریان کاری دفتر. تهیه گزارش‌ها و نامه‌های اداری لازم برای پیشبرد اهداف شرکت." 
         },
         { 
           role: "مدرس زبان انگلیسی", 
           company: "آموزشگاه پردیسان", 
-          date: "۱۴۰۱ - ۱۴۰۲", 
+          date: "مهر ۱۴۰۱ - بهمن ۱۴۰۲", 
           duration: "۱ سال و ۴ ماه", 
           desc: "تدریس زبان انگلیسی به رده‌های سنی مختلف با تمرکز بر مهارت‌های گفتاری و گرامر. برنامه‌ریزی آموزشی بر اساس نیاز شاگردان در کلاس‌های گروهی و خصوصی." 
         },
         { 
           role: "تدریس زبان انگلیسی", 
           company: "مدرسه پویا", 
-          date: "۱۴۰۰ - ۱۴۰۱", 
+          date: "شهریور ۱۴۰۰ - اردیبهشت ۱۴۰۱", 
           duration: "۸ ماه", 
           desc: "تدریس زبان انگلیسی به دانش‌آموزان پایه‌های هفتم و هشتم با استفاده از پلتفرم‌های آموزش آنلاین اسکای‌روم و ادوبی کانکت." 
         },
         { 
           role: "مدرس زبان انگلیسی", 
           company: "آموزشگاه پردیسان", 
-          date: "۱۴۰۰", 
+          date: "فروردین ۱۴۰۰ - شهریور ۱۴۰۰", 
           duration: "۵ ماه", 
           desc: "ارائه آموزش‌های زبانی طبق متدهای استاندارد آموزشگاه برای تقویت سطح زبان‌آموزان." 
         },
         { 
           role: "کارشناس خدمات مشتریان", 
           company: "Tempus Logix", 
-          date: "۱۳۹۸ - ۱۳۹۹", 
+          date: "دی ۱۳۹۸ - شهریور ۱۳۹۹", 
           duration: "۸ ماه", 
           desc: "برقراری ارتباط مستقیم با مشتریان خارجی به زبان انگلیسی، هماهنگی حمل و نقل خودروها بین رانندگان و مشتریان در سراسر آمریکا و حل مشکلات لجستیکی." 
         },
         { 
           role: "فروشنده", 
           company: "موبایل متین", 
-          date: "۱۳۹۵", 
+          date: "خرداد ۱۳۹۵ - آذر ۱۳۹۵", 
           duration: "۶ ماه", 
           desc: "حل مشکلات نرم افزاری موبایل، فروش لوازم جانبی و فروش گوشی موبایل" 
         }
