@@ -1,5 +1,3 @@
-/* --- FONTS FIX --- */
-/* Make sure files are in src/assets/fonts/ */
 @font-face {
   font-family: 'Anjoman';
   src: url('./assets/fonts/Anjoman Regular.ttf') format('truetype');
@@ -14,6 +12,7 @@
   --yellow: #f1c40f;
   --bg: #0f0f0f;
   --paper: #1a1a1a;
+  --section-spacing: 50px;
 }
 
 .app-wrapper {
@@ -22,70 +21,107 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  padding: 80px 0;
 }
 
-.ltr-mode { direction: ltr; font-family: 'ProductSans', sans-serif; }
-.rtl-mode { direction: rtl; font-family: 'Anjoman', sans-serif; }
+.ltr-mode { direction: ltr; font-family: 'ProductSans', sans-serif !important; }
+.rtl-mode { direction: rtl; font-family: 'Anjoman', sans-serif !important; }
 
-/* --- FULL SCREEN PDF LOOK --- */
+/* Force font on button */
+.ltr-mode .toggle-btn { font-family: 'ProductSans', sans-serif !important; }
+.rtl-mode .toggle-btn { font-family: 'Anjoman', sans-serif !important; }
+
 .pdf-page {
-  width: 210mm; /* A4 Ratio */
-  min-height: 297mm;
+  width: 1100px;
+  min-height: 1400px;
   background: var(--paper);
-  padding: 40px;
-  position: relative; /* For button positioning */
-  box-shadow: 0 0 50px rgba(0,0,0,0.5);
+  padding: 70px;
+  box-shadow: 0 0 70px rgba(0,0,0,0.8);
+  color: white;
+  position: relative;
 }
 
-/* --- THE BUTTON LOGIC --- */
+.button-container {
+  display: flex;
+  margin-bottom: 50px; /* Moved far up from profile pic */
+}
+
+.ltr-mode .button-container { justify-content: flex-end; }
+.rtl-mode .button-container { justify-content: flex-start; }
+
 .toggle-btn {
-  position: absolute;
-  top: 20px;
   background: var(--yellow);
   color: black;
   border: none;
-  padding: 8px 15px;
+  padding: 12px 28px;
   font-weight: bold;
   cursor: pointer;
   border-radius: 4px;
+  font-size: 1.1rem;
 }
 
-.ltr-mode .toggle-btn { right: 20px; }
-.rtl-mode .toggle-btn { left: 20px; }
-
-/* --- CONTENT --- */
 .resume-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   border-bottom: 2px solid var(--yellow);
-  padding-bottom: 20px;
-  margin-bottom: 30px;
+  padding-bottom: 30px;
+  margin-bottom: var(--section-spacing);
 }
 
 .profile-img {
-  width: 110px;
-  height: 110px;
-  border: 3px solid var(--purple);
-  border-radius: 5px;
+  width: 150px;
+  height: 150px;
+  border: 4px solid var(--purple);
+  border-radius: 10px;
+  object-fit: cover;
 }
 
-.header-text h1 { color: var(--yellow); margin: 0; font-size: 2.5rem; }
-.subtitle { color: var(--purple); font-size: 1.2rem; }
+.header-text h1 { color: var(--yellow); margin: 0; font-size: 3.5rem; }
+.subtitle { color: var(--purple); font-size: 1.6rem; }
 
-.resume-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 40px; }
+.resume-grid { display: grid; grid-template-columns: 380px 1fr; gap: 70px; }
 
-.yellow-text { color: var(--yellow); border-bottom: 1px solid #333; }
-.skill-item { margin: 5px 0; border-left: 2px solid var(--purple); padding-left: 10px; }
-.rtl-mode .skill-item { border-left: none; border-right: 2px solid var(--purple); padding-right: 10px; }
+.side-section { margin-bottom: var(--section-spacing); }
 
-.exp-card { margin-bottom: 25px; }
-.exp-row { display: flex; justify-content: space-between; font-weight: bold; }
-.job-company { color: var(--purple); }
-.job-date { color: #888; font-size: 0.8rem; }
+.yellow-text { 
+  color: var(--yellow); 
+  border-bottom: 1px solid #444; 
+  padding-bottom: 10px; 
+  margin-top: 0;
+  margin-bottom: 25px;
+}
 
-/* MOBILE RESPONSIVE */
-@media (max-width: 800px) {
-  .pdf-page { width: 95%; height: auto; padding: 20px; }
+.skill-item { margin: 12px 0; font-size: 1rem; }
+.purple-text { color: var(--purple); font-weight: bold; }
+
+.skills-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+.skill-tag { 
+  background: #333; 
+  padding: 4px 12px; 
+  border-radius: 15px; 
+  font-size: 0.85rem;
+  border-left: 2px solid var(--purple);
+}
+.rtl-mode .skill-tag { border-left: none; border-right: 2px solid var(--purple); }
+
+.project-link {
+  display: block;
+  color: var(--purple);
+  text-decoration: none;
+  margin: 15px 0;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.exp-card { margin-bottom: 45px; border-bottom: 1px solid #333; padding-bottom: 20px; }
+.exp-row { display: flex; justify-content: space-between; font-weight: bold; font-size: 1.25rem; }
+.job-duration { font-size: 0.9rem; }
+.job-company { margin-top: 5px; font-weight: 600; }
+.job-date { color: #aaa; font-size: 0.95rem; margin-top: 5px; }
+.job-desc { color: #ddd; font-size: 1rem; line-height: 1.6; margin-top: 15px; }
+
+@media (max-width: 1150px) {
+  .pdf-page { width: 95%; height: auto; padding: 40px; }
   .resume-grid { grid-template-columns: 1fr; }
 }
