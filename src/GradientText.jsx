@@ -34,6 +34,7 @@ export default function GradientText({
     lastTimeRef.current = time;
     elapsedRef.current += deltaTime;
 
+    // پیشرفت انیمیشن به صورت مداوم
     const totalProgress = (elapsedRef.current / animationDuration) * 100;
     progress.set(totalProgress);
   });
@@ -43,7 +44,7 @@ export default function GradientText({
     progress.set(0);
   }, [animationSpeed]);
 
-  // اصلاح منطق حرکت برای جلوگیری از پرش تصویر
+  // جابه‌جایی پس‌زمینه به صورت یکنواخت (تکرار در هر ۱۰۰ درصد)
   const backgroundPosition = useTransform(progress, p => `${p % 100}% 50%`);
 
   const handleMouseEnter = useCallback(() => {
@@ -54,12 +55,12 @@ export default function GradientText({
     if (pauseOnHover) setIsPaused(false);
   }, [pauseOnHover]);
 
-  // تکرار رنگ اول در انتها برای ایجاد چرخه نرم و بدون بریدگی
-  const seamlessColors = [...colors, colors[0]].join(', ');
+  // کلید حل مشکل: تکرار کامل لیست رنگ‌ها برای اتصال بی‌نقص
+  const seamlessColors = [...colors, ...colors].join(', ');
 
   const gradientStyle = {
     backgroundImage: `linear-gradient(to right, ${seamlessColors})`,
-    backgroundSize: '200% 100%',
+    backgroundSize: '200% 100%', // پس‌زمینه دو برابر عرض متن است
     backgroundRepeat: 'repeat'
   };
 
