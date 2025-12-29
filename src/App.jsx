@@ -3,39 +3,11 @@ import './App.css';
 import profilePic from './assets/profile.png';
 import GradientText from './GradientText';
 import PrismaticBurst from './PrismaticBurst';
+import PixelCard from './PixelCard';
 
 function App() {
   const [lang, setLang] = useState('en');
-  const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
   const isEn = lang === 'en';
-
-  useEffect(() => {
-    const handleOrientation = (e) => {
-      if (e.beta !== null && e.gamma !== null) {
-        const x = (e.gamma + 30) / 60; 
-        const y = (e.beta + 30) / 60;
-        setMousePos({ 
-          x: Math.max(0, Math.min(1, x)), 
-          y: Math.max(0, Math.min(1, y)) 
-        });
-      }
-    };
-
-    const handleMouseMove = (e) => {
-      setMousePos({
-        x: e.clientX / window.innerWidth,
-        y: e.clientY / window.innerHeight
-      });
-    };
-
-    window.addEventListener('deviceorientation', handleOrientation);
-    window.addEventListener('mousemove', handleMouseMove);
-
-    return () => {
-      window.removeEventListener('deviceorientation', handleOrientation);
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, []);
 
   const data = {
     en: {
@@ -208,64 +180,80 @@ function App() {
       </div>
 
       <div className="pdf-page">
-        <header className="resume-header">
-          <div className="header-text">
-            <GradientText className="main-name bold-font">
-              {content.name}
-            </GradientText>
-            <p className="subtitle">{content.title}</p>
-          </div>
-          <img src={profilePic} alt="Amirali" className="profile-img" />
-        </header>
+        {/* Header with Pixel Effect */}
+        <PixelCard variant="resume" className="resume-header-card">
+          <header className="resume-header" style={{ background: 'transparent', border: 'none', marginBottom: 0 }}>
+            <div className="header-text">
+              <GradientText className="main-name bold-font">
+                {content.name}
+              </GradientText>
+              <p className="subtitle">{content.title}</p>
+            </div>
+            <img src={profilePic} alt="Amirali" className="profile-img" />
+          </header>
+        </PixelCard>
 
         <div className="resume-grid">
           <aside className="sidebar">
-            <section className="side-section">
-              <GradientText className="yellow-text bold-font">
-                {isEn ? "Personal & Contact" : "اطلاعات فردی و تماس"}
-              </GradientText>
-              {content.personal.map((p, i) => <p key={i}><b className="bold-font">{p.label}:</b> {p.value}</p>)}
-              {content.contact.map((c, i) => <p key={i}><b className="bold-font">{c.label}:</b> {c.value}</p>)}
-              <p><b className="bold-font">{isEn ? "Salary Request" : "حقوق درخواستی"}:</b> {content.salary}</p>
-            </section>
+            {/* Personal Section */}
+            <PixelCard variant="resume" className="side-pixel-wrapper">
+              <section className="side-section" style={{ background: 'transparent', border: 'none', marginBottom: 0 }}>
+                <GradientText className="yellow-text bold-font">
+                  {isEn ? "Personal & Contact" : "اطلاعات فردی و تماس"}
+                </GradientText>
+                {content.personal.map((p, i) => <p key={i}><b className="bold-font">{p.label}:</b> {p.value}</p>)}
+                {content.contact.map((c, i) => <p key={i}><b className="bold-font">{c.label}:</b> {c.value}</p>)}
+                <p><b className="bold-font">{isEn ? "Salary Request" : "حقوق درخواستی"}:</b> {content.salary}</p>
+              </section>
+            </PixelCard>
 
-            <section className="side-section">
-              <GradientText className="yellow-text bold-font">
-                {isEn ? "Software" : "نرم‌افزارها"}
-              </GradientText>
-              <div className="software-container">
-                {content.software.map((s, i) => (
-                  <div key={i} className="software-item">
-                    <span className="soft-name">{s.name}</span>
-                    <div className="dots-container">{renderDots(s.dots)}</div>
-                  </div>
-                ))}
-              </div>
-            </section>
+            {/* Software Section */}
+            <PixelCard variant="resume" className="side-pixel-wrapper">
+              <section className="side-section" style={{ background: 'transparent', border: 'none', marginBottom: 0 }}>
+                <GradientText className="yellow-text bold-font">
+                  {isEn ? "Software" : "نرم‌افزارها"}
+                </GradientText>
+                <div className="software-container">
+                  {content.software.map((s, i) => (
+                    <div key={i} className="software-item">
+                      <span className="soft-name">{s.name}</span>
+                      <div className="dots-container">{renderDots(s.dots)}</div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            </PixelCard>
 
-            <section className="side-section">
-              <GradientText className="yellow-text bold-font">
-                {isEn ? "Additional Skills" : "مهارت‌های تکمیلی"}
-              </GradientText>
-              <div className="skills-grid">
-                {content.skills.map((skill, i) => <span key={i} className="skill-tag">{skill}</span>)}
-              </div>
-            </section>
+            {/* Skills Section */}
+            <PixelCard variant="resume" className="side-pixel-wrapper">
+              <section className="side-section" style={{ background: 'transparent', border: 'none', marginBottom: 0 }}>
+                <GradientText className="yellow-text bold-font">
+                  {isEn ? "Additional Skills" : "مهارت‌های تکمیلی"}
+                </GradientText>
+                <div className="skills-grid">
+                  {content.skills.map((skill, i) => <span key={i} className="skill-tag">{skill}</span>)}
+                </div>
+              </section>
+            </PixelCard>
 
-            <section className="side-section">
-              <GradientText className="yellow-text bold-font">
-                {isEn ? "Projects" : "پروژه‌ها"}
-              </GradientText>
-              <div className="projects-list">
-                {content.projects.map((proj, i) => <a key={i} href={proj.url} target="_blank" rel="noreferrer" className="project-link">{proj.name}</a>)}
-              </div>
-            </section>
+            {/* Projects Section */}
+            <PixelCard variant="resume" className="side-pixel-wrapper">
+              <section className="side-section" style={{ background: 'transparent', border: 'none', marginBottom: 0 }}>
+                <GradientText className="yellow-text bold-font">
+                  {isEn ? "Projects" : "پروژه‌ها"}
+                </GradientText>
+                <div className="projects-list">
+                  {content.projects.map((proj, i) => <a key={i} href={proj.url} target="_blank" rel="noreferrer" className="project-link">{proj.name}</a>)}
+                </div>
+              </section>
+            </PixelCard>
           </aside>
 
           <main className="main-content">
             <div className="work-exp-container">
                 {content.experience.map((job, i) => (
-                    <div key={i} className="exp-card">
+                  <PixelCard key={i} variant="resume" className="exp-pixel-wrapper">
+                    <div className="exp-card" style={{ background: 'transparent', border: 'none', marginBottom: 0 }}>
                         <div className="exp-row">
                             <span className="job-role bold-font">{job.role}</span>
                             <span className="job-duration">
@@ -278,6 +266,7 @@ function App() {
                         <div className="job-date">{job.date}</div>
                         <p className="job-desc">{job.desc}</p>
                     </div>
+                  </PixelCard>
                 ))}
             </div>
           </main>
