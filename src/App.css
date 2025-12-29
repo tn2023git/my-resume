@@ -26,7 +26,7 @@
   --c3: #D1765C;
   --c4: #A010D6;
   --purple: var(--c4);
-  --yellow: #F3BC08; /* رنگ زرد درخواستی شما */
+  --yellow: #F3BC08;
   --bg: #050505;
   --glass-bg: rgba(15, 15, 15, 0.45); 
   --glass-border: rgba(255, 255, 255, 0.08);
@@ -83,11 +83,16 @@ body, html {
   -webkit-backdrop-filter: blur(15px);
   border: 1px solid var(--glass-border) !important;
   border-radius: 20px !important;
-  margin-bottom: var(--section-spacing);
+  margin-bottom: var(--section-spacing); /* فاصله ثابت بین تمام کارت‌ها */
   width: 100% !important;
   height: auto !important;
   display: block !important;
   overflow: hidden;
+}
+
+/* حذف مارجین آخرین کارت برای جلوگیری از فضای خالی اضافه در انتها */
+.exp-pixel-wrapper:last-child {
+  margin-bottom: 0;
 }
 
 /* --- Content Padding --- */
@@ -116,7 +121,7 @@ body, html {
 }
 
 .subtitle { 
-  color: var(--yellow); /* تغییر رنگ عنوان اصلی به زرد */
+  color: var(--yellow); 
   font-size: 1.6rem; 
   margin-top: 10px; 
 }
@@ -196,7 +201,7 @@ body, html {
 }
 
 .job-company { 
-  color: var(--yellow); /* تغییر رنگ نام شرکت‌ها به زرد */
+  color: var(--yellow); 
   margin: 8px 0; 
   font-size: 1.1rem; 
 }
@@ -271,10 +276,18 @@ body, html {
   display: block;
 }
 
-/* --- Responsive --- */
+/* --- Responsive & Mobile Gap Fix --- */
 @media (max-width: 1150px) {
-  .resume-grid { grid-template-columns: 1fr; }
+  .resume-grid { 
+    grid-template-columns: 1fr; 
+    gap: 0; /* حذف فاصله گرید چون خود کارت‌ها مارجین دارند */
+  }
   .resume-header { flex-direction: column; text-align: center; gap: 20px; }
+  
+  /* حذف مارجین آخرین کارت سایدبار برای جلوگیری از فاصله دوبل با اولین کارت محتوا */
+  .sidebar .side-pixel-wrapper:last-child {
+    margin-bottom: var(--section-spacing);
+  }
 }
 
 @media (max-width: 768px) {
