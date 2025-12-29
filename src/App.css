@@ -126,6 +126,8 @@
 .job-desc { color: #ccc; line-height: 1.6; margin-top: 15px; font-size: 1rem; }
 
 /* LANGUAGE SWITCHER */
+/* App.css */
+
 .floating-lang-switcher {
   position: fixed;
   bottom: 30px;
@@ -140,8 +142,24 @@
   gap: 15px;
   border: 1px solid var(--purple);
   z-index: 9999;
+  
+  /* اضافه کردن سایه و انیمیشن */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  animation: float-animation 3s ease-in-out infinite;
 }
 
+/* تعریف انیمیشن حرکت بالا و پایین */
+@keyframes float-animation {
+  0% {
+    transform: translate(-50%, 0px);
+  }
+  50% {
+    transform: translate(-50%, -15px); /* حرکت به سمت بالا */
+  }
+  100% {
+    transform: translate(-50%, 0px);
+  }
+}
 .flag-btn { background: none; border: 2px solid transparent; padding: 2px; border-radius: 50%; display: flex; transition: 0.3s; }
 .flag-btn.active { border-color: var(--yellow); transform: scale(1.1); }
 .flag-btn img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; }
