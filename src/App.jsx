@@ -23,7 +23,7 @@ function App() {
   const data = {
     en: {
       name: "Amirali Dabiri Maram",
-      title: "English Teacher & Office Assistant",
+      title: "Job Seeker",
       personal: [
         { label: "Age", value: "26 Years (Born May 11th 1999)" },
         { label: "Military", value: "Exempted" },
@@ -98,7 +98,7 @@ function App() {
     },
     fa: {
       name: "امیرعلی دبیری مرام",
-      title: "مدرس زبان انگلیسی و مسئول دفتر",
+      title: "کارجو",
       personal: [
         { label: "سن", value: "۲۶ سال (متولد ۲۱ اردیبهشت ۱۳۷۸)" },
         { label: "سربازی", value: "معاف دائم" },
