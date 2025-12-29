@@ -10,7 +10,7 @@ export default function GradientText({
   showBorder = false,
   direction = 'horizontal',
   pauseOnHover = false,
-  yoyo = false // غیرفعال کردن حالت رفت و برگشتی
+  yoyo = false
 }) {
   const [isPaused, setIsPaused] = useState(false);
   const progress = useMotionValue(0);
@@ -34,7 +34,6 @@ export default function GradientText({
     lastTimeRef.current = time;
     elapsedRef.current += deltaTime;
 
-    // محاسبه پیشرفت به صورت خطی برای حرکت مداوم
     const totalProgress = (elapsedRef.current / animationDuration) * 100;
     progress.set(totalProgress);
   });
@@ -44,8 +43,8 @@ export default function GradientText({
     progress.set(0);
   }, [animationSpeed]);
 
-  // استفاده از مقادیر منفی برای حرکت از چپ به راست (Infinite Slide)
-  const backgroundPosition = useTransform(progress, p => `-${p % 200}% 50%`);
+  // اصلاح منطق حرکت برای جلوگیری از پرش تصویر
+  const backgroundPosition = useTransform(progress, p => `${p % 100}% 50%`);
 
   const handleMouseEnter = useCallback(() => {
     if (pauseOnHover) setIsPaused(true);
@@ -55,11 +54,11 @@ export default function GradientText({
     if (pauseOnHover) setIsPaused(false);
   }, [pauseOnHover]);
 
-  // تکرار رنگ‌ها برای ایجاد یک چرخه بی‌پایان و بدون پرش (Seamless Loop)
-  const gradientColors = [...colors, ...colors].join(', ');
+  // تکرار رنگ اول در انتها برای ایجاد چرخه نرم و بدون بریدگی
+  const seamlessColors = [...colors, colors[0]].join(', ');
 
   const gradientStyle = {
-    backgroundImage: `linear-gradient(to right, ${gradientColors})`,
+    backgroundImage: `linear-gradient(to right, ${seamlessColors})`,
     backgroundSize: '200% 100%',
     backgroundRepeat: 'repeat'
   };
