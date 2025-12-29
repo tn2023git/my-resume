@@ -203,7 +203,7 @@ body, html {
   text-align: justify;
 }
 
-/* --- REVERTED Language Switcher (Fixing Animations and Layout) --- */
+/* --- Fixed Language Switcher (Locked to LTR) --- */
 .floating-lang-switcher {
   position: fixed;
   bottom: 35px;
@@ -220,6 +220,7 @@ body, html {
   align-items: center;
   justify-content: center;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  direction: ltr !important; /* قفل کردن چیدمان روی چپ‌به‌راست */
 }
 
 .flag-btn { 
