@@ -57,7 +57,7 @@ function App() {
           company: "Atena Zist Darman", 
           date: "Apr 2024 - Nov 2025", 
           duration: "1 Year and 7 Months", 
-          desc: "Handling administrative tasks, coordinating office activities, managing phone calls, and providing general support to the team. Assisted in organizing schedules and preparing necessary documents for the office's daily operations." 
+          desc: "Handling all administrative and clerical tasks, drafting correspondence, archiving, answering phones, issuing invoices, entering data into the Faradis CRM system, preparing reports, and troubleshooting routine software issues." 
         },
         { 
           role: "English Teacher", 
@@ -132,7 +132,7 @@ function App() {
           company: "آتنا زیست درمان", 
           date: "فروردین ۱۴۰۳ - آبان ۱۴۰۴", 
           duration: "۱ سال و ۷ ماه", 
-          desc: "انجام کلیه امور اداری و دفتری، هماهنگی قرارها، پاسخگویی به تلفن‌ها و مدیریت جریان کاری دفتر. تهیه گزارش‌ها و نامه‌های اداری لازم برای پیشبرد اهداف شرکت." 
+          desc: "انجام تمامی امور اداری و دفتری، تنظیم نامه ها، بایگانی، پاسخگویی به تلفن ها و صدور فاکتور ها، ثبت اطلاعات در سیستم CRM فرادیس، تهیه گزارش ها و رسیدگی به مشکلات ساده نرم افزاری روزمره." 
         },
         { 
           role: "مدرس زبان انگلیسی", 
