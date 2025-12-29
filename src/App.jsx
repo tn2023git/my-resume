@@ -221,24 +221,26 @@ function App() {
           </aside>
 
           <main className="main-content">
-            <GradientText className="yellow-text bold-font section-title">
-              {isEn ? "Work Experience" : "سوابق شغلی"}
-            </GradientText>
-            {content.experience.map((job, i) => (
-              <div key={i} className="exp-card">
-                <div className="exp-row">
-                  <span className="job-role bold-font">{job.role}</span>
-                  <span className="job-duration">
-                    <GradientText className="duration-text bold-font">
-                      {job.duration}
-                    </GradientText>
-                  </span>
-                </div>
-                <div className="job-company purple-text bold-font">{job.company}</div>
-                <div className="job-date">{job.date}</div>
-                <p className="job-desc">{job.desc}</p>
-              </div>
-            ))}
+            <div className="work-exp-container">
+                <GradientText className="section-title bold-font">
+                    {isEn ? "Work Experience" : "سوابق شغلی"}
+                </GradientText>
+                {content.experience.map((job, i) => (
+                    <div key={i} className="exp-card">
+                        <div className="exp-row">
+                            <span className="job-role bold-font">{job.role}</span>
+                            <span className="job-duration">
+                                <GradientText className="duration-text bold-font">
+                                    {job.duration}
+                                </GradientText>
+                            </span>
+                        </div>
+                        <div className="job-company purple-text bold-font">{job.company}</div>
+                        <div className="job-date">{job.date}</div>
+                        <p className="job-desc">{job.desc}</p>
+                    </div>
+                ))}
+            </div>
           </main>
         </div>
       </div>
