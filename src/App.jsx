@@ -1,10 +1,14 @@
 import { useState } from 'react';
 import './App.css';
 import profilePic from './assets/profile.png';
+import GradientText from './GradientText'; // ایمپورت کامپوننت جدید
 
 function App() {
   const [lang, setLang] = useState('en');
   const isEn = lang === 'en';
+
+  // رنگ‌های انیمیشن طبق سلیقه شما (زرد به بنفش)
+  const animColors = ["#F3BC08", "#DF9339", "#D1765C", "#A010D6"];
 
   const data = {
     en: {
@@ -167,7 +171,11 @@ function App() {
       <div className="pdf-page">
         <header className="resume-header">
           <div className="header-text">
-            <h1 className="bold-font">{content.name}</h1>
+            <h1 className="bold-font">
+              <GradientText colors={animColors} animationSpeed={3} showBorder={false}>
+                {content.name}
+              </GradientText>
+            </h1>
             <p className="subtitle">{content.title}</p>
           </div>
           <img src={profilePic} alt="Amirali" className="profile-img" />
@@ -176,14 +184,22 @@ function App() {
         <div className="resume-grid">
           <aside className="sidebar">
             <section className="side-section">
-              <h3 className="yellow-text bold-font">{isEn ? "Personal & Contact" : "اطلاعات فردی و تماس"}</h3>
+              <h3 className="yellow-text bold-font">
+                <GradientText colors={animColors} animationSpeed={3}>
+                  {isEn ? "Personal & Contact" : "اطلاعات فردی و تماس"}
+                </GradientText>
+              </h3>
               {content.personal.map((p, i) => <p key={i}><b className="bold-font">{p.label}:</b> {p.value}</p>)}
               {content.contact.map((c, i) => <p key={i}><b className="bold-font">{c.label}:</b> {c.value}</p>)}
               <p><b className="bold-font">{isEn ? "Salary Request" : "حقوق درخواستی"}:</b> {content.salary}</p>
             </section>
 
             <section className="side-section">
-              <h3 className="yellow-text bold-font">{isEn ? "Software" : "نرم‌افزارها"}</h3>
+              <h3 className="yellow-text bold-font">
+                <GradientText colors={animColors} animationSpeed={3}>
+                  {isEn ? "Software" : "نرم‌افزارها"}
+                </GradientText>
+              </h3>
               <div className="software-container">
                 {content.software.map((s, i) => (
                   <div key={i} className="software-item">
@@ -195,14 +211,22 @@ function App() {
             </section>
 
             <section className="side-section">
-              <h3 className="yellow-text bold-font">{isEn ? "Additional Skills" : "مهارت‌های تکمیلی"}</h3>
+              <h3 className="yellow-text bold-font">
+                <GradientText colors={animColors} animationSpeed={3}>
+                  {isEn ? "Additional Skills" : "مهارت‌های تکمیلی"}
+                </GradientText>
+              </h3>
               <div className="skills-grid">
                 {content.skills.map((skill, i) => <span key={i} className="skill-tag">{skill}</span>)}
               </div>
             </section>
 
             <section className="side-section">
-              <h3 className="yellow-text bold-font">{isEn ? "Projects" : "پروژه‌ها"}</h3>
+              <h3 className="yellow-text bold-font">
+                <GradientText colors={animColors} animationSpeed={3}>
+                  {isEn ? "Projects" : "پروژه‌ها"}
+                </GradientText>
+              </h3>
               <div className="projects-list">
                 {content.projects.map((proj, i) => <a key={i} href={proj.url} target="_blank" rel="noreferrer" className="project-link">{proj.name}</a>)}
               </div>
@@ -210,12 +234,20 @@ function App() {
           </aside>
 
           <main className="main-content">
-            <h2 className="yellow-text bold-font">{isEn ? "Work Experience" : "سوابق شغلی"}</h2>
+            <h2 className="yellow-text bold-font">
+              <GradientText colors={animColors} animationSpeed={3}>
+                {isEn ? "Work Experience" : "سوابق شغلی"}
+              </GradientText>
+            </h2>
             {content.experience.map((job, i) => (
               <div key={i} className="exp-card">
                 <div className="exp-row">
                   <span className="job-role bold-font">{job.role}</span>
-                  <span className="job-duration yellow-text bold-font">{job.duration}</span>
+                  <span className="job-duration yellow-text bold-font">
+                    <GradientText colors={animColors} animationSpeed={3}>
+                      {job.duration}
+                    </GradientText>
+                  </span>
                 </div>
                 <div className="job-company purple-text bold-font">{job.company}</div>
                 <div className="job-date">{job.date}</div>

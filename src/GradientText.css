@@ -1,0 +1,17 @@
+.animated-gradient-text {
+  position: relative;
+  display: flex;
+  max-width: fit-content;
+  align-items: center;
+  overflow: hidden;
+}
+
+.text-content {
+  display: inline-block;
+  position: relative;
+  z-index: 2;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  white-space: nowrap; /* جلوگیری از شکستن متن */
+}
