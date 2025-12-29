@@ -52,6 +52,7 @@ float layeredNoise(vec2 fragPx){
     n += 0.25 * hash21(q * 2.0 + 17.0);
     if(!uIsMobile) {
         n += 0.20 * hash21(q * 4.0 + 47.0);
+        n += 0.10 * hash21(q * 8.0 + 113.0);
     }
     return n;
 }
@@ -75,6 +76,7 @@ float edgeFade(vec2 frag, vec2 res, vec2 offset){
 }
 
 mat3 rotX(float a){ float c = cos(a), s = sin(a); return mat3(1.0,0.0,0.0, 0.0,c,-s, 0.0,s,c); }
+// Keep your specific rotation logic
 mat3 rotY(float a){ float c = cos(a), s = sin(a); return mat3(c,0.0,s, 0.0,1.0,0.0, -s,0.0,c); }
 mat3 rotZ(float a){ float c = cos(a), s = sin(a); return mat3(c,-s,0.0, s,c,0.0, 0.0,0.0,1.0); }
 
@@ -118,7 +120,6 @@ void main(){
       hoverMat = rotY(ang.y) * rotX(ang.x);
     }
 
-    // افزایش تعداد حلقه‌ها برای پرتر شدن بک‌گراند
     int loops = uIsMobile ? 22 : 44; 
     float marchT = 0.0;
 
@@ -186,8 +187,12 @@ void main(){
 const hexToRgb01 = hex => {
   let h = hex.trim();
   if (h.startsWith('#')) h = h.slice(1);
-  const intVal = parseInt(h.length === 3 ? h[0]+h[0]+h[1]+h[1]+h[2]+h[2] : h, 16);
-  if (isNaN(intVal)) return [1, 1, 1];
+  if (h.length === 3) {
+    const r = h[0], g = h[1], b = h[2];
+    h = r + r + g + g + b + b;
+  }
+  const intVal = parseInt(h, 16);
+  if (isNaN(intVal) || (h.length !== 6 && h.length !== 8)) return [1, 1, 1];
   return [((intVal >> 16) & 255) / 255, ((intVal >> 8) & 255) / 255, (intVal & 255) / 255];
 };
 
@@ -200,6 +205,7 @@ const PrismaticBurst = ({
   color2 = "#a010d6",
   distort = 0.3,
   paused = false,
+  offset = { x: 0, y: 0 },
   hoverDampness = 0.1,
   rayCount = 0,
   mixBlendMode = 'lighten'
@@ -209,12 +215,12 @@ const PrismaticBurst = ({
   const rendererRef = useRef(null);
   const mouseTargetRef = useRef([0.5, 0.5]);
   const mouseSmoothRef = useRef([0.5, 0.5]);
+  const gradTexRef = useRef(null);
   const [ready, setReady] = useState(false);
 
   const isMobile = typeof window !== 'undefined' && window.matchMedia("(pointer: coarse)").matches;
 
   useEffect(() => {
-    // تاخیر ۷۰۰ میلی‌ثانیه‌ای برای جلوگیری از لگ اولیه
     const timer = setTimeout(() => setReady(true), 700);
     return () => clearTimeout(timer);
   }, []);
@@ -238,8 +244,15 @@ const PrismaticBurst = ({
     requestAnimationFrame(() => { if(gl.canvas) gl.canvas.style.opacity = '1'; });
 
     const white = new Uint8Array([255, 255, 255, 255]);
-    const gradientTex = new Texture(gl, { image: white, width: 1, height: 1 });
+    const gradientTex = new Texture(gl, {
+      image: white,
+      width: 1,
+      height: 1,
+      generateMipmaps: false,
+      flipY: false
+    });
     gradientTex.wrapS = gradientTex.wrapT = gl.CLAMP_TO_EDGE;
+    gradTexRef.current = gradientTex;
 
     const program = new Program(gl, {
       vertex: vertexShader,
@@ -253,7 +266,7 @@ const PrismaticBurst = ({
         uMouse: { value: [0.5, 0.5] },
         uColorCount: { value: 3 },
         uDistort: { value: distort },
-        uOffset: { value: [0, 0] },
+        uOffset: { value: [offset.x, offset.y] },
         uGradient: { value: gradientTex },
         uNoiseAmount: { value: 0.8 },
         uRayCount: { value: rayCount },
@@ -304,20 +317,18 @@ const PrismaticBurst = ({
   }, [ready, isMobile]);
 
   useEffect(() => {
-    if (!programRef.current || !rendererRef.current) return;
-    const program = programRef.current;
-    
+    if (!programRef.current || !gradTexRef.current) return;
     const colors = [color0, color1, color2];
     const data = new Uint8Array(colors.length * 4);
     colors.forEach((c, i) => {
       const rgb = hexToRgb01(c);
       data.set([rgb[0]*255, rgb[1]*255, rgb[2]*255, 255], i * 4);
     });
-    
-    const tex = program.uniforms.uGradient.value;
+    const tex = gradTexRef.current;
     tex.image = data;
     tex.width = colors.length;
     tex.needsUpdate = true;
+    programRef.current.uniforms.uColorCount.value = colors.length;
   }, [color0, color1, color2]);
 
   return <div style={{width: '100%', height: '100%', position: 'absolute', inset: 0, overflow: 'hidden'}} ref={containerRef} />;
