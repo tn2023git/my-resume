@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { Renderer, Program, Mesh, Triangle, Texture } from 'ogl';
 
 const vertexShader = `#version 300 es
@@ -12,13 +12,8 @@ void main() {
 `;
 
 const fragmentShader = `#version 300 es
-#ifdef GL_ES
-precision mediump float;
-precision mediump int;
-#else
 precision highp float;
 precision highp int;
-#endif
 
 out vec4 fragColor;
 
@@ -34,7 +29,6 @@ uniform vec2  uOffset;
 uniform sampler2D uGradient;
 uniform float uNoiseAmount;
 uniform int   uRayCount;
-uniform bool  uIsMobile;
 
 float hash21(vec2 p){
     p = floor(p);
@@ -50,10 +44,8 @@ float layeredNoise(vec2 fragPx){
     float n = 0.0;
     n += 0.40 * hash21(q);
     n += 0.25 * hash21(q * 2.0 + 17.0);
-    if(!uIsMobile) {
-        n += 0.20 * hash21(q * 4.0 + 47.0);
-        n += 0.10 * hash21(q * 8.0 + 113.0);
-    }
+    n += 0.20 * hash21(q * 4.0 + 47.0);
+    n += 0.10 * hash21(q * 8.0 + 113.0);
     return n;
 }
 
@@ -119,12 +111,8 @@ void main(){
       hoverMat = rotY(ang.y) * rotX(ang.x);
     }
 
-    int loops = uIsMobile ? 22 : 44; 
     float marchT = 0.0;
-
     for (int i = 0; i < 44; ++i) {
-        if (i >= loops) break;
-
         vec3 P = marchT * dir;
         P.z -= 2.0;
         float rad = length(P);
@@ -179,7 +167,6 @@ void main(){
 
     col *= edgeFade(frag, uResolution, uOffset);
     col *= uIntensity;
-
     fragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
 }`;
 
@@ -192,10 +179,7 @@ const hexToRgb01 = hex => {
   }
   const intVal = parseInt(h, 16);
   if (isNaN(intVal) || (h.length !== 6 && h.length !== 8)) return [1, 1, 1];
-  const r = ((intVal >> 16) & 255) / 255;
-  const g = ((intVal >> 8) & 255) / 255;
-  const b = (intVal & 255) / 255;
-  return [r, g, b];
+  return [((intVal >> 16) & 255) / 255, ((intVal >> 8) & 255) / 255, (intVal & 255) / 255];
 };
 
 const PrismaticBurst = ({
@@ -218,53 +202,32 @@ const PrismaticBurst = ({
   const mouseTargetRef = useRef([0.5, 0.5]);
   const mouseSmoothRef = useRef([0.5, 0.5]);
   const gradTexRef = useRef(null);
-  const [ready, setReady] = useState(false);
 
   const isMobile = typeof window !== 'undefined' && window.matchMedia("(pointer: coarse)").matches;
 
   useEffect(() => {
-    const timer = setTimeout(() => setReady(true), 700);
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    if (!ready || !containerRef.current) return;
+    if (isMobile || !containerRef.current) return;
 
     const container = containerRef.current;
-    const dpr = isMobile ? 0.8 : Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const renderer = new Renderer({ dpr, alpha: false, antialias: false });
     rendererRef.current = renderer;
 
     const gl = renderer.gl;
     gl.canvas.style.position = 'absolute';
     gl.canvas.style.inset = '0';
-    gl.canvas.style.opacity = '0';
-    gl.canvas.style.transition = 'opacity 1s ease-in';
     gl.canvas.style.mixBlendMode = mixBlendMode && mixBlendMode !== 'none' ? mixBlendMode : '';
     container.appendChild(gl.canvas);
-    
-    requestAnimationFrame(() => { if(gl.canvas) gl.canvas.style.opacity = '1'; });
 
-    // تعریف اولیه بافت با مقادیر واقعی رنگ‌ها برای جلوگیری از سفیدی در فریم اول
-    const colors = [color0, color1, color2];
-    const data = new Uint8Array(colors.length * 4);
-    colors.forEach((c, i) => {
-      const [r, g, b] = hexToRgb01(c);
-      data.set([Math.round(r * 255), Math.round(g * 255), Math.round(b * 255), 255], i * 4);
-    });
-
+    const white = new Uint8Array([255, 255, 255, 255]);
     const gradientTex = new Texture(gl, {
-      image: data,
-      width: colors.length,
+      image: white,
+      width: 1,
       height: 1,
       generateMipmaps: false,
       flipY: false
     });
-
-    gradientTex.minFilter = gl.LINEAR;
-    gradientTex.magFilter = gl.LINEAR;
-    gradientTex.wrapS = gl.CLAMP_TO_EDGE;
-    gradientTex.wrapT = gl.CLAMP_TO_EDGE;
+    gradientTex.wrapS = gradientTex.wrapT = gl.CLAMP_TO_EDGE;
     gradTexRef.current = gradientTex;
 
     const program = new Program(gl, {
@@ -275,15 +238,14 @@ const PrismaticBurst = ({
         uTime: { value: 0 },
         uIntensity: { value: intensity },
         uSpeed: { value: speed },
-        uAnimType: { value: animationType === 'rotate' ? 0 : animationType === 'rotate3d' ? 1 : 2 }, 
+        uAnimType: { value: animationType === 'rotate' ? 0 : animationType === 'rotate3d' ? 1 : 2 },
         uMouse: { value: [0.5, 0.5] },
-        uColorCount: { value: colors.length },
+        uColorCount: { value: 3 },
         uDistort: { value: distort },
         uOffset: { value: [offset.x, offset.y] },
         uGradient: { value: gradientTex },
         uNoiseAmount: { value: 0.8 },
-        uRayCount: { value: rayCount },
-        uIsMobile: { value: isMobile }
+        uRayCount: { value: rayCount }
       }
     });
     programRef.current = program;
@@ -327,30 +289,28 @@ const PrismaticBurst = ({
       window.removeEventListener('mousemove', handleMouseMove);
       try { container.removeChild(gl.canvas); } catch {}
     };
-  }, [ready, isMobile]);
+  }, [isMobile]);
 
   useEffect(() => {
-    if (!programRef.current || !gradTexRef.current) return;
-    
+    if (isMobile || !programRef.current || !gradTexRef.current) return;
     const colors = [color0, color1, color2];
     const data = new Uint8Array(colors.length * 4);
     colors.forEach((c, i) => {
-      const [r, g, b] = hexToRgb01(c);
-      data.set([Math.round(r * 255), Math.round(g * 255), Math.round(b * 255), 255], i * 4);
+      const rgb = hexToRgb01(c);
+      data.set([Math.round(rgb[0]*255), Math.round(rgb[1]*255), Math.round(rgb[2]*255), 255], i * 4);
     });
-    
     const tex = gradTexRef.current;
     tex.image = data;
     tex.width = colors.length;
     tex.needsUpdate = true;
-    
-    const program = programRef.current;
-    program.uniforms.uColorCount.value = colors.length;
-    program.uniforms.uIntensity.value = intensity;
-    program.uniforms.uSpeed.value = speed;
-    program.uniforms.uDistort.value = distort;
-    program.uniforms.uAnimType.value = animationType === 'rotate' ? 0 : animationType === 'rotate3d' ? 1 : 2;
-  }, [color0, color1, color2, intensity, speed, distort, animationType]);
+    programRef.current.uniforms.uColorCount.value = colors.length;
+    programRef.current.uniforms.uIntensity.value = intensity;
+    programRef.current.uniforms.uSpeed.value = speed;
+    programRef.current.uniforms.uDistort.value = distort;
+    programRef.current.uniforms.uAnimType.value = animationType === 'rotate' ? 0 : animationType === 'rotate3d' ? 1 : 2;
+  }, [color0, color1, color2, isMobile, intensity, speed, animationType, distort]);
+
+  if (isMobile) return null;
 
   return <div style={{width: '100%', height: '100%', position: 'absolute', inset: 0, overflow: 'hidden'}} ref={containerRef} />;
 };
