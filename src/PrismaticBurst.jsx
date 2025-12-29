@@ -11,9 +11,15 @@ void main() {
 }
 `;
 
+// استفاده از شرط برای تعیین دقت بر اساس دستگاه
 const fragmentShader = `#version 300 es
+#ifdef GL_ES
+precision mediump float;
+precision mediump int;
+#else
 precision highp float;
 precision highp int;
+#endif
 
 out vec4 fragColor;
 
@@ -29,6 +35,7 @@ uniform vec2  uOffset;
 uniform sampler2D uGradient;
 uniform float uNoiseAmount;
 uniform int   uRayCount;
+uniform bool  uIsMobile; // اضافه شدن فلگ موبایل
 
 float hash21(vec2 p){
     p = floor(p);
@@ -44,9 +51,11 @@ float layeredNoise(vec2 fragPx){
     float n = 0.0;
     n += 0.40 * hash21(q);
     n += 0.25 * hash21(q * 2.0 + 17.0);
-    n += 0.20 * hash21(q * 4.0 + 47.0);
-    n += 0.10 * hash21(q * 8.0 + 113.0);
-    n += 0.05 * hash21(q * 16.0 + 191.0);
+    // در موبایل لایه‌های نویز کمتری محاسبه می‌شود
+    if(!uIsMobile) {
+        n += 0.20 * hash21(q * 4.0 + 47.0);
+        n += 0.10 * hash21(q * 8.0 + 113.0);
+    }
     return n;
 }
 
@@ -94,7 +103,6 @@ void main(){
     float t = uTime * uSpeed;
     float jitterAmp = 0.1 * clamp(uNoiseAmount, 0.0, 1.0);
     vec3 dir = rayDir(frag, uResolution, uOffset, 1.0);
-    float marchT = 0.0;
     vec3 col = vec3(0.0);
     float n = layeredNoise(frag);
     vec4 c = cos(t * 0.2 + vec4(0.0, 33.0, 11.0, 0.0));
@@ -113,7 +121,13 @@ void main(){
       hoverMat = rotY(ang.y) * rotX(ang.x);
     }
 
+    // تغییر تعداد حلقه‌ها بر اساس دیوایس
+    int loops = uIsMobile ? 16 : 44; 
+    float marchT = 0.0;
+
     for (int i = 0; i < 44; ++i) {
+        if (i >= loops) break; // بهینه‌سازی اصلی برای موبایل
+
         vec3 P = marchT * dir;
         P.z -= 2.0;
         float rad = length(P);
@@ -122,9 +136,9 @@ void main(){
         if(uAnimType == 0){
             Pl.xz *= M2;
         } else if(uAnimType == 1){
-      Pl = rot3dMat * Pl;
+            Pl = rot3dMat * Pl;
         } else {
-      Pl = hoverMat * Pl;
+            Pl = hoverMat * Pl;
         }
 
         float stepLen = min(rad - 0.3, n * jitterAmp) + 0.1;
@@ -187,14 +201,6 @@ const hexToRgb01 = hex => {
   return [r, g, b];
 };
 
-const toPx = v => {
-  if (v == null) return 0;
-  if (typeof v === 'number') return v;
-  const s = String(v).trim();
-  const num = parseFloat(s.replace('px', ''));
-  return isNaN(num) ? 0 : num;
-};
-
 const PrismaticBurst = ({
   intensity = 2,
   speed = 0.5,
@@ -217,9 +223,9 @@ const PrismaticBurst = ({
   const pausedRef = useRef(paused);
   const gradTexRef = useRef(null);
   const hoverDampRef = useRef(hoverDampness);
-  const isVisibleRef = useRef(true);
   const meshRef = useRef(null);
-  const triRef = useRef(null);
+
+  const isMobile = typeof window !== 'undefined' && window.matchMedia("(pointer: coarse)").matches;
 
   useEffect(() => {
     pausedRef.current = paused;
@@ -229,7 +235,6 @@ const PrismaticBurst = ({
     hoverDampRef.current = hoverDampness;
   }, [hoverDampness]);
 
-  // اضافه کردن Tilt موبایل و حرکت ماوس
   useEffect(() => {
     const handleOrientation = (e) => {
       if (e.beta !== null && e.gamma !== null) {
@@ -257,7 +262,8 @@ const PrismaticBurst = ({
     const container = containerRef.current;
     if (!container) return;
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // در موبایل dpr را ۱ می‌گیریم تا رزولوشن پایین‌تر و سرعت بالاتر باشد
+    const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 2);
     const renderer = new Renderer({ dpr, alpha: false, antialias: false });
     rendererRef.current = renderer;
 
@@ -299,7 +305,8 @@ const PrismaticBurst = ({
         uOffset: { value: [0, 0] },
         uGradient: { value: gradientTex },
         uNoiseAmount: { value: 0.8 },
-        uRayCount: { value: 0 }
+        uRayCount: { value: 0 },
+        uIsMobile: { value: isMobile }
       }
     });
 
@@ -307,7 +314,6 @@ const PrismaticBurst = ({
 
     const triangle = new Triangle(gl);
     const mesh = new Mesh(gl, { geometry: triangle, program });
-    triRef.current = triangle;
     meshRef.current = mesh;
 
     const resize = () => {
@@ -350,7 +356,7 @@ const PrismaticBurst = ({
       ro?.disconnect();
       try { container.removeChild(gl.canvas); } catch {}
     };
-  }, []);
+  }, [isMobile]);
 
   useEffect(() => {
     const program = programRef.current;
