@@ -21,7 +21,6 @@ const BlurText = ({
   animationFrom,
   animationTo,
   easing = 'easeOut',
-  onAnimationComplete,
   stepDuration = 0.35,
   colors = ["#f3bc08", "#df9339", "#d1765c", "#a010d6", "#d1765c", "#df9339"],
   animationSpeed = 8
@@ -35,13 +34,26 @@ const BlurText = ({
   const animationDuration = animationSpeed * 1000;
 
   useEffect(() => {
-    if (containerRef.current) {
-      setWidth(containerRef.current.getBoundingClientRect().width || 500);
-    }
+    const updateWidth = () => {
+      if (containerRef.current) {
+        const newWidth = containerRef.current.offsetWidth;
+        if (newWidth > 0) setWidth(newWidth);
+      }
+    };
+    
+    updateWidth();
+    window.addEventListener('resize', updateWidth);
+    // یک وقفه کوچک برای اطمینان از رندر شدن فونت‌ها
+    const timer = setTimeout(updateWidth, 500); 
+    
+    return () => {
+      window.removeEventListener('resize', updateWidth);
+      clearTimeout(timer);
+    };
   }, [text]);
 
   useAnimationFrame((time, delta) => {
-    if (width === 0) return;
+    if (width <= 0) return;
     const moveAmount = (delta / animationDuration) * width;
     let nextX = x.get() + moveAmount;
     if (nextX >= width) nextX -= width;
@@ -62,15 +74,12 @@ const BlurText = ({
       { threshold, rootMargin }
     );
     if (currentRef) observer.observe(currentRef);
-    const timer = setTimeout(() => setInView(true), 500);
-    return () => {
-      if (currentRef) observer.disconnect();
-      clearTimeout(timer);
-    };
+    setTimeout(() => setInView(true), 1000);
+    return () => { if (currentRef) observer.disconnect(); };
   }, [threshold, rootMargin]);
 
   const defaultFrom = useMemo(
-    () => direction === 'top' ? { filter: 'blur(10px)', opacity: 0, y: -50 } : { filter: 'blur(10px)', opacity: 0, y: 50 },
+    () => direction === 'top' ? { filter: 'blur(10px)', opacity: 0, y: -20 } : { filter: 'blur(10px)', opacity: 0, y: 20 },
     [direction]
   );
 
@@ -86,16 +95,17 @@ const BlurText = ({
   const toSnapshots = animationTo ?? defaultTo;
   const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots);
 
+  // استایل داینامیک: اگر عرض هنوز صفر است، متن را شفاف نکن
   const gradientStyle = {
-    backgroundImage: `linear-gradient(to right, ${colors.join(', ')})`,
+    backgroundImage: width > 0 ? `linear-gradient(to right, ${colors.join(', ')})` : 'none',
     backgroundSize: `${width}px 100%`,
     backgroundRepeat: 'repeat-x',
     WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
+    WebkitTextFillColor: width > 0 ? 'transparent' : 'white', // Fallback به سفید
     backgroundClip: 'text',
+    color: width > 0 ? 'transparent' : 'white',
     display: 'flex',
     flexWrap: 'wrap',
-    color: 'transparent' // اضافه شدن برای اطمینان
   };
 
   return (
@@ -111,7 +121,7 @@ const BlurText = ({
           animate={inView ? animateKeyframes : fromSnapshot}
           transition={{
             duration: stepDuration * toSnapshots.length,
-            times: Array.from({ length: toSnapshots.length + 1 }, (_, i) => i / toSnapshots.length),
+            times: [0, 0.5, 1],
             delay: (index * delay) / 1000,
             ease: easing
           }}
