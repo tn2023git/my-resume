@@ -75,10 +75,11 @@ body, html {
   max-width: 1100px;
 }
 
-/* --- PixelCard Wrapper Fixes --- */
+/* --- Card Wrappers (PC & Mobile Shared) --- */
 .resume-header-card,
 .side-pixel-wrapper,
-.exp-pixel-wrapper {
+.exp-pixel-wrapper,
+.mobile-glass-card {
   background: var(--glass-bg) !important;
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
@@ -92,15 +93,31 @@ body, html {
   will-change: opacity, transform;
 }
 
-/* بهینه‌سازی عملکرد گرافیکی در موبایل */
+/* --- Mobile Specific Overrides --- */
 @media (max-width: 768px) {
-  .resume-header-card,
-  .side-pixel-wrapper,
-  .exp-pixel-wrapper {
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+  /* کارت‌های شیشه‌ای ساده در موبایل (بدون PixelCard داخلی) */
+  .mobile-glass-card {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     background: rgba(15, 15, 15, 0.75) !important;
   }
+
+  /* پس‌زمینه پیکسلی تمام‌صفحه در موبایل */
+  .mobile-bg-pixel {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: -1;
+    border-radius: 0 !important;
+    border: none !important;
+  }
+
+  .main-name { font-size: 2.2rem; text-align: center; }
+  .subtitle { font-size: 1.2rem; }
+  .resume-header, .side-section, .exp-card { padding: 20px; }
+  .profile-img { width: 130px; height: 130px; }
+  .app-wrapper { padding: 30px 15px 100px 15px; }
 }
 
 .exp-pixel-wrapper:last-child {
@@ -337,7 +354,7 @@ body, html {
   }
 }
 
-/* --- Responsive & Mobile Gap Fix --- */
+/* --- Responsive & Desktop Layout Fixes --- */
 @media (max-width: 1150px) {
   .resume-grid { 
     grid-template-columns: 1fr; 
@@ -347,12 +364,4 @@ body, html {
   .sidebar .side-pixel-wrapper:last-child {
     margin-bottom: var(--section-spacing);
   }
-}
-
-@media (max-width: 768px) {
-  .main-name { font-size: 2.2rem; text-align: center; }
-  .subtitle { font-size: 1.2rem; }
-  .resume-header, .side-section, .exp-card { padding: 20px; }
-  .profile-img { width: 130px; height: 130px; }
-  .app-wrapper { padding: 30px 15px 100px 15px; }
 }

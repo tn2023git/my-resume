@@ -68,24 +68,21 @@ const VARIANTS = {
   }
 };
 
-export default function PixelCard({ variant = 'resume', gap, speed, colors, noFocus, className = '', children }) {
+export default function PixelCard({ variant = 'resume', gap, speed, colors, noFocus, className = '', children, isStatic = false }) {
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
   const pixelsRef = useRef([]);
   const animationRef = useRef(null);
   const timePreviousRef = useRef(performance.now());
   
-  // تشخیص موبایل
-  const isMobile = typeof window !== 'undefined' && window.matchMedia("(pointer: coarse)").matches;
   const reducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
   const variantCfg = VARIANTS[variant] || VARIANTS.resume;
   const finalGap = gap ?? variantCfg.gap;
   const finalSpeed = speed ?? variantCfg.speed;
   const finalColors = colors ?? variantCfg.colors;
 
   const initPixels = () => {
-    if (isMobile || !containerRef.current || !canvasRef.current) return;
+    if (!containerRef.current || !canvasRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const width = Math.floor(rect.width);
     const height = Math.floor(rect.height);
@@ -102,10 +99,10 @@ export default function PixelCard({ variant = 'resume', gap, speed, colors, noFo
       }
     }
     pixelsRef.current = pxs;
+    if (isStatic) handleAnimation('appear');
   };
 
   const doAnimate = fnName => {
-    if (isMobile) return;
     animationRef.current = requestAnimationFrame(() => doAnimate(fnName));
     const timeNow = performance.now();
     const timePassed = timeNow - timePreviousRef.current;
@@ -120,46 +117,32 @@ export default function PixelCard({ variant = 'resume', gap, speed, colors, noFo
       pixel[fnName]();
       if (!pixel.isIdle) allIdle = false;
     });
-    if (allIdle) cancelAnimationFrame(animationRef.current);
+    if (allIdle && !isStatic) cancelAnimationFrame(animationRef.current);
   };
 
   const handleAnimation = name => {
-    if (isMobile) return;
     cancelAnimationFrame(animationRef.current);
     animationRef.current = requestAnimationFrame(() => doAnimate(name));
   };
 
   useEffect(() => {
-    if (isMobile) return;
-
     initPixels();
-    
-    const resizeObserver = new ResizeObserver(() => {
-      initPixels();
-    });
+    const resizeObserver = new ResizeObserver(() => initPixels());
     if (containerRef.current) resizeObserver.observe(containerRef.current);
-    
     return () => {
       resizeObserver.disconnect();
       cancelAnimationFrame(animationRef.current);
     };
-  }, [finalGap, finalSpeed, finalColors, isMobile]);
-
-  const onMouseEnter = () => {
-    if (!isMobile) handleAnimation('appear');
-  };
-  const onMouseLeave = () => {
-    if (!isMobile) handleAnimation('disappear');
-  };
+  }, [finalGap, finalSpeed, finalColors, isStatic]);
 
   return (
     <div
       ref={containerRef}
       className={`pixel-card ${className}`}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
+      onMouseEnter={() => !isStatic && handleAnimation('appear')}
+      onMouseLeave={() => !isStatic && handleAnimation('disappear')}
     >
-      {!isMobile && <canvas className="pixel-canvas" ref={canvasRef} />}
+      <canvas className="pixel-canvas" ref={canvasRef} />
       <div className="pixel-content">{children}</div>
     </div>
   );

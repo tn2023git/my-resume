@@ -10,11 +10,8 @@ function App() {
   const [isMobile, setIsMobile] = useState(false);
   const isEn = lang === 'en';
 
-  // منطق تشخیص موبایل برای تغییر نوع انیمیشن
   useEffect(() => {
-    const checkDevice = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
+    const checkDevice = () => setIsMobile(window.innerWidth <= 768);
     checkDevice();
     window.addEventListener('resize', checkDevice);
     return () => window.removeEventListener('resize', checkDevice);
@@ -52,48 +49,12 @@ function App() {
         { name: "Atena Zist Darman", url: "https://atenazistdarman.com" }
       ],
       experience: [
-        { 
-          role: "Office Assistant", 
-          company: "Atena Zist Darman", 
-          date: "Apr 2024 - Nov 2025", 
-          duration: "1 Year and 7 Months", 
-          desc: "Handling all administrative and clerical tasks, drafting correspondence, archiving, answering phones, issuing invoices, entering data into the Faradis CRM system, preparing reports, and troubleshooting routine software issues." 
-        },
-        { 
-          role: "English Teacher", 
-          company: "Pardisan - Tehranpars", 
-          date: "Oct 2022 - Feb 2024", 
-          duration: "1 Year and 4 Months", 
-          desc: "Teaching English to various age groups, focusing on conversation and grammar. Developed lesson plans tailored to student needs and conducted both group and private sessions." 
-        },
-        { 
-          role: "English Teacher", 
-          company: "Pooya Middle School", 
-          date: "Sep 2021 - May 2022", 
-          duration: "8 Months", 
-          desc: "Taught English to 7th and 8th graders using online education platforms like Skyroom and Adobe Connect during the pandemic." 
-        },
-        { 
-          role: "English Teacher", 
-          company: "Pardisan - Tehranpars", 
-          date: "Apr 2021 - Sep 2021", 
-          duration: "5 Months", 
-          desc: "Instructed English learners through structured curriculum and interactive teaching methods to improve language proficiency." 
-        },
-        { 
-          role: "Customer Support Specialist", 
-          company: "Tempus Logix", 
-          date: "Jan 2020 - Sep 2020", 
-          duration: "8 Months", 
-          desc: "Managed customer inquiries in English, coordinated between drivers and clients for car transportation across the US, and resolved logistics issues in a fast-paced environment." 
-        },
-        { 
-          role: "Salesperson", 
-          company: "Matin Mobile", 
-          date: "Jun 2016 - Dec 2016", 
-          duration: "6 Months", 
-          desc: "Cellphone software repairs, sale of peripherals and accessories." 
-        }
+        { role: "Office Assistant", company: "Atena Zist Darman", date: "Apr 2024 - Nov 2025", duration: "1 Year and 7 Months", desc: "Handling all administrative and clerical tasks, drafting correspondence, archiving, answering phones, issuing invoices, entering data into the Faradis CRM system, preparing reports, and troubleshooting routine software issues." },
+        { role: "English Teacher", company: "Pardisan - Tehranpars", date: "Oct 2022 - Feb 2024", duration: "1 Year and 4 Months", desc: "Teaching English to various age groups, focusing on conversation and grammar. Developed lesson plans tailored to student needs and conducted both group and private sessions." },
+        { role: "English Teacher", company: "Pooya Middle School", date: "Sep 2021 - May 2022", duration: "8 Months", desc: "Taught English to 7th and 8th graders using online education platforms like Skyroom and Adobe Connect during the pandemic." },
+        { role: "English Teacher", company: "Pardisan - Tehranpars", date: "Apr 2021 - Sep 2021", duration: "5 Months", desc: "Instructed English learners through structured curriculum and interactive teaching methods to improve language proficiency." },
+        { role: "Customer Support Specialist", company: "Tempus Logix", date: "Jan 2020 - Sep 2020", duration: "8 Months", desc: "Managed customer inquiries in English, coordinated between drivers and clients for car transportation across the US, and resolved logistics issues in a fast-paced environment." },
+        { role: "Salesperson", company: "Matin Mobile", date: "Jun 2016 - Dec 2016", duration: "6 Months", desc: "Cellphone software repairs, sale of peripherals and accessories." }
       ]
     },
     fa: {
@@ -127,48 +88,12 @@ function App() {
         { name: "آتنا زیست درمان", url: "https://atenazistdarman.co" }
       ],
       experience: [
-        { 
-          role: "منشی و مسئول دفتر", 
-          company: "آتنا زیست درمان", 
-          date: "فروردین ۱۴۰۳ - آبان ۱۴۰۴", 
-          duration: "۱ سال و ۷ ماه", 
-          desc: "انجام تمامی امور اداری و دفتری، تنظیم نامه ها، بایگانی، پاسخگویی به تلفن ها و صدور فاکتور ها، ثبت اطلاعات در سیستم CRM فرادیس، تهیه گزارش ها و رسیدگی به مشکلات ساده نرم افزاری روزمره." 
-        },
-        { 
-          role: "مدرس زبان انگلیسی", 
-          company: "آموزشگاه پردیسان", 
-          date: "مهر ۱۴۰۱ - بهمن ۱۴۰۲", 
-          duration: "۱ سال و ۴ ماه", 
-          desc: "تدریس زبان انگلیسی به رده‌های سنی مختلف با تمرکز بر مهارت‌های گفتاری و گرامر. برنامه‌ریزی آموزشی بر اساس نیاز شاگردان در کلاس‌های گروهی و خصوصی." 
-        },
-        { 
-          role: "تدریس زبان انگلیسی", 
-          company: "مدرسه پویا", 
-          date: "شهریور ۱۴۰۰ - اردیبهشت ۱۴۰۱", 
-          duration: "۸ ماه", 
-          desc: "تدریس زبان انگلیسی به دانش‌آموزان پایه‌های هفتم و هشتم با استفاده از پلتفرم‌های آموزش آنلاین اسکای‌روم و ادوبی کانکت." 
-        },
-        { 
-          role: "مدرس زبان انگلیسی", 
-          company: "آموزشگاه پردیسان", 
-          date: "فروردین ۱۴۰۰ - شهریور ۱۴۰۰", 
-          duration: "۵ ماه", 
-          desc: "ارائه آموزش‌های زبانی طبق متدهای استاندارد آموزشگاه برای تقویت سطح زبان‌آموزان." 
-        },
-        { 
-          role: "کارشناس خدمات مشتریان", 
-          company: "Tempus Logix", 
-          date: "دی ۱۳۹۸ - شهریور ۱۳۹۹", 
-          duration: "۸ ماه", 
-          desc: "برقراری ارتباط مستقیم با مشتریان خارجی به زبان انگلیسی، هماهنگی حمل و نقل خودروها بین رانندگان و مشتریان در سراسر آمریکا و حل مشکلات لجستیکی." 
-        },
-        { 
-          role: "فروشنده", 
-          company: "موبایل متین", 
-          date: "خرداد ۱۳۹۵ - آذر ۱۳۹۵", 
-          duration: "۶ ماه", 
-          desc: "حل مشکلات نرم افزاری موبایل، فروش لوازم جانبی و فروش گوشی موبایل." 
-        }
+        { role: "منشی و مسئول دفتر", company: "آتنا زیست درمان", date: "فروردین ۱۴۰۳ - آبان ۱۴۰۴", duration: "۱ سال و ۷ ماه", desc: "انجام تمامی امور اداری و دفتری، تنظیم نامه ها، بایگانی، پاسخگویی به تلفن ها و صدور فاکتور ها، ثبت اطلاعات در سیستم CRM فرادیس، تهیه گزارش ها و رسیدگی به مشکلات ساده نرم افزاری روزمره." },
+        { role: "مدرس زبان انگلیسی", company: "آموزشگاه پردیسان", date: "مهر ۱۴۰۱ - بهمن ۱۴۰۲", duration: "۱ سال و ۴ ماه", desc: "تدریس زبان انگلیسی به رده‌های سنی مختلف با تمرکز بر مهارت‌های گفتاری و گرامر. برنامه‌ریزی آموزشی بر اساس نیاز شاگردان در کلاس‌های گروهی و خصوصی." },
+        { role: "تدریس زبان انگلیسی", company: "مدرسه پویا", date: "شهریور ۱۴۰۰ - اردیبهشت ۱۴۰۱", duration: "۸ ماه", desc: "تدریس زبان انگلیسی به دانش‌آموزان پایه‌های هفتم و هشتم با استفاده از پلتفرم‌های آموزش آنلاین اسکای‌روم و ادوبی کانکت." },
+        { role: "مدرس زبان انگلیسی", company: "آموزشگاه پردیسان", date: "فروردین ۱۴۰۰ - شهریور ۱۴۰۰", duration: "۵ ماه", desc: "ارائه آموزش‌های زبانی طبق متدهای استاندارد آموزشگاه برای تقویت سطح زبان‌آموزان." },
+        { role: "کارشناس خدمات مشتریان", company: "Tempus Logix", date: "دی ۱۳۹۸ - شهریور ۱۳۹۹", duration: "۸ ماه", desc: "برقراری ارتباط مستقیم با مشتریان خارجی به زبان انگلیسی، هماهنگی حمل و نقل خودروها بین رانندگان و مشتریان در سراسر آمریکا و حل مشکلات لجستیکی." },
+        { role: "فروشنده", company: "موبایل متین", date: "خرداد ۱۳۹۵ - آذر ۱۳۹۵", duration: "۶ ماه", desc: "حل مشکلات نرم افزاری موبایل، فروش لوازم جانبی و فروش گوشی موبایل." }
       ]
     }
   };
@@ -176,51 +101,49 @@ function App() {
   const content = isEn ? data.en : data.fa;
   const renderDots = (count) => Array.from({ length: 5 }, (_, i) => <span key={i} className={`dot ${i < count ? 'filled' : ''}`}></span>);
 
+  // تابع کمکی برای رندر شرطی PixelCard یا Div معمولی
+  const SmartCard = ({ children, className }) => {
+    if (isMobile) {
+      return <div className={`mobile-glass-card ${className}`}>{children}</div>;
+    }
+    return <PixelCard variant="resume" className={className}>{children}</PixelCard>;
+  };
+
   return (
     <div className={`app-wrapper ${isEn ? 'ltr-mode' : 'rtl-mode'}`}>
       <div className="bg-container">
-        <PrismaticBurst
-          intensity={1.8}
-          speed={0.2}
-          animationType={isMobile ? "rotate" : "hover"}
-          color0="#f3bc08"
-          color1="#d1765c"
-          color2="#a010d6"
-          distort={0.3}
-        />
+        {isMobile ? (
+          <PixelCard isStatic={true} className="mobile-bg-pixel" gap={10} speed={20} />
+        ) : (
+          <PrismaticBurst intensity={1.8} speed={0.2} animationType="hover" color0="#f3bc08" color1="#d1765c" color2="#a010d6" distort={0.3} />
+        )}
       </div>
 
       <div className="pdf-page">
-        <PixelCard variant="resume" className="resume-header-card">
+        <SmartCard className="resume-header-card">
           <header className="resume-header">
             <div className="header-text">
-              <GradientText className="main-name bold-font">
-                {content.name}
-              </GradientText>
+              <GradientText className="main-name bold-font">{content.name}</GradientText>
               <p className="subtitle">{content.title}</p>
             </div>
             <img src={profilePic} alt="Amirali" className="profile-img" />
           </header>
-        </PixelCard>
+        </SmartCard>
 
         <div className="resume-grid">
           <aside className="sidebar">
-            <PixelCard variant="resume" className="side-pixel-wrapper">
+            <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
-                <GradientText className="yellow-text bold-font">
-                  {isEn ? "Personal & Contact" : "اطلاعات فردی و تماس"}
-                </GradientText>
+                <GradientText className="yellow-text bold-font">{isEn ? "Personal & Contact" : "اطلاعات فردی و تماس"}</GradientText>
                 {content.personal.map((p, i) => <p key={i}><b className="bold-font">{p.label}:</b> {p.value}</p>)}
                 {content.contact.map((c, i) => <p key={i}><b className="bold-font">{c.label}:</b> {c.value}</p>)}
                 <p><b className="bold-font">{isEn ? "Salary Request" : "حقوق درخواستی"}:</b> {content.salary}</p>
               </section>
-            </PixelCard>
+            </SmartCard>
 
-            <PixelCard variant="resume" className="side-pixel-wrapper">
+            <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
-                <GradientText className="yellow-text bold-font">
-                  {isEn ? "Software" : "نرم‌افزارها"}
-                </GradientText>
+                <GradientText className="yellow-text bold-font">{isEn ? "Software" : "نرم‌افزارها"}</GradientText>
                 <div className="software-container">
                   {content.software.map((s, i) => (
                     <div key={i} className="software-item">
@@ -230,48 +153,42 @@ function App() {
                   ))}
                 </div>
               </section>
-            </PixelCard>
+            </SmartCard>
 
-            <PixelCard variant="resume" className="side-pixel-wrapper">
+            <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
-                <GradientText className="yellow-text bold-font">
-                  {isEn ? "Additional Skills" : "مهارت‌های تکمیلی"}
-                </GradientText>
+                <GradientText className="yellow-text bold-font">{isEn ? "Additional Skills" : "مهارت‌های تکمیلی"}</GradientText>
                 <div className="skills-grid">
                   {content.skills.map((skill, i) => <span key={i} className="skill-tag">{skill}</span>)}
                 </div>
               </section>
-            </PixelCard>
+            </SmartCard>
 
-            <PixelCard variant="resume" className="side-pixel-wrapper">
+            <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
-                <GradientText className="yellow-text bold-font">
-                  {isEn ? "Projects" : "پروژه‌ها"}
-                </GradientText>
+                <GradientText className="yellow-text bold-font">{isEn ? "Projects" : "پروژه‌ها"}</GradientText>
                 <div className="projects-list">
                   {content.projects.map((proj, i) => <a key={i} href={proj.url} target="_blank" rel="noreferrer" className="project-link">{proj.name}</a>)}
                 </div>
               </section>
-            </PixelCard>
+            </SmartCard>
           </aside>
 
           <main className="main-content">
             {content.experience.map((job, i) => (
-              <PixelCard key={i} variant="resume" className="exp-pixel-wrapper">
+              <SmartCard key={i} className="exp-pixel-wrapper">
                 <div className="exp-card">
                     <div className="exp-row">
                         <span className="job-role bold-font">{job.role}</span>
                         <span className="job-duration">
-                            <GradientText className="duration-text bold-font">
-                                {job.duration}
-                            </GradientText>
+                            <GradientText className="duration-text bold-font">{job.duration}</GradientText>
                         </span>
                     </div>
                     <div className="job-company bold-font">{job.company}</div>
                     <div className="job-date">{job.date}</div>
                     <p className="job-desc">{job.desc}</p>
                 </div>
-              </PixelCard>
+              </SmartCard>
             ))}
           </main>
         </div>
