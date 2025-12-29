@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './App.css';
-import profilePic from './assets/profile.png';
+import profilePic from './assets/profile.jpg';
 
 function App() {
   const [lang, setLang] = useState('en');
@@ -10,24 +10,38 @@ function App() {
     en: {
       name: "Amirali Dabiri Maram",
       title: "English Teacher & Office Assistant",
-      contact: { email: "a.dmaram2023@gmail.com", phone: "09371783669", location: "Rey, Tehran" },
+      personal: {
+        age: "27 Years",
+        location: "Rey, Tehran",
+        status: "Single",
+        military: "Exempted"
+      },
+      contact: { phone: "09371783669", email: "a.dmaram2023@gmail.com", address: "Rey" },
       experience: [
-        { role: "Office Assistant", company: "Atena Zist Darman", date: "Apr 2024 - Nov 2025", desc: "Administrative support and office coordination." },
-        { role: "English Teacher", company: "Pardisan / Pooya School", date: "2021 - 2024", desc: "Instruction for middle school and private groups." },
-        { role: "Customer Support", company: "Tempus Logix", date: "2020", desc: "International logistics and client coordination." }
+        { role: "Office Assistant", company: "Atena Zist Darman", date: "Apr 2024 - Nov 2025", duration: "1 yr 7 mos" },
+        { role: "English Teacher", company: "Pardisan - Tehranpars", date: "Oct 2022 - Feb 2024", duration: "1 yr 4 mos" },
+        { role: "English Teacher", company: "Pooya Middle School", date: "Sep 2021 - May 2022", duration: "8 mos" },
+        { role: "Customer Support Specialist", company: "Tempus Logix (Armenia)", date: "Jan 2020 - Sep 2020", duration: "8 mos" }
       ],
-      skills: ["Adobe Photoshop", "Adobe Premiere", "WordPress", "Microsoft Office"]
+      software: ["Adobe Photoshop", "Adobe Premiere", "MS Word", "Wordpress", "Google Search Console"]
     },
     fa: {
       name: "امیرعلی دبیری مرام",
       title: "مدرس زبان انگلیسی و مسئول دفتر",
-      contact: { email: "a.dmaram2023@gmail.com", phone: "۰۹۳۷۱۷۸۳۶۶۹", location: "تهران، ری" },
+      personal: {
+        age: "۲۷ سال",
+        location: "تهران، ری",
+        status: "مجرد",
+        military: "معاف دائم"
+      },
+      contact: { phone: "۰۹۳۷۱۷۸۳۶۶۹", email: "a.dmaram2023@gmail.com", address: "بلوار آوینی" },
       experience: [
-        { role: "منشی و مسئول دفتر", company: "آتنا زیست درمان", date: "اردیبهشت ۱۴۰۳ - آذر ۱۴۰۴", desc: "مدیریت امور اداری و هماهنگی‌های دفتر" },
-        { role: "مدرس زبان انگلیسی", company: "آموزشگاه پردیسان / مدرسه پویا", date: "۱۴۰۰ - ۱۴۰۳", desc: "تدریس سطوح مختلف و مدیریت کلاس" },
-        { role: "کارشناس خدمات مشتریان", company: "Tempus Logix", date: "۱۳۹۸ - ۱۳۹۹", desc: "پشتیبانی بین‌المللی و هماهنگی با رانندگان" }
+        { role: "منشی و مسئول دفتر", company: "آتنا زیست درمان", date: "اردیبهشت ۱۴۰۳ - آذر ۱۴۰۴", duration: "۱ سال و ۷ ماه" },
+        { role: "مدرس زبان انگلیسی", company: "آموزشگاه پردیسان", date: "آبان ۱۴۰۱ - اسفند ۱۴۰۲", duration: "۱ سال و ۴ ماه" },
+        { role: "مدرس زبان انگلیسی", company: "مدرسه غیرانتفاعی پویا", date: "مهر ۱۴۰۰ - خرداد ۱۴۰۱", duration: "۸ ماه" },
+        { role: "کارشناس خدمات مشتریان", company: "Tempus Logix (ارمنستان)", date: "بهمن ۱۳۹۸ - مهر ۱۳۹۹", duration: "۸ ماه" }
       ],
-      skills: ["فتوشاپ", "پریمیر", "وردپرس", "مایکروسافت آفیس"]
+      software: ["فتوشاپ", "پریمیر", "ورد", "وردپرس", "گوگل سرچ کنسول"]
     }
   };
 
@@ -35,43 +49,59 @@ function App() {
 
   return (
     <div className={`app-wrapper ${isEn ? 'ltr-mode' : 'rtl-mode'}`}>
-      <nav className="navbar">
+      <nav className="navbar no-print">
         <button className="lang-btn" onClick={() => setLang('fa')}>فارسی</button>
         <button className="lang-btn" onClick={() => setLang('en')}>English</button>
       </nav>
 
-      <div className="container">
-        <header className="hero">
-          <img src={profilePic} alt="Amirali" className="profile-img" />
-          <h1 className="name">{content.name}</h1>
-          <p className="title-tag">{content.title}</p>
-          <div className="contact-bar">
-            <span>{content.contact.email}</span> • <span>{content.contact.phone}</span>
+      <div className="resume-paper">
+        {/* Header Section */}
+        <header className="resume-header">
+          <div className="header-text">
+            <h1>{content.name}</h1>
+            <p className="subtitle">{content.title}</p>
           </div>
+          <img src={profilePic} alt="Profile" className="profile-img" />
         </header>
 
-        <section className="section">
-          <h2 className="section-title">{isEn ? "Experience" : "سوابق شغلی"}</h2>
-          {content.experience.map((job, i) => (
-            <div key={i} className="card">
-              <div className="card-header">
-                <span className="job-role">{job.role}</span>
-                <span className="job-date">{job.date}</span>
-              </div>
-              <div className="job-company">{job.company}</div>
-              <p className="job-desc">{job.desc}</p>
-            </div>
-          ))}
-        </section>
+        <div className="resume-body">
+          {/* Sidebar: Personal Info & Skills */}
+          <aside className="sidebar">
+            <section className="side-section">
+              <h3>{isEn ? "Personal Info" : "مشخصات فردی"}</h3>
+              <p><span>{isEn ? "Age: " : "سن: "}</span>{content.personal.age}</p>
+              <p><span>{isEn ? "Status: " : "وضعیت: "}</span>{content.personal.status}</p>
+              <p><span>{isEn ? "Military: " : "سربازی: "}</span>{content.personal.military}</p>
+            </section>
 
-        <section className="section">
-          <h2 className="section-title">{isEn ? "Skills" : "مهارت‌ها"}</h2>
-          <div className="skills-grid">
-            {content.skills.map((skill, i) => (
-              <span key={i} className="skill-pill">{skill}</span>
+            <section className="side-section">
+              <h3>{isEn ? "Contact" : "اطلاعات تماس"}</h3>
+              <p>{content.contact.phone}</p>
+              <p className="email-text">{content.contact.email}</p>
+              <p>{content.contact.address}</p>
+            </section>
+
+            <section className="side-section">
+              <h3>{isEn ? "Software" : "نرم‌افزار"}</h3>
+              {content.software.map((s, i) => <div key={i} className="skill-item">{s}</div>)}
+            </section>
+          </aside>
+
+          {/* Main Content: Experience */}
+          <main className="main-content">
+            <h2 className="section-title">{isEn ? "Work Experience" : "سوابق شغلی"}</h2>
+            {content.experience.map((job, i) => (
+              <div key={i} className="exp-item">
+                <div className="exp-header">
+                  <span className="job-role">{job.role}</span>
+                  <span className="job-duration">{job.duration}</span>
+                </div>
+                <div className="job-company">{job.company}</div>
+                <div className="job-date">{job.date}</div>
+              </div>
             ))}
-          </div>
-        </section>
+          </main>
+        </div>
       </div>
     </div>
   );
