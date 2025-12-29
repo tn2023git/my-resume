@@ -23,12 +23,9 @@ function App() {
       languages: [{ name: "English", level: "Native" }],
       salary: "20-25 Million Tomans",
       software: [
-        { name: "Adobe Photoshop", dots: 3 },
-        { name: "Adobe Premiere", dots: 3 },
-        { name: "Microsoft Word", dots: 4 },
-        { name: "Microsoft Powerpoint", dots: 3 },
-        { name: "Microsoft Excel", dots: 2 },
-        { name: "Wordpress", dots: 3 },
+        { name: "Adobe Photoshop", dots: 3 }, { name: "Adobe Premiere", dots: 3 },
+        { name: "Microsoft Word", dots: 4 }, { name: "Microsoft Powerpoint", dots: 3 },
+        { name: "Microsoft Excel", dots: 2 }, { name: "Wordpress", dots: 3 },
         { name: "Google Search Console", dots: 1 }
       ],
       skills: ["Farsi to English Translation", "Teaching English", "English to Farsi translation", "Computer software repairs", "Fast learner", "Team Worker", "WordPress Website Design", "Creativity"],
@@ -40,10 +37,10 @@ function App() {
       experience: [
         { role: "Office Assistant", company: "Atena Zist Darman", date: "Apr 2024 - Nov 2025", duration: "1 year and 7 months", desc: "Administrative support and office coordination." },
         { role: "English Teacher", company: "Pardisan - Tehranpars", date: "Oct 2022 - Feb 2024", duration: "1 year and 4 months", desc: "Teaching English privately and in groups." },
-        { role: "English Teacher", company: "Pooya Middle School", date: "Sep 2021 - May 2022", duration: "8 months", desc: "Teaching English to 7th and 8th graders using smart tools like Skyroom." },
+        { role: "English Teacher", company: "Pooya Middle School", date: "Sep 2021 - May 2022", duration: "8 months", desc: "Teaching English to 7th and 8th graders." },
         { role: "English Teacher", company: "Pardisan - Tehranpars", date: "Apr 2021 - Sep 2021", duration: "5 months", desc: "Teaching English privately and in groups." },
-        { role: "Customer Support Specialist", company: "Tempus Logix", date: "Jan 2020 - Sep 2020", duration: "8 months", desc: "Handling international logistics and client communications in English." },
-        { role: "Salesperson", company: "Matin Mobile", date: "Jun 2016 - Dec 2016", duration: "6 months", desc: "Cellphone software repairs, sale of peripherals and accessories." }
+        { role: "Customer Support Specialist", company: "Tempus Logix", date: "Jan 2020 - Sep 2020", duration: "8 months", desc: "Handling international logistics in English." },
+        { role: "Salesperson", company: "Matin Mobile", date: "Jun 2016 - Dec 2016", duration: "6 months", desc: "Cellphone software repairs and sales." }
       ]
     },
     fa: {
@@ -62,12 +59,9 @@ function App() {
       languages: [{ name: "انگلیسی", level: "Native" }],
       salary: "۲۰-۲۵ میلیون تومان",
       software: [
-        { name: "Adobe Photoshop", dots: 3 },
-        { name: "Adobe Premiere", dots: 3 },
-        { name: "Microsoft Word", dots: 4 },
-        { name: "Microsoft Powerpoint", dots: 3 },
-        { name: "Microsoft Excel", dots: 2 },
-        { name: "Wordpress", dots: 3 },
+        { name: "Adobe Photoshop", dots: 3 }, { name: "Adobe Premiere", dots: 3 },
+        { name: "Microsoft Word", dots: 4 }, { name: "Microsoft Powerpoint", dots: 3 },
+        { name: "Microsoft Excel", dots: 2 }, { name: "Wordpress", dots: 3 },
         { name: "Google Search Console", dots: 1 }
       ],
       skills: ["ترجمه فارسی به انگلیسی", "تدریس زبان انگلیسی", "ترجمه انگلیسی به فارسی", "تعمیرات نرم‌افزاری کامپیوتر", "یادگیری سریع", "کار تیمی", "طراحی سایت وردپرس", "خلاقیت"],
@@ -79,21 +73,16 @@ function App() {
       experience: [
         { role: "منشی و مسئول دفتر", company: "آتنا زیست درمان", date: "۱۴۰۳ - ۱۴۰۴", duration: "۱ سال و ۷ ماه", desc: "مدیریت امور اداری و هماهنگی‌های دفتر." },
         { role: "مدرس زبان انگلیسی", company: "آموزشگاه پردیسان", date: "۱۴۰۱ - ۱۴۰۲", duration: "۱ سال و ۴ ماه", desc: "تدریس زبان انگلیسی به‌صورت خصوصی و گروهی." },
-        { role: "تدریس زبان انگلیسی", company: "مدرسه پویا", date: "۱۴۰۰ - ۱۴۰۱", duration: "۸ ماه", desc: "آموزش زبان با ابزارهای هوشمند اسکای‌روم و ادوبی کانکت." },
+        { role: "تدریس زبان انگلیسی", company: "مدرسه پویا", date: "۱۴۰۰ - ۱۴۰۱", duration: "۸ ماه", desc: "آموزش زبان با ابزارهای هوشمند." },
         { role: "مدرس زبان انگلیسی", company: "آموزشگاه پردیسان", date: "۱۴۰۰", duration: "۵ ماه", desc: "تدریس زبان انگلیسی به‌صورت خصوصی و گروهی." },
-        { role: "کارشناس خدمات مشتریان", company: "Tempus Logix", date: "۱۳۹۸ - ۱۳۹۹", duration: "۸ ماه", desc: "پاسخگویی به مشتریان خارجی و حل مشکلات بین مشتری و راننده." },
-        { role: "فروشنده", company: "موبایل متین", date: "۱۳۹۵", duration: "۶ ماه", desc: "حل مشکلات نرم افزاری موبایل، فروش لوازم جانبی و فروش گوشی موبایل" }
+        { role: "کارشناس خدمات مشتریان", company: "Tempus Logix", date: "۱۳۹۸ - ۱۳۹۹", duration: "۸ ماه", desc: "پاسخگویی به مشتریان خارجی." },
+        { role: "فروشنده", company: "موبایل متین", date: "۱۳۹۵", duration: "۶ ماه", desc: "حل مشکلات نرم افزاری موبایل و فروش گوشی." }
       ]
     }
   };
 
   const content = isEn ? data.en : data.fa;
-
-  const renderDots = (count) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <span key={i} className={`dot ${i < count ? 'filled' : ''}`}></span>
-    ));
-  };
+  const renderDots = (count) => Array.from({ length: 5 }, (_, i) => <span key={i} className={`dot ${i < count ? 'filled' : ''}`}></span>);
 
   return (
     <div className={`app-wrapper ${isEn ? 'ltr-mode' : 'rtl-mode'}`}>
@@ -103,9 +92,7 @@ function App() {
             <h1>{content.name}</h1>
             <p className="subtitle">{content.title}</p>
           </div>
-          <div className="profile-container">
-            <img src={profilePic} alt="Amirali" className="profile-img" />
-          </div>
+          <img src={profilePic} alt="Amirali" className="profile-img" />
         </header>
 
         <div className="resume-grid">
@@ -136,9 +123,7 @@ function App() {
 
             <section className="side-section">
               <h3 className="yellow-text">{isEn ? "Projects" : "پروژه‌ها"}</h3>
-              {content.projects.map((proj, i) => (
-                <a key={i} href={proj.url} target="_blank" rel="noreferrer" className="project-link">{proj.name}</a>
-              ))}
+              {content.projects.map((proj, i) => <a key={i} href={proj.url} target="_blank" rel="noreferrer" className="project-link">{proj.name}</a>)}
             </section>
           </aside>
 
@@ -159,7 +144,6 @@ function App() {
         </div>
       </div>
 
-      {/* Floating Toggle: Fixed Position Flags */}
       <div className="floating-lang-switcher">
         <button className={`flag-btn ${isEn ? 'active' : ''}`} onClick={() => setLang('en')}>
           <img src="https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg" alt="English" />
