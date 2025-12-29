@@ -23,8 +23,13 @@ function App() {
       languages: [{ name: "English", level: "Native" }],
       salary: "20-25 Million Tomans",
       software: [
-        { name: "Adobe Photoshop", dots: 3 }, { name: "Adobe Premiere", dots: 3 },
-        { name: "WordPress", dots: 3 }, { name: "Google Search Console", dots: 1 }
+        { name: "Adobe Photoshop", dots: 3 }, 
+        { name: "Adobe Premiere", dots: 3 },
+        { name: "Microsoft Word", dots: 4 }, 
+        { name: "Microsoft Powerpoint", dots: 3 },
+        { name: "Microsoft Excel", dots: 2 }, 
+        { name: "WordPress", dots: 3 }, 
+        { name: "Google Search Console", dots: 1 }
       ],
       skills: ["Farsi to English Translation", "Teaching English", "English to Farsi translation", "Computer software repairs", "Fast learner", "Team Worker", "WordPress Website Design", "Creativity"],
       projects: [
@@ -37,42 +42,42 @@ function App() {
           role: "Office Assistant", 
           company: "Atena Zist Darman", 
           date: "Apr 2024 - Nov 2025", 
-          duration: "1 year and 7 months", 
+          duration: "1 Year and 7 Months", 
           desc: "Handling administrative tasks, coordinating office activities, managing phone calls, and providing general support to the team. Assisted in organizing schedules and preparing necessary documents for the office's daily operations." 
         },
         { 
           role: "English Teacher", 
           company: "Pardisan - Tehranpars", 
           date: "Oct 2022 - Feb 2024", 
-          duration: "1 year and 4 months", 
+          duration: "1 Year and 4 Months", 
           desc: "Teaching English to various age groups, focusing on conversation and grammar. Developed lesson plans tailored to student needs and conducted both group and private sessions." 
         },
         { 
           role: "English Teacher", 
           company: "Pooya Middle School", 
           date: "Sep 2021 - May 2022", 
-          duration: "8 months", 
+          duration: "8 Months", 
           desc: "Taught English to 7th and 8th graders using online education platforms like Skyroom and Adobe Connect during the pandemic." 
         },
         { 
           role: "English Teacher", 
           company: "Pardisan - Tehranpars", 
           date: "Apr 2021 - Sep 2021", 
-          duration: "5 months", 
+          duration: "5 Months", 
           desc: "Instructed English learners through structured curriculum and interactive teaching methods to improve language proficiency." 
         },
         { 
           role: "Customer Support Specialist", 
           company: "Tempus Logix", 
           date: "Jan 2020 - Sep 2020", 
-          duration: "8 months", 
+          duration: "8 Months", 
           desc: "Managed customer inquiries in English, coordinated between drivers and clients for car transportation across the US, and resolved logistics issues in a fast-paced environment." 
         },
         { 
           role: "Salesperson", 
           company: "Matin Mobile", 
           date: "Jun 2016 - Dec 2016", 
-          duration: "6 months", 
+          duration: "6 Months", 
           desc: "Cellphone software repairs, sale of peripherals and accessories." 
         }
       ]
@@ -93,8 +98,13 @@ function App() {
       languages: [{ name: "انگلیسی", level: "Native" }],
       salary: "۲۰-۲۵ میلیون تومان",
       software: [
-        { name: "Adobe Photoshop", dots: 3 }, { name: "Adobe Premiere", dots: 3 },
-        { name: "WordPress", dots: 3 }, { name: "Google Search Console", dots: 1 }
+        { name: "Adobe Photoshop", dots: 3 }, 
+        { name: "Adobe Premiere", dots: 3 },
+        { name: "Microsoft Word", dots: 4 }, 
+        { name: "Microsoft Powerpoint", dots: 3 },
+        { name: "Microsoft Excel", dots: 2 }, 
+        { name: "WordPress", dots: 3 }, 
+        { name: "Google Search Console", dots: 1 }
       ],
       skills: ["ترجمه فارسی به انگلیسی", "تدریس زبان انگلیسی", "ترجمه انگلیسی به فارسی", "تعمیرات نرم‌افزاری کامپیوتر", "یادگیری سریع", "کار تیمی", "طراحی سایت وردپرس", "خلاقیت"],
       projects: [
