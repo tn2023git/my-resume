@@ -127,23 +127,20 @@ export default function PixelCard({ variant = 'resume', gap, speed, colors, noFo
   useEffect(() => {
     initPixels();
     
-    // استفاده از Intersection Observer برای موبایل
-    const observerOptions = { threshold: 0.2 }; // وقتی ۲۰٪ کارت دیده شد فعال شود
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (window.matchMedia("(pointer: coarse)").matches) {
-          handleAnimation(entry.isIntersecting ? 'appear' : 'disappear');
-        }
-      });
-    }, observerOptions);
-
-    if (containerRef.current) observer.observe(containerRef.current);
+    // اگر دستگاه موبایل است، انیمیشن را بلافاصله فعال کن
+    if (window.matchMedia("(pointer: coarse)").matches) {
+      handleAnimation('appear');
+    }
     
-    const resizeObserver = new ResizeObserver(() => initPixels());
+    const resizeObserver = new ResizeObserver(() => {
+      initPixels();
+      if (window.matchMedia("(pointer: coarse)").matches) {
+        handleAnimation('appear');
+      }
+    });
     if (containerRef.current) resizeObserver.observe(containerRef.current);
     
     return () => {
-      observer.disconnect();
       resizeObserver.disconnect();
       cancelAnimationFrame(animationRef.current);
     };
