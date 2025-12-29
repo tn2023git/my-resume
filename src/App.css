@@ -74,7 +74,7 @@ body, html {
   max-width: 1100px;
 }
 
-/* --- Card Wrappers (Shared Styles for PC & Mobile) --- */
+/* --- Card Wrappers (Fix for PC Sizes) --- */
 .resume-header-card,
 .side-pixel-wrapper,
 .exp-pixel-wrapper,
@@ -86,21 +86,25 @@ body, html {
   border-radius: 20px !important;
   margin-bottom: var(--section-spacing);
   overflow: hidden;
-  width: 100%; /* اطمینان از پر شدن عرض ستون در PC */
+  width: 100%;
+  height: auto !important; /* جلوگیری از کشیده شدن عمودی در PC */
+  display: table; /* فیکس کردن ابعاد بر اساس محتوا */
 }
 
-/* --- Mobile Fixes --- */
+/* --- Mobile Specific Fixes --- */
 @media (max-width: 768px) {
   .mobile-glass-card {
     background: rgba(15, 15, 15, 0.35) !important; 
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
+    display: block; /* بازگشت به حالت بلاک در موبایل */
   }
 
   .main-name { 
-    font-size: 1.8rem !important; /* کوچک کردن نام برای موبایل */
+    font-size: 1.8rem !important; 
     text-align: center;
     line-height: 1.2;
+    padding: 0 10px;
   }
 
   .mobile-bg-pixel {
@@ -126,6 +130,7 @@ body, html {
   padding: 30px;
   position: relative;
   z-index: 2;
+  height: auto;
 }
 
 .main-name { font-size: 3.5rem; line-height: 1.1; margin-bottom: 10px; }
@@ -143,6 +148,7 @@ body, html {
   display: grid; 
   grid-template-columns: 380px 1fr; 
   gap: 30px; 
+  align-items: start; /* جلوگیری از کشیده شدن باکس‌های کوتاه در کنار باکس‌های بلند */
 }
 
 /* --- Sidebar Items --- */
@@ -228,7 +234,6 @@ body, html {
 .pixel-card { 
   position: relative; 
   overflow: hidden; 
-  height: 100%;
   width: 100%;
 }
 .pixel-canvas { 
@@ -243,7 +248,6 @@ body, html {
 .pixel-content { 
   position: relative; 
   z-index: 1; 
-  height: 100%;
   width: 100%;
 }
 
