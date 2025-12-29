@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './App.css';
 import profilePic from './assets/profile.png';
 import BlurText from './BlurText';
+import GradientText from './GradientText';
 
 function App() {
   const [lang, setLang] = useState('en');
@@ -168,12 +169,14 @@ function App() {
       <div className="pdf-page">
         <header className="resume-header">
           <div className="header-text">
+            <GradientText className="main-name bold-font">
               <BlurText 
                 text={content.name} 
-                className="blur-header main-name bold-font" 
+                className="blur-header" 
                 delay={100}
                 animateBy="words"
               />
+            </GradientText>
             <p className="subtitle">{content.title}</p>
           </div>
           <img src={profilePic} alt="Amirali" className="profile-img" />
@@ -182,22 +185,26 @@ function App() {
         <div className="resume-grid">
           <aside className="sidebar">
             <section className="side-section">
+              <GradientText className="yellow-text bold-font">
                 <BlurText 
                   text={isEn ? "Personal & Contact" : "اطلاعات فردی و تماس"} 
-                  className="blur-header yellow-text bold-font"
+                  className="blur-header"
                   delay={50}
                 />
+              </GradientText>
               {content.personal.map((p, i) => <p key={i}><b className="bold-font">{p.label}:</b> {p.value}</p>)}
               {content.contact.map((c, i) => <p key={i}><b className="bold-font">{c.label}:</b> {c.value}</p>)}
               <p><b className="bold-font">{isEn ? "Salary Request" : "حقوق درخواستی"}:</b> {content.salary}</p>
             </section>
 
             <section className="side-section">
+              <GradientText className="yellow-text bold-font">
                 <BlurText 
                   text={isEn ? "Software" : "نرم‌افزارها"} 
-                  className="blur-header yellow-text bold-font"
+                  className="blur-header"
                   delay={50}
                 />
+              </GradientText>
               <div className="software-container">
                 {content.software.map((s, i) => (
                   <div key={i} className="software-item">
@@ -209,22 +216,26 @@ function App() {
             </section>
 
             <section className="side-section">
+              <GradientText className="yellow-text bold-font">
                 <BlurText 
                   text={isEn ? "Additional Skills" : "مهارت‌های تکمیلی"} 
-                  className="blur-header yellow-text bold-font"
+                  className="blur-header"
                   delay={50}
                 />
+              </GradientText>
               <div className="skills-grid">
                 {content.skills.map((skill, i) => <span key={i} className="skill-tag">{skill}</span>)}
               </div>
             </section>
 
             <section className="side-section">
+              <GradientText className="yellow-text bold-font">
                 <BlurText 
                   text={isEn ? "Projects" : "پروژه‌ها"} 
-                  className="blur-header yellow-text bold-font"
+                  className="blur-header"
                   delay={50}
                 />
+              </GradientText>
               <div className="projects-list">
                 {content.projects.map((proj, i) => <a key={i} href={proj.url} target="_blank" rel="noreferrer" className="project-link">{proj.name}</a>)}
               </div>
@@ -232,21 +243,25 @@ function App() {
           </aside>
 
           <main className="main-content">
+            <GradientText className="yellow-text bold-font section-title">
               <BlurText 
                 text={isEn ? "Work Experience" : "سوابق شغلی"} 
-                className="blur-header yellow-text bold-font section-title" 
+                className="blur-header" 
                 delay={50}
               />
+            </GradientText>
             {content.experience.map((job, i) => (
               <div key={i} className="exp-card">
                 <div className="exp-row">
                   <span className="job-role bold-font">{job.role}</span>
                   <span className="job-duration">
-                    <BlurText 
-                      text={job.duration} 
-                      className="blur-header yellow-text bold-font duration-text" 
-                      delay={30}
-                    />
+                    <GradientText className="duration-text bold-font">
+                      <BlurText 
+                        text={job.duration} 
+                        className="blur-header" 
+                        delay={30}
+                      />
+                    </GradientText>
                   </span>
                 </div>
                 <div className="job-company purple-text bold-font">{job.company}</div>
