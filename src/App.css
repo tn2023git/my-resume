@@ -3,31 +3,31 @@
   src: url('./assets/fonts/Anjoman Regular.ttf') format('truetype');
   font-weight: normal;
 }
-
 @font-face {
   font-family: 'Anjoman';
   src: url('./assets/fonts/Anjoman Bold.ttf') format('truetype');
   font-weight: bold;
 }
-
 @font-face {
   font-family: 'ProductSans';
   src: url('./assets/fonts/Product Sans Regular.ttf') format('truetype');
   font-weight: normal;
 }
 
-/* Helper Class for Bold Text */
-.bold-font {
-  font-weight: bold !important;
-}
-
 :root {
-  --purple: #9b59b6;
-  --yellow: #f1c40f;
+  /* پالت رنگی جدید شما */
+  --grad-start: #F3BC08;
+  --grad-mid: #DF9339;
+  --grad-end: #D1765C;
+  --purple: #A010D6;
+  
   --bg: #0f0f0f;
   --paper: #1a1a1a;
   --section-spacing: 50px;
+  --main-gradient: linear-gradient(90deg, var(--grad-start), var(--grad-mid), var(--grad-end));
 }
+
+.bold-font { font-weight: bold !important; }
 
 .app-wrapper {
   background: var(--bg);
@@ -46,23 +46,36 @@
   padding: 70px;
   color: white;
   border: none !important;
-  box-shadow: none !important;
-  outline: none !important;
+}
+
+/* اعمال گرادینت روی نام و تیترها */
+.header-text h1, .yellow-text {
+  background: var(--main-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+.yellow-text {
+  border-bottom: 2px solid var(--grad-mid); /* جایگزین خط ساده با رنگ میانی گرادینت */
+  padding-bottom: 10px;
+  margin-bottom: 25px;
+  width: 100%;
 }
 
 .resume-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid var(--yellow);
+  border-bottom: 2px solid var(--grad-start);
   padding-bottom: 30px;
   margin-bottom: var(--section-spacing);
   flex-wrap: wrap;
-  gap: 20px;
 }
 
-.header-text h1 { color: var(--yellow); margin: 0; font-size: 3.5rem; line-height: 1.1; }
-.subtitle { color: var(--purple); font-size: 1.6rem; margin-top: 10px; }
+.header-text h1 { font-size: 3.5rem; line-height: 1.1; margin: 0; }
+.subtitle { color: var(--purple); font-size: 1.6rem; margin-top: 10px; font-weight: bold; }
 
 .profile-img {
   width: 150px;
@@ -72,7 +85,7 @@
   object-fit: cover;
 }
 
-/* Software Skills Inline Fix */
+/* بخش نرم‌افزارها - Dots */
 .software-item {
   display: flex;
   justify-content: space-between;
@@ -80,50 +93,23 @@
   margin-bottom: 15px;
   gap: 20px;
 }
+.dots-container { display: flex; gap: 6px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; background: #444; }
+.dot.filled { background: var(--purple); }
 
-.soft-name {
-  flex: 1;
-  font-size: 1rem;
-}
-
-.dots-container {
-  display: flex;
-  gap: 6px;
-  white-space: nowrap;
-}
-
-.dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: #444;
-}
-
-.dot.filled {
-  background: var(--purple);
-}
-
-/* GRID & SECTIONS */
-.resume-grid { display: grid; grid-template-columns: 380px 1fr; gap: 70px; }
-.side-section { margin-bottom: var(--section-spacing); }
-.yellow-text { color: var(--yellow); border-bottom: 1px solid #444; padding-bottom: 10px; margin-bottom: 25px; }
-
-.skills-grid { display: flex; flex-wrap: wrap; gap: 8px; }
-.skill-tag { background: #2a2a2a; padding: 5px 14px; border-radius: 20px; font-size: 0.9rem; border-left: 3px solid var(--purple); }
-.rtl-mode .skill-tag { border-left: none; border-right: 3px solid var(--purple); }
-
-.project-link { display: block; color: var(--purple); text-decoration: none; margin-bottom: 10px; font-weight: bold; }
-
+/* سوابق شغلی */
 .exp-card { margin-bottom: 45px; border-bottom: 1px solid #333; padding-bottom: 25px; }
-.exp-row { display: flex; justify-content: space-between; font-size: 1.25rem; flex-wrap: wrap; }
-.job-company { margin: 5px 0; }
-.job-date { 
-  font-style: normal; /* تغییر از italic به normal */
-  color: #888; 
-  font-size: 0.95rem; 
-  margin-top: 5px;
+.exp-row { display: flex; justify-content: space-between; font-size: 1.25rem; }
+.job-duration { 
+    background: var(--main-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
-.job-desc { color: #ccc; line-height: 1.6; margin-top: 15px; font-size: 1rem; }
+.purple-text { color: var(--purple) !important; }
+.job-date { color: #888; font-size: 0.95rem; margin-top: 5px; font-style: normal; }
+.job-desc { color: #ccc; line-height: 1.6; margin-top: 15px; }
+
+/* نوار زبان شناور با انیمیشن کند */
 .floating-lang-switcher {
   position: fixed;
   bottom: 30px;
@@ -138,39 +124,22 @@
   gap: 15px;
   border: 1px solid var(--purple);
   z-index: 9999;
-  
-  /* اضافه کردن سایه ملایم و عمیق */
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 10px rgba(155, 89, 182, 0.2);
-  
-  /* انیمیشن کندتر (5 ثانیه) */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
   animation: float-slow 5s ease-in-out infinite;
 }
 
-/* تعریف انیمیشن با حرکت کمتر (8 پیکسل) */
 @keyframes float-slow {
-  0% {
-    transform: translate(-50%, 0px);
-  }
-  50% {
-    transform: translate(-50%, -8px); /* جابجایی کمتر برای ظرافت بیشتر */
-  }
-  100% {
-    transform: translate(-50%, 0px);
-  }
+  0%, 100% { transform: translate(-50%, 0px); }
+  50% { transform: translate(-50%, -8px); }
 }
+
 .flag-btn { background: none; border: 2px solid transparent; padding: 2px; border-radius: 50%; display: flex; transition: 0.3s; }
-.flag-btn.active { border-color: var(--yellow); transform: scale(1.1); }
+.flag-btn.active { border-color: var(--grad-start); transform: scale(1.1); }
 .flag-btn img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; }
 
-/* RESPONSIVE */
+.resume-grid { display: grid; grid-template-columns: 380px 1fr; gap: 70px; }
+
 @media (max-width: 1150px) {
   .pdf-page { width: 92%; padding: 40px 30px; }
   .resume-grid { grid-template-columns: 1fr; gap: 40px; }
-}
-
-@media (max-width: 600px) {
-  .resume-header { justify-content: center; text-align: center; }
-  .header-text { min-width: 100%; order: 2; }
-  .profile-img { order: 1; }
-  .header-text h1 { font-size: 2.2rem; }
 }
