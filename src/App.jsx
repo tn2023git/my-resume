@@ -23,27 +23,26 @@ function App() {
       languages: [{ name: "English", level: "Native" }],
       salary: "20-25 Million Tomans",
       software: [
-        { name: "Adobe Photoshop", level: "Intermediate" },
-        { name: "Adobe Premiere", level: "Intermediate" },
-        { name: "Microsoft Word", level: "Intermediate" },
-        { name: "Microsoft Powerpoint", level: "Basic" },
-        { name: "Microsoft Excel", level: "Basic" },
-        { name: "Wordpress", level: "Basic" },
-        { name: "Google Search Console", level: "Basic" }
+        { name: "Adobe Photoshop", dots: 3 },
+        { name: "Adobe Premiere", dots: 3 },
+        { name: "Microsoft Word", dots: 4 },
+        { name: "Microsoft Powerpoint", dots: 3 },
+        { name: "Microsoft Excel", dots: 2 },
+        { name: "Wordpress", dots: 3 },
+        { name: "Google Search Console", dots: 1 }
       ],
-      skills: ["Farsi to English Translation", "Teaching English", "English to Farsi translation", "Computer software repairs", "Fast learner", "Team Worker", "WordPress Website Design", "Creative"],
+      skills: ["Farsi to English Translation", "Teaching English", "English to Farsi translation", "Computer software repairs", "Fast learner", "Team Worker", "WordPress Website Design", "Creativity"],
       projects: [
         { name: "IranBarc", url: "https://iranbarc.com/" },
         { name: "Darmazon", url: "https://darmazon.com/" },
         { name: "Atena Zist Darman", url: "https://atenazistdarman.co" }
       ],
       experience: [
-        { role: "Office Assistant", company: "Atena Zist Darman", date: "Apr 2024 - Nov 2025", duration: "1 year 7 months", desc: "Administrative support and office coordination." },
-        { role: "English Teacher", company: "Pardisan - Tehranpars", date: "Oct 2022 - Feb 2024", duration: "1 year 4 months", desc: "Teaching English privately and in groups." },
-        { role: "English Teacher", company: "Pooya Middle School", date: "Sep 2021 - May 2022", duration: "8 months", desc: "Teaching English to 7th and 8th graders, designing exams, and using smart teaching tools like Skyroom and Adobe Connect." },
-        { role: "English Teacher", company: "Pardisan - Tehranpars", date: "Apr 2021 - Sep 2021", duration: "5 months", desc: "Teaching English privately and in groups." },
-        { role: "Customer Support Specialist", company: "Tempus Logix", date: "Jan 2020 - Sep 2020", duration: "8 months", desc: "Answering emails and calls from customers and drivers in English, booking/coordinating loads, and resolving misunderstandings." },
-        { role: "Salesperson", company: "Rook Mobile", date: "Jun 2016 - Dec 2016", duration: "6 months", desc: "Sales and customer service in the mobile sector." }
+        { role: "Office Assistant", company: "Atena Zist Darman", date: "Apr 2024 - Nov 2025", duration: "1.7 Years", desc: "Administrative support and office coordination." },
+        { role: "English Teacher", company: "Pardisan - Tehranpars", date: "Oct 2022 - Feb 2024", duration: "1.4 Years", desc: "Teaching English privately and in groups." },
+        { role: "English Teacher", company: "Pooya Middle School", date: "Sep 2021 - May 2022", duration: "8 Months", desc: "Teaching English to 7th and 8th graders using smart tools like Skyroom." },
+        { role: "Customer Support Specialist", company: "Tempus Logix", date: "Jan 2020 - Sep 2020", duration: "8 Months", desc: "Handling international logistics and client communications in English." },
+        { role: "Salesperson", company: "Matin Mobile", date: "Jun 2016 - Dec 2016", duration: "6 Months", desc: "Cellphone software repairs, sale of peripherals and accessories." }
       ]
     },
     fa: {
@@ -59,42 +58,53 @@ function App() {
         { label: "موبایل", value: "۰۹۳۷۱۷۸۳۶۶۹" },
         { label: "ایمیل", value: "a.dmaram2023@gmail.com" }
       ],
-      languages: [{ name: "انگلیسی", level: "در حد زبان مادری" }],
+      languages: [{ name: "انگلیسی", level: "Native" }],
       salary: "۲۰-۲۵ میلیون تومان",
       software: [
-        { name: "Adobe Photoshop", level: "متوسط" },
-        { name: "Adobe Premiere", level: "متوسط" },
-        { name: "Microsoft Word", level: "متوسط" },
-        { name: "Microsoft Powerpoint", level: "مقدماتی" },
-        { name: "Microsoft Excel", level: "مقدماتی" },
-        { name: "Wordpress", level: "مقدماتی" },
-        { name: "Google Search Console", level: "مقدماتی" }
+        { name: "Adobe Photoshop", dots: 3 },
+        { name: "Adobe Premiere", dots: 3 },
+        { name: "Microsoft Word", dots: 4 },
+        { name: "Microsoft Powerpoint", dots: 3 },
+        { name: "Microsoft Excel", dots: 2 },
+        { name: "Wordpress", dots: 3 },
+        { name: "Google Search Console", dots: 1 }
       ],
-      skills: ["ترجمه فارسی به انگلیسی", "تدریس زبان انگلیسی", "ترجمه انگلیسی به فارسی", "تعمیرات نرم‌افزاری کامپیوتر", "یادگیری سریع", "کار تیمی", "طراحی سایت وردپرس", "ایده‌پردازی و خلاقیت"],
+      skills: ["ترجمه فارسی به انگلیسی", "تدریس زبان انگلیسی", "ترجمه انگلیسی به فارسی", "تعمیرات نرم‌افزاری کامپیوتر", "یادگیری سریع", "کار تیمی", "طراحی سایت وردپرس", "خلاقیت"],
       projects: [
         { name: "ایران بارک", url: "https://iranbarc.com/" },
         { name: "درمازون", url: "https://darmazon.com/" },
         { name: "آتنا زیست درمان", url: "https://atenazistdarman.co" }
       ],
       experience: [
-        { role: "منشی و مسئول دفتر", company: "آتنا زیست درمان", date: "اردیبهشت ۱۴۰۳ - آذر ۱۴۰۴", duration: "۱ سال و ۷ ماه", desc: "مدیریت امور اداری و هماهنگی‌های دفتر." },
-        { role: "مدرس زبان انگلیسی", company: "آموزشگاه پردیسان (تهرانپارس)", date: "آبان ۱۴۰۱ - اسفند ۱۴۰۲", duration: "۱ سال و ۴ ماه", desc: "تدریس زبان انگلیسی به‌صورت خصوصی و گروهی." },
-        { role: "تدریس زبان انگلیسی", company: "مدرسه غیرانتفاعی پویا", date: "مهر ۱۴۰۰ - خرداد ۱۴۰۱", duration: "۸ ماه", desc: "آموزش زبان به دانش‌آموزان کلاس هفتم و هشتم، طراحی سوالات امتحانی و استفاده از برنامه‌های آموزش هوشمند مثل اسکای‌روم و ادوبی کانکت." },
-        { role: "مدرس زبان انگلیسی", company: "آموزشگاه پردیسان (تهرانپارس)", date: "اردیبهشت ۱۴۰۰ - مهر ۱۴۰۰", duration: "۵ ماه", desc: "تدریس زبان انگلیسی به‌صورت خصوصی و گروهی." },
-        { role: "کارشناس خدمات مشتریان", company: "Tempus Logix", date: "بهمن ۱۳۹۸ - مهر ۱۳۹۹", duration: "۸ ماه", desc: "پاسخگویی به ایمیل‌ها و تماس‌های مشتریان و رانندگان به زبان انگلیسی، ثبت و هماهنگی بارها و حل مشکلات بین مشتری و راننده." },
-        { role: "فروشنده", company: "موبایل متین (Rook)", date: "تیر ۱۳۹۵ - دی ۱۳۹۵", duration: "۶ ماه", desc: "فروش و خدمات مشتریان در حوزه موبایل." }
+        { role: "منشی و مسئول دفتر", company: "آتنا زیست درمان", date: "۱۴۰۳ - ۱۴۰۴", duration: "۱.۷ سال", desc: "مدیریت امور اداری و هماهنگی‌های دفتر." },
+        { role: "مدرس زبان انگلیسی", company: "آموزشگاه پردیسان", date: "۱۴۰۱ - ۱۴۰۲", duration: "۱.۴ سال", desc: "تدریس زبان انگلیسی به‌صورت خصوصی و گروهی." },
+        { role: "تدریس زبان انگلیسی", company: "مدرسه پویا", date: "۱۴۰۰ - ۱۴۰۱", duration: "۸ ماه", desc: "آموزش زبان با ابزارهای هوشمند اسکای‌روم و ادوبی کانکت." },
+        { role: "کارشناس خدمات مشتریان", company: "Tempus Logix", date: "۱۳۹۸ - ۱۳۹۹", duration: "۸ ماه", desc: "پاسخگویی به مشتریان خارجی و حل مشکلات بین مشتری و راننده." },
+        { role: "فروشنده", company: "موبایل متین", date: "۱۳۹۵", duration: "۶ ماه", desc: "حل مشکلات نرم افزاری موبایل، فروش لوازم جانبی و فروش گوشی موبایل" }
       ]
     }
   };
 
   const content = isEn ? data.en : data.fa;
 
+  const renderDots = (count) => {
+    return Array.from({ length: 5 }, (_, i) => (
+      <span key={i} className={`dot ${i < count ? 'filled' : ''}`}></span>
+    ));
+  };
+
   return (
     <div className={`app-wrapper ${isEn ? 'ltr-mode' : 'rtl-mode'}`}>
       <div className="pdf-page">
+        {/* The Button Logic: In English mode, shows Iran flag to switch to Farsi. 
+            In Farsi mode, shows US flag to switch to English. */}
         <div className="button-container">
-          <button className="toggle-btn" onClick={() => setLang(isEn ? 'fa' : 'en')}>
-            {isEn ? 'فارسی' : 'English'}
+          <button className="flag-btn" onClick={() => setLang(isEn ? 'fa' : 'en')}>
+            {isEn ? (
+               <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Flag_of_Iran.svg" alt="Farsi" />
+            ) : (
+               <img src="https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg" alt="English" />
+            )}
           </button>
         </div>
 
@@ -116,15 +126,11 @@ function App() {
             </section>
 
             <section className="side-section">
-              <h3 className="yellow-text">{isEn ? "Languages" : "زبان‌های خارجی"}</h3>
-              {content.languages.map((l, i) => <p key={i}><b>{l.name}:</b> {l.level}</p>)}
-            </section>
-
-            <section className="side-section">
               <h3 className="yellow-text">{isEn ? "Software" : "نرم‌افزارها"}</h3>
               {content.software.map((s, i) => (
-                <div key={i} className="skill-item">
-                  <b>{s.name}:</b> <span className="purple-text">{s.level}</span>
+                <div key={i} className="software-item">
+                  <span className="soft-name">{s.name}</span>
+                  <div className="dots-container">{renderDots(s.dots)}</div>
                 </div>
               ))}
             </section>
