@@ -23,9 +23,7 @@ class Pixel {
     this.isShimmer = false;
   }
 
-  getRandomValue(min, max) {
-    return Math.random() * (max - min) + min;
-  }
+  getRandomValue(min, max) { return Math.random() * (max - min) + min; }
 
   draw() {
     const centerOffset = this.maxSizeInteger * 0.5 - this.size * 0.5;
@@ -35,63 +33,31 @@ class Pixel {
 
   appear() {
     this.isIdle = false;
-    if (this.counter <= this.delay) {
-      this.counter += this.counterStep;
-      return;
-    }
-    if (this.size >= this.maxSize) {
-      this.isShimmer = true;
-    }
-    if (this.isShimmer) {
-      this.shimmer();
-    } else {
-      this.size += this.sizeStep;
-    }
+    if (this.counter <= this.delay) { this.counter += this.counterStep; return; }
+    if (this.size >= this.maxSize) { this.isShimmer = true; }
+    if (this.isShimmer) { this.shimmer(); } else { this.size += this.sizeStep; }
     this.draw();
   }
 
   disappear() {
     this.isShimmer = false;
     this.counter = 0;
-    if (this.size <= 0) {
-      this.isIdle = true;
-      return;
-    } else {
-      this.size -= 0.1;
-    }
+    if (this.size <= 0) { this.isIdle = true; return; } else { this.size -= 0.1; }
     this.draw();
   }
 
   shimmer() {
-    if (this.size >= this.maxSize) {
-      this.isReverse = true;
-    } else if (this.size <= this.minSize) {
-      this.isReverse = false;
-    }
-    if (this.isReverse) {
-      this.size -= this.speed;
-    } else {
-      this.size += this.speed;
-    }
+    if (this.size >= this.maxSize) { this.isReverse = true; } 
+    else if (this.size <= this.minSize) { this.isReverse = false; }
+    if (this.isReverse) { this.size -= this.speed; } else { this.size += this.speed; }
   }
 }
 
 function getEffectiveSpeed(value, reducedMotion) {
-  const min = 0;
-  const max = 100;
   const throttle = 0.001;
-  const parsed = parseInt(value, 10);
-
-  if (parsed <= min || reducedMotion) {
-    return min;
-  } else if (parsed >= max) {
-    return max * throttle;
-  } else {
-    return parsed * throttle;
-  }
+  return reducedMotion ? 0 : parseInt(value, 10) * throttle;
 }
 
-// تنظیم واریانت با شفافیت 70% (0.7)
 const VARIANTS = {
   resume: {
     activeColor: 'rgba(160, 16, 214, 0.7)',
@@ -114,31 +80,21 @@ export default function PixelCard({ variant = 'resume', gap, speed, colors, noFo
   const finalGap = gap ?? variantCfg.gap;
   const finalSpeed = speed ?? variantCfg.speed;
   const finalColors = colors ?? variantCfg.colors;
-  const finalNoFocus = noFocus ?? variantCfg.noFocus;
 
   const initPixels = () => {
     if (!containerRef.current || !canvasRef.current) return;
-
     const rect = containerRef.current.getBoundingClientRect();
     const width = Math.floor(rect.width);
     const height = Math.floor(rect.height);
     const ctx = canvasRef.current.getContext('2d');
-
     canvasRef.current.width = width;
     canvasRef.current.height = height;
-    canvasRef.current.style.width = `${width}px`;
-    canvasRef.current.style.height = `${height}px`;
-
     const colorsArray = finalColors.split('),').map(c => c.endsWith(')') ? c : c + ')');
     const pxs = [];
     for (let x = 0; x < width; x += parseInt(finalGap, 10)) {
       for (let y = 0; y < height; y += parseInt(finalGap, 10)) {
         const color = colorsArray[Math.floor(Math.random() * colorsArray.length)];
-        const dx = x - width / 2;
-        const dy = y - height / 2;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        const delay = reducedMotion ? 0 : distance;
-
+        const delay = reducedMotion ? 0 : Math.sqrt(Math.pow(x - width/2, 2) + Math.pow(y - height/2, 2));
         pxs.push(new Pixel(canvasRef.current, ctx, x, y, color, getEffectiveSpeed(finalSpeed, reducedMotion), delay));
       }
     }
@@ -149,27 +105,18 @@ export default function PixelCard({ variant = 'resume', gap, speed, colors, noFo
     animationRef.current = requestAnimationFrame(() => doAnimate(fnName));
     const timeNow = performance.now();
     const timePassed = timeNow - timePreviousRef.current;
-    const timeInterval = 1000 / 60;
-
-    if (timePassed < timeInterval) return;
-    timePreviousRef.current = timeNow - (timePassed % timeInterval);
+    if (timePassed < 1000 / 60) return;
+    timePreviousRef.current = timeNow - (timePassed % (1000 / 60));
 
     const ctx = canvasRef.current?.getContext('2d');
     if (!ctx || !canvasRef.current) return;
-
     ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-
     let allIdle = true;
-    for (let i = 0; i < pixelsRef.current.length; i++) {
-      const pixel = pixelsRef.current[i];
+    pixelsRef.current.forEach(pixel => {
       pixel[fnName]();
-      if (!pixel.isIdle) {
-        allIdle = false;
-      }
-    }
-    if (allIdle) {
-      cancelAnimationFrame(animationRef.current);
-    }
+      if (!pixel.isIdle) allIdle = false;
+    });
+    if (allIdle) cancelAnimationFrame(animationRef.current);
   };
 
   const handleAnimation = name => {
@@ -177,14 +124,28 @@ export default function PixelCard({ variant = 'resume', gap, speed, colors, noFo
     animationRef.current = requestAnimationFrame(() => doAnimate(name));
   };
 
-  const onMouseEnter = () => handleAnimation('appear');
-  const onMouseLeave = () => handleAnimation('disappear');
-
   useEffect(() => {
     initPixels();
+    const isTouch = window.matchMedia("(pointer: coarse)").matches;
+
+    // منطق اسکرول برای موبایل
+    const handleScroll = () => {
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+      handleAnimation(isVisible ? 'appear' : 'disappear');
+    };
+
+    if (isTouch) {
+      window.addEventListener('scroll', handleScroll);
+      handleScroll(); // چک کردن وضعیت اولیه
+    }
+
     const observer = new ResizeObserver(() => initPixels());
     if (containerRef.current) observer.observe(containerRef.current);
+    
     return () => {
+      window.removeEventListener('scroll', handleScroll);
       observer.disconnect();
       cancelAnimationFrame(animationRef.current);
     };
@@ -194,14 +155,11 @@ export default function PixelCard({ variant = 'resume', gap, speed, colors, noFo
     <div
       ref={containerRef}
       className={`pixel-card ${className}`}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      tabIndex={finalNoFocus ? -1 : 0}
+      onMouseEnter={() => !window.matchMedia("(pointer: coarse)").matches && handleAnimation('appear')}
+      onMouseLeave={() => !window.matchMedia("(pointer: coarse)").matches && handleAnimation('disappear')}
     >
       <canvas className="pixel-canvas" ref={canvasRef} />
-      <div className="pixel-content">
-        {children}
-      </div>
+      <div className="pixel-content">{children}</div>
     </div>
   );
 }

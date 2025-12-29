@@ -74,7 +74,6 @@ body, html {
 }
 
 /* --- PixelCard Wrapper Fixes --- */
-/* این بخش بسیار مهم است زیرا باعث می‌شود PixelCard ابعاد درستی بگیرد */
 .resume-header-card,
 .side-pixel-wrapper,
 .exp-pixel-wrapper {
@@ -85,8 +84,9 @@ body, html {
   border-radius: 20px !important;
   margin-bottom: var(--section-spacing);
   width: 100% !important;
-  height: auto !important; /* برخلاف حالت پیش‌فرض، نباید ارتفاع ثابت داشته باشد */
+  height: auto !important;
   display: block !important;
+  overflow: hidden; /* جلوگیری از بیرون زدن محتوای داخلی */
 }
 
 /* --- Content Padding --- */
@@ -96,6 +96,7 @@ body, html {
   padding: 30px;
   position: relative;
   z-index: 2;
+  width: 100%;
 }
 
 /* --- Header Section --- */
@@ -108,7 +109,9 @@ body, html {
 .main-name { 
   font-size: 3.5rem; 
   line-height: 1.1; 
-  margin-bottom: 10px; 
+  margin-bottom: 10px;
+  word-wrap: break-word; /* جلوگیری از سرریز متن */
+  overflow-wrap: break-word;
 }
 
 .subtitle { 
@@ -123,6 +126,7 @@ body, html {
   border: 3px solid var(--purple);
   border-radius: 20px;
   object-fit: cover;
+  flex-shrink: 0; /* جلوگیری از دفرمه شدن عکس در موبایل */
 }
 
 /* --- Grid Layout --- */
@@ -219,8 +223,38 @@ body, html {
 .flag-btn.active { border-color: var(--c1); transform: scale(1.1); }
 .flag-btn img { width: 35px; height: 35px; border-radius: 50%; }
 
-/* --- Responsive --- */
+/* --- Responsive & Mobile Fixes --- */
 @media (max-width: 1150px) {
   .resume-grid { grid-template-columns: 1fr; }
   .resume-header { flex-direction: column; text-align: center; gap: 20px; }
+}
+
+@media (max-width: 768px) {
+  .main-name {
+    font-size: 2.2rem; /* کاهش سایز برای موبایل */
+    text-align: center;
+  }
+  
+  .subtitle {
+    font-size: 1.2rem;
+  }
+
+  .resume-header, .side-section, .exp-card {
+    padding: 20px; /* کاهش پدینگ در موبایل */
+  }
+
+  .profile-img {
+    width: 130px;
+    height: 130px;
+  }
+  
+  .app-wrapper {
+    padding: 30px 15px 100px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-name {
+    font-size: 1.8rem; /* سایز خیلی کوچک برای گوشی‌های باریک */
+  }
 }
