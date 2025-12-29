@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Renderer, Program, Mesh, Triangle, Texture } from 'ogl';
 
 const vertexShader = `#version 300 es
@@ -11,308 +11,197 @@ void main() {
 }
 `;
 
-const fragmentShader = `#version 300 es
+// Fragment Shader برای دسکتاپ (Prismatic)
+const prismaticFragment = `#version 300 es
 precision highp float;
 precision highp int;
-
 out vec4 fragColor;
-
-uniform vec2  uResolution;
+uniform vec2 uResolution;
 uniform float uTime;
 uniform float uIntensity;
 uniform float uSpeed;
-uniform int   uAnimType;
-uniform vec2  uMouse;
-uniform int   uColorCount;
+uniform int uAnimType;
+uniform vec2 uMouse;
+uniform int uColorCount;
 uniform float uDistort;
-uniform vec2  uOffset;
+uniform vec2 uOffset;
 uniform sampler2D uGradient;
 uniform float uNoiseAmount;
-uniform int   uRayCount;
+uniform int uRayCount;
 
-float hash21(vec2 p){
-    p = floor(p);
-    float f = 52.9829189 * fract(dot(p, vec2(0.065, 0.005)));
-    return fract(f);
-}
-
+float hash21(vec2 p){ p = floor(p); return fract(52.9829189 * fract(dot(p, vec2(0.065, 0.005)))); }
 mat2 rot30(){ return mat2(0.8, -0.5, 0.5, 0.8); }
-
 float layeredNoise(vec2 fragPx){
     vec2 p = mod(fragPx + vec2(uTime * 30.0, -uTime * 21.0), 1024.0);
     vec2 q = rot30() * p;
     float n = 0.0;
-    n += 0.40 * hash21(q);
-    n += 0.25 * hash21(q * 2.0 + 17.0);
-    n += 0.20 * hash21(q * 4.0 + 47.0);
-    n += 0.10 * hash21(q * 8.0 + 113.0);
+    n += 0.40 * hash21(q); n += 0.25 * hash21(q * 2.0 + 17.0);
+    n += 0.20 * hash21(q * 4.0 + 47.0); n += 0.10 * hash21(q * 8.0 + 113.0);
     return n;
 }
-
 vec3 rayDir(vec2 frag, vec2 res, vec2 offset, float dist){
     float focal = res.y * max(dist, 1e-3);
     return normalize(vec3(2.0 * (frag - offset) - res, focal));
 }
-
 float edgeFade(vec2 frag, vec2 res, vec2 offset){
     vec2 toC = frag - 0.5 * res - offset;
     float r = length(toC) / (0.5 * min(res.x, res.y));
     float x = clamp(r, 0.0, 1.0);
     float q = x * x * x * (x * (x * 6.0 - 15.0) + 10.0);
-    float s = q * 0.5;
-    s = pow(s, 1.5);
+    float s = q * 0.5; s = pow(s, 1.5);
     float tail = 1.0 - pow(1.0 - s, 2.0);
     s = mix(s, tail, 0.2);
     float dn = (layeredNoise(frag * 0.15) - 0.5) * 0.0015 * s;
     return clamp(s + dn, 0.0, 1.0);
 }
-
 mat3 rotX(float a){ float c = cos(a), s = sin(a); return mat3(1.0,0.0,0.0, 0.0,c,-s, 0.0,s,c); }
 mat3 rotY(float a){ float c = cos(a), s = sin(a); return mat3(c,0.0,s, 0.0,1.0,0.0, -s,0.0,c); }
 mat3 rotZ(float a){ float c = cos(a), s = sin(a); return mat3(c,-s,0.0, s,c,0.0, 0.0,0.0,1.0); }
-
-vec3 sampleGradient(float t){
-    t = clamp(t, 0.0, 1.0);
-    return texture(uGradient, vec2(t, 0.5)).rgb;
-}
-
-vec2 rot2(vec2 v, float a){
-    float s = sin(a), c = cos(a);
-    return mat2(c, -s, s, c) * v;
-}
-
-float bendAngle(vec3 q, float t){
-    float a = 0.8 * sin(q.x * 0.55 + t * 0.6)
-            + 0.7 * sin(q.y * 0.50 - t * 0.5)
-            + 0.6 * sin(q.z * 0.60 + t * 0.7);
-    return a;
-}
+vec3 sampleGradient(float t){ return texture(uGradient, vec2(clamp(t, 0.0, 1.0), 0.5)).rgb; }
+vec2 rot2(vec2 v, float a){ float s = sin(a), c = cos(a); return mat2(c, -s, s, c) * v; }
+float bendAngle(vec3 q, float t){ return 0.8 * sin(q.x * 0.55 + t * 0.6) + 0.7 * sin(q.y * 0.50 - t * 0.5) + 0.6 * sin(q.z * 0.60 + t * 0.7); }
 
 void main(){
     vec2 frag = gl_FragCoord.xy;
     float t = uTime * uSpeed;
-    float jitterAmp = 0.1 * clamp(uNoiseAmount, 0.0, 1.0);
     vec3 dir = rayDir(frag, uResolution, uOffset, 1.0);
     vec3 col = vec3(0.0);
     float n = layeredNoise(frag);
-    vec4 c = cos(t * 0.2 + vec4(0.0, 33.0, 11.0, 0.0));
-    mat2 M2 = mat2(c.x, c.y, c.z, c.w);
-    float amp = clamp(uDistort, 0.0, 50.0) * 0.15;
-
     mat3 rot3dMat = mat3(1.0);
-    if(uAnimType == 1){
-      vec3 ang = vec3(t * 0.31, t * 0.21, t * 0.17);
-      rot3dMat = rotZ(ang.z) * rotY(ang.y) * rotX(ang.x);
-    }
+    if(uAnimType == 1){ vec3 ang = vec3(t * 0.31, t * 0.21, t * 0.17); rot3dMat = rotZ(ang.z) * rotY(ang.y) * rotX(ang.x); }
     mat3 hoverMat = mat3(1.0);
-    if(uAnimType == 2){
-      vec2 m = uMouse * 2.0 - 1.0;
-      vec3 ang = vec3(m.y * 0.6, m.x * 0.6, 0.0);
-      hoverMat = rotY(ang.y) * rotX(ang.x);
-    }
-
+    if(uAnimType == 2){ vec2 m = uMouse * 2.0 - 1.0; vec3 ang = vec3(m.y * 0.6, m.x * 0.6, 0.0); hoverMat = rotY(ang.y) * rotX(ang.x); }
     float marchT = 0.0;
     for (int i = 0; i < 44; ++i) {
-        vec3 P = marchT * dir;
-        P.z -= 2.0;
-        float rad = length(P);
-        vec3 Pl = P * (10.0 / max(rad, 1e-6));
-
-        if(uAnimType == 0){
-            Pl.xz *= M2;
-        } else if(uAnimType == 1){
-            Pl = rot3dMat * Pl;
-        } else {
-            Pl = hoverMat * Pl;
-        }
-
-        float stepLen = min(rad - 0.3, n * jitterAmp) + 0.1;
+        vec3 P = marchT * dir; P.z -= 2.0;
+        float rad = length(P); vec3 Pl = P * (10.0 / max(rad, 1e-6));
+        if(uAnimType == 0){ vec4 c = cos(t * 0.2 + vec4(0.0, 33.0, 11.0, 0.0)); Pl.xz *= mat2(c.x, c.y, c.z, c.w); }
+        else if(uAnimType == 1){ Pl = rot3dMat * Pl; }
+        else { Pl = hoverMat * Pl; }
+        float stepLen = min(rad - 0.3, n * 0.1 * uNoiseAmount) + 0.1;
         float grow = smoothstep(0.35, 3.0, marchT);
-        float a1 = amp * grow * bendAngle(Pl * 0.6, t);
-        float a2 = 0.5 * amp * grow * bendAngle(Pl.zyx * 0.5 + 3.1, t * 0.9);
-        vec3 Pb = Pl;
-        Pb.xz = rot2(Pb.xz, a1);
-        Pb.xy = rot2(Pb.xy, a2);
-
-        float rayPattern = smoothstep(
-            0.5, 0.7,
-            sin(Pb.x + cos(Pb.y) * cos(Pb.z)) *
-            sin(Pb.z + sin(Pb.y) * cos(Pb.x + t))
-        );
-
+        vec3 Pb = Pl; Pb.xz = rot2(Pb.xz, uDistort * 0.15 * grow * bendAngle(Pl * 0.6, t));
+        Pb.xy = rot2(Pb.xy, 0.5 * uDistort * 0.15 * grow * bendAngle(Pl.zyx * 0.5 + 3.1, t * 0.9));
+        float rayPattern = smoothstep(0.5, 0.7, sin(Pb.x + cos(Pb.y) * cos(Pb.z)) * sin(Pb.z + sin(Pb.y) * cos(Pb.x + t)));
         if (uRayCount > 0) {
             float ang = atan(Pb.y, Pb.x);
-            float comb = 0.5 + 0.5 * cos(float(uRayCount) * ang);
-            comb = pow(comb, 3.0);
-            rayPattern *= smoothstep(0.15, 0.95, comb);
+            rayPattern *= smoothstep(0.15, 0.95, pow(0.5 + 0.5 * cos(float(uRayCount) * ang), 3.0));
         }
-
-        vec3 spectralDefault = 1.0 + vec3(
-            cos(marchT * 3.0 + 0.0),
-            cos(marchT * 3.0 + 1.0),
-            cos(marchT * 3.0 + 2.0)
-        );
-
         float saw = fract(marchT * 0.25);
-        float tRay = saw * saw * (3.0 - 2.0 * saw);
-        vec3 userGradient = 2.0 * sampleGradient(tRay);
-        vec3 spectral = (uColorCount > 0) ? userGradient : spectralDefault;
-        vec3 base = (0.05 / (0.4 + stepLen))
-                  * smoothstep(5.0, 0.0, rad)
-                  * spectral;
-
-        col += base * rayPattern;
+        vec3 spectral = (uColorCount > 0) ? 2.0 * sampleGradient(saw * saw * (3.0 - 2.0 * saw)) : 1.0 + vec3(cos(marchT * 3.0), cos(marchT * 3.0 + 1.0), cos(marchT * 3.0 + 2.0));
+        col += (0.05 / (0.4 + stepLen)) * smoothstep(5.0, 0.0, rad) * spectral * rayPattern;
         marchT += stepLen;
     }
-
-    col *= edgeFade(frag, uResolution, uOffset);
-    col *= uIntensity;
+    col *= edgeFade(frag, uResolution, uOffset) * uIntensity;
     fragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
-}`;
+}
+`;
+
+// Fragment Shader برای موبایل (PixelCard Style)
+const pixelFragment = `#version 300 es
+precision highp float;
+out vec4 fragColor;
+uniform vec2 uResolution;
+uniform float uTime;
+uniform vec3 uColor0;
+uniform vec2 uMouse;
+
+void main() {
+    vec2 uv = gl_FragCoord.xy / uResolution.xy;
+    vec2 grid = fract(uv * 30.0);
+    float dist = length(uv - uMouse);
+    float mask = smoothstep(0.4, 0.0, dist);
+    vec3 col = uColor0 * mask * (0.5 + 0.5 * sin(uTime + uv.x * 10.0));
+    fragColor = vec4(col * step(0.1, grid.x) * step(0.1, grid.y), 1.0);
+}
+`;
 
 const hexToRgb01 = hex => {
-  let h = hex.trim();
-  if (h.startsWith('#')) h = h.slice(1);
-  if (h.length === 3) {
-    const r = h[0], g = h[1], b = h[2];
-    h = r + r + g + g + b + b;
-  }
-  const intVal = parseInt(h, 16);
-  if (isNaN(intVal) || (h.length !== 6 && h.length !== 8)) return [1, 1, 1];
-  return [((intVal >> 16) & 255) / 255, ((intVal >> 8) & 255) / 255, (intVal & 255) / 255];
+    let h = hex.trim().replace('#', '');
+    if (h.length === 3) h = h.split('').map(x => x + x).join('');
+    const intVal = parseInt(h, 16);
+    return [((intVal >> 16) & 255) / 255, ((intVal >> 8) & 255) / 255, (intVal & 255) / 255];
 };
 
 const PrismaticBurst = ({
-  intensity = 2,
-  speed = 0.5,
-  animationType = 'hover',
-  color0 = "#f3bc08",
-  color1 = "#d1765c",
-  color2 = "#a010d6",
-  distort = 0.3,
-  paused = false,
-  offset = { x: 0, y: 0 },
-  hoverDampness = 0.1,
-  rayCount = 0,
-  mixBlendMode = 'lighten'
+    intensity = 2, speed = 0.5, animationType = 'hover',
+    color0 = "#f3bc08", color1 = "#d1765c", color2 = "#a010d6",
+    distort = 0.3, paused = false, offset = { x: 0, y: 0 },
+    hoverDampness = 0.1, rayCount = 0, mixBlendMode = 'lighten'
 }) => {
-  const containerRef = useRef(null);
-  const programRef = useRef(null);
-  const rendererRef = useRef(null);
-  const mouseTargetRef = useRef([0.5, 0.5]);
-  const mouseSmoothRef = useRef([0.5, 0.5]);
-  const gradTexRef = useRef(null);
+    const containerRef = useRef(null);
+    const rendererRef = useRef(null);
+    const mouseRef = useRef([0.5, 0.5]);
+    const isMobile = typeof window !== 'undefined' && window.matchMedia("(pointer: coarse)").matches;
 
-  const isMobile = typeof window !== 'undefined' && window.matchMedia("(pointer: coarse)").matches;
+    useEffect(() => {
+        if (!containerRef.current) return;
+        const container = containerRef.current;
+        const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 2);
+        const renderer = new Renderer({ dpr, alpha: false, antialias: false });
+        rendererRef.current = renderer;
+        const gl = renderer.gl;
+        gl.canvas.style.position = 'absolute';
+        gl.canvas.style.inset = '0';
+        gl.canvas.style.mixBlendMode = mixBlendMode;
+        container.appendChild(gl.canvas);
 
-  useEffect(() => {
-    if (isMobile || !containerRef.current) return;
+        const program = new Program(gl, {
+            vertex: vertexShader,
+            fragment: isMobile ? pixelFragment : prismaticFragment,
+            uniforms: {
+                uResolution: { value: [0, 0] },
+                uTime: { value: 0 },
+                uIntensity: { value: intensity },
+                uSpeed: { value: speed },
+                uAnimType: { value: animationType === 'rotate' ? 0 : animationType === 'rotate3d' ? 1 : 2 },
+                uMouse: { value: [0.5, 0.5] },
+                uColorCount: { value: 3 },
+                uDistort: { value: distort },
+                uOffset: { value: [offset.x, offset.y] },
+                uNoiseAmount: { value: 0.8 },
+                uRayCount: { value: rayCount },
+                uColor0: { value: hexToRgb01(color0) }, // مخصوص افکت موبایل
+                uGradient: { value: new Texture(gl) }
+            }
+        });
 
-    const container = containerRef.current;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const renderer = new Renderer({ dpr, alpha: false, antialias: false });
-    rendererRef.current = renderer;
+        const mesh = new Mesh(gl, { geometry: new Triangle(gl), program });
+        const resize = () => {
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            program.uniforms.uResolution.value = [gl.drawingBufferWidth, gl.drawingBufferHeight];
+        };
+        window.addEventListener('resize', resize);
+        resize();
 
-    const gl = renderer.gl;
-    gl.canvas.style.position = 'absolute';
-    gl.canvas.style.inset = '0';
-    gl.canvas.style.mixBlendMode = mixBlendMode && mixBlendMode !== 'none' ? mixBlendMode : '';
-    container.appendChild(gl.canvas);
+        let raf, last = performance.now(), accum = 0;
+        const update = now => {
+            const dt = (now - last) * 0.001;
+            last = now;
+            if (!paused) accum += dt;
+            program.uniforms.uTime.value = accum;
+            program.uniforms.uMouse.value = mouseRef.current;
+            renderer.render({ scene: mesh });
+            raf = requestAnimationFrame(update);
+        };
+        raf = requestAnimationFrame(update);
 
-    const white = new Uint8Array([255, 255, 255, 255]);
-    const gradientTex = new Texture(gl, {
-      image: white,
-      width: 1,
-      height: 1,
-      generateMipmaps: false,
-      flipY: false
-    });
-    gradientTex.wrapS = gradientTex.wrapT = gl.CLAMP_TO_EDGE;
-    gradTexRef.current = gradientTex;
+        const onMove = e => {
+            const x = e.touches ? e.touches[0].clientX : e.clientX;
+            const y = e.touches ? e.touches[0].clientY : e.clientY;
+            mouseRef.current = [x / window.innerWidth, 1 - y / window.innerHeight];
+        };
+        window.addEventListener(isMobile ? 'touchmove' : 'mousemove', onMove);
 
-    const program = new Program(gl, {
-      vertex: vertexShader,
-      fragment: fragmentShader,
-      uniforms: {
-        uResolution: { value: [1, 1] },
-        uTime: { value: 0 },
-        uIntensity: { value: intensity },
-        uSpeed: { value: speed },
-        uAnimType: { value: animationType === 'rotate' ? 0 : animationType === 'rotate3d' ? 1 : 2 },
-        uMouse: { value: [0.5, 0.5] },
-        uColorCount: { value: 3 },
-        uDistort: { value: distort },
-        uOffset: { value: [offset.x, offset.y] },
-        uGradient: { value: gradientTex },
-        uNoiseAmount: { value: 0.8 },
-        uRayCount: { value: rayCount }
-      }
-    });
-    programRef.current = program;
+        return () => {
+            cancelAnimationFrame(raf);
+            window.removeEventListener('resize', resize);
+            window.removeEventListener(isMobile ? 'touchmove' : 'mousemove', onMove);
+            try { container.removeChild(gl.canvas); } catch {}
+        };
+    }, [isMobile]);
 
-    const mesh = new Mesh(gl, { geometry: new Triangle(gl), program });
-
-    const resize = () => {
-      renderer.setSize(container.clientWidth, container.clientHeight);
-      program.uniforms.uResolution.value = [gl.drawingBufferWidth, gl.drawingBufferHeight];
-    };
-    let ro = new ResizeObserver(resize);
-    ro.observe(container);
-    resize();
-
-    let raf, last = performance.now(), accumTime = 0;
-    const update = now => {
-      const dt = (now - last) * 0.001;
-      last = now;
-      if (!paused) accumTime += dt;
-      
-      const tau = 0.02 + Math.max(0, Math.min(1, hoverDampness)) * 0.5;
-      const alpha = 1 - Math.exp(-dt / tau);
-      mouseSmoothRef.current[0] += (mouseTargetRef.current[0] - mouseSmoothRef.current[0]) * alpha;
-      mouseSmoothRef.current[1] += (mouseTargetRef.current[1] - mouseSmoothRef.current[1]) * alpha;
-
-      program.uniforms.uMouse.value = mouseSmoothRef.current;
-      program.uniforms.uTime.value = accumTime;
-      renderer.render({ scene: mesh });
-      raf = requestAnimationFrame(update);
-    };
-    raf = requestAnimationFrame(update);
-
-    const handleMouseMove = (e) => {
-      mouseTargetRef.current = [e.clientX / window.innerWidth, 1 - (e.clientY / window.innerHeight)];
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-
-    return () => {
-      cancelAnimationFrame(raf);
-      ro?.disconnect();
-      window.removeEventListener('mousemove', handleMouseMove);
-      try { container.removeChild(gl.canvas); } catch {}
-    };
-  }, [isMobile]);
-
-  useEffect(() => {
-    if (isMobile || !programRef.current || !gradTexRef.current) return;
-    const colors = [color0, color1, color2];
-    const data = new Uint8Array(colors.length * 4);
-    colors.forEach((c, i) => {
-      const rgb = hexToRgb01(c);
-      data.set([Math.round(rgb[0]*255), Math.round(rgb[1]*255), Math.round(rgb[2]*255), 255], i * 4);
-    });
-    const tex = gradTexRef.current;
-    tex.image = data;
-    tex.width = colors.length;
-    tex.needsUpdate = true;
-    programRef.current.uniforms.uColorCount.value = colors.length;
-    programRef.current.uniforms.uIntensity.value = intensity;
-    programRef.current.uniforms.uSpeed.value = speed;
-    programRef.current.uniforms.uDistort.value = distort;
-    programRef.current.uniforms.uAnimType.value = animationType === 'rotate' ? 0 : animationType === 'rotate3d' ? 1 : 2;
-  }, [color0, color1, color2, isMobile, intensity, speed, animationType, distort]);
-
-  if (isMobile) return null;
-
-  return <div style={{width: '100%', height: '100%', position: 'absolute', inset: 0, overflow: 'hidden'}} ref={containerRef} />;
+    return <div style={{ width: '100%', height: '100%', position: 'absolute', inset: 0, overflow: 'hidden' }} ref={containerRef} />;
 };
 
 export default PrismaticBurst;
