@@ -10,7 +10,7 @@ export default function GradientText({
   showBorder = false,
   direction = 'horizontal',
   pauseOnHover = false,
-  yoyo = false
+  yoyo = false // غیرفعال کردن حالت رفت و برگشتی
 }) {
   const [isPaused, setIsPaused] = useState(false);
   const progress = useMotionValue(0);
@@ -34,7 +34,7 @@ export default function GradientText({
     lastTimeRef.current = time;
     elapsedRef.current += deltaTime;
 
-    // پیشرفت انیمیشن به صورت مداوم
+    // محاسبه پیشرفت به صورت خطی برای حرکت مداوم
     const totalProgress = (elapsedRef.current / animationDuration) * 100;
     progress.set(totalProgress);
   });
@@ -44,8 +44,8 @@ export default function GradientText({
     progress.set(0);
   }, [animationSpeed]);
 
-  // جابه‌جایی پس‌زمینه به صورت یکنواخت (تکرار در هر ۱۰۰ درصد)
-  const backgroundPosition = useTransform(progress, p => `${p % 100}% 50%`);
+  // استفاده از مقادیر منفی برای حرکت از چپ به راست (Infinite Slide)
+  const backgroundPosition = useTransform(progress, p => `-${p % 200}% 50%`);
 
   const handleMouseEnter = useCallback(() => {
     if (pauseOnHover) setIsPaused(true);
@@ -55,12 +55,12 @@ export default function GradientText({
     if (pauseOnHover) setIsPaused(false);
   }, [pauseOnHover]);
 
-  // کلید حل مشکل: تکرار کامل لیست رنگ‌ها برای اتصال بی‌نقص
-  const seamlessColors = [...colors, ...colors].join(', ');
+  // تکرار رنگ‌ها برای ایجاد یک چرخه بی‌پایان و بدون پرش (Seamless Loop)
+  const gradientColors = [...colors, ...colors].join(', ');
 
   const gradientStyle = {
-    backgroundImage: `linear-gradient(to right, ${seamlessColors})`,
-    backgroundSize: '200% 100%', // پس‌زمینه دو برابر عرض متن است
+    backgroundImage: `linear-gradient(to right, ${gradientColors})`,
+    backgroundSize: '200% 100%',
     backgroundRepeat: 'repeat'
   };
 
