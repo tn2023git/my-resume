@@ -6,7 +6,7 @@ export default function GradientText({
   children,
   className = '',
   // لیست اصلی رنگ‌ها بدون تکرار دستی
-  colors = ["#DF9339", "#D1765C", "#A010D6","#D1765C", "#DF9339", "#F3BC08", "#DF9339","#D1765C"],
+  colors = ["#DF9339", "#D1765C", "#A010D6","#D1765C", "#DF9339", "#F3BC08"],
   animationSpeed = 8,
   showBorder = false,
   pauseOnHover = false,
