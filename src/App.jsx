@@ -103,7 +103,9 @@ function App() {
             <h1>{content.name}</h1>
             <p className="subtitle">{content.title}</p>
           </div>
-          <img src={profilePic} alt="Amirali" className="profile-img" />
+          <div className="profile-container">
+            <img src={profilePic} alt="Amirali" className="profile-img" />
+          </div>
         </header>
 
         <div className="resume-grid">
@@ -157,13 +159,12 @@ function App() {
         </div>
       </div>
 
-      {/* Floating Translate Button Container */}
       <div className="floating-lang-switcher">
-        <button className={`flag-btn ${!isEn ? 'active' : ''}`} onClick={() => setLang('fa')}>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Flag_of_Iran.svg" alt="Farsi" />
-        </button>
         <button className={`flag-btn ${isEn ? 'active' : ''}`} onClick={() => setLang('en')}>
           <img src="https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg" alt="English" />
+        </button>
+        <button className={`flag-btn ${!isEn ? 'active' : ''}`} onClick={() => setLang('fa')}>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Flag_of_Iran.svg" alt="Farsi" />
         </button>
       </div>
     </div>
