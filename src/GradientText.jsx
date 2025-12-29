@@ -10,7 +10,7 @@ export default function GradientText({
   showBorder = false,
   direction = 'horizontal',
   pauseOnHover = false,
-  yoyo = false // غیرفعال کردن حالت رفت و برگشتی
+  yoyo = true // غیرفعال کردن حالت رفت و برگشتی
 }) {
   const [isPaused, setIsPaused] = useState(false);
   const progress = useMotionValue(0);
