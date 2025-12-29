@@ -81,7 +81,7 @@ function App() {
           desc: "Instructed English learners through structured curriculum and interactive teaching methods to improve language proficiency." 
         },
         { 
-          role: "Customer Support Specialist", 
+          role: "Customer Support <br>Specialist", 
           company: "Tempus Logix", 
           date: "Jan 2020 - Sep 2020", 
           duration: "8 Months", 
