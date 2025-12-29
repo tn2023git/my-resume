@@ -22,11 +22,19 @@
 }
 
 :root {
-  --purple: #9b59b6;
-  --yellow: #f1c40f;
+  /* The Four Specific Colors */
+  --c1: #F3BC08;
+  --c2: #DF9339;
+  --c3: #D1765C;
+  --c4: #A010D6;
+  
+  --purple: var(--c4);
   --bg: #0f0f0f;
   --paper: #1a1a1a;
   --section-spacing: 50px;
+  
+  /* Full Four-Color Gradient */
+  --full-gradient: linear-gradient(90deg, var(--c1), var(--c2), var(--c3), var(--c4));
 }
 
 .app-wrapper {
@@ -54,14 +62,25 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid var(--yellow);
+  /* Border uses a blend color for smoothness */
+  border-bottom: 2px solid var(--c2);
   padding-bottom: 30px;
   margin-bottom: var(--section-spacing);
   flex-wrap: wrap;
   gap: 20px;
 }
 
-.header-text h1 { color: var(--yellow); margin: 0; font-size: 3.5rem; line-height: 1.1; }
+/* Full Gradient on Name */
+.header-text h1 { 
+  background: var(--full-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0; 
+  font-size: 3.5rem; 
+  line-height: 1.1; 
+}
+
 .subtitle { color: var(--purple); font-size: 1.6rem; margin-top: 10px; }
 
 .profile-img {
@@ -72,7 +91,7 @@
   object-fit: cover;
 }
 
-/* Software Skills Inline Fix */
+/* Software Skills */
 .software-item {
   display: flex;
   justify-content: space-between;
@@ -106,24 +125,55 @@
 /* GRID & SECTIONS */
 .resume-grid { display: grid; grid-template-columns: 380px 1fr; gap: 70px; }
 .side-section { margin-bottom: var(--section-spacing); }
-.yellow-text { color: var(--yellow); border-bottom: 1px solid #444; padding-bottom: 10px; margin-bottom: 25px; }
+
+/* Full Gradient on Sidebar/Main Section Titles */
+.yellow-text { 
+  background: var(--full-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  border-bottom: 1px solid #444; 
+  padding-bottom: 10px; 
+  margin-bottom: 25px; 
+  display: inline-block;
+  width: 100%;
+}
 
 .skills-grid { display: flex; flex-wrap: wrap; gap: 8px; }
-.skill-tag { background: #2a2a2a; padding: 5px 14px; border-radius: 20px; font-size: 0.9rem; border-left: 3px solid var(--purple); }
+.skill-tag { 
+  background: #2a2a2a; 
+  padding: 5px 14px; 
+  border-radius: 20px; 
+  font-size: 0.9rem; 
+  border-left: 3px solid var(--purple); 
+}
 .rtl-mode .skill-tag { border-left: none; border-right: 3px solid var(--purple); }
 
 .project-link { display: block; color: var(--purple); text-decoration: none; margin-bottom: 10px; font-weight: bold; }
 
 .exp-card { margin-bottom: 45px; border-bottom: 1px solid #333; padding-bottom: 25px; }
 .exp-row { display: flex; justify-content: space-between; font-size: 1.25rem; flex-wrap: wrap; }
-.job-company { margin: 5px 0; }
+
+/* Company Names use the solid 4th color */
+.job-company { margin: 5px 0; color: var(--purple); }
+
+/* Job Duration uses the full 4-color gradient */
+.job-duration.yellow-text {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  display: inline-block;
+  width: auto;
+}
+
 .job-date { 
-  font-style: normal; /* تغییر از italic به normal */
+  font-style: normal;
   color: #888; 
   font-size: 0.95rem; 
   margin-top: 5px;
 }
 .job-desc { color: #ccc; line-height: 1.6; margin-top: 15px; font-size: 1rem; }
+
 .floating-lang-switcher {
   position: fixed;
   bottom: 30px;
@@ -138,28 +188,18 @@
   gap: 15px;
   border: 1px solid var(--purple);
   z-index: 9999;
-  
-  /* اضافه کردن سایه ملایم و عمیق */
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 10px rgba(155, 89, 182, 0.2);
-  
-  /* انیمیشن کندتر (5 ثانیه) */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 10px rgba(160, 16, 214, 0.2);
   animation: float-slow 5s ease-in-out infinite;
 }
 
-/* تعریف انیمیشن با حرکت کمتر (8 پیکسل) */
 @keyframes float-slow {
-  0% {
-    transform: translate(-50%, 0px);
-  }
-  50% {
-    transform: translate(-50%, -8px); /* جابجایی کمتر برای ظرافت بیشتر */
-  }
-  100% {
-    transform: translate(-50%, 0px);
-  }
+  0% { transform: translate(-50%, 0px); }
+  50% { transform: translate(-50%, -8px); }
+  100% { transform: translate(-50%, 0px); }
 }
+
 .flag-btn { background: none; border: 2px solid transparent; padding: 2px; border-radius: 50%; display: flex; transition: 0.3s; }
-.flag-btn.active { border-color: var(--yellow); transform: scale(1.1); }
+.flag-btn.active { border-color: var(--c1); transform: scale(1.1); }
 .flag-btn img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; }
 
 /* RESPONSIVE */
