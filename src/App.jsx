@@ -110,7 +110,6 @@ function App() {
     <div className={`app-wrapper ${isEn ? 'ltr-mode' : 'rtl-mode'}`}>
       <div className="bg-container">
         {isMobile ? (
-          /* کاهش gap به 5 برای افزایش تراکم پیکسل‌ها در موبایل */
           <PixelCard isStatic={true} className="mobile-bg-pixel" gap={5} speed={25} />
         ) : (
           <PrismaticBurst intensity={1.8} speed={0.2} animationType="hover" color0="#f3bc08" color1="#d1765c" color2="#a010d6" distort={0.3} />
@@ -118,16 +117,8 @@ function App() {
       </div>
 
       <div className="pdf-page">
-        <SmartCard className="resume-header-card">
-          <header className="resume-header">
-            <div className="header-text">
-              <GradientText className="main-name bold-font">{content.name}</GradientText>
-              <p className="subtitle">{content.title}</p>
-            </div>
-            <img src={profilePic} alt="Amirali" className="profile-img" />
-          </header>
-        </SmartCard>
-
+        {/* هدر حذف شد */}
+        
         <div className="resume-grid">
           <aside className="sidebar">
             <SmartCard className="side-pixel-wrapper">
