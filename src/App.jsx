@@ -20,10 +20,15 @@ function App() {
         { label: "Email", value: "a.dmaram2023@gmail.com" }
       ],
       software: ["Adobe Photoshop", "Adobe Premiere", "WordPress", "Google Search Console"],
+      projects: [
+        { name: "IranBarc", url: "https://iranbarc.com/" },
+        { name: "Darmazon", url: "https://darmazon.com/" },
+        { name: "Atena Zist Darman", url: "https://atenazistdarman.co" }
+      ],
       experience: [
         { role: "Office Assistant", company: "Atena Zist Darman", date: "Apr 2024 - Nov 2025" },
         { role: "English Teacher", company: "Pardisan", date: "Oct 2022 - Feb 2024" },
-        { role: "Customer Support", company: "Tempus Logix", date: "Jan 2020 - Sep 2020" }
+        { role: "Customer Support Specialist", company: "Tempus Logix", date: "Jan 2020 - Sep 2020" }
       ]
     },
     fa: {
@@ -39,6 +44,11 @@ function App() {
         { label: "ایمیل", value: "a.dmaram2023@gmail.com" }
       ],
       software: ["فتوشاپ", "پریمیر", "وردپرس", "گوگل سرچ کنسول"],
+      projects: [
+        { name: "ایران بارک", url: "https://iranbarc.com/" },
+        { name: "درمازون", url: "https://darmazon.com/" },
+        { name: "آتنا زیست درمان", url: "https://atenazistdarman.co" }
+      ],
       experience: [
         { role: "منشی و مسئول دفتر", company: "آتنا زیست درمان", date: "اردیبهشت ۱۴۰۳ - آذر ۱۴۰۴" },
         { role: "مدرس زبان انگلیسی", company: "آموزشگاه پردیسان", date: "آبان ۱۴۰۱ - اسفند ۱۴۰۲" },
@@ -52,26 +62,30 @@ function App() {
   return (
     <div className={`app-wrapper ${isEn ? 'ltr-mode' : 'rtl-mode'}`}>
       <div className="pdf-page">
-        {/* Translation Button inside the box */}
-        <button 
-          className="toggle-btn" 
-          onClick={() => setLang(isEn ? 'fa' : 'en')}
-        >
-          {isEn ? 'فارسی' : 'English'}
-        </button>
+        {/* TRANSLATE BUTTON - Now clearly separated */}
+        <div className="button-container">
+          <button 
+            className="toggle-btn" 
+            onClick={() => setLang(isEn ? 'fa' : 'en')}
+          >
+            {isEn ? 'فارسی' : 'English'}
+          </button>
+        </div>
 
         <header className="resume-header">
           <div className="header-text">
             <h1>{content.name}</h1>
             <p className="subtitle">{content.title}</p>
           </div>
-          <img src={profilePic} alt="Amirali" className="profile-img" />
+          <div className="profile-container">
+             <img src={profilePic} alt="Amirali" className="profile-img" />
+          </div>
         </header>
 
         <div className="resume-grid">
           <aside className="sidebar">
             <section className="side-box">
-              <h3 className="yellow-text">{isEn ? "Personal" : "مشخصات"}</h3>
+              <h3 className="yellow-text">{isEn ? "Personal & Contact" : "اطلاعات فردی و تماس"}</h3>
               {content.personal.map((p, i) => <p key={i}><b>{p.label}:</b> {p.value}</p>)}
               {content.contact.map((c, i) => <p key={i}><b>{c.label}:</b> {c.value}</p>)}
             </section>
@@ -79,6 +93,15 @@ function App() {
             <section className="side-box">
               <h3 className="yellow-text">{isEn ? "Software" : "نرم‌افزار"}</h3>
               {content.software.map((s, i) => <div key={i} className="skill-item">{s}</div>)}
+            </section>
+
+            <section className="side-box">
+              <h3 className="yellow-text">{isEn ? "Samples / Projects" : "نمونه کارها"}</h3>
+              {content.projects.map((proj, i) => (
+                <a key={i} href={proj.url} target="_blank" rel="noreferrer" className="project-link">
+                  {proj.name}
+                </a>
+              ))}
             </section>
           </aside>
 
