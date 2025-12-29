@@ -193,11 +193,12 @@ body, html {
 }
 
 /* --- Experience Section --- */
-.exp-row { 
-  display: flex; 
-  justify-content: space-between; 
-  font-size: 1.25rem; 
-  flex-wrap: wrap;
+.exp-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap; /* این خط باعث می‌شود اگر جا نبود، متن به پایین برود */
+  gap: 10px;
 }
 
 .job-company { 
