@@ -7,7 +7,18 @@ import PixelCard from './PixelCard';
 
 function App() {
   const [lang, setLang] = useState('en');
+  const [isMobile, setIsMobile] = useState(false);
   const isEn = lang === 'en';
+
+  // منطق تشخیص موبایل برای تغییر نوع انیمیشن
+  useEffect(() => {
+    const checkDevice = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
+    return () => window.removeEventListener('resize', checkDevice);
+  }, []);
 
   const data = {
     en: {
@@ -171,7 +182,7 @@ function App() {
         <PrismaticBurst
           intensity={1.8}
           speed={0.2}
-          animationType="hover"
+          animationType={isMobile ? "rotate" : "hover"}
           color0="#f3bc08"
           color1="#d1765c"
           color2="#a010d6"
@@ -245,7 +256,6 @@ function App() {
           </aside>
 
           <main className="main-content">
-            {/* حذف wrapper اضافی و تراز کردن مستقیم با گرید */}
             {content.experience.map((job, i) => (
               <PixelCard key={i} variant="resume" className="exp-pixel-wrapper">
                 <div className="exp-card">
