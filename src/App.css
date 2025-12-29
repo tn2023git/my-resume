@@ -1,3 +1,4 @@
+/* --- Fonts Configuration --- */
 @font-face {
   font-family: 'Anjoman';
   src: url('./assets/fonts/Anjoman Regular.ttf') format('truetype');
@@ -18,6 +19,7 @@
 
 .bold-font { font-weight: bold !important; }
 
+/* --- Global Variables --- */
 :root {
   --c1: #F3BC08;
   --c2: #DF9339;
@@ -25,122 +27,230 @@
   --c4: #A010D6;
   --purple: var(--c4);
   --bg: #050505;
-  --glass-bg: rgba(25, 25, 25, 0.65); /* رنگ شیشه‌ای */
-  --glass-border: rgba(255, 255, 255, 0.1);
+  /* Glassmorphism Settings */
+  --glass-bg: rgba(15, 15, 15, 0.45); 
+  --glass-border: rgba(255, 255, 255, 0.08);
   --section-spacing: 25px;
 }
 
-/* Background Wrapper */
+/* --- Base Layout --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  background-color: var(--bg);
+  color: white;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* --- Prismatic Background Container --- */
 .bg-container {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: -1;
+  z-index: -1; /* Ensures it stays behind everything */
+  pointer-events: none; /* Allows clicks to pass through to the resume */
 }
 
+/* --- App Wrapper --- */
 .app-wrapper {
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  padding: 40px 0 120px 0;
+  padding: 60px 20px 120px 20px;
   position: relative;
+  z-index: 1; /* Sits above the bg-container */
 }
 
 .ltr-mode { direction: ltr; font-family: 'ProductSans', sans-serif !important; }
 .rtl-mode { direction: rtl; font-family: 'Anjoman', sans-serif !important; }
 
+/* --- Resume Page Structure --- */
 .pdf-page {
-  width: 1100px;
-  background: transparent; /* حذف پس‌زمینه اصلی برای دیدن انیمیشن */
-  padding: 40px;
-  color: white;
+  width: 100%;
+  max-width: 1100px;
+  background: transparent;
 }
 
-/* Glassmorphism Styles */
-.resume-header, .side-section, .exp-card {
+/* --- Glassmorphism Components --- */
+.resume-header, 
+.side-section, 
+.exp-card {
   background: var(--glass-bg);
-  backdrop-filter: blur(12px); /* افکت ماتی پشت باکس */
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
   border: 1px solid var(--glass-border);
-  border-radius: 15px;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+  padding: 30px;
   margin-bottom: var(--section-spacing);
+  transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
+.exp-card:hover, .side-section:hover {
+  border-color: rgba(160, 16, 214, 0.3);
+  transform: translateY(-2px);
+}
+
+/* --- Header Section --- */
 .resume-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 35px 50px;
   margin-bottom: 40px;
 }
 
-.main-name { font-size: 3.5rem; line-height: 1.1; margin-bottom: 10px; }
-.subtitle { color: var(--purple); font-size: 1.6rem; margin-top: 10px; }
-
-.profile-img {
-  width: 150px;
-  height: 150px;
-  border: 3px solid var(--purple);
-  border-radius: 12px;
-  object-fit: cover;
+.main-name { 
+  font-size: 3.5rem; 
+  line-height: 1.1; 
+  margin-bottom: 10px; 
 }
 
-.resume-grid { display: grid; grid-template-columns: 380px 1fr; gap: 30px; }
+.subtitle { 
+  color: var(--purple); 
+  font-size: 1.6rem; 
+  margin-top: 10px; 
+  opacity: 0.9;
+}
 
-.section-title, .yellow-text {
+.profile-img {
+  width: 160px;
+  height: 160px;
+  border: 3px solid var(--purple);
+  border-radius: 20px;
+  object-fit: cover;
+  box-shadow: 0 0 20px rgba(160, 16, 214, 0.3);
+}
+
+/* --- Grid Layout --- */
+.resume-grid { 
+  display: grid; 
+  grid-template-columns: 380px 1fr; 
+  gap: 30px; 
+}
+
+/* --- Sidebar Content --- */
+.yellow-text {
   font-size: 1.4rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
-  padding-bottom: 10px; 
+  padding-bottom: 12px; 
   margin-bottom: 20px; 
   display: flex;
 }
 
-.software-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; gap: 20px; }
+.side-section p {
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.software-item { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 15px; 
+  gap: 20px; 
+}
+
 .dots-container { display: flex; gap: 6px; }
-.dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.1); }
-.dot.filled { background: var(--purple); }
+.dot { 
+  width: 10px; 
+  height: 10px; 
+  border-radius: 50%; 
+  background: rgba(255,255,255,0.1); 
+}
+.dot.filled { background: var(--purple); box-shadow: 0 0 8px var(--purple); }
 
 .skills-grid { display: flex; flex-wrap: wrap; gap: 8px; }
 .skill-tag { 
-  background: rgba(255,255,255,0.05); 
-  padding: 6px 14px; 
-  border-radius: 20px; 
-  font-size: 0.9rem; 
-  border-left: 3px solid var(--purple); 
+  background: rgba(255, 255, 255, 0.05); 
+  padding: 8px 16px; 
+  border-radius: 12px; 
+  font-size: 0.85rem; 
+  border-left: 4px solid var(--purple); 
 }
-.rtl-mode .skill-tag { border-left: none; border-right: 3px solid var(--purple); }
+.rtl-mode .skill-tag { border-left: none; border-right: 4px solid var(--purple); }
 
-.project-link { display: block; color: var(--purple); text-decoration: none; margin-bottom: 10px; font-weight: bold; }
+.project-link { 
+  display: block; 
+  color: var(--c1); 
+  text-decoration: none; 
+  margin-bottom: 12px; 
+  font-weight: bold;
+  transition: opacity 0.2s;
+}
+.project-link:hover { opacity: 0.7; }
 
-.exp-row { display: flex; justify-content: space-between; font-size: 1.2rem; flex-wrap: wrap; }
-.job-company { color: var(--purple); margin: 5px 0; }
-.job-date { color: rgba(255,255,255,0.5); font-size: 0.9rem; }
-.job-desc { color: rgba(255,255,255,0.8); line-height: 1.6; margin-top: 15px; }
+/* --- Experience Section --- */
+.exp-row { 
+  display: flex; 
+  justify-content: space-between; 
+  font-size: 1.25rem; 
+  flex-wrap: wrap;
+  gap: 10px;
+}
 
+.job-role { color: white; }
+.job-company { color: var(--purple); margin: 8px 0; font-size: 1.1rem; }
+.job-date { color: rgba(255,255,255,0.5); font-size: 0.9rem; margin-bottom: 15px; }
+.job-desc { 
+  color: rgba(255,255,255,0.75); 
+  line-height: 1.7; 
+  font-size: 0.95rem;
+  text-align: justify;
+}
+
+/* --- Floating Language Switcher --- */
 .floating-lang-switcher {
   position: fixed;
-  bottom: 30px;
+  bottom: 35px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(20, 20, 20, 0.8);
-  backdrop-filter: blur(10px);
-  padding: 10px 20px;
+  background: rgba(10, 10, 10, 0.7);
+  backdrop-filter: blur(15px);
+  padding: 12px 25px;
   border-radius: 50px;
   display: flex;
-  gap: 15px;
-  border: 1px solid var(--purple);
+  gap: 20px;
+  border: 1px solid rgba(160, 16, 214, 0.5);
   z-index: 1000;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
-.flag-btn { background: none; border: 2px solid transparent; border-radius: 50%; cursor: pointer; transition: 0.3s; }
-.flag-btn.active { border-color: var(--c1); transform: scale(1.1); }
-.flag-btn img { width: 35px; height: 35px; border-radius: 50%; }
+.flag-btn { 
+  background: none; 
+  border: 2px solid transparent; 
+  border-radius: 50%; 
+  cursor: pointer; 
+  transition: all 0.3s ease; 
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
 
+.flag-btn.active { 
+  border-color: var(--c1); 
+  transform: scale(1.15); 
+}
+
+.flag-btn img { 
+  width: 35px; 
+  height: 35px; 
+  border-radius: 50%; 
+  object-fit: cover;
+}
+
+/* --- Responsive Design --- */
 @media (max-width: 1150px) {
-  .pdf-page { width: 95%; padding: 20px; }
+  .pdf-page { width: 100%; padding: 10px; }
   .resume-grid { grid-template-columns: 1fr; }
+  .resume-header { flex-direction: column; text-align: center; gap: 20px; }
+  .main-name { font-size: 2.5rem; }
+  .yellow-text { justify-content: center; }
 }

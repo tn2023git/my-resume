@@ -9,12 +9,9 @@ function App() {
   const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
   const isEn = lang === 'en';
 
-  // هندل کردن Tilt برای موبایل و حرکت ماوس برای دسکتاپ
   useEffect(() => {
     const handleOrientation = (e) => {
       if (e.beta !== null && e.gamma !== null) {
-        // تبدیل اعداد ژیروسکوپ به بازه 0 تا 1
-        // beta (tilt forward/backward) | gamma (tilt left/right)
         const x = (e.gamma + 30) / 60; 
         const y = (e.beta + 30) / 60;
         setMousePos({ 
@@ -202,8 +199,10 @@ function App() {
         <PrismaticBurst
           intensity={1.8}
           speed={0.2}
-          colors={["#f3bc08", "#d1765c", "#a010d6"]}
           animationType="hover"
+          color0="#f3bc08"
+          color1="#d1765c"
+          color2="#a010d6"
           distort={0.3}
         />
       </div>
