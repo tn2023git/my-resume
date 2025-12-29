@@ -41,14 +41,15 @@ function App() {
         { name: "Microsoft Excel", dots: 3 }, 
         { name: "WordPress", dots: 4 }, 
         { name: "Elementor", dots: 4 },
+        { name: "AI (Gemini)", dots: 4 },
         { name: "Google Search Console", dots: 2 }
       ],
       technicalSkills: [
-        { name: "WordPress Website Design", level: 90 },
         { name: "Farsi to English Translation", level: 85 },
-        { name: "Computer software repairs", level: 80 },
+        { name: "English to Farsi translation", level: 70 },
         { name: "Teaching English", level: 75 },
-        { name: "English to Farsi translation", level: 70 }
+        { name: "Computer software repairs", level: 80 },
+        { name: "WordPress Website Design", level: 90 }
       ],
       softSkills: ["Fast learner", "Team Worker", "Creativity"],
       projects: [
@@ -88,14 +89,15 @@ function App() {
         { name: "Microsoft Excel", dots: 3 }, 
         { name: "WordPress", dots: 4 }, 
         { name: "Elementor", dots: 4 },
+        { name: "AI (Gemini)", dots: 4 },
         { name: "Google Search Console", dots: 2 }
       ],
       technicalSkills: [
-        { name: "طراحی سایت وردپرس", level: 90 },
         { name: "ترجمه فارسی به انگلیسی", level: 85 },
-        { name: "تعمیرات نرم‌افزاری کامپیوتر", level: 80 },
+        { name: "ترجمه انگلیسی به فارسی", level: 70 },
         { name: "تدریس زبان انگلیسی", level: 75 },
-        { name: "ترجمه انگلیسی به فارسی", level: 70 }
+        { name: "تعمیرات نرم‌افزاری کامپیوتر", level: 80 },
+        { name: "طراحی سایت وردپرس", level: 90 }
       ],
       softSkills: ["یادگیری سریع", "کار تیمی", "خلاقیت"],
       projects: [
