@@ -5,12 +5,12 @@ import './GradientText.css';
 export default function GradientText({
   children,
   className = '',
-  colors = ["#F3BC08", "#DF9339", "#D1765C", "#A010D6", "#D1765C", "#DF9339"],
-  animationSpeed = 2,
+  colors=["#f3bc08","#df9339","#d1765c","#a010d6","#d1765c","#df9339"],
+  animationSpeed=2,
   showBorder = false,
   direction = 'horizontal',
   pauseOnHover = false,
-  yoyo = false
+  yoyo=false
 }) {
   const [isPaused, setIsPaused] = useState(false);
   const progress = useMotionValue(0);
