@@ -55,7 +55,7 @@ body, html {
   height: 100vh;
   z-index: -1;
   pointer-events: none;
-  will-change: transform; /* پیشنهاد ۶: شتاب‌دهنده */
+  will-change: transform;
 }
 
 .app-wrapper {
@@ -89,17 +89,17 @@ body, html {
   height: auto !important;
   display: block !important;
   overflow: hidden;
-  will-change: opacity, transform; /* پیشنهاد ۶ */
+  will-change: opacity, transform;
 }
 
-/* پیشنهاد ۴: بهینه‌سازی بلور در موبایل */
+/* بهینه‌سازی عملکرد گرافیکی در موبایل */
 @media (max-width: 768px) {
   .resume-header-card,
   .side-pixel-wrapper,
   .exp-pixel-wrapper {
-    backdrop-filter: blur(8px); /* کاهش سنگینی رندر */
+    backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    background: rgba(15, 15, 15, 0.75) !important; /* تیره کردن برای جبران بلور کمتر */
+    background: rgba(15, 15, 15, 0.75) !important;
   }
 }
 
@@ -258,7 +258,7 @@ body, html {
   direction: ltr !important;
   animation: float 2s ease-in-out infinite;
   transition: box-shadow 0.3s ease;
-  will-change: transform; /* پیشنهاد ۶ */
+  will-change: transform;
 }
 
 .flag-btn { 
@@ -289,6 +289,52 @@ body, html {
   border-radius: 50%; 
   object-fit: cover;
   display: block;
+}
+
+/* --- PixelCard Base Styles --- */
+.pixel-card {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+}
+
+.pixel-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.pixel-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+
+/* غیرفعال کردن افکت نوری در موبایل برای بهبود عملکرد */
+@media (pointer: fine) {
+  .pixel-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(160, 16, 214, 0.1), transparent 80%);
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+  }
+
+  .pixel-card:hover::after {
+    opacity: 1;
+  }
 }
 
 /* --- Responsive & Mobile Gap Fix --- */

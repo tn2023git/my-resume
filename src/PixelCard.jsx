@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import './PixelCard.css';
 
 class Pixel {
@@ -74,18 +74,18 @@ export default function PixelCard({ variant = 'resume', gap, speed, colors, noFo
   const pixelsRef = useRef([]);
   const animationRef = useRef(null);
   const timePreviousRef = useRef(performance.now());
-  const reducedMotion = useRef(window.matchMedia('(prefers-reduced-motion: reduce)').matches).current;
-  const isMobile = window.matchMedia("(pointer: coarse)").matches;
+  
+  // تشخیص موبایل
+  const isMobile = typeof window !== 'undefined' && window.matchMedia("(pointer: coarse)").matches;
+  const reducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const variantCfg = VARIANTS[variant] || VARIANTS.resume;
-  
-  // پیشنهاد ۳: افزایش فاصله پیکسل‌ها در موبایل برای کاهش محاسبات
-  const finalGap = gap ?? (isMobile ? 12 : variantCfg.gap); 
+  const finalGap = gap ?? variantCfg.gap;
   const finalSpeed = speed ?? variantCfg.speed;
   const finalColors = colors ?? variantCfg.colors;
 
   const initPixels = () => {
-    if (!containerRef.current || !canvasRef.current) return;
+    if (isMobile || !containerRef.current || !canvasRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const width = Math.floor(rect.width);
     const height = Math.floor(rect.height);
@@ -105,15 +105,12 @@ export default function PixelCard({ variant = 'resume', gap, speed, colors, noFo
   };
 
   const doAnimate = fnName => {
+    if (isMobile) return;
     animationRef.current = requestAnimationFrame(() => doAnimate(fnName));
     const timeNow = performance.now();
     const timePassed = timeNow - timePreviousRef.current;
-    
-    // پیشنهاد ۲: محدود کردن فریم‌ریت در موبایل
-    const targetFPS = isMobile ? 30 : 60;
-    if (timePassed < 1000 / targetFPS) return;
-    
-    timePreviousRef.current = timeNow - (timePassed % (1000 / targetFPS));
+    if (timePassed < 1000 / 60) return;
+    timePreviousRef.current = timeNow - (timePassed % (1000 / 60));
 
     const ctx = canvasRef.current?.getContext('2d');
     if (!ctx || !canvasRef.current) return;
@@ -127,38 +124,26 @@ export default function PixelCard({ variant = 'resume', gap, speed, colors, noFo
   };
 
   const handleAnimation = name => {
+    if (isMobile) return;
     cancelAnimationFrame(animationRef.current);
     animationRef.current = requestAnimationFrame(() => doAnimate(name));
   };
 
   useEffect(() => {
-    initPixels();
-    
-    // پیشنهاد ۷: انیمیشن هوشمند (فقط وقتی کارت دیده می‌شود)
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          if (isMobile) handleAnimation('appear');
-        } else {
-          if (isMobile) cancelAnimationFrame(animationRef.current);
-        }
-      });
-    }, { threshold: 0.1 });
+    if (isMobile) return;
 
-    if (containerRef.current) observer.observe(containerRef.current);
+    initPixels();
     
     const resizeObserver = new ResizeObserver(() => {
       initPixels();
-      if (isMobile) handleAnimation('appear');
     });
     if (containerRef.current) resizeObserver.observe(containerRef.current);
     
     return () => {
-      observer.disconnect();
       resizeObserver.disconnect();
       cancelAnimationFrame(animationRef.current);
     };
-  }, [finalGap, finalSpeed, finalColors]);
+  }, [finalGap, finalSpeed, finalColors, isMobile]);
 
   const onMouseEnter = () => {
     if (!isMobile) handleAnimation('appear');
@@ -174,7 +159,7 @@ export default function PixelCard({ variant = 'resume', gap, speed, colors, noFo
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      <canvas className="pixel-canvas" ref={canvasRef} />
+      {!isMobile && <canvas className="pixel-canvas" ref={canvasRef} />}
       <div className="pixel-content">{children}</div>
     </div>
   );
