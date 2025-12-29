@@ -5,8 +5,8 @@ import './GradientText.css';
 export default function GradientText({
   children,
   className = '',
-  // لیست اصلی رنگ‌ها بدون تکرار دستی
-  colors = ["#DF9339", "#D1765C", "#A010D6","#D1765C", "#DF9339", "#F3BC08"],
+  // لیست را به ۴ رنگ اصلی کاهش دادم تا فواصل بازتر و یکنواخت شوند
+  colors = ["#F3BC08", "#DF9339", "#D1765C", "#A010D6"],
   animationSpeed = 8,
   showBorder = false,
   pauseOnHover = false,
@@ -20,7 +20,6 @@ export default function GradientText({
 
   useEffect(() => {
     if (textRef.current) {
-      // استفاده از getBoundingClientRect برای دقت بالاتر در پیکسل
       setTextWidth(textRef.current.getBoundingClientRect().width);
     }
   }, [children]);
@@ -31,7 +30,6 @@ export default function GradientText({
     const moveAmount = (delta / animationDuration) * textWidth;
     const nextX = x.get() - moveAmount;
 
-    // ریست کردن موقعیت بدون پرش (Seamless Reset)
     if (nextX <= -textWidth) {
       x.set(nextX + textWidth);
     } else {
@@ -50,19 +48,19 @@ export default function GradientText({
   }, [pauseOnHover]);
 
   /**
-   * منطق توزیع یکنواخت رنگ‌ها:
-   * برای اینکه فاصله رنگ آخر تا اول هم یکسان باشد، رنگ اول را در انتها اضافه می‌کنیم
-   * و درصدها را طوری تقسیم می‌کنیم که فواصل کاملاً برابر باشند.
+   * برای حل مشکل نزدیکی بنفش و زرد:
+   * ما از ۲ برابر عرض متن برای پس‌زمینه استفاده می‌کنیم تا رنگ‌ها فضای بیشتری برای پخش شدن داشته باشند.
    */
   const generateUniformGradient = () => {
-    const fullColors = [...colors, colors[0]]; // اضافه کردن رنگ اول به انتها
+    const fullColors = [...colors, colors[0]]; 
     const step = 100 / (fullColors.length - 1);
     return fullColors.map((color, index) => `${color} ${index * step}%`).join(', ');
   };
 
   const gradientStyle = {
     backgroundImage: `linear-gradient(to right, ${generateUniformGradient()})`,
-    backgroundSize: `${textWidth}px 100%`,
+    // افزایش سایز به ۲ برابر عرض متن باعث می‌شود فاصله رنگ‌ها ۲ برابر بیشتر شود
+    backgroundSize: `${textWidth * 2}px 100%`,
     backgroundRepeat: 'repeat-x',
   };
 
