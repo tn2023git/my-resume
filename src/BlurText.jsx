@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { useEffect, useRef, useState, useMemo } from 'react';
-import GradientText from './GradientText'; // مطمئن شوید مسیر فایل درست است
+import GradientText from './GradientText';
 
 const buildKeyframes = (from, steps) => {
   const keys = new Set([...Object.keys(from), ...steps.flatMap(s => Object.keys(s))]);
@@ -21,7 +21,7 @@ const BlurText = ({
   rootMargin = '0px',
   animationFrom,
   animationTo,
-  easing = t => t,
+  easing = 'easeOut',
   onAnimationComplete,
   stepDuration = 0.35,
 }) => {
@@ -30,18 +30,28 @@ const BlurText = ({
   const ref = useRef(null);
 
   useEffect(() => {
-    if (!ref.current) return;
+    const currentRef = ref.current;
+    if (!currentRef) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setInView(true);
-          observer.unobserve(ref.current);
+          observer.unobserve(currentRef);
         }
       },
       { threshold, rootMargin }
     );
-    observer.observe(ref.current);
-    return () => observer.disconnect();
+
+    observer.observe(currentRef);
+    
+    // یک Fallback برای اطمینان: اگر بعد از ۱ ثانیه هنوز InView نشده بود، اجباراً نمایش بده
+    const timer = setTimeout(() => setInView(true), 1000);
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(timer);
+    };
   }, [threshold, rootMargin]);
 
   const defaultFrom = useMemo(
@@ -63,32 +73,28 @@ const BlurText = ({
   const totalDuration = stepDuration * (stepCount - 1);
   const times = Array.from({ length: stepCount }, (_, i) => (stepCount === 1 ? 0 : i / (stepCount - 1)));
 
+  const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots);
+
   return (
     <GradientText className={className}>
-      <div ref={ref} style={{ display: 'flex', flexWrap: 'wrap' }}>
-        {elements.map((segment, index) => {
-          const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots);
-          const spanTransition = {
-            duration: totalDuration,
-            times,
-            delay: (index * delay) / 1000,
-            ease: easing
-          };
-
-          return (
-            <motion.span
-              className="inline-block will-change-[transform,filter,opacity]"
-              key={index}
-              initial={fromSnapshot}
-              animate={inView ? animateKeyframes : fromSnapshot}
-              transition={spanTransition}
-              onAnimationComplete={index === elements.length - 1 ? onAnimationComplete : undefined}
-            >
-              {segment === ' ' ? '\u00A0' : segment}
-              {animateBy === 'words' && index < elements.length - 1 && '\u00A0'}
-            </motion.span>
-          );
-        })}
+      <div ref={ref} style={{ display: 'flex', flexWrap: 'wrap', minHeight: '1em' }}>
+        {elements.map((segment, index) => (
+          <motion.span
+            key={index}
+            initial={fromSnapshot}
+            animate={inView ? animateKeyframes : fromSnapshot}
+            transition={{
+              duration: totalDuration,
+              times,
+              delay: (index * delay) / 1000,
+              ease: easing
+            }}
+            style={{ display: 'inline-block', whiteSpace: 'pre' }}
+          >
+            {segment === '' ? '\u00A0' : segment}
+            {animateBy === 'words' && index < elements.length - 1 && '\u00A0'}
+          </motion.span>
+        ))}
       </div>
     </GradientText>
   );
