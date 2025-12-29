@@ -118,7 +118,8 @@ void main(){
       hoverMat = rotY(ang.y) * rotX(ang.x);
     }
 
-    int loops = uIsMobile ? 12 : 44; 
+    // افزایش تعداد حلقه‌ها برای پرتر شدن بک‌گراند
+    int loops = uIsMobile ? 22 : 44; 
     float marchT = 0.0;
 
     for (int i = 0; i < 44; ++i) {
@@ -213,8 +214,8 @@ const PrismaticBurst = ({
   const isMobile = typeof window !== 'undefined' && window.matchMedia("(pointer: coarse)").matches;
 
   useEffect(() => {
-    // تاخیر برای لود شدن بقیه اجزای صفحه و جلوگیری از لگ اولیه
-    const timer = setTimeout(() => setReady(true), 500);
+    // تاخیر ۷۰۰ میلی‌ثانیه‌ای برای جلوگیری از لگ اولیه
+    const timer = setTimeout(() => setReady(true), 700);
     return () => clearTimeout(timer);
   }, []);
 
@@ -222,8 +223,7 @@ const PrismaticBurst = ({
     if (!ready || !containerRef.current) return;
 
     const container = containerRef.current;
-    // استفاده از رزولوشن پایین‌تر در موبایل (0.7) برای حذف کامل لگ
-    const dpr = isMobile ? 0.7 : Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = isMobile ? 0.8 : Math.min(window.devicePixelRatio || 1, 2);
     const renderer = new Renderer({ dpr, alpha: false, antialias: false });
     rendererRef.current = renderer;
 
@@ -235,7 +235,6 @@ const PrismaticBurst = ({
     gl.canvas.style.mixBlendMode = mixBlendMode && mixBlendMode !== 'none' ? mixBlendMode : '';
     container.appendChild(gl.canvas);
     
-    // انیمیشن ورود نرم
     requestAnimationFrame(() => { if(gl.canvas) gl.canvas.style.opacity = '1'; });
 
     const white = new Uint8Array([255, 255, 255, 255]);
@@ -307,7 +306,6 @@ const PrismaticBurst = ({
   useEffect(() => {
     if (!programRef.current || !rendererRef.current) return;
     const program = programRef.current;
-    const gl = rendererRef.current.gl;
     
     const colors = [color0, color1, color2];
     const data = new Uint8Array(colors.length * 4);
