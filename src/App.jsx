@@ -159,6 +159,7 @@ function App() {
         </div>
       </div>
 
+      {/* Floating Toggle: Fixed Position Flags */}
       <div className="floating-lang-switcher">
         <button className={`flag-btn ${isEn ? 'active' : ''}`} onClick={() => setLang('en')}>
           <img src="https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg" alt="English" />
