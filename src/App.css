@@ -74,32 +74,27 @@ body, html {
   max-width: 1100px;
 }
 
-/* --- Card Wrappers --- */
+/* --- Card Wrappers (Desktop Default) --- */
 .resume-header-card,
 .side-pixel-wrapper,
-.exp-pixel-wrapper,
-.mobile-glass-card {
-  background: var(--glass-bg) !important;
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border: 1px solid var(--glass-border) !important;
-  border-radius: 20px !important;
+.exp-pixel-wrapper {
   margin-bottom: var(--section-spacing);
-  width: 100% !important;
-  display: block !important;
-  overflow: hidden;
+  display: block;
 }
 
-/* --- Mobile Fixes --- */
+/* --- Mobile Specific Cards --- */
 @media (max-width: 768px) {
   .mobile-glass-card {
-    /* تغییر شفافیت برای دیده شدن پس‌زمینه پیکسلی */
     background: rgba(15, 15, 15, 0.35) !important; 
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 20px !important;
+    margin-bottom: var(--section-spacing);
+    width: 100% !important;
+    overflow: hidden;
   }
 
-  /* اصلاح سایز نام برای جلوگیری از بیرون زدگی */
   .main-name { 
     font-size: 1.8rem !important; 
     text-align: center;
@@ -122,7 +117,7 @@ body, html {
   .app-wrapper { padding: 20px 10px 100px 10px; }
 }
 
-/* --- Rest of Styles --- */
+/* --- Content Styling --- */
 .resume-header, .side-section, .exp-card {
   padding: 30px;
   position: relative;
@@ -131,34 +126,117 @@ body, html {
 
 .main-name { font-size: 3.5rem; line-height: 1.1; margin-bottom: 10px; }
 .subtitle { color: var(--yellow); font-size: 1.6rem; }
-.profile-img { width: 160px; height: 160px; border: 3px solid var(--purple); border-radius: 20px; object-fit: cover; }
-.resume-grid { display: grid; grid-template-columns: 380px 1fr; gap: 30px; }
-.yellow-text { font-size: 1.4rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; margin-bottom: 20px; display: flex; }
-.software-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-.dots-container { display: flex; gap: 6px; }
-.dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.1); }
-.dot.filled { background: var(--purple); box-shadow: 0 0 8px var(--purple); }
-.skills-grid { display: flex; flex-wrap: wrap; gap: 8px; }
-.skill-tag { background: rgba(255,255,255,0.05); padding: 8px 16px; border-radius: 12px; font-size: 0.85rem; border-left: 4px solid var(--purple); }
-.rtl-mode .skill-tag { border-left: none; border-right: 4px solid var(--purple); }
-.project-link { display: block; color: var(--c1); text-decoration: none; margin-bottom: 12px; font-weight: bold; }
-.exp-row { display: flex; justify-content: space-between; }
-.job-company { color: var(--yellow); margin: 8px 0; }
-.job-desc { color: rgba(255,255,255,0.75); line-height: 1.7; text-align: justify; }
+.profile-img { 
+  width: 160px; 
+  height: 160px; 
+  border: 3px solid var(--purple); 
+  border-radius: 20px; 
+  object-fit: cover; 
+}
 
+/* --- Desktop Grid --- */
+.resume-grid { 
+  display: grid; 
+  grid-template-columns: 380px 1fr; 
+  gap: 30px; 
+}
+
+.yellow-text { 
+  font-size: 1.4rem; 
+  border-bottom: 1px solid rgba(255,255,255,0.1); 
+  padding-bottom: 12px; 
+  margin-bottom: 20px; 
+  display: flex; 
+}
+
+.software-item { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 15px; 
+}
+
+.dots-container { display: flex; gap: 6px; }
+.dot { 
+  width: 10px; 
+  height: 10px; 
+  border-radius: 50%; 
+  background: rgba(255,255,255,0.1); 
+}
+.dot.filled { 
+  background: var(--purple); 
+  box-shadow: 0 0 8px var(--purple); 
+}
+
+.skills-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+.skill-tag { 
+  background: rgba(255,255,255,0.05); 
+  padding: 8px 16px; 
+  border-radius: 12px; 
+  font-size: 0.85rem; 
+  border-left: 4px solid var(--purple); 
+}
+.rtl-mode .skill-tag { border-left: none; border-right: 4px solid var(--purple); }
+
+.project-link { 
+  display: block; 
+  color: var(--c1); 
+  text-decoration: none; 
+  margin-bottom: 12px; 
+  font-weight: bold; 
+}
+
+.exp-row { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: flex-start;
+}
+.job-company { color: var(--yellow); margin: 8px 0; }
+.job-desc { 
+  color: rgba(255,255,255,0.75); 
+  line-height: 1.7; 
+  text-align: justify; 
+}
+
+/* --- Language Switcher --- */
 .floating-lang-switcher {
-  position: fixed; bottom: 35px; left: 50%; transform: translateX(-50%);
-  background: rgba(10,10,10,0.7); backdrop-filter: blur(15px);
-  padding: 12px 25px; border-radius: 50px; display: flex; gap: 20px;
-  border: 1px solid rgba(160,16,214,0.5); z-index: 1000;
+  position: fixed; 
+  bottom: 35px; 
+  left: 50%; 
+  transform: translateX(-50%);
+  background: rgba(10,10,10,0.7); 
+  backdrop-filter: blur(15px);
+  padding: 12px 25px; 
+  border-radius: 50px; 
+  display: flex; 
+  gap: 20px;
+  border: 1px solid rgba(160,16,214,0.5); 
+  z-index: 1000;
 }
 .flag-btn { background: none; border: 2px solid transparent; border-radius: 50%; cursor: pointer; padding: 0; }
 .flag-btn.active { border-color: var(--c1); }
 .flag-btn img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
 
-.pixel-card { position: relative; overflow: hidden; }
-.pixel-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-.pixel-content { position: relative; z-index: 1; }
+/* --- PixelCard Core --- */
+.pixel-card { 
+  position: relative; 
+  overflow: hidden; 
+  height: 100%;
+}
+.pixel-canvas { 
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  height: 100%; 
+  z-index: 0; 
+  pointer-events: none; 
+}
+.pixel-content { 
+  position: relative; 
+  z-index: 1; 
+  height: 100%;
+}
 
 @media (max-width: 1150px) {
   .resume-grid { grid-template-columns: 1fr; }
