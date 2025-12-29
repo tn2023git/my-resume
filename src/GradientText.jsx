@@ -5,19 +5,25 @@ import './GradientText.css';
 export default function GradientText({
   children,
   className = '',
-  // لیست را به ۴ رنگ اصلی کاهش دادم تا فواصل بازتر و یکنواخت شوند
-  colors = ["#D1765C", "#A010D6", "#D1765C", "#DF9339", "#F3BC08", "#DF9339"],
-  animationSpeed = 8,
+  // رنگ‌ها دقیقاً با ترتیب درخواستی شما
+  colors = ["#F3BC08", "#DF9339", "#D1765C", "#A010D6", "#D1765C", "#DF9339"],
+  animationSpeed = 5,
   showBorder = false,
+  direction = 'horizontal',
   pauseOnHover = false,
+  yoyo = false // طبق درخواست شما روی false تنظیم شد
 }) {
   const [isPaused, setIsPaused] = useState(false);
   const textRef = useRef(null);
   const [textWidth, setTextWidth] = useState(0);
   
   const x = useMotionValue(0);
+  const elapsedRef = useRef(0);
+  const lastTimeRef = useRef(null);
+
   const animationDuration = animationSpeed * 1000;
 
+  // محاسبه عرض متن برای جابه‌جایی دقیق در واحد پیکسل
   useEffect(() => {
     if (textRef.current) {
       setTextWidth(textRef.current.getBoundingClientRect().width);
@@ -27,16 +33,32 @@ export default function GradientText({
   useAnimationFrame((time, delta) => {
     if (isPaused || textWidth === 0) return;
 
-    const moveAmount = (delta / animationDuration) * textWidth;
-    const nextX = x.get() - moveAmount;
-
-    if (nextX <= -textWidth) {
-      x.set(nextX + textWidth);
-    } else {
-      x.set(nextX);
+    if (lastTimeRef.current === null) {
+      lastTimeRef.current = time;
+      return;
     }
+
+    const deltaTime = time - lastTimeRef.current;
+    lastTimeRef.current = time;
+    elapsedRef.current += deltaTime;
+
+    // محاسبه جابه‌جایی برای حرکت از چپ به راست (استفاده از عرض متن)
+    const moveAmount = (deltaTime / animationDuration) * textWidth;
+    let nextX = x.get() + moveAmount;
+
+    // ریست شدن در نقطه انتهایی برای ایجاد چرخه بی‌پایان
+    if (nextX >= textWidth) {
+      nextX -= textWidth;
+    }
+    x.set(nextX);
   });
 
+  useEffect(() => {
+    elapsedRef.current = 0;
+    x.set(0);
+  }, [animationSpeed, yoyo]);
+
+  // تبدیل موقعیت به پیکسل (مانع از پرش در لحظه ریست می‌شود)
   const backgroundPosition = useTransform(x, value => `${value}px 50%`);
 
   const handleMouseEnter = useCallback(() => {
@@ -47,21 +69,13 @@ export default function GradientText({
     if (pauseOnHover) setIsPaused(false);
   }, [pauseOnHover]);
 
-  /**
-   * برای حل مشکل نزدیکی بنفش و زرد:
-   * ما از ۲ برابر عرض متن برای پس‌زمینه استفاده می‌کنیم تا رنگ‌ها فضای بیشتری برای پخش شدن داشته باشند.
-   */
-  const generateUniformGradient = () => {
-    const fullColors = [...colors, colors[0]]; 
-    const step = 100 / (fullColors.length - 1);
-    return fullColors.map((color, index) => `${color} ${index * step}%`).join(', ');
-  };
+  // بازگشت به منطق کد اصلی شما برای ترکیب رنگ‌ها
+  const gradientColors = [...colors, colors[0]].join(', ');
 
   const gradientStyle = {
-    backgroundImage: `linear-gradient(to right, ${generateUniformGradient()})`,
-    // افزایش سایز به ۲ برابر عرض متن باعث می‌شود فاصله رنگ‌ها ۲ برابر بیشتر شود
+    backgroundImage: `linear-gradient(to right, ${gradientColors})`,
     backgroundSize: `${textWidth}px 100%`,
-    backgroundRepeat: 'repeat-x',
+    backgroundRepeat: 'repeat-x'
   };
 
   return (
@@ -69,8 +83,13 @@ export default function GradientText({
       className={`animated-gradient-text ${showBorder ? 'with-border' : ''} ${className}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      style={{ overflow: 'hidden' }}
     >
+      {showBorder && (
+        <motion.div 
+          className="gradient-overlay" 
+          style={{ ...gradientStyle, backgroundPosition }} 
+        />
+      )}
       <motion.div 
         ref={textRef}
         className="text-content" 
