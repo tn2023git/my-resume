@@ -101,11 +101,8 @@ function App() {
   const content = isEn ? data.en : data.fa;
   const renderDots = (count) => Array.from({ length: 5 }, (_, i) => <span key={i} className={`dot ${i < count ? 'filled' : ''}`}></span>);
 
-  // تابع کمکی برای رندر شرطی PixelCard یا Div معمولی
   const SmartCard = ({ children, className }) => {
-    if (isMobile) {
-      return <div className={`mobile-glass-card ${className}`}>{children}</div>;
-    }
+    if (isMobile) return <div className={`mobile-glass-card ${className}`}>{children}</div>;
     return <PixelCard variant="resume" className={className}>{children}</PixelCard>;
   };
 
@@ -113,7 +110,8 @@ function App() {
     <div className={`app-wrapper ${isEn ? 'ltr-mode' : 'rtl-mode'}`}>
       <div className="bg-container">
         {isMobile ? (
-          <PixelCard isStatic={true} className="mobile-bg-pixel" gap={10} speed={20} />
+          /* کاهش gap به 5 برای افزایش تراکم پیکسل‌ها در موبایل */
+          <PixelCard isStatic={true} className="mobile-bg-pixel" gap={5} speed={25} />
         ) : (
           <PrismaticBurst intensity={1.8} speed={0.2} animationType="hover" color0="#f3bc08" color1="#d1765c" color2="#a010d6" distort={0.3} />
         )}

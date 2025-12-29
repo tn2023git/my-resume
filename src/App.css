@@ -55,7 +55,6 @@ body, html {
   height: 100vh;
   z-index: -1;
   pointer-events: none;
-  will-change: transform;
 }
 
 .app-wrapper {
@@ -75,7 +74,7 @@ body, html {
   max-width: 1100px;
 }
 
-/* --- Card Wrappers (PC & Mobile Shared) --- */
+/* --- Card Wrappers --- */
 .resume-header-card,
 .side-pixel-wrapper,
 .exp-pixel-wrapper,
@@ -87,281 +86,80 @@ body, html {
   border-radius: 20px !important;
   margin-bottom: var(--section-spacing);
   width: 100% !important;
-  height: auto !important;
   display: block !important;
   overflow: hidden;
-  will-change: opacity, transform;
 }
 
-/* --- Mobile Specific Overrides --- */
+/* --- Mobile Fixes --- */
 @media (max-width: 768px) {
-  /* کارت‌های شیشه‌ای ساده در موبایل (بدون PixelCard داخلی) */
   .mobile-glass-card {
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    background: rgba(15, 15, 15, 0.75) !important;
+    /* تغییر شفافیت برای دیده شدن پس‌زمینه پیکسلی */
+    background: rgba(15, 15, 15, 0.35) !important; 
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
 
-  /* پس‌زمینه پیکسلی تمام‌صفحه در موبایل */
+  /* اصلاح سایز نام برای جلوگیری از بیرون زدگی */
+  .main-name { 
+    font-size: 1.8rem !important; 
+    text-align: center;
+    line-height: 1.2;
+  }
+
   .mobile-bg-pixel {
     position: fixed !important;
     inset: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
     z-index: -1;
-    border-radius: 0 !important;
-    border: none !important;
   }
 
-  .main-name { font-size: 2.2rem; text-align: center; }
-  .subtitle { font-size: 1.2rem; }
-  .resume-header, .side-section, .exp-card { padding: 20px; }
-  .profile-img { width: 130px; height: 130px; }
-  .app-wrapper { padding: 30px 15px 100px 15px; }
+  .resume-header { 
+    flex-direction: column-reverse; 
+    text-align: center; 
+    gap: 15px; 
+  }
+  
+  .profile-img { width: 120px; height: 120px; }
+  .app-wrapper { padding: 20px 10px 100px 10px; }
 }
 
-.exp-pixel-wrapper:last-child {
-  margin-bottom: 0;
-}
-
-/* --- Content Padding --- */
-.resume-header, 
-.side-section, 
-.exp-card {
+/* --- Rest of Styles --- */
+.resume-header, .side-section, .exp-card {
   padding: 30px;
   position: relative;
   z-index: 2;
-  width: 100%;
 }
 
-/* --- Header Section --- */
-.resume-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.main-name { 
-  font-size: 3.5rem; 
-  line-height: 1.1; 
-  margin-bottom: 10px;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  will-change: transform;
-}
-
-.subtitle { 
-  color: var(--yellow); 
-  font-size: 1.6rem; 
-  margin-top: 10px; 
-}
-
-.profile-img {
-  width: 160px;
-  height: 160px;
-  border: 3px solid var(--purple);
-  border-radius: 20px;
-  object-fit: cover;
-  flex-shrink: 0;
-}
-
-/* --- Grid Layout --- */
-.resume-grid { 
-  display: grid; 
-  grid-template-columns: 380px 1fr; 
-  gap: 30px; 
-}
-
-/* --- Sidebar Style --- */
-.yellow-text {
-  font-size: 1.4rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
-  padding-bottom: 12px; 
-  margin-bottom: 20px; 
-  display: flex;
-}
-
-.side-section p {
-  margin-bottom: 10px;
-  font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.85);
-}
-
-.software-item { 
-  display: flex; 
-  justify-content: space-between; 
-  align-items: center; 
-  margin-bottom: 15px; 
-  gap: 20px; 
-}
-
+.main-name { font-size: 3.5rem; line-height: 1.1; margin-bottom: 10px; }
+.subtitle { color: var(--yellow); font-size: 1.6rem; }
+.profile-img { width: 160px; height: 160px; border: 3px solid var(--purple); border-radius: 20px; object-fit: cover; }
+.resume-grid { display: grid; grid-template-columns: 380px 1fr; gap: 30px; }
+.yellow-text { font-size: 1.4rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; margin-bottom: 20px; display: flex; }
+.software-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
 .dots-container { display: flex; gap: 6px; }
-.dot { 
-  width: 10px; 
-  height: 10px; 
-  border-radius: 50%; 
-  background: rgba(255,255,255,0.1); 
-}
+.dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.1); }
 .dot.filled { background: var(--purple); box-shadow: 0 0 8px var(--purple); }
-
 .skills-grid { display: flex; flex-wrap: wrap; gap: 8px; }
-.skill-tag { 
-  background: rgba(255, 255, 255, 0.05); 
-  padding: 8px 16px; 
-  border-radius: 12px; 
-  font-size: 0.85rem; 
-  border-left: 4px solid var(--purple); 
-}
+.skill-tag { background: rgba(255,255,255,0.05); padding: 8px 16px; border-radius: 12px; font-size: 0.85rem; border-left: 4px solid var(--purple); }
 .rtl-mode .skill-tag { border-left: none; border-right: 4px solid var(--purple); }
-
-.project-link { 
-  display: block; 
-  color: var(--c1); 
-  text-decoration: none; 
-  margin-bottom: 12px; 
-  font-weight: bold;
-}
-
-/* --- Experience Section --- */
-.exp-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.job-company { 
-  color: var(--yellow); 
-  margin: 8px 0; 
-  font-size: 1.1rem; 
-}
-
-.job-date { color: rgba(255,255,255,0.5); font-size: 0.9rem; margin-bottom: 15px; }
-
-.job-desc { 
-  color: rgba(255,255,255,0.75); 
-  line-height: 1.7; 
-  font-size: 0.95rem;
-  text-align: justify;
-}
-
-.ltr-mode .job-desc {
-  text-align: left;
-}
-
-/* --- Language Switcher --- */
-@keyframes float {
-  0% { transform: translateX(-50%) translateY(0px); }
-  50% { transform: translateX(-50%) translateY(-5px); }
-  100% { transform: translateX(-50%) translateY(0px); }
-}
+.project-link { display: block; color: var(--c1); text-decoration: none; margin-bottom: 12px; font-weight: bold; }
+.exp-row { display: flex; justify-content: space-between; }
+.job-company { color: var(--yellow); margin: 8px 0; }
+.job-desc { color: rgba(255,255,255,0.75); line-height: 1.7; text-align: justify; }
 
 .floating-lang-switcher {
-  position: fixed;
-  bottom: 35px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(10, 10, 10, 0.7);
-  backdrop-filter: blur(15px);
-  padding: 12px 25px;
-  border-radius: 50px;
-  display: flex;
-  gap: 20px;
-  border: 1px solid rgba(160, 16, 214, 0.5);
-  z-index: 1000;
-  align-items: center;
-  justify-content: center;
-  direction: ltr !important;
-  animation: float 2s ease-in-out infinite;
-  transition: box-shadow 0.3s ease;
-  will-change: transform;
+  position: fixed; bottom: 35px; left: 50%; transform: translateX(-50%);
+  background: rgba(10,10,10,0.7); backdrop-filter: blur(15px);
+  padding: 12px 25px; border-radius: 50px; display: flex; gap: 20px;
+  border: 1px solid rgba(160,16,214,0.5); z-index: 1000;
 }
+.flag-btn { background: none; border: 2px solid transparent; border-radius: 50%; cursor: pointer; padding: 0; }
+.flag-btn.active { border-color: var(--c1); }
+.flag-btn img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
 
-.flag-btn { 
-  background: none; 
-  border: 2px solid transparent; 
-  border-radius: 50%; 
-  cursor: pointer; 
-  padding: 0; 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  overflow: hidden;
-}
+.pixel-card { position: relative; overflow: hidden; }
+.pixel-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+.pixel-content { position: relative; z-index: 1; }
 
-.flag-btn:hover {
-  transform: scale(1.25);
-}
-
-.flag-btn.active { 
-  border-color: var(--c1); 
-  box-shadow: 0 0 15px rgba(243, 188, 8, 0.4);
-}
-
-.flag-btn img { 
-  width: 35px; 
-  height: 35px; 
-  border-radius: 50%; 
-  object-fit: cover;
-  display: block;
-}
-
-/* --- PixelCard Base Styles --- */
-.pixel-card {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
-  border-radius: 15px;
-  background: transparent;
-  display: flex;
-  flex-direction: column;
-}
-
-.pixel-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.pixel-content {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-}
-
-/* غیرفعال کردن افکت نوری در موبایل برای بهبود عملکرد */
-@media (pointer: fine) {
-  .pixel-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(160, 16, 214, 0.1), transparent 80%);
-    opacity: 0;
-    transition: opacity 0.5s;
-    pointer-events: none;
-  }
-
-  .pixel-card:hover::after {
-    opacity: 1;
-  }
-}
-
-/* --- Responsive & Desktop Layout Fixes --- */
 @media (max-width: 1150px) {
-  .resume-grid { 
-    grid-template-columns: 1fr; 
-    gap: 0; 
-  }
-  .resume-header { flex-direction: column; text-align: center; gap: 20px; }
-  .sidebar .side-pixel-wrapper:last-child {
-    margin-bottom: var(--section-spacing);
-  }
+  .resume-grid { grid-template-columns: 1fr; }
 }
