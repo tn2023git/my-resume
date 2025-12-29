@@ -1,3 +1,42 @@
+/* --- FARSI FONTS (Anjoman) --- */
+@font-face {
+  font-family: 'Anjoman';
+  src: url('./assets/fonts/Anjoman Light.ttf') format('truetype');
+  font-weight: 300;
+}
+@font-face {
+  font-family: 'Anjoman';
+  src: url('./assets/fonts/Anjoman Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Anjoman';
+  src: url('./assets/fonts/Anjoman Bold.ttf') format('truetype');
+  font-weight: 700;
+}
+
+/* --- ENGLISH FONTS (Product Sans) --- */
+@font-face {
+  font-family: 'ProductSans';
+  src: url('./assets/fonts/Product Sans Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'ProductSans';
+  src: url('./assets/fonts/Product Sans Bold.ttf') format('truetype');
+  font-weight: 700;
+}
+
+/* --- THEME RULES --- */
+.rtl-mode {
+  direction: rtl;
+  font-family: 'Anjoman', Tahoma, sans-serif;
+}
+
+.ltr-mode {
+  direction: ltr;
+  font-family: 'ProductSans', Arial, sans-serif;
+}
 #root {
   max-width: 1280px;
   margin: 0 auto;
