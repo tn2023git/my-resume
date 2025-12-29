@@ -66,7 +66,7 @@ body, html {
   z-index: 1;
 }
 
-/* --- Global Direction & Alignment --- */
+/* --- Direction & Alignment --- */
 .ltr-mode { 
   direction: ltr; 
   font-family: 'ProductSans', sans-serif !important;
@@ -99,7 +99,7 @@ body, html {
   height: auto !important;
 }
 
-/* --- Header Section (FIXED Logic) --- */
+/* --- Header Section (FIXED IMAGE POSITION) --- */
 .resume-header {
   display: flex;
   align-items: center;
@@ -108,10 +108,7 @@ body, html {
   width: 100%;
 }
 
-/* عکس در انگلیسی سمت راست، در فارسی سمت چپ */
-.ltr-mode .resume-header { flex-direction: row; } 
-.rtl-mode .resume-header { flex-direction: row; } 
-
+/* جداسازی عکس و متن با منطق Order */
 .header-text { flex: 1; }
 
 .profile-img { 
@@ -123,36 +120,55 @@ body, html {
   flex-shrink: 0;
 }
 
-/* جابه‌جایی ترتیبی المان‌ها با استفاده از order */
+/* انگلیسی: متن(1) عکس(2) -> عکس در راست */
 .ltr-mode .header-text { order: 1; text-align: left; }
-.ltr-mode .profile-img { order: 2; } /* عکس بعد از متن (راست) */
+.ltr-mode .profile-img { order: 2; }
 
+/* فارسی: متن(2) عکس(1) -> عکس در چپ */
 .rtl-mode .header-text { order: 2; text-align: right; }
-.rtl-mode .profile-img { order: 1; } /* عکس قبل از متن (چپ) */
+.rtl-mode .profile-img { order: 1; }
 
 .main-name { font-size: 3rem; line-height: 1.2; margin-bottom: 8px; }
 .subtitle { color: var(--yellow); font-size: 1.5rem; }
 
-/* --- Mobile Fixes --- */
-@media (max-width: 768px) {
-  .resume-header { 
-    flex-direction: column-reverse !important; 
-    text-align: center !important; 
-    padding: 25px 15px;
-  }
-  .ltr-mode .header-text, .rtl-mode .header-text { text-align: center; order: unset; }
-  .ltr-mode .profile-img, .rtl-mode .profile-img { order: unset; width: 120px; height: 120px; }
-  .main-name { font-size: 1.6rem !important; }
+/* --- Experience Content (FIXED STICKING TEXT) --- */
+.exp-row { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  flex-wrap: wrap;
+  gap: 15px; /* ایجاد فاصله بین عنوان و زمان */
+  margin-bottom: 5px;
 }
 
-/* --- Desktop Grid Layout --- */
+/* اطمینان از فاصله داشتن زمان از عنوان در صورت لزوم */
+.exp-row h3 { flex: 1; min-width: 200px; }
+.exp-row span { font-weight: bold; color: var(--c3); }
+
+.job-company { color: var(--yellow); margin: 8px 0; font-weight: bold; }
+.job-desc { 
+  color: rgba(255,255,255,0.75); 
+  line-height: 1.7; 
+  text-align: inherit; 
+}
+
+/* --- Mobile Fixes --- */
+@media (max-width: 768px) {
+  .resume-header { flex-direction: column-reverse !important; padding: 25px 15px; }
+  .header-text, .profile-img { order: unset !important; text-align: center !important; }
+  .profile-img { width: 120px; height: 120px; }
+  .main-name { font-size: 1.6rem !important; }
+  .exp-row { flex-direction: column; align-items: flex-start; gap: 5px; }
+  .rtl-mode .exp-row { align-items: flex-start; }
+}
+
+/* --- Desktop Grid --- */
 .resume-grid { 
   display: grid; 
   grid-template-columns: 380px 1fr; 
   gap: 30px; 
   align-items: flex-start; 
 }
-
 .side-section, .exp-card { padding: 30px; }
 
 /* --- Projects Section --- */
@@ -162,7 +178,6 @@ body, html {
   gap: 12px;
   margin-top: 10px;
 }
-
 .project-link { 
   display: inline-block; 
   color: var(--c1); 
@@ -180,7 +195,6 @@ body, html {
   margin-bottom: 20px; 
   display: flex; 
 }
-
 .software-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
 .dots-container { display: flex; gap: 6px; }
 .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.1); }
@@ -192,53 +206,23 @@ body, html {
   padding: 8px 16px; 
   border-radius: 12px; 
   font-size: 0.85rem; 
-  border-left: 4px solid var(--purple); 
-}
-.rtl-mode .skill-tag { border-left: none; border-right: 4px solid var(--purple); }
-
-/* --- Experience Content --- */
-.job-company { color: var(--yellow); margin: 8px 0; }
-.job-desc { 
-  color: rgba(255,255,255,0.75); 
-  line-height: 1.7; 
-  text-align: inherit; /* راست‌چین برای فارسی، چپ‌چین برای انگلیسی */
+  border-inline-start: 4px solid var(--purple); 
 }
 
-/* --- Floating Language Switcher --- */
+/* --- Floating Switcher --- */
 @keyframes float {
-  0% { transform: translateX(-50%) translateY(0px); }
+  0%, 100% { transform: translateX(-50%) translateY(0px); }
   50% { transform: translateX(-50%) translateY(-6px); }
-  100% { transform: translateX(-50%) translateY(0px); }
 }
-
 .floating-lang-switcher {
-  position: fixed; 
-  bottom: 35px; 
-  left: 50%; 
-  transform: translateX(-50%);
-  background: rgba(15, 15, 15, 0.85); 
-  backdrop-filter: blur(20px);
-  padding: 8px 16px; 
-  border-radius: 100px; 
-  display: flex; 
-  gap: 12px;
-  border: 1px solid rgba(160, 16, 214, 0.4); 
-  z-index: 9999;
-  animation: float 3s ease-in-out infinite;
-  align-items: center;
+  position: fixed; bottom: 35px; left: 50%; transform: translateX(-50%);
+  background: rgba(15, 15, 15, 0.85); backdrop-filter: blur(20px);
+  padding: 8px 16px; border-radius: 100px; display: flex; gap: 12px;
+  border: 1px solid rgba(160, 16, 214, 0.4); z-index: 9999;
+  animation: float 3s ease-in-out infinite; align-items: center;
   direction: ltr !important; 
 }
-
-.flag-btn { 
-  background: none; 
-  border: 2px solid transparent; 
-  border-radius: 50%; 
-  cursor: pointer; 
-  padding: 2px;
-  display: flex;
-  transition: transform 0.3s ease;
-}
-
+.flag-btn { background: none; border: 2px solid transparent; border-radius: 50%; cursor: pointer; padding: 2px; display: flex; transition: transform 0.3s ease; }
 .flag-btn:hover { transform: scale(1.15); }
 .flag-btn.active { border-color: var(--yellow); }
 .flag-btn img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
