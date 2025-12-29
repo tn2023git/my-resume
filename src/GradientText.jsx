@@ -5,8 +5,8 @@ import './GradientText.css';
 export default function GradientText({
   children,
   className = '',
-  // ترتیب رنگ‌ها را برای یک چرخه طبیعی اصلاح کردم
-  colors = ["#F3BC08", "#DF9339", "#D1765C", "#A010D6"],
+  // استفاده از پالت متقارن برای حذف بریدگی
+  colors = ["#F3BC08", "#DF9339", "#A010D6", "#DF9339", "#F3BC08"],
   animationSpeed = 5,
   showBorder = false,
   pauseOnHover = false,
@@ -33,9 +33,9 @@ export default function GradientText({
     lastTimeRef.current = time;
     elapsedRef.current += deltaTime;
 
-    // استفاده از باقی‌مانده برای ریست شدن نرم مقدار
-    const currentProgress = (elapsedRef.current % animationDuration) / animationDuration;
-    progress.set(currentProgress * 100);
+    // حرکت خطی و مداوم
+    const currentProgress = (elapsedRef.current / animationDuration) * 100;
+    progress.set(currentProgress);
   });
 
   useEffect(() => {
@@ -43,8 +43,8 @@ export default function GradientText({
     progress.set(0);
   }, [animationSpeed]);
 
-  // جابه‌جایی از ۰ تا ۱۰۰ درصد
-  const backgroundPosition = useTransform(progress, p => `${p}% 50%`);
+  // بازگشت به منطق ساده و روان قبلی
+  const backgroundPosition = useTransform(progress, p => `-${p % 200}% 50%`);
 
   const handleMouseEnter = useCallback(() => {
     if (pauseOnHover) setIsPaused(true);
@@ -54,12 +54,12 @@ export default function GradientText({
     if (pauseOnHover) setIsPaused(false);
   }, [pauseOnHover]);
 
-  // کلید حل مشکل: تکرار رنگ اول در انتها و استفاده از پالت دوبرابر شده
-  const gradientColors = [...colors, colors[0], ...colors, colors[0]].join(', ');
+  // تکرار لیست برای ایجاد چرخه بی‌پایان
+  const gradientColors = [...colors, ...colors].join(', ');
 
   const gradientStyle = {
     backgroundImage: `linear-gradient(to right, ${gradientColors})`,
-    backgroundSize: '300% 100%', // افزایش سایز برای نرم‌تر شدن حرکت
+    backgroundSize: '200% 100%',
     backgroundRepeat: 'repeat'
   };
 
