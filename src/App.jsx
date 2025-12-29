@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './App.css';
 import profilePic from './assets/profile.png';
-import BlurText from './BlurText'; // استفاده از BlurText به جای GradientText
+import BlurText from './BlurText';
 
 function App() {
   const [lang, setLang] = useState('en');
@@ -168,14 +168,12 @@ function App() {
       <div className="pdf-page">
         <header className="resume-header">
           <div className="header-text">
-            <h1 className="bold-font">
               <BlurText 
                 text={content.name} 
-                className="blur-header" 
+                className="blur-header main-name bold-font" 
                 delay={100}
                 animateBy="words"
               />
-            </h1>
             <p className="subtitle">{content.title}</p>
           </div>
           <img src={profilePic} alt="Amirali" className="profile-img" />
@@ -184,26 +182,22 @@ function App() {
         <div className="resume-grid">
           <aside className="sidebar">
             <section className="side-section">
-              <h3 className="yellow-text bold-font">
                 <BlurText 
                   text={isEn ? "Personal & Contact" : "اطلاعات فردی و تماس"} 
-                  className="blur-header"
+                  className="blur-header yellow-text bold-font"
                   delay={50}
                 />
-              </h3>
               {content.personal.map((p, i) => <p key={i}><b className="bold-font">{p.label}:</b> {p.value}</p>)}
               {content.contact.map((c, i) => <p key={i}><b className="bold-font">{c.label}:</b> {c.value}</p>)}
               <p><b className="bold-font">{isEn ? "Salary Request" : "حقوق درخواستی"}:</b> {content.salary}</p>
             </section>
 
             <section className="side-section">
-              <h3 className="yellow-text bold-font">
                 <BlurText 
                   text={isEn ? "Software" : "نرم‌افزارها"} 
-                  className="blur-header"
+                  className="blur-header yellow-text bold-font"
                   delay={50}
                 />
-              </h3>
               <div className="software-container">
                 {content.software.map((s, i) => (
                   <div key={i} className="software-item">
@@ -215,26 +209,22 @@ function App() {
             </section>
 
             <section className="side-section">
-              <h3 className="yellow-text bold-font">
                 <BlurText 
                   text={isEn ? "Additional Skills" : "مهارت‌های تکمیلی"} 
-                  className="blur-header"
+                  className="blur-header yellow-text bold-font"
                   delay={50}
                 />
-              </h3>
               <div className="skills-grid">
                 {content.skills.map((skill, i) => <span key={i} className="skill-tag">{skill}</span>)}
               </div>
             </section>
 
             <section className="side-section">
-              <h3 className="yellow-text bold-font">
                 <BlurText 
                   text={isEn ? "Projects" : "پروژه‌ها"} 
-                  className="blur-header"
+                  className="blur-header yellow-text bold-font"
                   delay={50}
                 />
-              </h3>
               <div className="projects-list">
                 {content.projects.map((proj, i) => <a key={i} href={proj.url} target="_blank" rel="noreferrer" className="project-link">{proj.name}</a>)}
               </div>
@@ -242,21 +232,19 @@ function App() {
           </aside>
 
           <main className="main-content">
-            <h2 className="yellow-text bold-font">
               <BlurText 
                 text={isEn ? "Work Experience" : "سوابق شغلی"} 
-                className="blur-header"
+                className="blur-header yellow-text bold-font section-title" 
                 delay={50}
               />
-            </h2>
             {content.experience.map((job, i) => (
               <div key={i} className="exp-card">
                 <div className="exp-row">
                   <span className="job-role bold-font">{job.role}</span>
-                  <span className="job-duration yellow-text bold-font">
+                  <span className="job-duration">
                     <BlurText 
                       text={job.duration} 
-                      className="blur-header"
+                      className="blur-header yellow-text bold-font duration-text" 
                       delay={30}
                     />
                   </span>

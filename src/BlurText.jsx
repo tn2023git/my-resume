@@ -23,7 +23,6 @@ const BlurText = ({
   easing = 'easeOut',
   onAnimationComplete,
   stepDuration = 0.35,
-  // رنگ‌های درخواستی شما
   colors = ["#f3bc08", "#df9339", "#d1765c", "#a010d6", "#d1765c", "#df9339"],
   animationSpeed = 8
 }) => {
@@ -32,13 +31,12 @@ const BlurText = ({
   const containerRef = useRef(null);
   const [width, setWidth] = useState(0);
 
-  // منطق انیمیشن گرادینت
   const x = useMotionValue(0);
   const animationDuration = animationSpeed * 1000;
 
   useEffect(() => {
     if (containerRef.current) {
-      setWidth(containerRef.current.getBoundingClientRect().width);
+      setWidth(containerRef.current.getBoundingClientRect().width || 500);
     }
   }, [text]);
 
@@ -53,19 +51,20 @@ const BlurText = ({
   const backgroundPosition = useTransform(x, value => `${value}px 50%`);
 
   useEffect(() => {
+    const currentRef = containerRef.current;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setInView(true);
-          observer.unobserve(containerRef.current);
+          observer.unobserve(currentRef);
         }
       },
       { threshold, rootMargin }
     );
-    if (containerRef.current) observer.observe(containerRef.current);
-    const timer = setTimeout(() => setInView(true), 500); // Fallback سریع
+    if (currentRef) observer.observe(currentRef);
+    const timer = setTimeout(() => setInView(true), 500);
     return () => {
-      observer.disconnect();
+      if (currentRef) observer.disconnect();
       clearTimeout(timer);
     };
   }, [threshold, rootMargin]);
@@ -95,7 +94,8 @@ const BlurText = ({
     WebkitTextFillColor: 'transparent',
     backgroundClip: 'text',
     display: 'flex',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    color: 'transparent' // اضافه شدن برای اطمینان
   };
 
   return (

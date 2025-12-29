@@ -65,12 +65,19 @@
   gap: 20px;
 }
 
-/* استایل هدر اصلاح شد */
-.header-text h1 { 
-  margin: 0; 
+/* استایل هدرهای جدید برای BlurText */
+.main-name { 
   font-size: 3.5rem; 
   line-height: 1.1;
-  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.section-title {
+  font-size: 1.5rem;
+}
+
+.duration-text {
+  font-size: 1.25rem;
 }
 
 .subtitle { color: var(--purple); font-size: 1.6rem; margin-top: 10px; }
@@ -120,7 +127,7 @@
   border-bottom: 1px solid #444; 
   padding-bottom: 10px; 
   margin-bottom: 25px; 
-  display: inline-block;
+  display: flex;
   width: 100%;
 }
 
@@ -137,16 +144,13 @@
 .project-link { display: block; color: var(--purple); text-decoration: none; margin-bottom: 10px; font-weight: bold; }
 
 .exp-card { margin-bottom: 45px; border-bottom: 1px solid #333; padding-bottom: 25px; }
-.exp-row { display: flex; justify-content: space-between; font-size: 1.25rem; flex-wrap: wrap; }
+.exp-row { display: flex; justify-content: space-between; font-size: 1.25rem; flex-wrap: wrap; align-items: center; }
 
 .job-company { margin: 5px 0; color: var(--purple); }
 
-.job-duration.yellow-text {
-  border-bottom: none;
-  padding-bottom: 0;
-  margin-bottom: 0;
-  display: inline-block;
-  width: auto;
+/* اصلاح نمایش Duration */
+.job-duration {
+  display: inline-flex;
 }
 
 .job-date { 
@@ -185,7 +189,7 @@
 .flag-btn.active { border-color: var(--c1); transform: scale(1.1); }
 .flag-btn img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; }
 
-/* اضافه شدن کلاس برای بلور تکست */
+/* کلاس کمکی برای چیدمان BlurText */
 .blur-header {
   display: flex !important;
   flex-wrap: wrap;
@@ -200,7 +204,7 @@
 
 @media (max-width: 600px) {
   .resume-header { justify-content: center; text-align: center; }
-  .header-text { min-width: 100%; order: 2; }
+  .header-text { min-width: 100%; order: 2; display: flex; flex-direction: column; align-items: center; }
   .profile-img { order: 1; }
-  .header-text h1 { font-size: 2.2rem; }
+  .main-name { font-size: 2.2rem; }
 }
