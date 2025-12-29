@@ -66,7 +66,7 @@ body, html {
   z-index: 1;
 }
 
-/* Global Direction & Alignment Fix */
+/* --- Global Direction & Alignment --- */
 .ltr-mode { 
   direction: ltr; 
   font-family: 'ProductSans', sans-serif !important;
@@ -99,24 +99,20 @@ body, html {
   height: auto !important;
 }
 
-/* --- Header Dynamic Alignment (Requested Fix) --- */
+/* --- Header Section (FIXED Logic) --- */
 .resume-header {
   display: flex;
   align-items: center;
   padding: 40px;
   gap: 30px;
+  width: 100%;
 }
 
-/* Photo on RIGHT for English, LEFT for Farsi */
-.ltr-mode .resume-header { flex-direction: row-reverse; }
-.rtl-mode .resume-header { flex-direction: row; }
+/* عکس در انگلیسی سمت راست، در فارسی سمت چپ */
+.ltr-mode .resume-header { flex-direction: row; } 
+.rtl-mode .resume-header { flex-direction: row; } 
 
 .header-text { flex: 1; }
-.ltr-mode .header-text { text-align: left; }
-.rtl-mode .header-text { text-align: right; }
-
-.main-name { font-size: 3rem; line-height: 1.2; margin-bottom: 8px; }
-.subtitle { color: var(--yellow); font-size: 1.5rem; }
 
 .profile-img { 
   width: 160px; 
@@ -127,16 +123,26 @@ body, html {
   flex-shrink: 0;
 }
 
-/* --- Mobile Specific Fixes --- */
+/* جابه‌جایی ترتیبی المان‌ها با استفاده از order */
+.ltr-mode .header-text { order: 1; text-align: left; }
+.ltr-mode .profile-img { order: 2; } /* عکس بعد از متن (راست) */
+
+.rtl-mode .header-text { order: 2; text-align: right; }
+.rtl-mode .profile-img { order: 1; } /* عکس قبل از متن (چپ) */
+
+.main-name { font-size: 3rem; line-height: 1.2; margin-bottom: 8px; }
+.subtitle { color: var(--yellow); font-size: 1.5rem; }
+
+/* --- Mobile Fixes --- */
 @media (max-width: 768px) {
   .resume-header { 
     flex-direction: column-reverse !important; 
     text-align: center !important; 
     padding: 25px 15px;
   }
-  .ltr-mode .header-text, .rtl-mode .header-text { text-align: center; }
+  .ltr-mode .header-text, .rtl-mode .header-text { text-align: center; order: unset; }
+  .ltr-mode .profile-img, .rtl-mode .profile-img { order: unset; width: 120px; height: 120px; }
   .main-name { font-size: 1.6rem !important; }
-  .profile-img { width: 120px; height: 120px; }
 }
 
 /* --- Desktop Grid Layout --- */
@@ -190,13 +196,12 @@ body, html {
 }
 .rtl-mode .skill-tag { border-left: none; border-right: 4px solid var(--purple); }
 
-/* --- Experience Content (Alignment Fix) --- */
-.exp-row { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; }
+/* --- Experience Content --- */
 .job-company { color: var(--yellow); margin: 8px 0; }
 .job-desc { 
   color: rgba(255,255,255,0.75); 
   line-height: 1.7; 
-  text-align: inherit; /* Inherits right or left from mode classes, no more justify */
+  text-align: inherit; /* راست‌چین برای فارسی، چپ‌چین برای انگلیسی */
 }
 
 /* --- Floating Language Switcher --- */
