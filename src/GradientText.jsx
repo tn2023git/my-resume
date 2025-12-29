@@ -1,37 +1,29 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { motion, useMotionValue, useAnimationFrame, useTransform } from 'framer-motion';
+import { motion, useMotionValue, useAnimationFrame, useTransform } from 'motion/react';
 import './GradientText.css';
 
 export default function GradientText({
   children,
   className = '',
-  // رنگ‌ها دقیقاً با ترتیب درخواستی شما
   colors = ["#F3BC08", "#DF9339", "#D1765C", "#A010D6", "#D1765C", "#DF9339"],
   animationSpeed = 5,
   showBorder = false,
   direction = 'horizontal',
   pauseOnHover = false,
-  yoyo = false // طبق درخواست شما روی false تنظیم شد
+  yoyo = false
 }) {
   const [isPaused, setIsPaused] = useState(false);
-  const textRef = useRef(null);
-  const [textWidth, setTextWidth] = useState(0);
-  
-  const x = useMotionValue(0);
+  const progress = useMotionValue(0);
   const elapsedRef = useRef(0);
   const lastTimeRef = useRef(null);
 
   const animationDuration = animationSpeed * 1000;
 
-  // محاسبه عرض متن برای جابه‌جایی دقیق در واحد پیکسل
-  useEffect(() => {
-    if (textRef.current) {
-      setTextWidth(textRef.current.getBoundingClientRect().width);
+  useAnimationFrame(time => {
+    if (isPaused) {
+      lastTimeRef.current = null;
+      return;
     }
-  }, [children]);
-
-  useAnimationFrame((time, delta) => {
-    if (isPaused || textWidth === 0) return;
 
     if (lastTimeRef.current === null) {
       lastTimeRef.current = time;
@@ -42,24 +34,36 @@ export default function GradientText({
     lastTimeRef.current = time;
     elapsedRef.current += deltaTime;
 
-    // محاسبه جابه‌جایی برای حرکت از چپ به راست (استفاده از عرض متن)
-    const moveAmount = (deltaTime / animationDuration) * textWidth;
-    let nextX = x.get() + moveAmount;
+    if (yoyo) {
+      const fullCycle = animationDuration * 2;
+      const cycleTime = elapsedRef.current % fullCycle;
 
-    // ریست شدن در نقطه انتهایی برای ایجاد چرخه بی‌پایان
-    if (nextX >= textWidth) {
-      nextX -= textWidth;
+      if (cycleTime < animationDuration) {
+        progress.set((cycleTime / animationDuration) * 100);
+      } else {
+        progress.set(100 - ((cycleTime - animationDuration) / animationDuration) * 100);
+      }
+    } else {
+      // Continuously increase position for seamless looping
+      progress.set((elapsedRef.current / animationDuration) * 100);
     }
-    x.set(nextX);
   });
 
   useEffect(() => {
     elapsedRef.current = 0;
-    x.set(0);
+    progress.set(0);
   }, [animationSpeed, yoyo]);
 
-  // تبدیل موقعیت به پیکسل (مانع از پرش در لحظه ریست می‌شود)
-  const backgroundPosition = useTransform(x, value => `${value}px 50%`);
+  const backgroundPosition = useTransform(progress, p => {
+    if (direction === 'horizontal') {
+      return `${p}% 50%`;
+    } else if (direction === 'vertical') {
+      return `50% ${p}%`;
+    } else {
+      // For diagonal, move only horizontally to avoid interference patterns
+      return `${p}% 50%`;
+    }
+  });
 
   const handleMouseEnter = useCallback(() => {
     if (pauseOnHover) setIsPaused(true);
@@ -69,13 +73,15 @@ export default function GradientText({
     if (pauseOnHover) setIsPaused(false);
   }, [pauseOnHover]);
 
-  // بازگشت به منطق کد اصلی شما برای ترکیب رنگ‌ها
+  const gradientAngle =
+    direction === 'horizontal' ? 'to right' : direction === 'vertical' ? 'to bottom' : 'to bottom right';
+  // Duplicate first color at the end for seamless looping
   const gradientColors = [...colors, colors[0]].join(', ');
 
   const gradientStyle = {
-    backgroundImage: `linear-gradient(to right, ${gradientColors})`,
-    backgroundSize: `${textWidth}px 100%`,
-    backgroundRepeat: 'repeat-x'
+    backgroundImage: `linear-gradient(${gradientAngle}, ${gradientColors})`,
+    backgroundSize: direction === 'horizontal' ? '300% 100%' : direction === 'vertical' ? '100% 300%' : '300% 300%',
+    backgroundRepeat: 'repeat'
   };
 
   return (
@@ -84,22 +90,8 @@ export default function GradientText({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {showBorder && (
-        <motion.div 
-          className="gradient-overlay" 
-          style={{ ...gradientStyle, backgroundPosition }} 
-        />
-      )}
-      <motion.div 
-        ref={textRef}
-        className="text-content" 
-        style={{ 
-          ...gradientStyle, 
-          backgroundPosition,
-          display: 'inline-block',
-          whiteSpace: 'nowrap'
-        }}
-      >
+      {showBorder && <motion.div className="gradient-overlay" style={{ ...gradientStyle, backgroundPosition }} />}
+      <motion.div className="text-content" style={{ ...gradientStyle, backgroundPosition }}>
         {children}
       </motion.div>
     </motion.div>
