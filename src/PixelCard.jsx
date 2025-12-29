@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './PixelCard.css';
 
 class Pixel {
@@ -75,9 +75,12 @@ export default function PixelCard({ variant = 'resume', gap, speed, colors, noFo
   const animationRef = useRef(null);
   const timePreviousRef = useRef(performance.now());
   const reducedMotion = useRef(window.matchMedia('(prefers-reduced-motion: reduce)').matches).current;
+  const isMobile = window.matchMedia("(pointer: coarse)").matches;
 
   const variantCfg = VARIANTS[variant] || VARIANTS.resume;
-  const finalGap = gap ?? variantCfg.gap;
+  
+  // پیشنهاد ۳: افزایش فاصله پیکسل‌ها در موبایل برای کاهش محاسبات
+  const finalGap = gap ?? (isMobile ? 12 : variantCfg.gap); 
   const finalSpeed = speed ?? variantCfg.speed;
   const finalColors = colors ?? variantCfg.colors;
 
@@ -105,8 +108,12 @@ export default function PixelCard({ variant = 'resume', gap, speed, colors, noFo
     animationRef.current = requestAnimationFrame(() => doAnimate(fnName));
     const timeNow = performance.now();
     const timePassed = timeNow - timePreviousRef.current;
-    if (timePassed < 1000 / 60) return;
-    timePreviousRef.current = timeNow - (timePassed % (1000 / 60));
+    
+    // پیشنهاد ۲: محدود کردن فریم‌ریت در موبایل
+    const targetFPS = isMobile ? 30 : 60;
+    if (timePassed < 1000 / targetFPS) return;
+    
+    timePreviousRef.current = timeNow - (timePassed % (1000 / targetFPS));
 
     const ctx = canvasRef.current?.getContext('2d');
     if (!ctx || !canvasRef.current) return;
@@ -127,30 +134,37 @@ export default function PixelCard({ variant = 'resume', gap, speed, colors, noFo
   useEffect(() => {
     initPixels();
     
-    // اگر دستگاه موبایل است، انیمیشن را بلافاصله فعال کن
-    if (window.matchMedia("(pointer: coarse)").matches) {
-      handleAnimation('appear');
-    }
+    // پیشنهاد ۷: انیمیشن هوشمند (فقط وقتی کارت دیده می‌شود)
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          if (isMobile) handleAnimation('appear');
+        } else {
+          if (isMobile) cancelAnimationFrame(animationRef.current);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    if (containerRef.current) observer.observe(containerRef.current);
     
     const resizeObserver = new ResizeObserver(() => {
       initPixels();
-      if (window.matchMedia("(pointer: coarse)").matches) {
-        handleAnimation('appear');
-      }
+      if (isMobile) handleAnimation('appear');
     });
     if (containerRef.current) resizeObserver.observe(containerRef.current);
     
     return () => {
+      observer.disconnect();
       resizeObserver.disconnect();
       cancelAnimationFrame(animationRef.current);
     };
   }, [finalGap, finalSpeed, finalColors]);
 
   const onMouseEnter = () => {
-    if (!window.matchMedia("(pointer: coarse)").matches) handleAnimation('appear');
+    if (!isMobile) handleAnimation('appear');
   };
   const onMouseLeave = () => {
-    if (!window.matchMedia("(pointer: coarse)").matches) handleAnimation('disappear');
+    if (!isMobile) handleAnimation('disappear');
   };
 
   return (

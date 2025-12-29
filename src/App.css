@@ -55,6 +55,7 @@ body, html {
   height: 100vh;
   z-index: -1;
   pointer-events: none;
+  will-change: transform; /* پیشنهاد ۶: شتاب‌دهنده */
 }
 
 .app-wrapper {
@@ -83,14 +84,25 @@ body, html {
   -webkit-backdrop-filter: blur(15px);
   border: 1px solid var(--glass-border) !important;
   border-radius: 20px !important;
-  margin-bottom: var(--section-spacing); /* فاصله ثابت بین تمام کارت‌ها */
+  margin-bottom: var(--section-spacing);
   width: 100% !important;
   height: auto !important;
   display: block !important;
   overflow: hidden;
+  will-change: opacity, transform; /* پیشنهاد ۶ */
 }
 
-/* حذف مارجین آخرین کارت برای جلوگیری از فضای خالی اضافه در انتها */
+/* پیشنهاد ۴: بهینه‌سازی بلور در موبایل */
+@media (max-width: 768px) {
+  .resume-header-card,
+  .side-pixel-wrapper,
+  .exp-pixel-wrapper {
+    backdrop-filter: blur(8px); /* کاهش سنگینی رندر */
+    -webkit-backdrop-filter: blur(8px);
+    background: rgba(15, 15, 15, 0.75) !important; /* تیره کردن برای جبران بلور کمتر */
+  }
+}
+
 .exp-pixel-wrapper:last-child {
   margin-bottom: 0;
 }
@@ -118,6 +130,7 @@ body, html {
   margin-bottom: 10px;
   word-wrap: break-word;
   overflow-wrap: break-word;
+  will-change: transform;
 }
 
 .subtitle { 
@@ -197,7 +210,7 @@ body, html {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  flex-wrap: wrap; /* این خط باعث می‌شود اگر جا نبود، متن به پایین برود */
+  flex-wrap: wrap;
   gap: 10px;
 }
 
@@ -245,6 +258,7 @@ body, html {
   direction: ltr !important;
   animation: float 2s ease-in-out infinite;
   transition: box-shadow 0.3s ease;
+  will-change: transform; /* پیشنهاد ۶ */
 }
 
 .flag-btn { 
@@ -281,11 +295,9 @@ body, html {
 @media (max-width: 1150px) {
   .resume-grid { 
     grid-template-columns: 1fr; 
-    gap: 0; /* حذف فاصله گرید چون خود کارت‌ها مارجین دارند */
+    gap: 0; 
   }
   .resume-header { flex-direction: column; text-align: center; gap: 20px; }
-  
-  /* حذف مارجین آخرین کارت سایدبار برای جلوگیری از فاصله دوبل با اولین کارت محتوا */
   .sidebar .side-pixel-wrapper:last-child {
     margin-bottom: var(--section-spacing);
   }
