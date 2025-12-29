@@ -5,9 +5,9 @@ import './GradientText.css';
 export default function GradientText({
   children,
   className = '',
-  // ترتیب رنگ‌ها را برای یک چرخه طبیعی اصلاح کردم
-  colors = ["#F3BC08", "#DF9339", "#D1765C", "#A010D6"],
-  animationSpeed = 5,
+  // پالت رنگی بهینه شده (رنگ اول و آخر یکی هستند تا مرز حذف شود)
+  colors = ["#F3BC08", "#DF9339", "#D1765C", "#A010D6", "#F3BC08"],
+  animationSpeed = 8, // سرعت را کمی کمتر کردم تا حرکت نرم‌تر دیده شود
   showBorder = false,
   pauseOnHover = false,
 }) {
@@ -33,9 +33,9 @@ export default function GradientText({
     lastTimeRef.current = time;
     elapsedRef.current += deltaTime;
 
-    // استفاده از باقی‌مانده برای ریست شدن نرم مقدار
-    const currentProgress = (elapsedRef.current % animationDuration) / animationDuration;
-    progress.set(currentProgress * 100);
+    // محاسبه پیشرفت به صورت درصدی از کل زمان انیمیشن
+    const totalProgress = (elapsedRef.current / animationDuration) * 100;
+    progress.set(totalProgress);
   });
 
   useEffect(() => {
@@ -43,8 +43,9 @@ export default function GradientText({
     progress.set(0);
   }, [animationSpeed]);
 
-  // جابه‌جایی از ۰ تا ۱۰۰ درصد
-  const backgroundPosition = useTransform(progress, p => `${p}% 50%`);
+  // کلید حل پرش: استفاده از باقی‌مانده ۱۰۰ (Modulus 100) 
+  // چون Background Size ما ۲۰۰٪ است، جابه‌جایی ۱۰۰ درصدی باعث تکرار بی‌نقص می‌شود
+  const backgroundPosition = useTransform(progress, p => `${p % 100}% 50%`);
 
   const handleMouseEnter = useCallback(() => {
     if (pauseOnHover) setIsPaused(true);
@@ -54,13 +55,13 @@ export default function GradientText({
     if (pauseOnHover) setIsPaused(false);
   }, [pauseOnHover]);
 
-  // کلید حل مشکل: تکرار رنگ اول در انتها و استفاده از پالت دوبرابر شده
-  const gradientColors = [...colors, colors[0], ...colors, colors[0]].join(', ');
+  // ایجاد نوار طولانی از رنگ‌ها برای حرکت نوار نقاله‌ای
+  const gradientColors = [...colors, ...colors].join(', ');
 
   const gradientStyle = {
     backgroundImage: `linear-gradient(to right, ${gradientColors})`,
-    backgroundSize: '300% 100%', // افزایش سایز برای نرم‌تر شدن حرکت
-    backgroundRepeat: 'repeat'
+    backgroundSize: '200% 100%',
+    backgroundRepeat: 'repeat',
   };
 
   return (
