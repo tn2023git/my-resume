@@ -76,7 +76,6 @@ float edgeFade(vec2 frag, vec2 res, vec2 offset){
 }
 
 mat3 rotX(float a){ float c = cos(a), s = sin(a); return mat3(1.0,0.0,0.0, 0.0,c,-s, 0.0,s,c); }
-// Keep your specific rotation logic
 mat3 rotY(float a){ float c = cos(a), s = sin(a); return mat3(c,0.0,s, 0.0,1.0,0.0, -s,0.0,c); }
 mat3 rotZ(float a){ float c = cos(a), s = sin(a); return mat3(c,-s,0.0, s,c,0.0, 0.0,0.0,1.0); }
 
@@ -120,6 +119,7 @@ void main(){
       hoverMat = rotY(ang.y) * rotX(ang.x);
     }
 
+    // افزایش تعداد حلقه‌ها برای پرتر شدن بک‌گراند در موبایل
     int loops = uIsMobile ? 22 : 44; 
     float marchT = 0.0;
 
@@ -193,7 +193,10 @@ const hexToRgb01 = hex => {
   }
   const intVal = parseInt(h, 16);
   if (isNaN(intVal) || (h.length !== 6 && h.length !== 8)) return [1, 1, 1];
-  return [((intVal >> 16) & 255) / 255, ((intVal >> 8) & 255) / 255, (intVal & 255) / 255];
+  const r = ((intVal >> 16) & 255) / 255;
+  const g = ((intVal >> 8) & 255) / 255;
+  const b = (intVal & 255) / 255;
+  return [r, g, b];
 };
 
 const PrismaticBurst = ({
@@ -221,6 +224,7 @@ const PrismaticBurst = ({
   const isMobile = typeof window !== 'undefined' && window.matchMedia("(pointer: coarse)").matches;
 
   useEffect(() => {
+    // تاخیر ۷۰۰ میلی‌ثانیه‌ای برای بهبود لود اولیه
     const timer = setTimeout(() => setReady(true), 700);
     return () => clearTimeout(timer);
   }, []);
@@ -229,6 +233,7 @@ const PrismaticBurst = ({
     if (!ready || !containerRef.current) return;
 
     const container = containerRef.current;
+    // dpr 0.8 برای موبایل جهت تعادل بین کیفیت و پرفورمنس
     const dpr = isMobile ? 0.8 : Math.min(window.devicePixelRatio || 1, 2);
     const renderer = new Renderer({ dpr, alpha: false, antialias: false });
     rendererRef.current = renderer;
@@ -251,7 +256,11 @@ const PrismaticBurst = ({
       generateMipmaps: false,
       flipY: false
     });
-    gradientTex.wrapS = gradientTex.wrapT = gl.CLAMP_TO_EDGE;
+
+    gradientTex.minFilter = gl.LINEAR;
+    gradientTex.magFilter = gl.LINEAR;
+    gradientTex.wrapS = gl.CLAMP_TO_EDGE;
+    gradientTex.wrapT = gl.CLAMP_TO_EDGE;
     gradTexRef.current = gradientTex;
 
     const program = new Program(gl, {
@@ -317,19 +326,31 @@ const PrismaticBurst = ({
   }, [ready, isMobile]);
 
   useEffect(() => {
-    if (!programRef.current || !gradTexRef.current) return;
-    const colors = [color0, color1, color2];
-    const data = new Uint8Array(colors.length * 4);
-    colors.forEach((c, i) => {
-      const rgb = hexToRgb01(c);
-      data.set([rgb[0]*255, rgb[1]*255, rgb[2]*255, 255], i * 4);
-    });
+    if (!programRef.current || !rendererRef.current || !gradTexRef.current) return;
+    
+    const colorsArray = [color0, color1, color2];
+    const data = new Uint8Array(colorsArray.length * 4);
+    for (let i = 0; i < colorsArray.length; i++) {
+        const [r, g, b] = hexToRgb01(colorsArray[i]);
+        data[i * 4 + 0] = Math.round(r * 255);
+        data[i * 4 + 1] = Math.round(g * 255);
+        data[i * 4 + 2] = Math.round(b * 255);
+        data[i * 4 + 3] = 255;
+    }
+    
     const tex = gradTexRef.current;
     tex.image = data;
-    tex.width = colors.length;
+    tex.width = colorsArray.length;
+    tex.height = 1;
     tex.needsUpdate = true;
-    programRef.current.uniforms.uColorCount.value = colors.length;
-  }, [color0, color1, color2]);
+    
+    programRef.current.uniforms.uIntensity.value = intensity;
+    programRef.current.uniforms.uSpeed.value = speed;
+    const animTypeMap = { rotate: 0, rotate3d: 1, hover: 2 };
+    programRef.current.uniforms.uAnimType.value = animTypeMap[animationType];
+    programRef.current.uniforms.uDistort.value = distort;
+    programRef.current.uniforms.uColorCount.value = colorsArray.length;
+  }, [intensity, speed, animationType, color0, color1, color2, distort]);
 
   return <div style={{width: '100%', height: '100%', position: 'absolute', inset: 0, overflow: 'hidden'}} ref={containerRef} />;
 };
