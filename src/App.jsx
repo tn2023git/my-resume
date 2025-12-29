@@ -53,7 +53,11 @@ function App() {
       ],
       softSkills: ["Fast learner", "Team Worker", "Creativity"],
       certificates: [
-        { name: "IELTS Academic", detail: "Active until Feb 7th, 2026" },
+        { 
+          name: "IELTS Academic (Overall: 8.0)", 
+          detail: "L: 9.0, R: 8.5, S: 8.0, W: 7.0",
+          validity: "Active until Feb 7th, 2026"
+        },
         { name: "TTC (Teacher Training Course)", detail: "Score: 52/60" },
         { name: "Diploma in Tourism", detail: "" }
       ],
@@ -106,7 +110,11 @@ function App() {
       ],
       softSkills: ["یادگیری سریع", "کار تیمی", "خلاقیت"],
       certificates: [
-        { name: "آیلتس آکادمیک (IELTS)", detail: "معتبر تا ۱۸ بهمن ۱۴۰۴" },
+        { 
+          name: "آیلتس آکادمیک (نمره کل: ۸.۰)", 
+          detail: "شنیداری: ۹، خواندن: ۸.۵، گفتاری: ۸، نوشتاری: ۷",
+          validity: "معتبر تا ۱۸ بهمن ۱۴۰۴"
+        },
         { name: "مدرک TTC (تربیت مدرس)", detail: "نمره: ۵۲ از ۶۰" },
         { name: "دیپلم گردشگری", detail: "" }
       ],
@@ -203,6 +211,7 @@ function App() {
                     <div key={i} className="cert-item">
                       <div className="cert-name bold-font">{cert.name}</div>
                       {cert.detail && <div className="cert-detail">{cert.detail}</div>}
+                      {cert.validity && <div className="cert-validity">{cert.validity}</div>}
                     </div>
                   ))}
                 </div>
