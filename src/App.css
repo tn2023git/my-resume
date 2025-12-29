@@ -30,7 +30,7 @@
   --bg: #050505;
   --glass-bg: rgba(15, 15, 15, 0.45); 
   --glass-border: rgba(255, 255, 255, 0.08);
-  /* یکپارچه‌سازی فواصل */
+  /* یکپارچه‌سازی فواصل برای نظم بصری */
   --spacing-desktop: 25px;
   --spacing-mobile: 15px;
 }
@@ -86,7 +86,6 @@ body, html {
 }
 
 /* --- Card Wrappers (Uniform Spacing) --- */
-.resume-header-card,
 .side-pixel-wrapper,
 .exp-pixel-wrapper,
 .mobile-glass-card {
@@ -95,43 +94,12 @@ body, html {
   -webkit-backdrop-filter: blur(15px);
   border: 1px solid var(--glass-border) !important;
   border-radius: 20px !important;
-  margin-bottom: var(--spacing-desktop); /* فاصله عمودی یکنواخت */
+  margin-bottom: var(--spacing-desktop);
   overflow: hidden;
   height: auto !important;
 }
 
-/* --- Header Layout (Opposite Side Logic) --- */
-.resume-header {
-  display: flex;
-  align-items: center;
-  padding: 40px;
-  gap: var(--spacing-desktop);
-  width: 100%;
-}
-
-.header-text { flex: 1; }
-
-.profile-img { 
-  width: 160px; 
-  height: 160px; 
-  border: 3px solid var(--purple); 
-  border-radius: 24px; 
-  object-fit: cover;
-  flex-shrink: 0;
-}
-
-/* انگلیسی: متن چپ، عکس راست */
-.ltr-mode .resume-header { flex-direction: row; }
-.ltr-mode .header-text { text-align: left; }
-
-/* فارسی: متن راست، عکس چپ (با row-reverse عکس به چپ می‌رود) */
-.rtl-mode .resume-header { flex-direction: row-reverse; }
-.rtl-mode .header-text { text-align: right; }
-
-.main-name { font-size: 3rem; line-height: 1.2; margin-bottom: 8px; }
-.subtitle { color: var(--yellow); font-size: 1.5rem; }
-
-/* --- Experience Content (No Sticking) --- */
+/* --- Experience Content (Spacing Fix) --- */
 .exp-row { 
   display: flex; 
   justify-content: space-between; 
@@ -142,6 +110,7 @@ body, html {
 }
 
 .exp-row h3 { flex: 1; min-width: fit-content; }
+.job-role { font-size: 1.2rem; color: white; }
 .exp-row span { white-space: nowrap; color: var(--c3); font-weight: bold; }
 
 .job-company { color: var(--yellow); margin-bottom: 10px; font-weight: bold; display: block; }
@@ -151,7 +120,7 @@ body, html {
 .resume-grid { 
   display: grid; 
   grid-template-columns: 380px 1fr; 
-  gap: var(--spacing-desktop); /* فاصله افقی یکنواخت */
+  gap: var(--spacing-desktop);
   align-items: flex-start; 
 }
 
@@ -159,24 +128,17 @@ body, html {
 
 /* --- Mobile Fixes (Uniform Spacing) --- */
 @media (max-width: 768px) {
-  .resume-header-card,
   .side-pixel-wrapper,
   .exp-pixel-wrapper,
   .mobile-glass-card {
-    margin-bottom: var(--spacing-mobile); /* فاصله عمودی کمتر در موبایل */
+    margin-bottom: var(--spacing-mobile);
   }
-
-  .resume-header { 
-    flex-direction: column-reverse !important; 
-    padding: 25px;
-    gap: 20px;
-  }
-
-  .ltr-mode .header-text, .rtl-mode .header-text { text-align: center; }
-  .profile-img { width: 125px; height: 125px; }
-  .main-name { font-size: 1.8rem !important; }
   
-  .resume-grid { gap: var(--spacing-mobile); }
+  .resume-grid { 
+    grid-template-columns: 1fr;
+    gap: var(--spacing-mobile); 
+  }
+
   .exp-row { flex-direction: column; align-items: flex-start; gap: 5px; }
 }
 
@@ -204,7 +166,6 @@ body, html {
   direction: ltr !important; 
 }
 .flag-btn { background: none; border: 2px solid transparent; border-radius: 50%; cursor: pointer; padding: 2px; display: flex; transition: transform 0.3s ease; }
-.flag-btn:hover { transform: scale(1.15); }
 .flag-btn.active { border-color: var(--yellow); }
 .flag-btn img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
 
