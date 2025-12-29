@@ -49,7 +49,7 @@ function App() {
       projects: [
         { name: "IranBarc", url: "https://iranbarc.com/" },
         { name: "Darmazon", url: "https://darmazon.com/" },
-        { name: "Atena Zist Darman", url: "https://atenazistdarman.co" }
+        { name: "Atena Zist Darman", url: "https://atenazistdarman.com" }
       ],
       experience: [
         { 
