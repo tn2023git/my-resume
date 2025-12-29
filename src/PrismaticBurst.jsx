@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { Renderer, Program, Mesh, Triangle, Texture } from 'ogl';
 
-// پیشنهاد ۱: استفاده از دقت متوسط (mediump) در فرگمنت شیدر برای موبایل
 const vertexShader = `#version 300 es
 in vec2 position;
 in vec2 uv;
@@ -13,8 +12,8 @@ void main() {
 `;
 
 const fragmentShader = `#version 300 es
-precision mediump float; /* پیشنهاد ۱ */
-precision mediump int;
+precision highp float;
+precision highp int;
 
 out vec4 fragColor;
 
@@ -45,7 +44,9 @@ float layeredNoise(vec2 fragPx){
     float n = 0.0;
     n += 0.40 * hash21(q);
     n += 0.25 * hash21(q * 2.0 + 17.0);
-    /* حذف لایه‌های اضافی نویز در موبایل می‌تواند سرعت را بیشتر کند اما فعلاً برای حفظ ظاهر نگه داشتیم */
+    n += 0.20 * hash21(q * 4.0 + 47.0);
+    n += 0.10 * hash21(q * 8.0 + 113.0);
+    n += 0.05 * hash21(q * 16.0 + 191.0);
     return n;
 }
 
@@ -105,102 +106,283 @@ void main(){
       vec3 ang = vec3(t * 0.31, t * 0.21, t * 0.17);
       rot3dMat = rotZ(ang.z) * rotY(ang.y) * rotX(ang.x);
     }
-    
-    /* منطق ساده‌تر برای رندر سریع‌تر */
-    vec3 q = rot3dMat * dir;
-    float b = bendAngle(q, t) * amp;
-    q.xy = rot2(q.xy, b);
-    
-    float angle = atan(q.y, q.x);
-    float beam = 0.5 + 0.5 * sin(float(uRayCount) * angle + t);
-    col = sampleGradient(beam) * uIntensity;
-    
-    float mask = edgeFade(frag, uResolution, uOffset);
-    fragColor = vec4(col * mask, 1.0);
-}
-`;
+    mat3 hoverMat = mat3(1.0);
+    if(uAnimType == 2){
+      vec2 m = uMouse * 2.0 - 1.0;
+      vec3 ang = vec3(m.y * 0.6, m.x * 0.6, 0.0);
+      hoverMat = rotY(ang.y) * rotX(ang.x);
+    }
 
-export default function PrismaticBurst({
-  intensity = 1.0,
-  speed = 1.0,
+    for (int i = 0; i < 44; ++i) {
+        vec3 P = marchT * dir;
+        P.z -= 2.0;
+        float rad = length(P);
+        vec3 Pl = P * (10.0 / max(rad, 1e-6));
+
+        if(uAnimType == 0){
+            Pl.xz *= M2;
+        } else if(uAnimType == 1){
+      Pl = rot3dMat * Pl;
+        } else {
+      Pl = hoverMat * Pl;
+        }
+
+        float stepLen = min(rad - 0.3, n * jitterAmp) + 0.1;
+        float grow = smoothstep(0.35, 3.0, marchT);
+        float a1 = amp * grow * bendAngle(Pl * 0.6, t);
+        float a2 = 0.5 * amp * grow * bendAngle(Pl.zyx * 0.5 + 3.1, t * 0.9);
+        vec3 Pb = Pl;
+        Pb.xz = rot2(Pb.xz, a1);
+        Pb.xy = rot2(Pb.xy, a2);
+
+        float rayPattern = smoothstep(
+            0.5, 0.7,
+            sin(Pb.x + cos(Pb.y) * cos(Pb.z)) *
+            sin(Pb.z + sin(Pb.y) * cos(Pb.x + t))
+        );
+
+        if (uRayCount > 0) {
+            float ang = atan(Pb.y, Pb.x);
+            float comb = 0.5 + 0.5 * cos(float(uRayCount) * ang);
+            comb = pow(comb, 3.0);
+            rayPattern *= smoothstep(0.15, 0.95, comb);
+        }
+
+        vec3 spectralDefault = 1.0 + vec3(
+            cos(marchT * 3.0 + 0.0),
+            cos(marchT * 3.0 + 1.0),
+            cos(marchT * 3.0 + 2.0)
+        );
+
+        float saw = fract(marchT * 0.25);
+        float tRay = saw * saw * (3.0 - 2.0 * saw);
+        vec3 userGradient = 2.0 * sampleGradient(tRay);
+        vec3 spectral = (uColorCount > 0) ? userGradient : spectralDefault;
+        vec3 base = (0.05 / (0.4 + stepLen))
+                  * smoothstep(5.0, 0.0, rad)
+                  * spectral;
+
+        col += base * rayPattern;
+        marchT += stepLen;
+    }
+
+    col *= edgeFade(frag, uResolution, uOffset);
+    col *= uIntensity;
+
+    fragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
+}`;
+
+const hexToRgb01 = hex => {
+  let h = hex.trim();
+  if (h.startsWith('#')) h = h.slice(1);
+  if (h.length === 3) {
+    const r = h[0], g = h[1], b = h[2];
+    h = r + r + g + g + b + b;
+  }
+  const intVal = parseInt(h, 16);
+  if (isNaN(intVal) || (h.length !== 6 && h.length !== 8)) return [1, 1, 1];
+  const r = ((intVal >> 16) & 255) / 255;
+  const g = ((intVal >> 8) & 255) / 255;
+  const b = (intVal & 255) / 255;
+  return [r, g, b];
+};
+
+const toPx = v => {
+  if (v == null) return 0;
+  if (typeof v === 'number') return v;
+  const s = String(v).trim();
+  const num = parseFloat(s.replace('px', ''));
+  return isNaN(num) ? 0 : num;
+};
+
+const PrismaticBurst = ({
+  intensity = 2,
+  speed = 0.5,
   animationType = 'hover',
-  color0 = '#ff0000',
-  color1 = '#00ff00',
-  color2 = '#0000ff',
-  distort = 0.5,
-  noiseAmount = 0.1,
-  rayCount = 4
-}) {
+  color0 = "#f3bc08",
+  color1 = "#d1765c",
+  color2 = "#a010d6",
+  distort = 0.3,
+  paused = false,
+  offset = { x: 0, y: 0 },
+  hoverDampness = 0.1,
+  rayCount = 0,
+  mixBlendMode = 'lighten'
+}) => {
   const containerRef = useRef(null);
+  const programRef = useRef(null);
+  const rendererRef = useRef(null);
+  const mouseTargetRef = useRef([0.5, 0.5]);
+  const mouseSmoothRef = useRef([0.5, 0.5]);
+  const pausedRef = useRef(paused);
+  const gradTexRef = useRef(null);
+  const hoverDampRef = useRef(hoverDampness);
+  const isVisibleRef = useRef(true);
+  const meshRef = useRef(null);
+  const triRef = useRef(null);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    pausedRef.current = paused;
+  }, [paused]);
+
+  useEffect(() => {
+    hoverDampRef.current = hoverDampness;
+  }, [hoverDampness]);
+
+  // اضافه کردن Tilt موبایل و حرکت ماوس
+  useEffect(() => {
+    const handleOrientation = (e) => {
+      if (e.beta !== null && e.gamma !== null) {
+        const x = (e.gamma + 30) / 60; 
+        const y = (e.beta + 30) / 60;
+        mouseTargetRef.current = [Math.max(0, Math.min(1, x)), Math.max(0, Math.min(1, y))];
+      }
+    };
+
+    const handleMouseMove = (e) => {
+      const x = e.clientX / window.innerWidth;
+      const y = e.clientY / window.innerHeight;
+      mouseTargetRef.current = [x, y];
+    };
+
+    window.addEventListener('deviceorientation', handleOrientation);
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => {
+      window.removeEventListener('deviceorientation', handleOrientation);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
+  useEffect(() => {
     const container = containerRef.current;
-    
-    // پیشنهاد ۱: تنظیم DPI کمتر برای موبایل برای رندر سریع‌تر
-    const isMobile = window.matchMedia("(pointer: coarse)").matches;
-    const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio, 2);
-    
-    const renderer = new Renderer({ alpha: true, dpr, antialias: !isMobile });
+    if (!container) return;
+
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const renderer = new Renderer({ dpr, alpha: false, antialias: false });
+    rendererRef.current = renderer;
+
     const gl = renderer.gl;
+    gl.canvas.style.position = 'absolute';
+    gl.canvas.style.inset = '0';
+    gl.canvas.style.width = '100%';
+    gl.canvas.style.height = '100%';
+    gl.canvas.style.mixBlendMode = mixBlendMode && mixBlendMode !== 'none' ? mixBlendMode : '';
     container.appendChild(gl.canvas);
 
-    const geometry = new Triangle(gl);
-    
-    const gradientCanvas = document.createElement('canvas');
-    gradientCanvas.width = 256;
-    gradientCanvas.height = 1;
-    const ctx = gradientCanvas.getContext('2d');
-    const grad = ctx.createLinearGradient(0, 0, 256, 0);
-    grad.addColorStop(0, color0);
-    grad.addColorStop(0.5, color1);
-    grad.addColorStop(1, color2);
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, 256, 1);
-    const uGradient = new Texture(gl, { image: gradientCanvas });
+    const white = new Uint8Array([255, 255, 255, 255]);
+    const gradientTex = new Texture(gl, {
+      image: white,
+      width: 1,
+      height: 1,
+      generateMipmaps: false,
+      flipY: false
+    });
+
+    gradientTex.minFilter = gl.LINEAR;
+    gradientTex.magFilter = gl.LINEAR;
+    gradientTex.wrapS = gl.CLAMP_TO_EDGE;
+    gradientTex.wrapT = gl.CLAMP_TO_EDGE;
+    gradTexRef.current = gradientTex;
 
     const program = new Program(gl, {
       vertex: vertexShader,
       fragment: fragmentShader,
       uniforms: {
+        uResolution: { value: [1, 1] },
         uTime: { value: 0 },
-        uResolution: { value: [0, 0] },
-        uIntensity: { value: intensity },
-        uSpeed: { value: speed },
-        uAnimType: { value: animationType === 'rotate' ? 1 : animationType === 'hover' ? 2 : 0 },
+        uIntensity: { value: 1 },
+        uSpeed: { value: 1 },
+        uAnimType: { value: 2 }, 
         uMouse: { value: [0.5, 0.5] },
-        uDistort: { value: distort },
+        uColorCount: { value: 0 },
+        uDistort: { value: 0 },
         uOffset: { value: [0, 0] },
-        uGradient: { value: uGradient },
-        uNoiseAmount: { value: noiseAmount },
-        uRayCount: { value: rayCount }
+        uGradient: { value: gradientTex },
+        uNoiseAmount: { value: 0.8 },
+        uRayCount: { value: 0 }
       }
     });
 
-    const mesh = new Mesh(gl, { geometry, program });
+    programRef.current = program;
+
+    const triangle = new Triangle(gl);
+    const mesh = new Mesh(gl, { geometry: triangle, program });
+    triRef.current = triangle;
+    meshRef.current = mesh;
 
     const resize = () => {
-      const { width, height } = container.getBoundingClientRect();
-      renderer.setSize(width, height);
-      program.uniforms.uResolution.value = [gl.canvas.width, gl.canvas.height];
+      const w = container.clientWidth || 1;
+      const h = container.clientHeight || 1;
+      renderer.setSize(w, h);
+      program.uniforms.uResolution.value = [gl.drawingBufferWidth, gl.drawingBufferHeight];
     };
-    window.addEventListener('resize', resize);
+
+    let ro = new ResizeObserver(resize);
+    ro.observe(container);
     resize();
 
-    let request;
-    const update = (t) => {
-      request = requestAnimationFrame(update);
-      program.uniforms.uTime.value = t * 0.001;
-      renderer.render({ scene: mesh });
+    let raf = 0;
+    let last = performance.now();
+    let accumTime = 0;
+
+    const update = now => {
+      const dt = Math.max(0, now - last) * 0.001;
+      last = now;
+      if (!pausedRef.current) accumTime += dt;
+
+      const tau = 0.02 + Math.max(0, Math.min(1, hoverDampRef.current)) * 0.5;
+      const alpha = 1 - Math.exp(-dt / tau);
+      const tgt = mouseTargetRef.current;
+      const sm = mouseSmoothRef.current;
+      sm[0] += (tgt[0] - sm[0]) * alpha;
+      sm[1] += (tgt[1] - sm[1]) * alpha;
+
+      program.uniforms.uMouse.value = sm;
+      program.uniforms.uTime.value = accumTime;
+
+      renderer.render({ scene: meshRef.current });
+      raf = requestAnimationFrame(update);
     };
-    request = requestAnimationFrame(update);
+    raf = requestAnimationFrame(update);
 
     return () => {
-      window.removeEventListener('resize', resize);
-      cancelAnimationFrame(request);
-      container.removeChild(gl.canvas);
+      cancelAnimationFrame(raf);
+      ro?.disconnect();
+      try { container.removeChild(gl.canvas); } catch {}
     };
-  }, [intensity, speed, animationType, color0, color1, color2, distort, noiseAmount, rayCount]);
+  }, []);
 
-  return <div ref={containerRef} style={{ width: '100%', height: '100%' }} />;
-}
+  useEffect(() => {
+    const program = programRef.current;
+    const renderer = rendererRef.current;
+    const gradTex = gradTexRef.current;
+    if (!program || !renderer || !gradTex) return;
+
+    program.uniforms.uIntensity.value = intensity;
+    program.uniforms.uSpeed.value = speed;
+    const animTypeMap = { rotate: 0, rotate3d: 1, hover: 2 };
+    program.uniforms.uAnimType.value = animTypeMap[animationType];
+    program.uniforms.uDistort.value = distort;
+
+    const colorsArray = [color0, color1, color2];
+    const gl = renderer.gl;
+    const count = colorsArray.length;
+    const data = new Uint8Array(count * 4);
+    for (let i = 0; i < count; i++) {
+        const [r, g, b] = hexToRgb01(colorsArray[i]);
+        data[i * 4 + 0] = Math.round(r * 255);
+        data[i * 4 + 1] = Math.round(g * 255);
+        data[i * 4 + 2] = Math.round(b * 255);
+        data[i * 4 + 3] = 255;
+    }
+    gradTex.image = data;
+    gradTex.width = count;
+    gradTex.height = 1;
+    gradTex.needsUpdate = true;
+    program.uniforms.uColorCount.value = count;
+  }, [intensity, speed, animationType, color0, color1, color2, distort]);
+
+  return <div style={{width: '100%', height: '100%', position: 'absolute', inset: 0, overflow: 'hidden'}} ref={containerRef} />;
+};
+
+export default PrismaticBurst;
