@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import './App.css';
 import profilePic from './assets/profile.png';
-import BlurText from './BlurText';
 import GradientText from './GradientText';
 
 function App() {
@@ -170,12 +169,7 @@ function App() {
         <header className="resume-header">
           <div className="header-text">
             <GradientText className="main-name bold-font">
-              <BlurText 
-                text={content.name} 
-                className="blur-header" 
-                delay={100}
-                animateBy="words"
-              />
+              {content.name}
             </GradientText>
             <p className="subtitle">{content.title}</p>
           </div>
@@ -186,11 +180,7 @@ function App() {
           <aside className="sidebar">
             <section className="side-section">
               <GradientText className="yellow-text bold-font">
-                <BlurText 
-                  text={isEn ? "Personal & Contact" : "اطلاعات فردی و تماس"} 
-                  className="blur-header"
-                  delay={50}
-                />
+                {isEn ? "Personal & Contact" : "اطلاعات فردی و تماس"}
               </GradientText>
               {content.personal.map((p, i) => <p key={i}><b className="bold-font">{p.label}:</b> {p.value}</p>)}
               {content.contact.map((c, i) => <p key={i}><b className="bold-font">{c.label}:</b> {c.value}</p>)}
@@ -199,11 +189,7 @@ function App() {
 
             <section className="side-section">
               <GradientText className="yellow-text bold-font">
-                <BlurText 
-                  text={isEn ? "Software" : "نرم‌افزارها"} 
-                  className="blur-header"
-                  delay={50}
-                />
+                {isEn ? "Software" : "نرم‌افزارها"}
               </GradientText>
               <div className="software-container">
                 {content.software.map((s, i) => (
@@ -217,11 +203,7 @@ function App() {
 
             <section className="side-section">
               <GradientText className="yellow-text bold-font">
-                <BlurText 
-                  text={isEn ? "Additional Skills" : "مهارت‌های تکمیلی"} 
-                  className="blur-header"
-                  delay={50}
-                />
+                {isEn ? "Additional Skills" : "مهارت‌های تکمیلی"}
               </GradientText>
               <div className="skills-grid">
                 {content.skills.map((skill, i) => <span key={i} className="skill-tag">{skill}</span>)}
@@ -230,11 +212,7 @@ function App() {
 
             <section className="side-section">
               <GradientText className="yellow-text bold-font">
-                <BlurText 
-                  text={isEn ? "Projects" : "پروژه‌ها"} 
-                  className="blur-header"
-                  delay={50}
-                />
+                {isEn ? "Projects" : "پروژه‌ها"}
               </GradientText>
               <div className="projects-list">
                 {content.projects.map((proj, i) => <a key={i} href={proj.url} target="_blank" rel="noreferrer" className="project-link">{proj.name}</a>)}
@@ -244,11 +222,7 @@ function App() {
 
           <main className="main-content">
             <GradientText className="yellow-text bold-font section-title">
-              <BlurText 
-                text={isEn ? "Work Experience" : "سوابق شغلی"} 
-                className="blur-header" 
-                delay={50}
-              />
+              {isEn ? "Work Experience" : "سوابق شغلی"}
             </GradientText>
             {content.experience.map((job, i) => (
               <div key={i} className="exp-card">
@@ -256,11 +230,7 @@ function App() {
                   <span className="job-role bold-font">{job.role}</span>
                   <span className="job-duration">
                     <GradientText className="duration-text bold-font">
-                      <BlurText 
-                        text={job.duration} 
-                        className="blur-header" 
-                        delay={30}
-                      />
+                      {job.duration}
                     </GradientText>
                   </span>
                 </div>
