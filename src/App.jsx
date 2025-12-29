@@ -40,13 +40,21 @@ function App() {
         { name: "Microsoft Powerpoint", dots: 4 },
         { name: "Microsoft Excel", dots: 3 }, 
         { name: "WordPress", dots: 4 }, 
+        { name: "Elementor", dots: 4 },
         { name: "Google Search Console", dots: 2 }
       ],
-      skills: ["Farsi to English Translation", "Teaching English", "English to Farsi translation", "Computer software repairs", "Fast learner", "Team Worker", "WordPress Website Design", "Creativity"],
+      technicalSkills: [
+        { name: "WordPress Website Design", level: 90 },
+        { name: "Farsi to English Translation", level: 85 },
+        { name: "Computer software repairs", level: 80 },
+        { name: "Teaching English", level: 75 },
+        { name: "English to Farsi translation", level: 70 }
+      ],
+      softSkills: ["Fast learner", "Team Worker", "Creativity"],
       projects: [
-        { name: "IranBarc", url: "https://iranbarc.com/" },
-        { name: "Darmazon", url: "https://darmazon.com/" },
-        { name: "Atena Zist Darman", url: "https://atenazistdarman.com" }
+        { name: "IranBarc", url: "https://iranbarc.com/", tags: ["AI", "Wordpress", "Elementor"] },
+        { name: "Darmazon", url: "https://darmazon.com/", tags: ["Photoshop", "Wordpress", "Elementor"] },
+        { name: "Atena Zist Darman", url: "https://atenazistdarman.com", tags: ["AI", "Wordpress", "Elementor", "Premiere", "Photoshop"] }
       ],
       experience: [
         { role: "Office Assistant", company: "Atena Zist Darman", date: "Apr 2024 - Nov 2025", duration: "1 Year and 7 Months", desc: "Handling all administrative and clerical tasks, drafting correspondence, archiving, answering phones, issuing invoices, entering data into the Faradis CRM system, preparing reports, and troubleshooting routine software issues." },
@@ -79,13 +87,21 @@ function App() {
         { name: "Microsoft Powerpoint", dots: 4 },
         { name: "Microsoft Excel", dots: 3 }, 
         { name: "WordPress", dots: 4 }, 
+        { name: "Elementor", dots: 4 },
         { name: "Google Search Console", dots: 2 }
       ],
-      skills: ["ترجمه فارسی به انگلیسی", "تدریس زبان انگلیسی", "ترجمه انگلیسی به فارسی", "تعمیرات نرم‌افزاری کامپیوتر", "یادگیری سریع", "کار تیمی", "طراحی سایت وردپرس", "خلاقیت"],
+      technicalSkills: [
+        { name: "طراحی سایت وردپرس", level: 90 },
+        { name: "ترجمه فارسی به انگلیسی", level: 85 },
+        { name: "تعمیرات نرم‌افزاری کامپیوتر", level: 80 },
+        { name: "تدریس زبان انگلیسی", level: 75 },
+        { name: "ترجمه انگلیسی به فارسی", level: 70 }
+      ],
+      softSkills: ["یادگیری سریع", "کار تیمی", "خلاقیت"],
       projects: [
-        { name: "ایران بارسی", url: "https://iranbarc.com/" },
-        { name: "درمازون", url: "https://darmazon.com/" },
-        { name: "آتنا زیست درمان", url: "https://atenazistdarman.co" }
+        { name: "ایران بارسی", url: "https://iranbarc.com/", tags: ["AI", "Wordpress", "Elementor"] },
+        { name: "درمازون", url: "https://darmazon.com/", tags: ["Photoshop", "Wordpress", "Elementor"] },
+        { name: "آتنا زیست درمان", url: "https://atenazistdarman.co", tags: ["AI", "Wordpress", "Elementor", "Premiere", "Photoshop"] }
       ],
       experience: [
         { role: "منشی و مسئول دفتر", company: "آتنا زیست درمان", date: "فروردین ۱۴۰۳ - آبان ۱۴۰۴", duration: "۱ سال و ۷ ماه", desc: "انجام تمامی امور اداری و دفتری، تنظیم نامه ها، بایگانی، پاسخگویی به تلفن ها و صدور فاکتور ها، ثبت اطلاعات در سیستم CRM فرادیس، تهیه گزارش ها و رسیدگی به مشکلات ساده نرم افزاری روزمره." },
@@ -117,8 +133,6 @@ function App() {
       </div>
 
       <div className="pdf-page">
-        {/* هدر حذف شد */}
-        
         <div className="resume-grid">
           <aside className="sidebar">
             <SmartCard className="side-pixel-wrapper">
@@ -146,9 +160,25 @@ function App() {
 
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
-                <GradientText className="yellow-text bold-font">{isEn ? "Additional Skills" : "مهارت‌های تکمیلی"}</GradientText>
+                <GradientText className="yellow-text bold-font">{isEn ? "Technical Skills" : "مهارت‌های تخصصی"}</GradientText>
+                <div className="technical-skills-list">
+                  {content.technicalSkills.map((skill, i) => (
+                    <div key={i} className="skill-progress-item">
+                      <span className="skill-name">{skill.name}</span>
+                      <div className="progress-bar-bg">
+                        <div className="progress-bar-fill" style={{ width: `${skill.level}%` }}></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            </SmartCard>
+
+            <SmartCard className="side-pixel-wrapper">
+              <section className="side-section">
+                <GradientText className="yellow-text bold-font">{isEn ? "Soft Skills" : "مهارت‌های نرم"}</GradientText>
                 <div className="skills-grid">
-                  {content.skills.map((skill, i) => <span key={i} className="skill-tag">{skill}</span>)}
+                  {content.softSkills.map((skill, i) => <span key={i} className="skill-tag">{skill}</span>)}
                 </div>
               </section>
             </SmartCard>
@@ -157,7 +187,14 @@ function App() {
               <section className="side-section">
                 <GradientText className="yellow-text bold-font">{isEn ? "Projects" : "پروژه‌ها"}</GradientText>
                 <div className="projects-list">
-                  {content.projects.map((proj, i) => <a key={i} href={proj.url} target="_blank" rel="noreferrer" className="project-link">{proj.name}</a>)}
+                  {content.projects.map((proj, i) => (
+                    <div key={i} className="project-item">
+                      <a href={proj.url} target="_blank" rel="noreferrer" className="project-link">{proj.name}</a>
+                      <div className="project-tags">
+                        {proj.tags.map((tag, idx) => <span key={idx} className="tag">{tag}</span>)}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </section>
             </SmartCard>
