@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './App.css';
-import profilePic from './assets/profile.jpg';
+import profilePic from './assets/profile.png';
 
 function App() {
   const [lang, setLang] = useState('en');
