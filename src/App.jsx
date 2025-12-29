@@ -52,6 +52,11 @@ function App() {
         { name: "WordPress Website Design", level: 90 }
       ],
       softSkills: ["Fast learner", "Team Worker", "Creativity"],
+      certificates: [
+        { name: "IELTS Academic", detail: "Active until Feb 7th, 2026" },
+        { name: "TTC (Teacher Training Course)", detail: "Score: 52/60" },
+        { name: "Diploma in Tourism", detail: "" }
+      ],
       projects: [
         { name: "IranBarc", url: "https://iranbarc.com/", tags: ["AI", "Wordpress", "Elementor"] },
         { name: "Darmazon", url: "https://darmazon.com/", tags: ["Photoshop", "Wordpress", "Elementor"] },
@@ -100,6 +105,11 @@ function App() {
         { name: "طراحی سایت وردپرس", level: 90 }
       ],
       softSkills: ["یادگیری سریع", "کار تیمی", "خلاقیت"],
+      certificates: [
+        { name: "آیلتس آکادمیک (IELTS)", detail: "معتبر تا ۱۸ بهمن ۱۴۰۴" },
+        { name: "مدرک TTC (تربیت مدرس)", detail: "نمره: ۵۲ از ۶۰" },
+        { name: "دیپلم گردشگری", detail: "" }
+      ],
       projects: [
         { name: "ایران بارسی", url: "https://iranbarc.com/", tags: ["AI", "Wordpress", "Elementor"] },
         { name: "درمازون", url: "https://darmazon.com/", tags: ["Photoshop", "Wordpress", "Elementor"] },
@@ -181,6 +191,20 @@ function App() {
                 <GradientText className="yellow-text bold-font">{isEn ? "Soft Skills" : "مهارت‌های نرم"}</GradientText>
                 <div className="skills-grid">
                   {content.softSkills.map((skill, i) => <span key={i} className="skill-tag">{skill}</span>)}
+                </div>
+              </section>
+            </SmartCard>
+
+            <SmartCard className="side-pixel-wrapper">
+              <section className="side-section">
+                <GradientText className="yellow-text bold-font">{isEn ? "Certificates" : "گواهینامه‌ها"}</GradientText>
+                <div className="certs-list">
+                  {content.certificates.map((cert, i) => (
+                    <div key={i} className="cert-item">
+                      <div className="cert-name bold-font">{cert.name}</div>
+                      {cert.detail && <div className="cert-detail">{cert.detail}</div>}
+                    </div>
+                  ))}
                 </div>
               </section>
             </SmartCard>

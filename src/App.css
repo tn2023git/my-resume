@@ -98,7 +98,7 @@ body, html {
   height: auto !important;
 }
 
-/* Remove margin-bottom from the last card in sidebar to remove outer bottom space */
+/* Outer bottom space removal for the last sidebar card */
 .sidebar .side-pixel-wrapper:last-child {
   margin-bottom: 0;
 }
@@ -162,6 +162,12 @@ body, html {
   font-size: 0.85rem; 
   border-inline-start: 4px solid var(--purple); 
 }
+
+/* --- Certificates Section --- */
+.certs-list { display: flex; flex-direction: column; gap: 12px; }
+.cert-item { display: flex; flex-direction: column; }
+.cert-name { font-size: 1rem; color: white; }
+.cert-detail { font-size: 0.85rem; color: var(--yellow); opacity: 0.9; margin-top: 2px; }
 
 /* --- Projects Section --- */
 .projects-list { display: flex; flex-direction: column; gap: 20px; }
