@@ -187,9 +187,9 @@
 
 /* اضافه شدن کلاس برای بلور تکست */
 .blur-header {
-  color: transparent !important;
   display: flex !important;
   flex-wrap: wrap;
+  line-height: 1.2;
 }
 
 /* RESPONSIVE */
