@@ -203,7 +203,13 @@ body, html {
   text-align: justify;
 }
 
-/* --- Fixed Language Switcher (Locked to LTR) --- */
+/* --- Language Switcher (Floating & Grow Animation) --- */
+@keyframes float {
+  0% { transform: translateX(-50%) translateY(0px); }
+  50% { transform: translateX(-50%) translateY(-10px); }
+  100% { transform: translateX(-50%) translateY(0px); }
+}
+
 .floating-lang-switcher {
   position: fixed;
   bottom: 35px;
@@ -219,8 +225,10 @@ body, html {
   z-index: 1000;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  direction: ltr !important; /* قفل کردن چیدمان روی چپ‌به‌راست */
+  direction: ltr !important;
+  /* اضافه کردن انیمیشن شناور */
+  animation: float 3s ease-in-out infinite;
+  transition: box-shadow 0.3s ease;
 }
 
 .flag-btn { 
@@ -232,12 +240,13 @@ body, html {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   overflow: hidden;
 }
 
+/* رشد درجا بدون پریدن به بالا */
 .flag-btn:hover {
-  transform: translateY(-5px) scale(1.1);
+  transform: scale(1.25);
 }
 
 .flag-btn.active { 
