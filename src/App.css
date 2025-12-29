@@ -1,4 +1,4 @@
-/* --- FARSI FONTS (Anjoman) --- */
+/* --- FONTS --- */
 @font-face {
   font-family: 'Anjoman';
   src: url('./assets/fonts/Anjoman Light.ttf') format('truetype');
@@ -15,7 +15,6 @@
   font-weight: 700;
 }
 
-/* --- ENGLISH FONTS (Product Sans) --- */
 @font-face {
   font-family: 'ProductSans';
   src: url('./assets/fonts/Product Sans Regular.ttf') format('truetype');
@@ -27,55 +26,80 @@
   font-weight: 700;
 }
 
-/* --- THEME RULES --- */
-.rtl-mode {
-  direction: rtl;
-  font-family: 'Anjoman', Tahoma, sans-serif;
+/* --- THEME --- */
+:root {
+  --bg: #121212;
+  --surface: #1e1e1e;
+  --primary: #bb86fc;
+  --secondary: #03dac6;
+  --text-primary: #ffffff;
+  --text-secondary: #b3b3b3;
 }
 
-.ltr-mode {
-  direction: ltr;
-  font-family: 'ProductSans', Arial, sans-serif;
-}
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.app-wrapper {
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--text-primary);
+  padding-bottom: 50px;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.rtl-mode { direction: rtl; font-family: 'Anjoman', sans-serif; }
+.ltr-mode { direction: ltr; font-family: 'ProductSans', sans-serif; }
+
+/* --- COMPONENTS --- */
+.navbar { display: flex; justify-content: space-between; padding: 20px; }
+
+.lang-btn {
+  background: transparent;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  padding: 5px 15px;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.container { max-width: 700px; margin: 0 auto; padding: 0 20px; }
+
+.hero { text-align: center; margin-top: 40px; }
+
+.profile-img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 3px solid var(--primary);
+  object-fit: cover;
+  margin-bottom: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.name { font-size: 2.5rem; margin: 0; font-weight: 700; }
+.title-tag { color: var(--secondary); font-size: 1.2rem; margin: 10px 0; }
+
+.contact-bar { color: var(--text-secondary); font-size: 0.9rem; }
+
+.section-title {
+  border-bottom: 1px solid #333;
+  padding-bottom: 10px;
+  margin-top: 40px;
+  color: var(--primary);
 }
 
 .card {
-  padding: 2em;
+  background: var(--surface);
+  padding: 20px;
+  border-radius: 8px;
+  margin: 15px 0;
 }
 
-.read-the-docs {
-  color: #888;
+.card-header { display: flex; justify-content: space-between; font-weight: 700; }
+.job-role { color: var(--text-primary); }
+.job-date { color: var(--text-secondary); font-size: 0.85rem; }
+.job-company { color: var(--secondary); margin: 5px 0; }
+.job-desc { color: var(--text-secondary); margin: 0; font-size: 0.95rem; line-height: 1.5; }
+
+.skills-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+.skill-pill {
+  background: #333;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
 }
