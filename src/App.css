@@ -108,6 +108,11 @@ body, html {
 
 .side-section, .exp-card { padding: 30px; }
 
+/* Remove bottom padding specifically for the last section if needed */
+.sidebar .side-pixel-wrapper:last-child .side-section {
+  padding-bottom: 10px;
+}
+
 /* --- Software Section (Dots) --- */
 .software-item { 
   display: flex; 
@@ -159,8 +164,20 @@ body, html {
 }
 
 /* --- Projects Section --- */
-.projects-list { display: flex; flex-direction: column; gap: 20px; }
-.project-item { display: flex; flex-direction: column; gap: 8px; }
+.projects-list { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 20px;
+  padding-bottom: 0; /* Ensure no internal padding */
+}
+.project-item { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 8px; 
+}
+.project-item:last-child {
+  margin-bottom: 0;
+}
 .project-link { 
   color: var(--c1); 
   text-decoration: underline; 
