@@ -5,12 +5,11 @@ import './GradientText.css';
 export default function GradientText({
   children,
   className = '',
-  colors = ["#DF9339", "#D1765C", "#A010D6", "#D1765C","#DF9339", "#F3BC08",],
+  // ترتیب رنگ‌ها را برای یک چرخه طبیعی اصلاح کردم
+  colors = ["#F3BC08", "#DF9339", "#D1765C", "#A010D6"],
   animationSpeed = 5,
   showBorder = false,
-  direction = 'horizontal',
   pauseOnHover = false,
-  yoyo = false // غیرفعال کردن حالت رفت و برگشتی
 }) {
   const [isPaused, setIsPaused] = useState(false);
   const progress = useMotionValue(0);
@@ -34,9 +33,9 @@ export default function GradientText({
     lastTimeRef.current = time;
     elapsedRef.current += deltaTime;
 
-    // محاسبه پیشرفت به صورت خطی برای حرکت مداوم
-    const totalProgress = (elapsedRef.current / animationDuration) * 100;
-    progress.set(totalProgress);
+    // استفاده از باقی‌مانده برای ریست شدن نرم مقدار
+    const currentProgress = (elapsedRef.current % animationDuration) / animationDuration;
+    progress.set(currentProgress * 100);
   });
 
   useEffect(() => {
@@ -44,8 +43,8 @@ export default function GradientText({
     progress.set(0);
   }, [animationSpeed]);
 
-  // استفاده از مقادیر منفی برای حرکت از چپ به راست (Infinite Slide)
-  const backgroundPosition = useTransform(progress, p => `-${p % 200}% 50%`);
+  // جابه‌جایی از ۰ تا ۱۰۰ درصد
+  const backgroundPosition = useTransform(progress, p => `${p}% 50%`);
 
   const handleMouseEnter = useCallback(() => {
     if (pauseOnHover) setIsPaused(true);
@@ -55,12 +54,12 @@ export default function GradientText({
     if (pauseOnHover) setIsPaused(false);
   }, [pauseOnHover]);
 
-  // تکرار رنگ‌ها برای ایجاد یک چرخه بی‌پایان و بدون پرش (Seamless Loop)
-  const gradientColors = [...colors, ...colors].join(', ');
+  // کلید حل مشکل: تکرار رنگ اول در انتها و استفاده از پالت دوبرابر شده
+  const gradientColors = [...colors, colors[0], ...colors, colors[0]].join(', ');
 
   const gradientStyle = {
     backgroundImage: `linear-gradient(to right, ${gradientColors})`,
-    backgroundSize: '200% 100%',
+    backgroundSize: '300% 100%', // افزایش سایز برای نرم‌تر شدن حرکت
     backgroundRepeat: 'repeat'
   };
 
