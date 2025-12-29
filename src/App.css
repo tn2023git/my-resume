@@ -30,7 +30,7 @@
   --purple: var(--c4);
   --bg: #0f0f0f;
   --paper: #1a1a1a;
-  --box-bg: #222222; /* رنگ پس‌زمینه باکس‌های مجزا */
+  --box-bg: #222222; 
   --section-spacing: 25px;
 }
 
@@ -56,15 +56,18 @@
   outline: none !important;
 }
 
+/* تبدیل هدر به باکس مجزا */
 .resume-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid var(--c2);
-  padding-bottom: 30px;
+  background: var(--box-bg);
+  padding: 30px 40px;
+  border-radius: 10px;
   margin-bottom: 40px;
   flex-wrap: wrap;
   gap: 20px;
+  border: 1px solid #333;
 }
 
 .main-name { 
@@ -87,11 +90,11 @@
 
 .resume-grid { display: grid; grid-template-columns: 380px 1fr; gap: 40px; }
 
-/* استایل باکس‌های مجزا */
+/* استایل باکس‌های مجزا برای بخش‌های دیگر */
 .side-section, .exp-card { 
   background: var(--box-bg);
   padding: 25px;
-  border-radius: 10px; /* انحنای مشابه قاب عکس */
+  border-radius: 10px;
   margin-bottom: var(--section-spacing);
   border: 1px solid #333;
 }
