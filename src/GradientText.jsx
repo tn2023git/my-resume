@@ -6,7 +6,7 @@ export default function GradientText({
   children,
   className = '',
   // استفاده از پالت متقارن برای حذف بریدگی
-  colors = ["#F3BC08", "#DF9339", "#A010D6", "#DF9339", "#F3BC08"],
+  colors = ["#F3BC08", "#DF9339", "#D1765C", "#A010D6"],
   animationSpeed = 5,
   showBorder = false,
   pauseOnHover = false,
