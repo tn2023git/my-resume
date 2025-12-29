@@ -31,7 +31,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(161, 16, 214, 0.45), transparent 55%);
+  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(160, 16, 214, 0.1), transparent 80%);
   opacity: 0;
   transition: opacity 0.5s;
   pointer-events: none;

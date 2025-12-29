@@ -91,13 +91,13 @@ function getEffectiveSpeed(value, reducedMotion) {
   }
 }
 
-// تنظیم واریانت رزومه با رنگ‌های اصلی شما و شفافیت 15%
+// تنظیم واریانت با شفافیت 45% (0.45)
 const VARIANTS = {
   resume: {
-    activeColor: 'rgba(160, 16, 214, 0.15)',
+    activeColor: 'rgba(160, 16, 214, 0.45)',
     gap: 6,
     speed: 35,
-    colors: 'rgba(243, 188, 8, 0.15),rgba(209, 118, 92, 0.15),rgba(160, 10, 214, 0.15),rgba(223, 147, 57, 0.15)',
+    colors: 'rgba(243, 188, 8, 0.45),rgba(209, 118, 92, 0.45),rgba(160, 10, 214, 0.45),rgba(223, 147, 57, 0.45)',
     noFocus: false
   }
 };
@@ -129,6 +129,7 @@ export default function PixelCard({ variant = 'resume', gap, speed, colors, noFo
     canvasRef.current.style.width = `${width}px`;
     canvasRef.current.style.height = `${height}px`;
 
+    // اصلاح منطق جدا کردن رنگ‌های RGBA
     const colorsArray = finalColors.split('),').map(c => c.endsWith(')') ? c : c + ')');
     const pxs = [];
     for (let x = 0; x < width; x += parseInt(finalGap, 10)) {
