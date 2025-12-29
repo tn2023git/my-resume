@@ -91,13 +91,13 @@ function getEffectiveSpeed(value, reducedMotion) {
   }
 }
 
-// تنظیم واریانت با شفافیت 45% (0.45)
+// تنظیم واریانت با شفافیت 70% (0.7)
 const VARIANTS = {
   resume: {
-    activeColor: 'rgba(160, 16, 214, 0.45)',
+    activeColor: 'rgba(160, 16, 214, 0.7)',
     gap: 6,
     speed: 35,
-    colors: 'rgba(243, 188, 8, 0.45),rgba(209, 118, 92, 0.45),rgba(160, 10, 214, 0.45),rgba(223, 147, 57, 0.45)',
+    colors: 'rgba(243, 188, 8, 0.7),rgba(209, 118, 92, 0.7),rgba(160, 10, 214, 0.7),rgba(223, 147, 57, 0.7)',
     noFocus: false
   }
 };
@@ -129,7 +129,6 @@ export default function PixelCard({ variant = 'resume', gap, speed, colors, noFo
     canvasRef.current.style.width = `${width}px`;
     canvasRef.current.style.height = `${height}px`;
 
-    // اصلاح منطق جدا کردن رنگ‌های RGBA
     const colorsArray = finalColors.split('),').map(c => c.endsWith(')') ? c : c + ')');
     const pxs = [];
     for (let x = 0; x < width; x += parseInt(finalGap, 10)) {
