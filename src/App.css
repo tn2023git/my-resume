@@ -22,7 +22,7 @@
 }
 
 :root {
-  /* The Four Specific Colors */
+  /* چهار رنگ اختصاصی شما */
   --c1: #F3BC08;
   --c2: #DF9339;
   --c3: #D1765C;
@@ -33,8 +33,8 @@
   --paper: #1a1a1a;
   --section-spacing: 50px;
   
-  /* Full Four-Color Gradient */
-  --full-gradient: linear-gradient(90deg, var(--c1), var(--c2), var(--c3), var(--c4));
+  /* گرادینت با زاویه ۴۵ درجه (زرد بالا-چپ، بنفش پایین-راست) */
+  --full-gradient: linear-gradient(45deg, var(--c1), var(--c2), var(--c3), var(--c4));
 }
 
 .app-wrapper {
@@ -62,7 +62,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* Border uses a blend color for smoothness */
   border-bottom: 2px solid var(--c2);
   padding-bottom: 30px;
   margin-bottom: var(--section-spacing);
@@ -70,7 +69,7 @@
   gap: 20px;
 }
 
-/* Full Gradient on Name */
+/* اعمال گرادینت ۴۵ درجه روی نام */
 .header-text h1 { 
   background: var(--full-gradient);
   -webkit-background-clip: text;
@@ -91,7 +90,6 @@
   object-fit: cover;
 }
 
-/* Software Skills */
 .software-item {
   display: flex;
   justify-content: space-between;
@@ -122,11 +120,10 @@
   background: var(--purple);
 }
 
-/* GRID & SECTIONS */
 .resume-grid { display: grid; grid-template-columns: 380px 1fr; gap: 70px; }
 .side-section { margin-bottom: var(--section-spacing); }
 
-/* Full Gradient on Sidebar/Main Section Titles */
+/* اعمال گرادینت ۴۵ درجه روی تیترها */
 .yellow-text { 
   background: var(--full-gradient);
   -webkit-background-clip: text;
@@ -154,10 +151,8 @@
 .exp-card { margin-bottom: 45px; border-bottom: 1px solid #333; padding-bottom: 25px; }
 .exp-row { display: flex; justify-content: space-between; font-size: 1.25rem; flex-wrap: wrap; }
 
-/* Company Names use the solid 4th color */
 .job-company { margin: 5px 0; color: var(--purple); }
 
-/* Job Duration uses the full 4-color gradient */
 .job-duration.yellow-text {
   border-bottom: none;
   padding-bottom: 0;
