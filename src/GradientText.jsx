@@ -6,7 +6,7 @@ export default function GradientText({
   children,
   className = '',
   colors = ["#f3bc08", "#df9339", "#d1765c", "#a010d6", "#d1765c", "#df9339"],
-  animationSpeed = 8,
+  animationSpeed = 2,
   showBorder = false,
   direction = 'horizontal',
   pauseOnHover = false,
