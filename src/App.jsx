@@ -1,11 +1,44 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import profilePic from './assets/profile.png';
 import GradientText from './GradientText';
+import PrismaticBurst from './PrismaticBurst';
 
 function App() {
   const [lang, setLang] = useState('en');
+  const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
   const isEn = lang === 'en';
+
+  // هندل کردن Tilt برای موبایل و حرکت ماوس برای دسکتاپ
+  useEffect(() => {
+    const handleOrientation = (e) => {
+      if (e.beta !== null && e.gamma !== null) {
+        // تبدیل اعداد ژیروسکوپ به بازه 0 تا 1
+        // beta (tilt forward/backward) | gamma (tilt left/right)
+        const x = (e.gamma + 30) / 60; 
+        const y = (e.beta + 30) / 60;
+        setMousePos({ 
+          x: Math.max(0, Math.min(1, x)), 
+          y: Math.max(0, Math.min(1, y)) 
+        });
+      }
+    };
+
+    const handleMouseMove = (e) => {
+      setMousePos({
+        x: e.clientX / window.innerWidth,
+        y: e.clientY / window.innerHeight
+      });
+    };
+
+    window.addEventListener('deviceorientation', handleOrientation);
+    window.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      window.removeEventListener('deviceorientation', handleOrientation);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
 
   const data = {
     en: {
@@ -165,6 +198,16 @@ function App() {
 
   return (
     <div className={`app-wrapper ${isEn ? 'ltr-mode' : 'rtl-mode'}`}>
+      <div className="bg-container">
+        <PrismaticBurst
+          intensity={1.8}
+          speed={0.2}
+          colors={["#f3bc08", "#d1765c", "#a010d6"]}
+          animationType="hover"
+          distort={0.3}
+        />
+      </div>
+
       <div className="pdf-page">
         <header className="resume-header">
           <div className="header-text">
