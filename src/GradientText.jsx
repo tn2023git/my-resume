@@ -5,22 +5,32 @@ import './GradientText.css';
 export default function GradientText({
   children,
   className = '',
-  colors=["#f3bc08","#df9339","#d1765c","#a010d6","#d1765c","#df9339"],
-  animationSpeed=2,
+  colors = ["#f3bc08","#df9339","#d1765c","#a010d6","#d1765c","#df9339"],
+  animationSpeed = 8,
   showBorder = false,
   direction = 'horizontal',
   pauseOnHover = false,
-  yoyo=false
+  yoyo = false // غیرفعال شد
 }) {
   const [isPaused, setIsPaused] = useState(false);
-  const progress = useMotionValue(0);
+  const textRef = useRef(null);
+  const [textWidth, setTextWidth] = useState(0);
+  
+  const x = useMotionValue(0);
   const elapsedRef = useRef(0);
   const lastTimeRef = useRef(null);
 
   const animationDuration = animationSpeed * 1000;
 
-  useAnimationFrame(time => {
-    if (isPaused) {
+  // محاسبه عرض متن برای تنظیم اندازه پس‌زمینه
+  useEffect(() => {
+    if (textRef.current) {
+      setTextWidth(textRef.current.getBoundingClientRect().width);
+    }
+  }, [children]);
+
+  useAnimationFrame((time, delta) => {
+    if (isPaused || textWidth === 0) {
       lastTimeRef.current = null;
       return;
     }
@@ -34,36 +44,24 @@ export default function GradientText({
     lastTimeRef.current = time;
     elapsedRef.current += deltaTime;
 
-    if (yoyo) {
-      const fullCycle = animationDuration * 2;
-      const cycleTime = elapsedRef.current % fullCycle;
+    // حرکت از چپ به راست با استفاده از پیکسل
+    const moveAmount = (deltaTime / animationDuration) * textWidth;
+    let nextX = x.get() + moveAmount;
 
-      if (cycleTime < animationDuration) {
-        progress.set((cycleTime / animationDuration) * 100);
-      } else {
-        progress.set(100 - ((cycleTime - animationDuration) / animationDuration) * 100);
-      }
-    } else {
-      // Continuously increase position for seamless looping
-      progress.set((elapsedRef.current / animationDuration) * 100);
+    // چرخه بی‌نهایت: وقتی به انتهای عرض متن رسید، به صفر برمی‌گردد
+    if (nextX >= textWidth) {
+      nextX -= textWidth;
     }
+    x.set(nextX);
   });
 
   useEffect(() => {
     elapsedRef.current = 0;
-    progress.set(0);
+    x.set(0);
   }, [animationSpeed, yoyo]);
 
-  const backgroundPosition = useTransform(progress, p => {
-    if (direction === 'horizontal') {
-      return `${p}% 50%`;
-    } else if (direction === 'vertical') {
-      return `50% ${p}%`;
-    } else {
-      // For diagonal, move only horizontally to avoid interference patterns
-      return `${p}% 50%`;
-    }
-  });
+  // جابه‌جایی پس‌زمینه بر اساس پیکسل
+  const backgroundPosition = useTransform(x, value => `${value}px 50%`);
 
   const handleMouseEnter = useCallback(() => {
     if (pauseOnHover) setIsPaused(true);
@@ -73,15 +71,13 @@ export default function GradientText({
     if (pauseOnHover) setIsPaused(false);
   }, [pauseOnHover]);
 
-  const gradientAngle =
-    direction === 'horizontal' ? 'to right' : direction === 'vertical' ? 'to bottom' : 'to bottom right';
-  // Duplicate first color at the end for seamless looping
+  const gradientAngle = direction === 'horizontal' ? 'to right' : direction === 'vertical' ? 'to bottom' : 'to bottom right';
   const gradientColors = [...colors, colors[0]].join(', ');
 
   const gradientStyle = {
     backgroundImage: `linear-gradient(${gradientAngle}, ${gradientColors})`,
-    backgroundSize: direction === 'horizontal' ? '300% 100%' : direction === 'vertical' ? '100% 300%' : '300% 300%',
-    backgroundRepeat: 'repeat'
+    backgroundSize: `${textWidth}px 100%`, // اندازه پس‌زمینه برابر با عرض متن
+    backgroundRepeat: 'repeat-x'
   };
 
   return (
@@ -90,8 +86,22 @@ export default function GradientText({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {showBorder && <motion.div className="gradient-overlay" style={{ ...gradientStyle, backgroundPosition }} />}
-      <motion.div className="text-content" style={{ ...gradientStyle, backgroundPosition }}>
+      {showBorder && (
+        <motion.div 
+          className="gradient-overlay" 
+          style={{ ...gradientStyle, backgroundPosition }} 
+        />
+      )}
+      <motion.div 
+        ref={textRef}
+        className="text-content" 
+        style={{ 
+          ...gradientStyle, 
+          backgroundPosition,
+          display: 'inline-block',
+          whiteSpace: 'nowrap'
+        }}
+      >
         {children}
       </motion.div>
     </motion.div>

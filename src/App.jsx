@@ -8,7 +8,7 @@ function App() {
   const isEn = lang === 'en';
 
   // رنگ‌های انیمیشن طبق سلیقه شما (زرد به بنفش)
-  const animColors = ["#F3BC08", "#DF9339", "#D1765C", "#A010D6"];
+  const animColors = ["#f3bc08","#df9339","#d1765c","#a010d6","#d1765c","#df9339"];
 
   const data = {
     en: {
