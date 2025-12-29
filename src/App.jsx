@@ -180,9 +180,8 @@ function App() {
       </div>
 
       <div className="pdf-page">
-        {/* Header with Pixel Effect */}
         <PixelCard variant="resume" className="resume-header-card">
-          <header className="resume-header" style={{ background: 'transparent', border: 'none', marginBottom: 0 }}>
+          <header className="resume-header">
             <div className="header-text">
               <GradientText className="main-name bold-font">
                 {content.name}
@@ -195,9 +194,8 @@ function App() {
 
         <div className="resume-grid">
           <aside className="sidebar">
-            {/* Personal Section */}
             <PixelCard variant="resume" className="side-pixel-wrapper">
-              <section className="side-section" style={{ background: 'transparent', border: 'none', marginBottom: 0 }}>
+              <section className="side-section">
                 <GradientText className="yellow-text bold-font">
                   {isEn ? "Personal & Contact" : "اطلاعات فردی و تماس"}
                 </GradientText>
@@ -207,9 +205,8 @@ function App() {
               </section>
             </PixelCard>
 
-            {/* Software Section */}
             <PixelCard variant="resume" className="side-pixel-wrapper">
-              <section className="side-section" style={{ background: 'transparent', border: 'none', marginBottom: 0 }}>
+              <section className="side-section">
                 <GradientText className="yellow-text bold-font">
                   {isEn ? "Software" : "نرم‌افزارها"}
                 </GradientText>
@@ -224,9 +221,8 @@ function App() {
               </section>
             </PixelCard>
 
-            {/* Skills Section */}
             <PixelCard variant="resume" className="side-pixel-wrapper">
-              <section className="side-section" style={{ background: 'transparent', border: 'none', marginBottom: 0 }}>
+              <section className="side-section">
                 <GradientText className="yellow-text bold-font">
                   {isEn ? "Additional Skills" : "مهارت‌های تکمیلی"}
                 </GradientText>
@@ -236,9 +232,8 @@ function App() {
               </section>
             </PixelCard>
 
-            {/* Projects Section */}
             <PixelCard variant="resume" className="side-pixel-wrapper">
-              <section className="side-section" style={{ background: 'transparent', border: 'none', marginBottom: 0 }}>
+              <section className="side-section">
                 <GradientText className="yellow-text bold-font">
                   {isEn ? "Projects" : "پروژه‌ها"}
                 </GradientText>
@@ -250,25 +245,24 @@ function App() {
           </aside>
 
           <main className="main-content">
-            <div className="work-exp-container">
-                {content.experience.map((job, i) => (
-                  <PixelCard key={i} variant="resume" className="exp-pixel-wrapper">
-                    <div className="exp-card" style={{ background: 'transparent', border: 'none', marginBottom: 0 }}>
-                        <div className="exp-row">
-                            <span className="job-role bold-font">{job.role}</span>
-                            <span className="job-duration">
-                                <GradientText className="duration-text bold-font">
-                                    {job.duration}
-                                </GradientText>
-                            </span>
-                        </div>
-                        <div className="job-company purple-text bold-font">{job.company}</div>
-                        <div className="job-date">{job.date}</div>
-                        <p className="job-desc">{job.desc}</p>
+            {/* حذف wrapper اضافی و تراز کردن مستقیم با گرید */}
+            {content.experience.map((job, i) => (
+              <PixelCard key={i} variant="resume" className="exp-pixel-wrapper">
+                <div className="exp-card">
+                    <div className="exp-row">
+                        <span className="job-role bold-font">{job.role}</span>
+                        <span className="job-duration">
+                            <GradientText className="duration-text bold-font">
+                                {job.duration}
+                            </GradientText>
+                        </span>
                     </div>
-                  </PixelCard>
-                ))}
-            </div>
+                    <div className="job-company bold-font">{job.company}</div>
+                    <div className="job-date">{job.date}</div>
+                    <p className="job-desc">{job.desc}</p>
+                </div>
+              </PixelCard>
+            ))}
           </main>
         </div>
       </div>
