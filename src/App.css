@@ -74,29 +74,31 @@ body, html {
   max-width: 1100px;
 }
 
-/* --- Card Wrappers (Desktop Default) --- */
+/* --- Card Wrappers (Shared Styles for PC & Mobile) --- */
 .resume-header-card,
 .side-pixel-wrapper,
-.exp-pixel-wrapper {
+.exp-pixel-wrapper,
+.mobile-glass-card {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 20px !important;
   margin-bottom: var(--section-spacing);
-  display: block;
+  overflow: hidden;
+  width: 100%; /* اطمینان از پر شدن عرض ستون در PC */
 }
 
-/* --- Mobile Specific Cards --- */
+/* --- Mobile Fixes --- */
 @media (max-width: 768px) {
   .mobile-glass-card {
     background: rgba(15, 15, 15, 0.35) !important; 
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 1px solid var(--glass-border) !important;
-    border-radius: 20px !important;
-    margin-bottom: var(--section-spacing);
-    width: 100% !important;
-    overflow: hidden;
   }
 
   .main-name { 
-    font-size: 1.8rem !important; 
+    font-size: 1.8rem !important; /* کوچک کردن نام برای موبایل */
     text-align: center;
     line-height: 1.2;
   }
@@ -105,6 +107,8 @@ body, html {
     position: fixed !important;
     inset: 0 !important;
     z-index: -1;
+    border-radius: 0 !important;
+    border: none !important;
   }
 
   .resume-header { 
@@ -134,13 +138,14 @@ body, html {
   object-fit: cover; 
 }
 
-/* --- Desktop Grid --- */
+/* --- Desktop Grid Layout --- */
 .resume-grid { 
   display: grid; 
   grid-template-columns: 380px 1fr; 
   gap: 30px; 
 }
 
+/* --- Sidebar Items --- */
 .yellow-text { 
   font-size: 1.4rem; 
   border-bottom: 1px solid rgba(255,255,255,0.1); 
@@ -186,10 +191,12 @@ body, html {
   font-weight: bold; 
 }
 
+/* --- Experience Content --- */
 .exp-row { 
   display: flex; 
   justify-content: space-between; 
   align-items: flex-start;
+  flex-wrap: wrap;
 }
 .job-company { color: var(--yellow); margin: 8px 0; }
 .job-desc { 
@@ -198,7 +205,7 @@ body, html {
   text-align: justify; 
 }
 
-/* --- Language Switcher --- */
+/* --- Floating UI --- */
 .floating-lang-switcher {
   position: fixed; 
   bottom: 35px; 
@@ -217,11 +224,12 @@ body, html {
 .flag-btn.active { border-color: var(--c1); }
 .flag-btn img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
 
-/* --- PixelCard Core --- */
+/* --- PixelCard Base --- */
 .pixel-card { 
   position: relative; 
   overflow: hidden; 
   height: 100%;
+  width: 100%;
 }
 .pixel-canvas { 
   position: absolute; 
@@ -236,6 +244,7 @@ body, html {
   position: relative; 
   z-index: 1; 
   height: 100%;
+  width: 100%;
 }
 
 @media (max-width: 1150px) {
