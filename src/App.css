@@ -98,6 +98,11 @@ body, html {
   height: auto !important;
 }
 
+/* Remove margin-bottom from the last card in sidebar to remove outer bottom space */
+.sidebar .side-pixel-wrapper:last-child {
+  margin-bottom: 0;
+}
+
 /* --- Desktop Grid --- */
 .resume-grid { 
   display: grid; 
