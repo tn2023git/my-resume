@@ -5,47 +5,41 @@ import './GradientText.css';
 export default function GradientText({
   children,
   className = '',
-  // پالت رنگی بهینه شده (رنگ اول و آخر یکی هستند تا مرز حذف شود)
-  colors = ["#F3BC08", "#DF9339", "#D1765C", "#A010D6", "#F3BC08"],
-  animationSpeed = 8, // سرعت را کمی کمتر کردم تا حرکت نرم‌تر دیده شود
+  colors = ["#F3BC08", "#DF9339", "#D1765C", "#A010D6"],
+  animationSpeed = 8,
   showBorder = false,
   pauseOnHover = false,
 }) {
   const [isPaused, setIsPaused] = useState(false);
-  const progress = useMotionValue(0);
-  const elapsedRef = useRef(0);
-  const lastTimeRef = useRef(null);
-
+  const textRef = useRef(null);
+  const [textWidth, setTextWidth] = useState(0);
+  
+  const x = useMotionValue(0);
   const animationDuration = animationSpeed * 1000;
 
-  useAnimationFrame(time => {
-    if (isPaused) {
-      lastTimeRef.current = null;
-      return;
+  // محاسبه عرض متن برای جابه‌جایی دقیق
+  useEffect(() => {
+    if (textRef.current) {
+      setTextWidth(textRef.current.offsetWidth);
     }
+  }, [children]);
 
-    if (lastTimeRef.current === null) {
-      lastTimeRef.current = time;
-      return;
+  useAnimationFrame((time, delta) => {
+    if (isPaused || textWidth === 0) return;
+
+    // محاسبه جابه‌جایی بر اساس زمان برای حرکت یکنواخت
+    const moveAmount = (delta / animationDuration) * textWidth;
+    const nextX = x.get() - moveAmount;
+
+    // وقتی به اندازه یک دور کامل جابه‌جا شد، بدون پرش به صفر برمی‌گردد
+    if (Math.abs(nextX) >= textWidth) {
+      x.set(nextX + textWidth);
+    } else {
+      x.set(nextX);
     }
-
-    const deltaTime = time - lastTimeRef.current;
-    lastTimeRef.current = time;
-    elapsedRef.current += deltaTime;
-
-    // محاسبه پیشرفت به صورت درصدی از کل زمان انیمیشن
-    const totalProgress = (elapsedRef.current / animationDuration) * 100;
-    progress.set(totalProgress);
   });
 
-  useEffect(() => {
-    elapsedRef.current = 0;
-    progress.set(0);
-  }, [animationSpeed]);
-
-  // کلید حل پرش: استفاده از باقی‌مانده ۱۰۰ (Modulus 100) 
-  // چون Background Size ما ۲۰۰٪ است، جابه‌جایی ۱۰۰ درصدی باعث تکرار بی‌نقص می‌شود
-  const backgroundPosition = useTransform(progress, p => `${p % 100}% 50%`);
+  const backgroundPosition = useTransform(x, value => `${value}px 50%`);
 
   const handleMouseEnter = useCallback(() => {
     if (pauseOnHover) setIsPaused(true);
@@ -55,13 +49,13 @@ export default function GradientText({
     if (pauseOnHover) setIsPaused(false);
   }, [pauseOnHover]);
 
-  // ایجاد نوار طولانی از رنگ‌ها برای حرکت نوار نقاله‌ای
-  const gradientColors = [...colors, ...colors].join(', ');
+  // ایجاد چرخه رنگی متصل (رنگ آخر به اول)
+  const gradientColors = [...colors, colors[0]].join(', ');
 
   const gradientStyle = {
     backgroundImage: `linear-gradient(to right, ${gradientColors})`,
-    backgroundSize: '200% 100%',
-    backgroundRepeat: 'repeat',
+    backgroundSize: `${textWidth}px 100%`,
+    backgroundRepeat: 'repeat-x',
   };
 
   return (
@@ -70,7 +64,11 @@ export default function GradientText({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <motion.div className="text-content" style={{ ...gradientStyle, backgroundPosition }}>
+      <motion.div 
+        ref={textRef}
+        className="text-content" 
+        style={{ ...gradientStyle, backgroundPosition }}
+      >
         {children}
       </motion.div>
     </motion.div>
