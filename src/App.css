@@ -203,10 +203,10 @@ body, html {
   text-align: justify;
 }
 
-/* --- Language Switcher (Floating & Grow Animation) --- */
+/* --- Adjusted Language Switcher (Shorter Floating Animation) --- */
 @keyframes float {
   0% { transform: translateX(-50%) translateY(0px); }
-  50% { transform: translateX(-50%) translateY(-10px); }
+  50% { transform: translateX(-50%) translateY(-5px); } /* کاهش جابه‌جایی به 5 پیکسل */
   100% { transform: translateX(-50%) translateY(0px); }
 }
 
@@ -226,8 +226,7 @@ body, html {
   align-items: center;
   justify-content: center;
   direction: ltr !important;
-  /* اضافه کردن انیمیشن شناور */
-  animation: float 3s ease-in-out infinite;
+  animation: float 2s ease-in-out infinite; /* کاهش زمان به 2 ثانیه */
   transition: box-shadow 0.3s ease;
 }
 
@@ -244,9 +243,8 @@ body, html {
   overflow: hidden;
 }
 
-/* رشد درجا بدون پریدن به بالا */
 .flag-btn:hover {
-  transform: scale(1.25);
+  transform: scale(1.25); /* رشد درجا */
 }
 
 .flag-btn.active { 
