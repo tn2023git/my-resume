@@ -6,11 +6,11 @@ export default function GradientText({
   children,
   className = '',
   colors = ["#F3BC08", "#DF9339", "#D1765C", "#A010D6"],
-  animationSpeed = 5,
+  animationSpeed = 8,
   showBorder = false,
   direction = 'horizontal',
   pauseOnHover = false,
-  yoyo = true
+  yoyo = false // غیرفعال کردن حالت رفت و برگشتی
 }) {
   const [isPaused, setIsPaused] = useState(false);
   const progress = useMotionValue(0);
@@ -34,25 +34,18 @@ export default function GradientText({
     lastTimeRef.current = time;
     elapsedRef.current += deltaTime;
 
-    if (yoyo) {
-      const fullCycle = animationDuration * 2;
-      const cycleTime = elapsedRef.current % fullCycle;
-      if (cycleTime < animationDuration) {
-        progress.set((cycleTime / animationDuration) * 100);
-      } else {
-        progress.set(100 - ((cycleTime - animationDuration) / animationDuration) * 100);
-      }
-    } else {
-      progress.set((elapsedRef.current / animationDuration) * 100);
-    }
+    // محاسبه پیشرفت به صورت خطی برای حرکت مداوم
+    const totalProgress = (elapsedRef.current / animationDuration) * 100;
+    progress.set(totalProgress);
   });
 
   useEffect(() => {
     elapsedRef.current = 0;
     progress.set(0);
-  }, [animationSpeed, yoyo]);
+  }, [animationSpeed]);
 
-  const backgroundPosition = useTransform(progress, p => `${p}% 50%`);
+  // استفاده از مقادیر منفی برای حرکت از چپ به راست (Infinite Slide)
+  const backgroundPosition = useTransform(progress, p => `-${p % 200}% 50%`);
 
   const handleMouseEnter = useCallback(() => {
     if (pauseOnHover) setIsPaused(true);
@@ -62,11 +55,12 @@ export default function GradientText({
     if (pauseOnHover) setIsPaused(false);
   }, [pauseOnHover]);
 
-  const gradientColors = [...colors, colors[0]].join(', ');
+  // تکرار رنگ‌ها برای ایجاد یک چرخه بی‌پایان و بدون پرش (Seamless Loop)
+  const gradientColors = [...colors, ...colors].join(', ');
 
   const gradientStyle = {
     backgroundImage: `linear-gradient(to right, ${gradientColors})`,
-    backgroundSize: '300% 100%',
+    backgroundSize: '200% 100%',
     backgroundRepeat: 'repeat'
   };
 
