@@ -27,7 +27,6 @@
   --c4: #A010D6;
   --purple: var(--c4);
   --bg: #050505;
-  /* Glassmorphism Settings */
   --glass-bg: rgba(15, 15, 15, 0.45); 
   --glass-border: rgba(255, 255, 255, 0.08);
   --section-spacing: 25px;
@@ -47,55 +46,56 @@ body, html {
   min-height: 100vh;
 }
 
-/* --- Prismatic Background Container --- */
 .bg-container {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: -1; /* Ensures it stays behind everything */
-  pointer-events: none; /* Allows clicks to pass through to the resume */
+  z-index: -1;
+  pointer-events: none;
 }
 
-/* --- App Wrapper --- */
 .app-wrapper {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   padding: 60px 20px 120px 20px;
   position: relative;
-  z-index: 1; /* Sits above the bg-container */
+  z-index: 1;
 }
 
 .ltr-mode { direction: ltr; font-family: 'ProductSans', sans-serif !important; }
 .rtl-mode { direction: rtl; font-family: 'Anjoman', sans-serif !important; }
 
-/* --- Resume Page Structure --- */
 .pdf-page {
   width: 100%;
   max-width: 1100px;
-  background: transparent;
 }
 
-/* --- Glassmorphism Components --- */
+/* --- PixelCard Wrapper Fixes --- */
+/* این بخش بسیار مهم است زیرا باعث می‌شود PixelCard ابعاد درستی بگیرد */
+.resume-header-card,
+.side-pixel-wrapper,
+.exp-pixel-wrapper {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 20px !important;
+  margin-bottom: var(--section-spacing);
+  width: 100% !important;
+  height: auto !important; /* برخلاف حالت پیش‌فرض، نباید ارتفاع ثابت داشته باشد */
+  display: block !important;
+}
+
+/* --- Content Padding --- */
 .resume-header, 
 .side-section, 
 .exp-card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border: 1px solid var(--glass-border);
-  border-radius: 20px;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
   padding: 30px;
-  margin-bottom: var(--section-spacing);
-  transition: transform 0.3s ease, border-color 0.3s ease;
-}
-
-.exp-card:hover, .side-section:hover {
-  border-color: rgba(160, 16, 214, 0.3);
-  transform: translateY(-2px);
+  position: relative;
+  z-index: 2;
 }
 
 /* --- Header Section --- */
@@ -103,7 +103,6 @@ body, html {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 40px;
 }
 
 .main-name { 
@@ -116,7 +115,6 @@ body, html {
   color: var(--purple); 
   font-size: 1.6rem; 
   margin-top: 10px; 
-  opacity: 0.9;
 }
 
 .profile-img {
@@ -125,7 +123,6 @@ body, html {
   border: 3px solid var(--purple);
   border-radius: 20px;
   object-fit: cover;
-  box-shadow: 0 0 20px rgba(160, 16, 214, 0.3);
 }
 
 /* --- Grid Layout --- */
@@ -135,7 +132,7 @@ body, html {
   gap: 30px; 
 }
 
-/* --- Sidebar Content --- */
+/* --- Sidebar Style --- */
 .yellow-text {
   font-size: 1.4rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
@@ -183,9 +180,7 @@ body, html {
   text-decoration: none; 
   margin-bottom: 12px; 
   font-weight: bold;
-  transition: opacity 0.2s;
 }
-.project-link:hover { opacity: 0.7; }
 
 /* --- Experience Section --- */
 .exp-row { 
@@ -193,10 +188,8 @@ body, html {
   justify-content: space-between; 
   font-size: 1.25rem; 
   flex-wrap: wrap;
-  gap: 10px;
 }
 
-.job-role { color: white; }
 .job-company { color: var(--purple); margin: 8px 0; font-size: 1.1rem; }
 .job-date { color: rgba(255,255,255,0.5); font-size: 0.9rem; margin-bottom: 15px; }
 .job-desc { 
@@ -206,7 +199,7 @@ body, html {
   text-align: justify;
 }
 
-/* --- Floating Language Switcher --- */
+/* --- Language Switcher --- */
 .floating-lang-switcher {
   position: fixed;
   bottom: 35px;
@@ -220,37 +213,14 @@ body, html {
   gap: 20px;
   border: 1px solid rgba(160, 16, 214, 0.5);
   z-index: 1000;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
-.flag-btn { 
-  background: none; 
-  border: 2px solid transparent; 
-  border-radius: 50%; 
-  cursor: pointer; 
-  transition: all 0.3s ease; 
-  padding: 0;
-  display: flex;
-  align-items: center;
-}
+.flag-btn { background: none; border: 2px solid transparent; border-radius: 50%; cursor: pointer; padding: 0; }
+.flag-btn.active { border-color: var(--c1); transform: scale(1.1); }
+.flag-btn img { width: 35px; height: 35px; border-radius: 50%; }
 
-.flag-btn.active { 
-  border-color: var(--c1); 
-  transform: scale(1.15); 
-}
-
-.flag-btn img { 
-  width: 35px; 
-  height: 35px; 
-  border-radius: 50%; 
-  object-fit: cover;
-}
-
-/* --- Responsive Design --- */
+/* --- Responsive --- */
 @media (max-width: 1150px) {
-  .pdf-page { width: 100%; padding: 10px; }
   .resume-grid { grid-template-columns: 1fr; }
   .resume-header { flex-direction: column; text-align: center; gap: 20px; }
-  .main-name { font-size: 2.5rem; }
-  .yellow-text { justify-content: center; }
 }
