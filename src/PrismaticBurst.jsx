@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Renderer, Program, Mesh, Triangle, Texture } from 'ogl';
 
 const vertexShader = `#version 300 es
@@ -11,7 +11,6 @@ void main() {
 }
 `;
 
-// استفاده از شرط برای تعیین دقت بر اساس دستگاه
 const fragmentShader = `#version 300 es
 #ifdef GL_ES
 precision mediump float;
@@ -35,7 +34,7 @@ uniform vec2  uOffset;
 uniform sampler2D uGradient;
 uniform float uNoiseAmount;
 uniform int   uRayCount;
-uniform bool  uIsMobile; // اضافه شدن فلگ موبایل
+uniform bool  uIsMobile;
 
 float hash21(vec2 p){
     p = floor(p);
@@ -51,10 +50,8 @@ float layeredNoise(vec2 fragPx){
     float n = 0.0;
     n += 0.40 * hash21(q);
     n += 0.25 * hash21(q * 2.0 + 17.0);
-    // در موبایل لایه‌های نویز کمتری محاسبه می‌شود
     if(!uIsMobile) {
         n += 0.20 * hash21(q * 4.0 + 47.0);
-        n += 0.10 * hash21(q * 8.0 + 113.0);
     }
     return n;
 }
@@ -121,12 +118,11 @@ void main(){
       hoverMat = rotY(ang.y) * rotX(ang.x);
     }
 
-    // تغییر تعداد حلقه‌ها بر اساس دیوایس
-    int loops = uIsMobile ? 16 : 44; 
+    int loops = uIsMobile ? 12 : 44; 
     float marchT = 0.0;
 
     for (int i = 0; i < 44; ++i) {
-        if (i >= loops) break; // بهینه‌سازی اصلی برای موبایل
+        if (i >= loops) break;
 
         vec3 P = marchT * dir;
         P.z -= 2.0;
@@ -189,16 +185,9 @@ void main(){
 const hexToRgb01 = hex => {
   let h = hex.trim();
   if (h.startsWith('#')) h = h.slice(1);
-  if (h.length === 3) {
-    const r = h[0], g = h[1], b = h[2];
-    h = r + r + g + g + b + b;
-  }
-  const intVal = parseInt(h, 16);
-  if (isNaN(intVal) || (h.length !== 6 && h.length !== 8)) return [1, 1, 1];
-  const r = ((intVal >> 16) & 255) / 255;
-  const g = ((intVal >> 8) & 255) / 255;
-  const b = (intVal & 255) / 255;
-  return [r, g, b];
+  const intVal = parseInt(h.length === 3 ? h[0]+h[0]+h[1]+h[1]+h[2]+h[2] : h, 16);
+  if (isNaN(intVal)) return [1, 1, 1];
+  return [((intVal >> 16) & 255) / 255, ((intVal >> 8) & 255) / 255, (intVal & 255) / 255];
 };
 
 const PrismaticBurst = ({
@@ -210,7 +199,6 @@ const PrismaticBurst = ({
   color2 = "#a010d6",
   distort = 0.3,
   paused = false,
-  offset = { x: 0, y: 0 },
   hoverDampness = 0.1,
   rayCount = 0,
   mixBlendMode = 'lighten'
@@ -220,75 +208,39 @@ const PrismaticBurst = ({
   const rendererRef = useRef(null);
   const mouseTargetRef = useRef([0.5, 0.5]);
   const mouseSmoothRef = useRef([0.5, 0.5]);
-  const pausedRef = useRef(paused);
-  const gradTexRef = useRef(null);
-  const hoverDampRef = useRef(hoverDampness);
-  const meshRef = useRef(null);
+  const [ready, setReady] = useState(false);
 
   const isMobile = typeof window !== 'undefined' && window.matchMedia("(pointer: coarse)").matches;
 
   useEffect(() => {
-    pausedRef.current = paused;
-  }, [paused]);
-
-  useEffect(() => {
-    hoverDampRef.current = hoverDampness;
-  }, [hoverDampness]);
-
-  useEffect(() => {
-    const handleOrientation = (e) => {
-      if (e.beta !== null && e.gamma !== null) {
-        const x = (e.gamma + 30) / 60; 
-        const y = (e.beta + 30) / 60;
-        mouseTargetRef.current = [Math.max(0, Math.min(1, x)), Math.max(0, Math.min(1, y))];
-      }
-    };
-
-    const handleMouseMove = (e) => {
-      const x = e.clientX / window.innerWidth;
-      const y = e.clientY / window.innerHeight;
-      mouseTargetRef.current = [x, y];
-    };
-
-    window.addEventListener('deviceorientation', handleOrientation);
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => {
-      window.removeEventListener('deviceorientation', handleOrientation);
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
+    // تاخیر برای لود شدن بقیه اجزای صفحه و جلوگیری از لگ اولیه
+    const timer = setTimeout(() => setReady(true), 500);
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
+    if (!ready || !containerRef.current) return;
 
-    // در موبایل dpr را ۱ می‌گیریم تا رزولوشن پایین‌تر و سرعت بالاتر باشد
-    const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 2);
+    const container = containerRef.current;
+    // استفاده از رزولوشن پایین‌تر در موبایل (0.7) برای حذف کامل لگ
+    const dpr = isMobile ? 0.7 : Math.min(window.devicePixelRatio || 1, 2);
     const renderer = new Renderer({ dpr, alpha: false, antialias: false });
     rendererRef.current = renderer;
 
     const gl = renderer.gl;
     gl.canvas.style.position = 'absolute';
     gl.canvas.style.inset = '0';
-    gl.canvas.style.width = '100%';
-    gl.canvas.style.height = '100%';
+    gl.canvas.style.opacity = '0';
+    gl.canvas.style.transition = 'opacity 1s ease-in';
     gl.canvas.style.mixBlendMode = mixBlendMode && mixBlendMode !== 'none' ? mixBlendMode : '';
     container.appendChild(gl.canvas);
+    
+    // انیمیشن ورود نرم
+    requestAnimationFrame(() => { if(gl.canvas) gl.canvas.style.opacity = '1'; });
 
     const white = new Uint8Array([255, 255, 255, 255]);
-    const gradientTex = new Texture(gl, {
-      image: white,
-      width: 1,
-      height: 1,
-      generateMipmaps: false,
-      flipY: false
-    });
-
-    gradientTex.minFilter = gl.LINEAR;
-    gradientTex.magFilter = gl.LINEAR;
-    gradientTex.wrapS = gl.CLAMP_TO_EDGE;
-    gradientTex.wrapT = gl.CLAMP_TO_EDGE;
-    gradTexRef.current = gradientTex;
+    const gradientTex = new Texture(gl, { image: white, width: 1, height: 1 });
+    gradientTex.wrapS = gradientTex.wrapT = gl.CLAMP_TO_EDGE;
 
     const program = new Program(gl, {
       vertex: vertexShader,
@@ -296,97 +248,79 @@ const PrismaticBurst = ({
       uniforms: {
         uResolution: { value: [1, 1] },
         uTime: { value: 0 },
-        uIntensity: { value: 1 },
-        uSpeed: { value: 1 },
+        uIntensity: { value: intensity },
+        uSpeed: { value: speed },
         uAnimType: { value: 2 }, 
         uMouse: { value: [0.5, 0.5] },
-        uColorCount: { value: 0 },
-        uDistort: { value: 0 },
+        uColorCount: { value: 3 },
+        uDistort: { value: distort },
         uOffset: { value: [0, 0] },
         uGradient: { value: gradientTex },
         uNoiseAmount: { value: 0.8 },
-        uRayCount: { value: 0 },
+        uRayCount: { value: rayCount },
         uIsMobile: { value: isMobile }
       }
     });
-
     programRef.current = program;
 
-    const triangle = new Triangle(gl);
-    const mesh = new Mesh(gl, { geometry: triangle, program });
-    meshRef.current = mesh;
+    const mesh = new Mesh(gl, { geometry: new Triangle(gl), program });
 
     const resize = () => {
-      const w = container.clientWidth || 1;
-      const h = container.clientHeight || 1;
-      renderer.setSize(w, h);
+      renderer.setSize(container.clientWidth, container.clientHeight);
       program.uniforms.uResolution.value = [gl.drawingBufferWidth, gl.drawingBufferHeight];
     };
-
     let ro = new ResizeObserver(resize);
     ro.observe(container);
     resize();
 
-    let raf = 0;
-    let last = performance.now();
-    let accumTime = 0;
-
+    let raf, last = performance.now(), accumTime = 0;
     const update = now => {
-      const dt = Math.max(0, now - last) * 0.001;
+      const dt = (now - last) * 0.001;
       last = now;
-      if (!pausedRef.current) accumTime += dt;
-
-      const tau = 0.02 + Math.max(0, Math.min(1, hoverDampRef.current)) * 0.5;
+      if (!paused) accumTime += dt;
+      
+      const tau = 0.02 + Math.max(0, Math.min(1, hoverDampness)) * 0.5;
       const alpha = 1 - Math.exp(-dt / tau);
-      const tgt = mouseTargetRef.current;
-      const sm = mouseSmoothRef.current;
-      sm[0] += (tgt[0] - sm[0]) * alpha;
-      sm[1] += (tgt[1] - sm[1]) * alpha;
+      mouseSmoothRef.current[0] += (mouseTargetRef.current[0] - mouseSmoothRef.current[0]) * alpha;
+      mouseSmoothRef.current[1] += (mouseTargetRef.current[1] - mouseSmoothRef.current[1]) * alpha;
 
-      program.uniforms.uMouse.value = sm;
+      program.uniforms.uMouse.value = mouseSmoothRef.current;
       program.uniforms.uTime.value = accumTime;
-
-      renderer.render({ scene: meshRef.current });
+      renderer.render({ scene: mesh });
       raf = requestAnimationFrame(update);
     };
     raf = requestAnimationFrame(update);
 
+    const handleMouseMove = (e) => {
+      mouseTargetRef.current = [e.clientX / window.innerWidth, 1 - (e.clientY / window.innerHeight)];
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+
     return () => {
       cancelAnimationFrame(raf);
       ro?.disconnect();
+      window.removeEventListener('mousemove', handleMouseMove);
       try { container.removeChild(gl.canvas); } catch {}
     };
-  }, [isMobile]);
+  }, [ready, isMobile]);
 
   useEffect(() => {
+    if (!programRef.current || !rendererRef.current) return;
     const program = programRef.current;
-    const renderer = rendererRef.current;
-    const gradTex = gradTexRef.current;
-    if (!program || !renderer || !gradTex) return;
-
-    program.uniforms.uIntensity.value = intensity;
-    program.uniforms.uSpeed.value = speed;
-    const animTypeMap = { rotate: 0, rotate3d: 1, hover: 2 };
-    program.uniforms.uAnimType.value = animTypeMap[animationType];
-    program.uniforms.uDistort.value = distort;
-
-    const colorsArray = [color0, color1, color2];
-    const gl = renderer.gl;
-    const count = colorsArray.length;
-    const data = new Uint8Array(count * 4);
-    for (let i = 0; i < count; i++) {
-        const [r, g, b] = hexToRgb01(colorsArray[i]);
-        data[i * 4 + 0] = Math.round(r * 255);
-        data[i * 4 + 1] = Math.round(g * 255);
-        data[i * 4 + 2] = Math.round(b * 255);
-        data[i * 4 + 3] = 255;
-    }
-    gradTex.image = data;
-    gradTex.width = count;
-    gradTex.height = 1;
-    gradTex.needsUpdate = true;
-    program.uniforms.uColorCount.value = count;
-  }, [intensity, speed, animationType, color0, color1, color2, distort]);
+    const gl = rendererRef.current.gl;
+    
+    const colors = [color0, color1, color2];
+    const data = new Uint8Array(colors.length * 4);
+    colors.forEach((c, i) => {
+      const rgb = hexToRgb01(c);
+      data.set([rgb[0]*255, rgb[1]*255, rgb[2]*255, 255], i * 4);
+    });
+    
+    const tex = program.uniforms.uGradient.value;
+    tex.image = data;
+    tex.width = colors.length;
+    tex.needsUpdate = true;
+  }, [color0, color1, color2]);
 
   return <div style={{width: '100%', height: '100%', position: 'absolute', inset: 0, overflow: 'hidden'}} ref={containerRef} />;
 };
