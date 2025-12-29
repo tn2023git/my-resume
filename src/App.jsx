@@ -222,9 +222,6 @@ function App() {
 
           <main className="main-content">
             <div className="work-exp-container">
-                <GradientText className="section-title bold-font">
-                    {isEn ? "Work Experience" : "سوابق شغلی"}
-                </GradientText>
                 {content.experience.map((job, i) => (
                     <div key={i} className="exp-card">
                         <div className="exp-row">
