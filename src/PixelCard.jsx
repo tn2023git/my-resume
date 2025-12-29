@@ -94,7 +94,7 @@ export default function PixelCard({ variant = 'resume', gap, speed, colors, noFo
     for (let x = 0; x < width; x += parseInt(finalGap, 10)) {
       for (let y = 0; y < height; y += parseInt(finalGap, 10)) {
         const color = colorsArray[Math.floor(Math.random() * colorsArray.length)];
-        const delay = reducedMotion ? 0 : Math.sqrt(Math.pow(x - width/2, 2) + Math.pow(y - height/2, 2));
+        const delay = Math.sqrt(Math.pow(x - width/2, 2) + Math.pow(y - height/2, 2));
         pxs.push(new Pixel(canvasRef.current, ctx, x, y, color, getEffectiveSpeed(finalSpeed, reducedMotion), delay));
       }
     }
@@ -126,37 +126,42 @@ export default function PixelCard({ variant = 'resume', gap, speed, colors, noFo
 
   useEffect(() => {
     initPixels();
-    const isTouch = window.matchMedia("(pointer: coarse)").matches;
+    
+    // استفاده از Intersection Observer برای موبایل
+    const observerOptions = { threshold: 0.2 }; // وقتی ۲۰٪ کارت دیده شد فعال شود
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (window.matchMedia("(pointer: coarse)").matches) {
+          handleAnimation(entry.isIntersecting ? 'appear' : 'disappear');
+        }
+      });
+    }, observerOptions);
 
-    // منطق اسکرول برای موبایل
-    const handleScroll = () => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
-      handleAnimation(isVisible ? 'appear' : 'disappear');
-    };
-
-    if (isTouch) {
-      window.addEventListener('scroll', handleScroll);
-      handleScroll(); // چک کردن وضعیت اولیه
-    }
-
-    const observer = new ResizeObserver(() => initPixels());
     if (containerRef.current) observer.observe(containerRef.current);
     
+    const resizeObserver = new ResizeObserver(() => initPixels());
+    if (containerRef.current) resizeObserver.observe(containerRef.current);
+    
     return () => {
-      window.removeEventListener('scroll', handleScroll);
       observer.disconnect();
+      resizeObserver.disconnect();
       cancelAnimationFrame(animationRef.current);
     };
   }, [finalGap, finalSpeed, finalColors]);
+
+  const onMouseEnter = () => {
+    if (!window.matchMedia("(pointer: coarse)").matches) handleAnimation('appear');
+  };
+  const onMouseLeave = () => {
+    if (!window.matchMedia("(pointer: coarse)").matches) handleAnimation('disappear');
+  };
 
   return (
     <div
       ref={containerRef}
       className={`pixel-card ${className}`}
-      onMouseEnter={() => !window.matchMedia("(pointer: coarse)").matches && handleAnimation('appear')}
-      onMouseLeave={() => !window.matchMedia("(pointer: coarse)").matches && handleAnimation('disappear')}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
       <canvas className="pixel-canvas" ref={canvasRef} />
       <div className="pixel-content">{children}</div>
