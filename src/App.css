@@ -124,10 +124,6 @@
   margin-top: 5px;
 }
 .job-desc { color: #ccc; line-height: 1.6; margin-top: 15px; font-size: 1rem; }
-
-/* LANGUAGE SWITCHER */
-/* App.css */
-
 .floating-lang-switcher {
   position: fixed;
   bottom: 30px;
@@ -143,18 +139,20 @@
   border: 1px solid var(--purple);
   z-index: 9999;
   
-  /* اضافه کردن سایه و انیمیشن */
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-  animation: float-animation 3s ease-in-out infinite;
+  /* اضافه کردن سایه ملایم و عمیق */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 10px rgba(155, 89, 182, 0.2);
+  
+  /* انیمیشن کندتر (5 ثانیه) */
+  animation: float-slow 5s ease-in-out infinite;
 }
 
-/* تعریف انیمیشن حرکت بالا و پایین */
-@keyframes float-animation {
+/* تعریف انیمیشن با حرکت کمتر (8 پیکسل) */
+@keyframes float-slow {
   0% {
     transform: translate(-50%, 0px);
   }
   50% {
-    transform: translate(-50%, -15px); /* حرکت به سمت بالا */
+    transform: translate(-50%, -8px); /* جابجایی کمتر برای ظرافت بیشتر */
   }
   100% {
     transform: translate(-50%, 0px);
