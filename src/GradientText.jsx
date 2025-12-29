@@ -6,7 +6,7 @@ export default function GradientText({
   children,
   className = '',
   // لیست را به ۴ رنگ اصلی کاهش دادم تا فواصل بازتر و یکنواخت شوند
-  colors = ["#F3BC08", "#DF9339", "#D1765C", "#A010D6"],
+  colors = ["#D1765C", "#A010D6", "#D1765C", "#DF9339", "#F3BC08", "#DF9339"],
   animationSpeed = 8,
   showBorder = false,
   pauseOnHover = false,
@@ -60,7 +60,7 @@ export default function GradientText({
   const gradientStyle = {
     backgroundImage: `linear-gradient(to right, ${generateUniformGradient()})`,
     // افزایش سایز به ۲ برابر عرض متن باعث می‌شود فاصله رنگ‌ها ۲ برابر بیشتر شود
-    backgroundSize: `${textWidth * 2}px 100%`,
+    backgroundSize: `${textWidth}px 100%`,
     backgroundRepeat: 'repeat-x',
   };
 
