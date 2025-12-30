@@ -17,9 +17,7 @@ const ProfileCard = ({
   useEffect(() => {
     const originalStyle = window.getComputedStyle(document.body).overflow;
     document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = originalStyle;
-    };
+    return () => { document.body.style.overflow = originalStyle; };
   }, []);
 
   const tiltEngine = useMemo(() => {
@@ -62,26 +60,18 @@ const ProfileCard = ({
     };
 
     const handleOrientation = (e) => {
-      // ضریب حساسیت برای موبایل (قابل تنظیم)
-      const sens = 15; 
-      const x = Math.min(Math.max(((e.gamma || 0) + sens) / (sens * 2) * 100, 0), 100);
-      const y = Math.min(Math.max(((e.beta || 0) - (sens + 10)) / (sens * 2) * 100, 0), 100);
+      // سنسور ژیروسکوپ برای موبایل
+      const x = Math.min(Math.max(((e.gamma || 0) + 15) / 30 * 100, 0), 100);
+      const y = Math.min(Math.max(((e.beta || 0) - 20) / 30 * 100, 0), 100);
       tiltEngine.setTarget(x, y);
     };
 
-    const onLeave = () => tiltEngine.setTarget(50, 50);
-
     shell.addEventListener('pointermove', onMove);
-    shell.addEventListener('pointerleave', onLeave);
-    
-    // فعال‌سازی سنسور حرکت در موبایل
-    if (window.DeviceOrientationEvent) {
-      window.addEventListener('deviceorientation', handleOrientation);
-    }
+    shell.addEventListener('pointerleave', () => tiltEngine.setTarget(50, 50));
+    window.addEventListener('deviceorientation', handleOrientation);
 
     return () => {
       shell.removeEventListener('pointermove', onMove);
-      shell.removeEventListener('pointerleave', onLeave);
       window.removeEventListener('deviceorientation', handleOrientation);
       tiltEngine.stop();
     };
@@ -103,17 +93,7 @@ const ProfileCard = ({
           <section className="pc-card">
             <div className="pc-inside" style={{ '--inner-gradient': DEFAULT_INNER_GRADIENT }}>
               
-              {/* آواتار در لایه پایین‌تر */}
-              <div className="pc-avatar-container">
-                <div className="pc-avatar-bg" />
-                <img className="avatar-minimal" src={avatarUrl} alt="Profile" />
-              </div>
-
-              {/* افکت‌ها در لایه بالاتر برای انداختن سایه و درخشش روی عکس */}
-              <div className="pc-glitter" />
-              <div className="pc-shine" />
-              <div className="pc-glare" />
-
+              {/* ۱. متن در بالا */}
               <div className="pc-header-info">
                 <div className="dual-name">
                   <h2 className="en-name bold-font">{nameEn}</h2>
@@ -126,6 +106,18 @@ const ProfileCard = ({
                 </div>
               </div>
 
+              {/* ۲. آواتار در زیر افکت‌ها */}
+              <div className="pc-avatar-container">
+                <div className="pc-avatar-bg" />
+                <img className="avatar-minimal" src={avatarUrl} alt="Profile" />
+              </div>
+
+              {/* ۳. افکت‌ها در لایه میانی (روی آواتار) */}
+              <div className="pc-glitter" />
+              <div className="pc-shine" />
+              <div className="pc-glare" />
+
+              {/* ۴. دکمه‌ها در لایه نهایی */}
               <div className="pc-lang-overlay">
                 <div className="flag-btn en-corner" onClick={(e) => { e.stopPropagation(); onSelectLang('en'); }}>
                   <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" alt="EN" />
