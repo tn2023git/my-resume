@@ -53,6 +53,7 @@ function App() {
         { name: "Computer software repairs", level: 80 },
         { name: "WordPress Website Design", level: 90 }
       ],
+      softSkills: ["Fast Learner", "Teamwork", "Public Speaking", "Strategic Thinking", "Time Management", "Problem Solving", "Adaptability"],
       certificates: [
         { 
           name: "IELTS Academic (Overall: 8.0)", 
@@ -133,7 +134,7 @@ function App() {
         { name: "تعمیرات نرم‌افزاری کامپیوتر", level: 80 },
         { name: "طراحی سایت وردپرس", level: 90 }
       ],
-      softSkills: ["یادگیری سریع", "کار تیمی", "خلاقیت"],
+      softSkills: ["یادگیری سریع", "کار تیمی", "فن بیان", "تفکر استراتژیک", "مدیریت زمان", "حل مسئله", "انعطاف پذیری"],
       certificates: [
         { 
           name: "آیلتس آکادمیک (نمره کل: ۸.۰)", 
@@ -250,6 +251,18 @@ function App() {
                         <div className="progress-bar-fill" style={{ width: `${skill.level}%` }}></div>
                       </div>
                     </div>
+                  ))}
+                </div>
+              </section>
+            </SmartCard>
+
+            {/* Added Soft Skills Section */}
+            <SmartCard className="side-pixel-wrapper">
+              <section className="side-section">
+                <GradientText className="yellow-text bold-font">{isEn ? "Soft Skills" : "مهارت‌های نرم"}</GradientText>
+                <div className="soft-skills-tags">
+                  {content.softSkills.map((skill, i) => (
+                    <span key={i} className="soft-tag">{skill}</span>
                   ))}
                 </div>
               </section>

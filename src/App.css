@@ -87,7 +87,7 @@ body, html {
 /* Full Width Summary Box Fix */
 .full-width-summary {
     width: 100% !important;
-    height: auto !important; /* Forces height to fit content */
+    height: auto !important;
     min-height: unset !important;
     margin-bottom: var(--spacing-desktop);
     background: var(--glass-bg) !important;
@@ -100,7 +100,7 @@ body, html {
 }
 
 .summary-inner {
-    padding: 25px 30px !important; /* Adjusted padding */
+    padding: 25px 30px !important;
 }
 
 .summary-text {
@@ -184,6 +184,21 @@ body, html {
   box-shadow: 0 0 10px rgba(160, 16, 214, 0.4);
 }
 
+/* --- Soft Skills Tags --- */
+.soft-skills-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.soft-tag {
+  font-size: 0.85rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.9);
+  padding: 4px 12px;
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 /* --- Certificates Section --- */
 .certs-list { display: flex; flex-direction: column; gap: 12px; }
 .cert-item { display: flex; flex-direction: column; }
@@ -204,7 +219,6 @@ body, html {
 }
 .interest-item { display: flex; flex-direction: column; font-size: 0.9rem; line-height: 1.5; margin-bottom: 4px; }
 
-/* Video Links: Underlined & Yellow like IELTS */
 .video-link {
     color: var(--yellow);
     text-decoration: underline;
