@@ -14,6 +14,16 @@ const ProfileCard = ({
   const wrapRef = useRef(null);
   const shellRef = useRef(null);
 
+  // قفل کردن اسکرول کل صفحه هنگام نمایش کارت
+  useEffect(() => {
+    const originalStyle = window.getComputedStyle(document.body).overflow;
+    document.body.style.overflow = 'hidden';
+    
+    return () => {
+      document.body.style.overflow = originalStyle;
+    };
+  }, []);
+
   const tiltEngine = useMemo(() => {
     let rafId = null;
     let running = false;
@@ -74,7 +84,6 @@ const ProfileCard = ({
   }, [tiltEngine]);
 
   return (
-    /* اضافه شدن کلاس gateway-mode برای کنترل ارتفاع کل صفحه */
     <div className="gateway-mode">
       <div ref={wrapRef} className="pc-card-wrapper">
         <svg style={{ position: 'absolute', width: 0, height: 0 }}>
