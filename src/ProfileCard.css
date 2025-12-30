@@ -120,7 +120,7 @@
 .pc-header-info {
   text-align: center;
   z-index: 15;
-  margin-bottom: 20px;
+  margin-bottom: 10px; /* Reduced to pull image up */
 }
 .en-name { font-family: 'ProductSans', sans-serif; font-size: 1.6rem; color: #fff; margin: 0; }
 .fa-name { font-family: 'Anjoman', sans-serif; font-size: 1.4rem; color: var(--c1); margin: 5px 0; }
@@ -146,11 +146,12 @@
   align-items: center;
   z-index: 5;
   position: relative;
+  margin-top: -30px; /* Moves the entire profile picture up */
 }
 
 .pc-avatar-bg {
   position: absolute;
-  width: 320px; /* Increased from 240px to match larger photo */
+  width: 320px;
   height: 320px;
   background: conic-gradient(from 180deg at 50% 50%, var(--c4) 0deg, var(--c1) 160deg, var(--c4) 360deg);
   filter: blur(55px);
@@ -166,7 +167,7 @@
 }
 
 .avatar-minimal {
-  width: 105%; /* Increased from 70% to make it ~1.5x bigger */
+  width: 105%;
   max-width: 320px;
   height: auto;
   object-fit: contain;
@@ -229,7 +230,8 @@
 @media (max-width: 768px) {
   .pc-card-shell { width: 310px; }
   .pc-card { height: 460px; }
-  .pc-avatar-bg { width: 240px; height: 240px; } /* Proportional reduction for mobile */
+  .pc-avatar-container { margin-top: -20px; } /* Slightly less pull on mobile to avoid overlapping text */
+  .pc-avatar-bg { width: 240px; height: 240px; }
   .avatar-minimal { width: 100%; } 
   .en-name { font-size: 1.3rem; }
   .fa-name { font-size: 1.1rem; }
