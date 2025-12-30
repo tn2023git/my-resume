@@ -221,14 +221,13 @@ body, html {
   .floating-actions-container .floating-btn:last-child { display: none !important; }
 }
 
-/* --- PRINT OPTIMIZATION (WHITE MARGINS, NO GAPS, BLACK TITLES) --- */
+/* --- PRINT OPTIMIZATION (FOCUSED ON COMPACTNESS & WHITE MARGINS) --- */
 @media print {
   @page { 
     size: A4; 
-    margin: 10mm; 
+    margin: 8mm; /* Slightly smaller margin to fit more content */
   }
   
-  /* Critical: Force white background to all root levels to fix margins */
   html, body, #root, .app-wrapper { 
     background-color: #ffffff !important; 
     background: #ffffff !important;
@@ -247,43 +246,47 @@ body, html {
   
   .pdf-page { 
     max-width: 100% !important; 
-    gap: 8px !important; /* Tighter gap for printing */
+    gap: 4px !important; /* Extremely tight gap between main sections */
     display: block !important;
     background: #ffffff !important;
   }
 
-  /* ELIMINATING EMPTY SPACES & GAPS */
+  .experience-full-width {
+    gap: 4px !important;
+  }
+
+  /* REMOVING GAPS BETWEEN BOXES */
   .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary, .mobile-glass-card {
     background: transparent !important;
     border: none !important;
-    border-radius: 0 !important;
     padding: 0 !important;
-    margin-bottom: 12px !important; /* Reduced margin */
-    box-shadow: none !important;
-    backdrop-filter: none !important;
+    margin-bottom: 6px !important; /* Very small bottom margin */
     display: block !important;
     width: 100% !important;
-    /* Allow breaking to prevent huge gaps */
     break-inside: auto !important;
     page-break-inside: auto !important;
   }
 
-  /* FORCING MAIN TITLES TO PURE BLACK */
+  .summary-inner, .side-section, .exp-card {
+    padding: 5px 0 !important; /* Tight internal padding */
+  }
+
+  /* FORCING TITLES TO BLACK & TIGHTENING SPACING */
   .yellow-text {
-    font-size: 1.25rem !important;
+    font-size: 1.15rem !important;
     color: #000000 !important;
-    border-bottom: 1.5px solid #000000 !important;
-    margin-top: 10px !important;
-    margin-bottom: 8px !important;
-    padding-bottom: 4px !important;
+    border-bottom: 1.2px solid #000000 !important;
+    margin-top: 8px !important;
+    margin-bottom: 4px !important;
+    padding-bottom: 2px !important;
     font-weight: bold !important;
-    display: flex !important;
   }
 
   .interest-cat-name {
     color: #000000 !important;
-    border-bottom: 1px solid #000000 !important;
-    font-weight: bold !important;
+    margin-bottom: 2px !important;
+    padding-bottom: 2px !important;
+    font-size: 0.8rem !important;
   }
 
   .info-columns-container { 
@@ -292,31 +295,34 @@ body, html {
     width: 100% !important;
   }
 
-  /* Text details to black */
+  /* Content Text */
   .summary-text, .job-desc, .skill-name, .cert-name, .interest-item, .job-company { 
     color: #000000 !important; 
-    line-height: 1.5 !important;
+    line-height: 1.4 !important; /* Slightly more compact text */
   }
 
-  .dot { border: 1px solid #000 !important; background: transparent !important; }
-  .dot.filled { background: #000 !important; background-color: #000 !important; }
-  .progress-bar-bg { border: 1px solid #000 !important; background: #fff !important; }
-  .progress-bar-fill { background: #000 !important; background-color: #000 !important; }
+  .project-item, .interest-cat, .skill-progress-item {
+    margin-bottom: 5px !important;
+  }
+
+  .dot.filled, .progress-bar-fill { 
+    background: #000 !important; 
+    background-color: #000 !important; 
+  }
 
   .soft-tag, .tag {
     border: 1px solid #000 !important;
-    background: #ffffff !important;
-    color: #000 !important;
-    padding: 1px 6px !important;
-    display: inline-block !important;
+    padding: 0 4px !important;
+    margin: 1px !important;
+    font-size: 0.75rem !important;
   }
 
-  /* Final Global Black Force */
   * { 
     color: #000000 !important; 
-    background-color: transparent !important;
+    -webkit-text-fill-color: #000000 !important;
     text-shadow: none !important;
     box-shadow: none !important;
     animation: none !important;
+    transition: none !important;
   }
 }
