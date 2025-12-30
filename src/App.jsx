@@ -235,7 +235,7 @@ function App() {
         </div>
       ) : (
         <div className="pdf-page entrance-anim">
-          {/* 1. Summary Box - Full Width */}
+          {/* Summary - Top Full Width */}
           <SmartCard className={`full-width-summary ${isFirstEntry ? 'slide-in-top' : ''}`}>
             <section className="side-section summary-inner">
               <GradientText className="yellow-text bold-font">{isEn ? "Professional Summary" : "خلاصه حرفه‌ای"}</GradientText>
@@ -243,8 +243,9 @@ function App() {
             </section>
           </SmartCard>
 
-          {/* 2. Info Boxes - 3 Columns (Desktop) */}
-          <div className={`info-grid-3col ${isFirstEntry ? 'slide-in-left' : ''}`}>
+          {/* Info Sections - 3 Columns Masonry Style */}
+          <div className={`info-columns-container ${isFirstEntry ? 'slide-in-left' : ''}`}>
+            
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
                 <GradientText className="yellow-text bold-font">{isEn ? "Personal & Contact" : "اطلاعات فردی و تماس"}</GradientText>
@@ -292,10 +293,13 @@ function App() {
 
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
-                <GradientText className="yellow-text bold-font">{isEn ? "Soft Skills" : "مهارت‌های نرم"}</GradientText>
-                <div className="soft-skills-tags">
-                  {content.softSkills.map((skill, i) => (
-                    <span key={i} className="soft-tag">{skill}</span>
+                <GradientText className="yellow-text bold-font">{isEn ? "Certificates" : "گواهینامه‌ها"}</GradientText>
+                <div className="certs-list">
+                  {content.certificates.map((cert, i) => (
+                    <div key={i} className="cert-item">
+                      <div className="cert-name bold-font">{cert.name}</div>
+                      {cert.detail && <div className="cert-detail">{cert.detail}</div>}
+                    </div>
                   ))}
                 </div>
               </section>
@@ -303,15 +307,9 @@ function App() {
 
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
-                <GradientText className="yellow-text bold-font">{isEn ? "Certificates" : "گواهینامه‌ها"}</GradientText>
-                <div className="certs-list">
-                  {content.certificates.map((cert, i) => (
-                    <div key={i} className="cert-item">
-                      <div className="cert-name bold-font">{cert.name}</div>
-                      {cert.detail && <div className="cert-detail">{cert.detail}</div>}
-                      {cert.validity && <div className="cert-validity">{cert.validity}</div>}
-                    </div>
-                  ))}
+                <GradientText className="yellow-text bold-font">{isEn ? "Soft Skills" : "مهارت‌های نرم"}</GradientText>
+                <div className="soft-skills-tags">
+                  {content.softSkills.map((skill, i) => <span key={i} className="soft-tag">{skill}</span>)}
                 </div>
               </section>
             </SmartCard>
@@ -332,7 +330,6 @@ function App() {
               </section>
             </SmartCard>
 
-            {/* Interest Box occupies the 7th cell or you can move it around */}
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
                 <GradientText className="yellow-text bold-font">{isEn ? "Interests & Hobbies" : "علایق و سرگرمی‌ها"}</GradientText>
@@ -343,12 +340,8 @@ function App() {
                       {cat.items.map((item, idx) => (
                         <div key={idx} className="interest-item">
                           {item.url ? (
-                            <a href={item.url} target="_blank" rel="noreferrer" className={item.isVideo ? "video-link" : "interest-link"}>
-                                {item.text}
-                            </a>
-                          ) : (
-                            <span>{item.text}</span>
-                          )}
+                            <a href={item.url} target="_blank" rel="noreferrer" className="video-link">{item.text}</a>
+                          ) : <span>{item.text}</span>}
                           {item.detail && <div className="interest-detail">{item.detail}</div>}
                         </div>
                       ))}
@@ -357,18 +350,17 @@ function App() {
                 </div>
               </section>
             </SmartCard>
+
           </div>
 
-          {/* 3. Experience Section - Full Width (Desktop) */}
+          {/* Experience - Bottom Full Width */}
           <div className={`experience-full-width ${isFirstEntry ? 'slide-in-right' : ''}`}>
             {content.experience.map((job, i) => (
               <SmartCard key={i} className="exp-pixel-wrapper">
                 <div className="exp-card">
                     <div className="exp-row">
                         <span className="job-role bold-font">{job.role}</span>
-                        <span className="job-duration">
-                            <GradientText className="duration-text bold-font">{job.duration}</GradientText>
-                        </span>
+                        <GradientText className="duration-text bold-font">{job.duration}</GradientText>
                     </div>
                     <div className="job-company bold-font">{job.company}</div>
                     <div className="job-date">{job.date}</div>
@@ -379,14 +371,7 @@ function App() {
           </div>
 
           <button className="floating-return-btn" onClick={handleReturn} aria-label="Return">
-            <svg 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              stroke="currentColor" 
-              strokeWidth="2.5" 
-              strokeLinecap="round" 
-              strokeLinejoin="round"
-            >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M19 12H5M12 19l-7-7 7-7"/>
             </svg>
           </button>

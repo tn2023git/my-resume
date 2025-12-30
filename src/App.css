@@ -151,6 +151,14 @@ body, html {
   height: auto !important;
 }
 
+/* Fix for Masonry-style effect in columns */
+.side-pixel-wrapper {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: var(--spacing-desktop);
+  break-inside: avoid;
+}
+
 .full-width-summary {
   width: 100% !important;
 }
@@ -166,11 +174,11 @@ body, html {
   margin: 0;
 }
 
-/* --- New 3-Column Grid for Sidebar items --- */
-.info-grid-3col {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--spacing-desktop);
+/* --- Masonry Column Layout for Desktop --- */
+.info-columns-container {
+  column-count: 3;
+  column-gap: var(--spacing-desktop);
+  width: 100%;
 }
 
 /* --- Full Width Experience Section --- */
@@ -183,13 +191,12 @@ body, html {
 
 .side-section, .exp-card { padding: 30px; }
 
-/* Contact Link Styling */
 .contact-link {
     color: var(--yellow);
     text-decoration: underline;
 }
 
-/* --- Software Section (Dots) --- */
+/* --- Software Section --- */
 .software-item { 
   display: flex; 
   justify-content: space-between; 
@@ -200,176 +207,41 @@ body, html {
 .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.1); }
 .dot.filled { background: var(--purple); box-shadow: 0 0 8px var(--purple); }
 
-/* --- Technical Skills (Progress Bar) --- */
-.technical-skills-list {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-.skill-progress-item {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.skill-name {
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.9);
-}
-.progress-bar-bg {
-  width: 100%;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
-  overflow: hidden;
-}
-.progress-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--purple), var(--c1));
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(160, 16, 214, 0.4);
-}
+/* --- Technical Skills --- */
+.technical-skills-list { display: flex; flex-direction: column; gap: 15px; }
+.skill-progress-item { display: flex; flex-direction: column; gap: 8px; }
+.skill-name { font-size: 0.9rem; color: rgba(255, 255, 255, 0.9); }
+.progress-bar-bg { width: 100%; height: 6px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; overflow: hidden; }
+.progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--purple), var(--c1)); border-radius: 10px; }
 
 /* --- Soft Skills Tags --- */
-.soft-skills-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.soft-tag {
-  font-size: 0.85rem;
-  background: rgba(255, 255, 255, 0.05);
-  color: rgba(255, 255, 255, 0.9);
-  padding: 4px 12px;
-  border-radius: 100px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
+.soft-skills-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.soft-tag { font-size: 0.85rem; background: rgba(255, 255, 255, 0.05); color: rgba(255, 255, 255, 0.9); padding: 4px 12px; border-radius: 100px; border: 1px solid rgba(255, 255, 255, 0.1); }
 
 /* --- Certificates Section --- */
 .certs-list { display: flex; flex-direction: column; gap: 12px; }
-.cert-item { display: flex; flex-direction: column; }
 .cert-name { font-size: 1rem; color: white; }
 .cert-detail, .cert-validity { font-size: 0.85rem; color: var(--yellow); opacity: 0.9; margin-top: 2px; }
 
-/* --- Interests & Hobbies Section --- */
-.interests-list { display: flex; flex-direction: column; gap: 20px; }
-.interest-cat { display: flex; flex-direction: column; gap: 8px; }
-.interest-cat-name { 
-  font-size: 0.85rem; 
-  text-transform: uppercase; 
-  color: var(--purple); 
-  letter-spacing: 1px;
-  border-bottom: 1px solid rgba(160, 16, 214, 0.2);
-  padding-bottom: 4px;
-  margin-bottom: 4px;
-}
-.interest-item { display: flex; flex-direction: column; font-size: 0.9rem; line-height: 1.5; margin-bottom: 4px; }
-
-.video-link {
-    color: var(--yellow);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    font-size: 0.9rem;
-    transition: opacity 0.3s ease;
-}
-.video-link:hover { opacity: 0.8; }
-
-.interest-detail { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: 2px; }
-
-/* --- Projects Section --- */
-.projects-list { display: flex; flex-direction: column; gap: 20px; }
-.project-item { display: flex; flex-direction: column; gap: 8px; }
-.project-link { 
-  color: var(--c1); 
-  text-decoration: underline; 
-  text-underline-offset: 4px; 
-  font-weight: bold; 
-  font-size: 1.1rem;
-}
-.project-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-.tag {
-  font-size: 0.75rem;
-  background: rgba(160, 16, 214, 0.1);
-  color: var(--c1);
-  padding: 2px 10px;
-  border-radius: 6px;
-  border: 1px solid rgba(160, 16, 214, 0.2);
-}
+/* --- Interests & Projects --- */
+.interests-list, .projects-list { display: flex; flex-direction: column; gap: 20px; }
+.interest-cat-name { font-size: 0.85rem; color: var(--purple); border-bottom: 1px solid rgba(160, 16, 214, 0.2); padding-bottom: 4px; margin-bottom: 4px; }
+.interest-item { display: flex; flex-direction: column; font-size: 0.9rem; margin-bottom: 4px; }
+.video-link, .project-link { color: var(--yellow); text-decoration: underline; font-weight: bold; }
 
 /* --- Experience Content --- */
-.exp-row { 
-  display: flex; 
-  justify-content: space-between; 
-  align-items: center; 
-  flex-wrap: nowrap;
-  gap: 10px;
-  margin-bottom: 8px;
-}
-.exp-row span.job-duration { white-space: nowrap; font-weight: bold; }
-.job-company { color: var(--yellow); margin-bottom: 10px; font-weight: bold; display: block; }
-.job-desc { color: rgba(255,255,255,0.75); line-height: 1.7; text-align: inherit; }
-.yellow-text { 
-  font-size: 1.4rem; 
-  border-bottom: 1px solid rgba(255,255,255,0.1); 
-  padding-bottom: 12px; 
-  margin-bottom: 20px; 
-  display: flex; 
-}
+.exp-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 8px; }
+.job-company { color: var(--yellow); margin-bottom: 10px; font-weight: bold; }
+.job-desc { color: rgba(255,255,255,0.75); line-height: 1.7; }
+.yellow-text { font-size: 1.4rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; margin-bottom: 20px; display: flex; }
 
-/* --- Floating Return Button --- */
-.floating-return-btn {
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: rgba(15, 15, 15, 0.7);
-  backdrop-filter: blur(12px);
-  border: 2px solid var(--c1);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 1000;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-}
-
-.floating-return-btn svg {
-  width: 28px;
-  height: 28px;
-  transition: transform 0.3s ease;
-}
-
-.floating-return-btn:hover {
-  background: var(--c1);
-  transform: translateX(-50%) scale(1.1);
-}
+/* --- Floating Button --- */
+.floating-return-btn { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); width: 60px; height: 60px; border-radius: 50%; background: rgba(15, 15, 15, 0.7); backdrop-filter: blur(12px); border: 2px solid var(--c1); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 1000; transition: all 0.4s; }
+.floating-return-btn:hover { background: var(--c1); transform: translateX(-50%) scale(1.1); }
 
 /* --- Mobile Fixes --- */
 @media (max-width: 768px) {
-  .side-pixel-wrapper, 
-  .exp-pixel-wrapper, 
-  .mobile-glass-card, 
-  .full-width-summary { 
-    margin-bottom: var(--spacing-mobile); 
-    background: rgba(10, 10, 10, 0.95) !important;
-  }
-
-  .info-grid-3col { grid-template-columns: 1fr; gap: var(--spacing-mobile); }
-  
-  .exp-row { flex-direction: row; justify-content: space-between; }
-  .exp-row span.job-role { flex: 1; }
-
-  .info-grid-3col, .experience-full-width {
-      animation: slideLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-  .rtl-mode .info-grid-3col, .rtl-mode .experience-full-width {
-      animation-name: slideRight;
-  }
-
+  .info-columns-container { column-count: 1; }
+  .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary { background: rgba(10, 10, 10, 0.95) !important; margin-bottom: var(--spacing-mobile); }
   .app-wrapper { padding: 40px 15px 100px 15px; }
-  .floating-return-btn { bottom: 20px; width: 50px; height: 50px; }
 }
