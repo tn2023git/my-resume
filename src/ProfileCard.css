@@ -120,7 +120,7 @@
 .pc-header-info {
   text-align: center;
   z-index: 15;
-  margin-bottom: 10px; /* Reduced to pull image up */
+  margin-bottom: 10px;
 }
 .en-name { font-family: 'ProductSans', sans-serif; font-size: 1.6rem; color: #fff; margin: 0; }
 .fa-name { font-family: 'Anjoman', sans-serif; font-size: 1.4rem; color: var(--c1); margin: 5px 0; }
@@ -146,7 +146,7 @@
   align-items: center;
   z-index: 5;
   position: relative;
-  margin-top: -30px; /* Moves the entire profile picture up */
+  margin-top: -30px;
 }
 
 .pc-avatar-bg {
@@ -183,28 +183,43 @@
   transform: translateZ(50px);
 }
 
+/* Updated Flag Buttons with larger hitbox */
 .flag-btn {
   position: absolute;
-  bottom: 15px;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  overflow: hidden;
+  bottom: 10px;
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   pointer-events: auto;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 110;
+}
+
+.flag-btn img { 
+  width: 42px; 
+  height: 42px; 
+  border-radius: 50%;
+  object-fit: cover;
   background: rgba(15, 15, 15, 0.85);
   backdrop-filter: blur(8px);
   border: 1.5px solid var(--glass-border);
-  transition: all 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
-.flag-btn:hover {
-  transform: scale(1.15);
-  border-color: var(--c1);
-}
-.flag-btn img { width: 100%; height: 100%; object-fit: cover; }
 
-.en-corner { left: 15px; }
-.fa-corner { right: 15px; }
+.flag-btn:hover {
+  transform: scale(1.1);
+}
+
+.flag-btn:hover img {
+  border-color: var(--c1);
+  box-shadow: 0 0 15px rgba(var(--c1-rgb), 0.3);
+}
+
+.en-corner { left: 10px; }
+.fa-corner { right: 10px; }
 
 .pc-behind {
   position: absolute;
@@ -230,7 +245,7 @@
 @media (max-width: 768px) {
   .pc-card-shell { width: 310px; }
   .pc-card { height: 460px; }
-  .pc-avatar-container { margin-top: -60px; } /* Slightly less pull on mobile to avoid overlapping text */
+  .pc-avatar-container { margin-top: -80px; }
   .pc-avatar-bg { width: 240px; height: 240px; }
   .avatar-minimal { width: 100%; } 
   .en-name { font-size: 1.3rem; }
@@ -240,7 +255,8 @@
   .pc-shine, .pc-glare { opacity: 0.5 !important; }
   .pc-behind { opacity: 0.15 !important; }
 
-  .flag-btn { bottom: 12px; }
-  .en-corner { left: 12px; }
-  .fa-corner { right: 12px; }
-}
+  .flag-btn { bottom: 8px; width: 50px; height: 50px; }
+  .flag-btn img { width: 38px; height: 38px; }
+  .en-corner { left: 8px; }
+  .fa-corner { right: 8px; }
+} 
