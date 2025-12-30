@@ -22,7 +22,7 @@
 .pc-is-mobile .pc-glitter-color,
 .pc-is-mobile .pc-shine,
 .pc-is-mobile .pc-glare {
-  opacity: 0.7 !important; /* Forces the hover state effects to stay active */
+  opacity: 0.7 !important;
 }
 
 .pc-is-mobile .pc-behind {
@@ -32,7 +32,7 @@
 /* ----------------------------- */
 
 .pc-card-shell {
-  transition: transform 0.1s ease-out; /* Slightly faster for smoother JS tracking */
+  transition: transform 0.1s ease-out;
   transform: rotateX(var(--rotate-y)) rotateY(var(--rotate-x));
   transform-style: preserve-3d;
   width: 380px;
@@ -54,6 +54,7 @@
   flex-direction: column;
   position: relative;
   padding: 30px 20px;
+  transform-style: preserve-3d;
 }
 
 .pc-glitter-base {
@@ -173,8 +174,9 @@
 .pc-lang-overlay {
   position: absolute;
   inset: 0;
-  z-index: 30;
+  z-index: 100; /* Increased to stay above all glitter/glare */
   pointer-events: none;
+  transform: translateZ(50px); /* Push forward in 3D space for touch reliability */
 }
 
 .flag-btn {
