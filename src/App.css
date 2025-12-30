@@ -31,7 +31,7 @@
   --glass-bg: rgba(15, 15, 15, 0.45); 
   --glass-border: rgba(255, 255, 255, 0.08);
   --spacing-desktop: 25px;
-  --spacing-mobile: 15px;
+  --spacing-mobile: 20px; /* Increased for better touch-target and uniformity */
 }
 
 /* --- Base Layout --- */
@@ -113,7 +113,6 @@ body, html {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Swap for RTL */
 .rtl-mode .slide-in-left { animation-name: slideRight; }
 .rtl-mode .slide-in-right { animation-name: slideLeft; }
 
@@ -151,11 +150,10 @@ body, html {
   height: auto !important;
 }
 
-/* Fix for Mismatched Column layout */
 .side-pixel-wrapper {
   display: inline-block;
   width: 100%;
-  margin-bottom: var(--spacing-desktop);
+  margin-bottom: var(--spacing-desktop); /* Control spacing via masonry gap */
   break-inside: avoid;
 }
 
@@ -174,14 +172,12 @@ body, html {
   margin: 0;
 }
 
-/* --- Masonry Column Layout for Desktop --- */
 .info-columns-container {
   column-count: 3;
   column-gap: var(--spacing-desktop);
   width: 100%;
 }
 
-/* --- Full Width Experience Section --- */
 .experience-full-width {
   display: flex;
   flex-direction: column;
@@ -202,6 +198,9 @@ body, html {
   justify-content: space-between; 
   align-items: center; 
   margin-bottom: 15px; 
+}
+.software-container > .software-item:last-child {
+  margin-bottom: 0; /* Removed bottom margin from software section */
 }
 .dots-container { display: flex; gap: 6px; }
 .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.1); }
@@ -254,11 +253,25 @@ body, html {
 
 /* --- Floating Return Button --- */
 .floating-return-btn { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); width: 60px; height: 60px; border-radius: 50%; background: rgba(15, 15, 15, 0.7); backdrop-filter: blur(12px); border: 2px solid var(--c1); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 1000; transition: all 0.4s; }
-.floating-return-btn:hover { background: var(--c1); transform: translateX(-50%) scale(1.1); }
+.floating-return-btn svg { width: 28px; height: 28px; color: white; }
 
 /* --- Mobile Fixes --- */
 @media (max-width: 768px) {
-  .info-columns-container { column-count: 1; }
-  .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary { background: rgba(10, 10, 10, 0.95) !important; margin-bottom: var(--spacing-mobile); }
+  .info-columns-container { 
+    display: flex; 
+    flex-direction: column; 
+    gap: var(--spacing-mobile); 
+    column-count: unset; /* Switching to flex for true uniform gap on mobile */
+  }
+  .pdf-page {
+    gap: var(--spacing-mobile);
+  }
+  .experience-full-width {
+    gap: var(--spacing-mobile);
+  }
+  .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary { 
+    background: rgba(10, 10, 10, 0.95) !important; 
+    margin-bottom: 0 !important; /* Spacing handled by container gap */
+  }
   .app-wrapper { padding: 40px 15px 100px 15px; }
 }

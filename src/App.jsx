@@ -261,7 +261,6 @@ function App() {
               </section>
             </SmartCard>
 
-            {/* Interest Switched to Top */}
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
                 <GradientText className="yellow-text bold-font">{isEn ? "Interests & Hobbies" : "علایق و سرگرمی‌ها"}</GradientText>
@@ -338,7 +337,6 @@ function App() {
               </section>
             </SmartCard>
 
-            {/* Software Switched to Bottom */}
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
                 <GradientText className="yellow-text bold-font">{isEn ? "Software" : "نرم‌افزارها"}</GradientText>
