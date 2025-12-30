@@ -63,7 +63,6 @@ const ProfileCard = ({
 
     const handleOrientation = (e) => {
       if (e.gamma === null || e.beta === null) return;
-      // سنسور موبایل
       const x = Math.min(Math.max(((e.gamma || 0) + 20) / 40 * 100, 0), 100);
       const y = Math.min(Math.max(((e.beta || 0) - 25) / 40 * 100, 0), 100);
       tiltEngine.setTarget(x, y);
@@ -115,7 +114,6 @@ const ProfileCard = ({
                 <img className="avatar-minimal" src={avatarUrl} alt="Profile" />
               </div>
 
-              {/* لایه‌های نوری روی آواتار */}
               <div className="pc-glitter" />
               <div className="pc-shine" />
               <div className="pc-glare" />
