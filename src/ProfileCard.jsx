@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useMemo } from 'react';
+import React, { useEffect, useRef, useMemo, useState } from 'react';
 import './ProfileCard.css';
 
 const DEFAULT_INNER_GRADIENT = 'linear-gradient(145deg, #0f0f0f 0%, #050505 100%)';
@@ -13,6 +13,15 @@ const ProfileCard = ({
 }) => {
   const wrapRef = useRef(null);
   const shellRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check for mobile on mount
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const tiltEngine = useMemo(() => {
     let rafId = null;
@@ -46,36 +55,27 @@ const ProfileCard = ({
 
   useEffect(() => {
     const shell = shellRef.current;
-    if (!shell) return;
+    if (!shell || isMobile) return; // Disable tilt engine on mobile
 
     const onMove = e => {
       const rect = shell.getBoundingClientRect();
       tiltEngine.setTarget(((e.clientX - rect.left) / rect.width) * 100, ((e.clientY - rect.top) / rect.height) * 100);
     };
     
-    const handleOrientation = (e) => {
-      if (e.beta === null || e.gamma === null) return;
-      const x = Math.min(Math.max(((e.gamma || 0) + 20) / 40 * 100, 0), 100);
-      const y = Math.min(Math.max(((e.beta || 0) - 25) / 40 * 100, 0), 100);
-      tiltEngine.setTarget(x, y);
-    };
-
     const onLeave = () => tiltEngine.setTarget(50, 50);
 
     shell.addEventListener('pointermove', onMove);
     shell.addEventListener('pointerleave', onLeave);
-    window.addEventListener('deviceorientation', handleOrientation, true);
 
     return () => {
       shell.removeEventListener('pointermove', onMove);
       shell.removeEventListener('pointerleave', onLeave);
-      window.removeEventListener('deviceorientation', handleOrientation, true);
       tiltEngine.stop();
     };
-  }, [tiltEngine]);
+  }, [tiltEngine, isMobile]);
 
   return (
-    <div ref={wrapRef} className="pc-card-wrapper">
+    <div ref={wrapRef} className={`pc-card-wrapper ${isMobile ? 'pc-is-mobile' : ''}`}>
       <svg style={{ position: 'absolute', width: 0, height: 0 }}>
         <filter id="glitterNoise">
           <feTurbulence type="fractalNoise" baseFrequency="0.99" numOctaves="1" stitchTiles="stitch" />
