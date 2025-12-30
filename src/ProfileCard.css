@@ -53,47 +53,50 @@
   transform-style: preserve-3d;
 }
 
-/* --- EFFECTS --- */
+/* --- EFFECTS (بالای تصویر قرار دارند) --- */
 .pc-glitter {
   position: absolute;
   inset: 0;
-  z-index: 10;
+  z-index: 20; /* بالاتر از آواتار */
   opacity: 0.15;
   filter: url(#noiseFilter) contrast(180%) brightness(1000%);
   mix-blend-mode: screen;
   pointer-events: none;
   transition: opacity 0.3s ease;
+  transform: translateZ(1px);
 }
 .pc-card-wrapper:hover .pc-glitter { opacity: 0.35; }
 
 .pc-shine {
   position: absolute;
-  inset: -100%; /* محدوده وسیع برای جلوگیری از بریدگی */
-  z-index: 11;
+  inset: -100%; /* وسیع برای جلوگیری از بریدگی در موبایل */
+  z-index: 21;
   opacity: 0;
   mix-blend-mode: overlay;
   background: linear-gradient(110deg, transparent 25%, var(--c4) 48%, var(--c1) 50%, var(--c2) 52%, transparent 75%);
-  background-size: 300% 300%; /* سایز بزرگتر برای درخشش بیشتر و نرم‌تر */
+  background-size: 300% 300%;
   background-position: var(--pointer-x) var(--pointer-y);
   pointer-events: none;
+  transform: translateZ(2px);
 }
 
 .pc-glare {
   position: absolute;
   inset: -50%;
-  z-index: 12;
+  z-index: 22;
   opacity: 0;
   background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(255,255,255,0.3) 0%, transparent 60%);
   pointer-events: none;
+  transform: translateZ(3px);
 }
 .pc-card-wrapper:hover .pc-shine, .pc-card-wrapper:hover .pc-glare { opacity: 1; }
 
 /* --- HEADER --- */
 .pc-header-info {
   text-align: center;
-  z-index: 15;
+  z-index: 25;
   margin-bottom: 10px;
-  transform: translateZ(30px);
+  transform: translateZ(35px);
 }
 .en-name { font-family: 'ProductSans', sans-serif; font-size: 1.6rem; color: #fff; margin: 0; }
 .fa-name { font-family: 'Anjoman', sans-serif; font-size: 1.4rem; color: var(--c1); margin: 5px 0; }
@@ -105,31 +108,31 @@
   gap: 10px;
   margin-top: 8px;
   font-size: 0.95rem;
-  direction: ltr !important; /* ثابت کردن جهت متن */
+  direction: ltr !important;
 }
 .en-title-text { font-family: inherit; color: rgba(255,255,255,0.7); }
 .fa-title-text { font-family: 'Anjoman', sans-serif; color: rgba(255,255,255,0.7); font-weight: 500; }
 .sep { color: var(--c4); }
 
-/* --- AVATAR & GLOW --- */
+/* --- AVATAR (زیر افکت‌ها) --- */
 .pc-avatar-container {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 5;
+  z-index: 5; /* زیر Glitter و Shine */
   position: relative;
   margin-top: -25px;
-  transform: translateZ(15px);
+  transform: translateZ(10px);
 }
 
 .pc-avatar-bg {
   position: absolute;
-  width: 260px; /* بزرگتر شدن هاله داخلی */
+  width: 260px;
   height: 260px;
   background: conic-gradient(from 180deg at 50% 50%, var(--c4) 0deg, var(--c1) 160deg, var(--c4) 360deg);
   filter: blur(50px);
-  opacity: 0.6; /* روشن‌تر شدن */
+  opacity: 0.5;
   border-radius: 50%;
   z-index: -1;
   animation: rotateGlow 15s linear infinite;
@@ -148,7 +151,7 @@
   mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
 }
 
-/* --- BUTTONS --- */
+/* --- LANGUAGES (بالاترین لایه برای تاچ صحیح) --- */
 .pc-lang-overlay {
   position: absolute;
   inset: 0;
@@ -160,8 +163,8 @@
 .flag-btn {
   position: absolute;
   bottom: 25px;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
@@ -169,29 +172,29 @@
   background: rgba(15, 15, 15, 0.9);
   backdrop-filter: blur(8px);
   border: 1px solid var(--glass-border);
-  transform: translateZ(55px); /* جلوتر از تمام لایه‌ها برای لمس سریع */
+  transform: translateZ(60px); /* جلوتر از همه افکت‌ها */
   transition: transform 0.2s ease;
   box-shadow: 0 5px 15px rgba(0,0,0,0.4);
   -webkit-tap-highlight-color: transparent;
 }
-.flag-btn:hover { border-color: var(--c1); }
-.flag-btn:active { transform: translateZ(45px) scale(0.9); }
+.flag-btn:hover { border-color: var(--c1); transform: translateZ(70px) scale(1.1); }
+.flag-btn:active { transform: translateZ(50px) scale(0.9); }
 .flag-btn img { width: 100%; height: 100%; object-fit: cover; }
 
 .en-corner { left: 35px; }
 .fa-corner { right: 35px; }
 
-/* --- OUTER GLOW (اصلاح شده) --- */
+/* --- OUTER GLOW --- */
 .pc-behind {
   position: absolute;
-  inset: -150px; /* بزرگتر شدن محدوده */
+  inset: -150px;
   background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), var(--c4) 0%, transparent 75%);
   filter: blur(100px);
   opacity: 0;
   transition: opacity 0.5s;
   z-index: -1;
 }
-.pc-card-wrapper:hover .pc-behind { opacity: 0.7; } /* درخشان‌تر شدن */
+.pc-card-wrapper:hover .pc-behind { opacity: 0.6; }
 
 @media (max-width: 480px) {
   .pc-card-wrapper { width: 310px; }
@@ -200,6 +203,6 @@
   .fa-name { font-size: 1.1rem; }
   .pc-avatar-container { margin-top: -15px; }
   .avatar-minimal { width: 85%; }
-  .pc-behind { inset: -80px; filter: blur(60px); }
+  .pc-behind { inset: -100px; opacity: 0.45; filter: blur(70px); }
   .flag-btn { width: 48px; height: 48px; bottom: 20px; }
 }

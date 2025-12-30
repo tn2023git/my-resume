@@ -62,17 +62,22 @@ const ProfileCard = ({
     };
 
     const handleOrientation = (e) => {
+      // بهبود محاسبات سنسور برای فعال بودن دائم در موبایل
       const x = Math.min(Math.max(((e.gamma || 0) + 20) / 40 * 100, 0), 100);
       const y = Math.min(Math.max(((e.beta || 0) - 20) / 40 * 100, 0), 100);
       tiltEngine.setTarget(x, y);
     };
 
+    const onLeave = () => tiltEngine.setTarget(50, 50);
+
     shell.addEventListener('pointermove', onMove);
-    shell.addEventListener('pointerleave', () => tiltEngine.setTarget(50, 50));
+    shell.addEventListener('pointerleave', onLeave);
+    // گوش دادن به حرکت گوشی برای موبایل
     window.addEventListener('deviceorientation', handleOrientation);
 
     return () => {
       shell.removeEventListener('pointermove', onMove);
+      shell.removeEventListener('pointerleave', onLeave);
       window.removeEventListener('deviceorientation', handleOrientation);
       tiltEngine.stop();
     };
@@ -94,6 +99,12 @@ const ProfileCard = ({
           <section className="pc-card">
             <div className="pc-inside" style={{ '--inner-gradient': DEFAULT_INNER_GRADIENT }}>
               
+              <div className="pc-avatar-container">
+                <div className="pc-avatar-bg" />
+                <img className="avatar-minimal" src={avatarUrl} alt="Profile" />
+              </div>
+
+              {/* لایه‌های افکت نوری - حالا بالای آواتار هستند */}
               <div className="pc-glitter" />
               <div className="pc-shine" />
               <div className="pc-glare" />
@@ -110,17 +121,12 @@ const ProfileCard = ({
                 </div>
               </div>
 
-              <div className="pc-avatar-container">
-                <div className="pc-avatar-bg" />
-                <img className="avatar-minimal" src={avatarUrl} alt="Profile" />
-              </div>
-
               <div className="pc-lang-overlay">
-                <div className="flag-btn en-corner" onClick={() => onSelectLang('en')}>
+                <div className="flag-btn en-corner" onClick={(e) => { e.stopPropagation(); onSelectLang('en'); }}>
                   <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" alt="EN" />
                 </div>
                 
-                <div className="flag-btn fa-corner" onClick={() => onSelectLang('fa')}>
+                <div className="flag-btn fa-corner" onClick={(e) => { e.stopPropagation(); onSelectLang('fa'); }}>
                   <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Flag_of_Iran.svg" alt="FA" />
                 </div>
               </div>
