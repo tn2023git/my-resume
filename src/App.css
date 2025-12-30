@@ -221,7 +221,7 @@ body, html {
   .floating-actions-container .floating-btn:last-child { display: none !important; }
 }
 
-/* --- PRINT OPTIMIZATION (FOCUSED ON COMPACTNESS & WHITE MARGINS) --- */
+/* --- PRINT OPTIMIZATION --- */
 @media print {
   @page { 
     size: A4; 
@@ -249,15 +249,16 @@ body, html {
     gap: 4px !important; 
     display: block !important;
     background: #ffffff !important;
-    /* Added padding to prevent sticking to outer borders */
     padding: 0 15px !important;
   }
 
-  .experience-full-width {
-    gap: 4px !important;
+  /* FORCING INTERESTS SECTION TO A NEW PAGE */
+  .side-pixel-wrapper:has(.interests-list) {
+    break-before: page !important;
+    page-break-before: always !important;
+    margin-top: 20px !important;
   }
 
-  /* REMOVING GAPS BETWEEN BOXES */
   .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary, .mobile-glass-card {
     background: transparent !important;
     border: none !important;
@@ -273,7 +274,6 @@ body, html {
     padding: 5px 0 !important;
   }
 
-  /* FORCING TITLES TO BLACK & TIGHTENING SPACING */
   .yellow-text {
     font-size: 1.15rem !important;
     color: #000000 !important;
@@ -282,6 +282,7 @@ body, html {
     margin-bottom: 4px !important;
     padding-bottom: 2px !important;
     font-weight: bold !important;
+    display: flex !important;
   }
 
   .interest-cat-name {
@@ -297,14 +298,9 @@ body, html {
     width: 100% !important;
   }
 
-  /* Content Text */
   .summary-text, .job-desc, .skill-name, .cert-name, .interest-item, .job-company { 
     color: #000000 !important; 
     line-height: 1.4 !important;
-  }
-
-  .project-item, .interest-cat, .skill-progress-item {
-    margin-bottom: 5px !important;
   }
 
   .dot.filled, .progress-bar-fill { 
