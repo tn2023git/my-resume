@@ -26,11 +26,11 @@ function App() {
     setTimeout(() => {
       setShowResume(true);
       setIsExiting(false);
-    }, 600); // Match fade-out duration
+    }, 600);
   };
 
   const handleReturn = () => {
-    setIsExiting(true); // Fade out resume
+    setIsExiting(true);
     setTimeout(() => {
         setShowResume(false);
         setIsExiting(false);
@@ -232,7 +232,7 @@ function App() {
         </div>
       ) : (
         <div className="pdf-page entrance-anim">
-          <SmartCard className="full-width-summary">
+          <SmartCard className="full-width-summary slide-in-top">
             <section className="side-section summary-inner">
               <GradientText className="yellow-text bold-font">{isEn ? "Professional Summary" : "خلاصه حرفه‌ای"}</GradientText>
               <p className="summary-text">{content.summary}</p>
