@@ -43,7 +43,6 @@
   inset: 0;
   z-index: 10;
   opacity: 0.15;
-  /* Balanced contrast for fine sand effect */
   filter: url(#noiseFilter) contrast(180%) brightness(1000%);
   mix-blend-mode: screen;
   pointer-events: none;
@@ -121,8 +120,8 @@
 }
 
 .avatar-minimal {
-  width: 65%;
-  max-width: 220px;
+  width: 81%;
+  max-width: 275px;
   height: auto;
   object-fit: contain;
   mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
@@ -156,16 +155,19 @@
 .en-corner { left: 35px; }
 .fa-corner { right: 35px; }
 
-/* --- BACKGROUND --- */
+/* --- STRONGER OUTER GLOW --- */
 .pc-behind {
   position: absolute;
-  inset: -40px;
+  /* Increased spread from -40px to -80px */
+  inset: -80px;
   background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), var(--c4) 0%, transparent 70%);
-  filter: blur(60px);
+  /* Higher blur for softer transition at large distance */
+  filter: blur(90px);
   opacity: 0;
   transition: opacity 0.5s;
 }
-.pc-card-wrapper:hover .pc-behind { opacity: 0.25; }
+/* Increased visibility from 0.25 to 0.5 */
+.pc-card-wrapper:hover .pc-behind { opacity: 0.5; }
 
 /* --- MOBILE OPTIMIZATION --- */
 @media (max-width: 480px) {
@@ -177,5 +179,7 @@
   }
   .en-name { font-size: 1.3rem; }
   .fa-name { font-size: 1.1rem; }
-  .avatar-minimal { width: 60%; }
+  .avatar-minimal { width: 75%; }
+  /* Slightly smaller spread on mobile to avoid clipping */
+  .pc-behind { inset: -50px; filter: blur(60px); }
 }
