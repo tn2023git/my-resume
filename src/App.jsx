@@ -112,7 +112,7 @@ function App() {
           { 
             category: "Gaming", 
             items: [
-              { text: "Semi-Professional Gamer: More than 10,000 hours in DotA 2", detail: "Focus on strategy & high-level play" },
+              { text: "Semi-Professional MOBA Gamer: More than 10,000 hours in DotA 2", detail: "Focus on strategy & high-level play" },
               { text: "FPS Games: Battlefield & Rainbow Six: Siege", detail: "Improved reaction times and tactical planning" },
               { text: "ARPG Games: Path Of Exile", detail: "Complex crafting systems and expanded, deep progression systems" },
               { text: "Narrative Games: Alan Wake, Control, LA. Noire", detail: "Complex, deep stories" }
