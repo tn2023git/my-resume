@@ -1,19 +1,7 @@
-import React, { useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { useEffect, useRef, useMemo } from 'react';
 import './ProfileCard.css';
 
-const DEFAULT_INNER_GRADIENT = 'linear-gradient(145deg, #a010d6 0%, #f3bc08 100%)';
-
-const ANIMATION_CONFIG = {
-  INITIAL_DURATION: 1200,
-  INITIAL_X_OFFSET: 70,
-  INITIAL_Y_OFFSET: 60,
-  DEVICE_BETA_OFFSET: 20,
-  ENTER_TRANSITION_MS: 180
-};
-
-const clamp = (v, min = 0, max = 100) => Math.min(Math.max(v, min), max);
-const round = (v, precision = 3) => parseFloat(v.toFixed(precision));
-const adjust = (v, fMin, fMax, tMin, tMax) => round(tMin + ((tMax - tMin) * (v - fMin)) / (fMax - fMin));
+const DEFAULT_INNER_GRADIENT = 'linear-gradient(145deg, #121212 0%, #000000 100%)';
 
 const ProfileCard = ({
   avatarUrl,
@@ -27,56 +15,34 @@ const ProfileCard = ({
 }) => {
   const wrapRef = useRef(null);
   const shellRef = useRef(null);
-  const enterTimerRef = useRef(null);
-  const leaveRafRef = useRef(null);
 
   const tiltEngine = useMemo(() => {
     let rafId = null;
     let running = false;
-    let lastTs = 0;
-    let currentX = 0;
-    let currentY = 0;
-    let targetX = 0;
-    let targetY = 0;
+    let currentX = 50, currentY = 50, targetX = 50, targetY = 50;
 
-    const setVarsFromXY = (x, y) => {
-      const shell = shellRef.current;
+    const setVars = (x, y) => {
       const wrap = wrapRef.current;
-      if (!shell || !wrap) return;
-      const width = shell.clientWidth || 1;
-      const height = shell.clientHeight || 1;
-      const percentX = clamp((100 / width) * x);
-      const percentY = clamp((100 / height) * y);
-      const centerX = percentX - 50;
-      const centerY = percentY - 50;
-
-      const properties = {
-        '--pointer-x': `${percentX}%`,
-        '--pointer-y': `${percentY}%`,
-        '--background-x': `${adjust(percentX, 0, 100, 35, 65)}%`,
-        '--background-y': `${adjust(percentY, 0, 100, 35, 65)}%`,
-        '--rotate-x': `${round(-(centerX / 5))}deg`,
-        '--rotate-y': `${round(centerY / 4)}deg`
-      };
-      for (const [k, v] of Object.entries(properties)) wrap.style.setProperty(k, v);
+      if (!wrap) return;
+      wrap.style.setProperty('--pointer-x', `${x}%`);
+      wrap.style.setProperty('--pointer-y', `${y}%`);
+      wrap.style.setProperty('--rotate-x', `${(x - 50) / 6}deg`);
+      wrap.style.setProperty('--rotate-y', `${-(y - 50) / 6}deg`);
     };
 
-    const step = ts => {
-      if (!running) return;
-      const dt = (ts - (lastTs || ts)) / 1000;
-      lastTs = ts;
-      const k = 1 - Math.exp(-dt / 0.14);
-      currentX += (targetX - currentX) * k;
-      currentY += (targetY - currentY) * k;
-      setVarsFromXY(currentX, currentY);
+    const step = () => {
+      currentX += (targetX - currentX) * 0.1;
+      currentY += (targetY - currentY) * 0.1;
+      setVars(currentX, currentY);
       rafId = requestAnimationFrame(step);
     };
 
     return {
-      setImmediate(x, y) { currentX = x; currentY = y; setVarsFromXY(x, y); },
-      setTarget(x, y) { targetX = x; targetY = y; if(!running){ running=true; rafId=requestAnimationFrame(step); }},
-      toCenter() { if(shellRef.current) this.setTarget(shellRef.current.clientWidth/2, shellRef.current.clientHeight/2); },
-      cancel() { if(rafId) cancelAnimationFrame(rafId); running=false; }
+      setTarget(x, y) {
+        targetX = x; targetY = y;
+        if (!running) { running = true; rafId = requestAnimationFrame(step); }
+      },
+      stop() { cancelAnimationFrame(rafId); running = false; }
     };
   }, []);
 
@@ -86,66 +52,69 @@ const ProfileCard = ({
 
     const onMove = e => {
       const rect = shell.getBoundingClientRect();
-      tiltEngine.setTarget(e.clientX - rect.left, e.clientY - rect.top);
-    };
-    
-    const onLeave = () => tiltEngine.toCenter();
-
-    const handleMotion = (e) => {
-      if (!e.beta || !e.gamma) return;
-      const x = clamp((shell.clientWidth/2) + e.gamma * mobileTiltSensitivity, 0, shell.clientWidth);
-      const y = clamp((shell.clientHeight/2) + (e.beta - 20) * mobileTiltSensitivity, 0, shell.clientHeight);
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
       tiltEngine.setTarget(x, y);
     };
 
+    const onLeave = () => tiltEngine.setTarget(50, 50);
+
     shell.addEventListener('pointermove', onMove);
     shell.addEventListener('pointerleave', onLeave);
-    
-    if (enableMobileTilt) {
-        window.addEventListener('deviceorientation', handleMotion);
-    }
-
-    tiltEngine.setImmediate(shell.clientWidth/2, shell.clientHeight/2);
-
     return () => {
       shell.removeEventListener('pointermove', onMove);
       shell.removeEventListener('pointerleave', onLeave);
-      window.removeEventListener('deviceorientation', handleMotion);
-      tiltEngine.cancel();
+      tiltEngine.stop();
     };
-  }, [tiltEngine, enableMobileTilt, mobileTiltSensitivity]);
+  }, [tiltEngine]);
 
   return (
-    <div ref={wrapRef} className="pc-card-wrapper" style={{'--inner-gradient': DEFAULT_INNER_GRADIENT}}>
+    <div ref={wrapRef} className="pc-card-wrapper">
+      {/* Dynamic Glitter Filter - No image needed */}
+      <svg style={{ position: 'absolute', width: 0, height: 0 }}>
+        <filter id="noiseFilter">
+          <feTurbulence type="fractalNoise" baseFrequency="0.6" stitchTiles="stitch" />
+          <feColorMatrix type="saturate" values="0" />
+        </filter>
+      </svg>
+
       <div className="pc-behind" />
+      
       <div ref={shellRef} className="pc-card-shell">
         <section className="pc-card">
-          <div className="pc-inside">
+          <div className="pc-inside" style={{ '--inner-gradient': DEFAULT_INNER_GRADIENT }}>
+            
+            <div className="pc-glitter" />
             <div className="pc-shine" />
             <div className="pc-glare" />
-            
-            <div className="pc-content pc-avatar-content">
-              <img className="avatar" src={avatarUrl} alt="Profile" />
-              
-              <div className="pc-lang-selector">
-                <button className="lang-btn fa-btn" onClick={() => onSelectLang('fa')}>فارسی</button>
-                <button className="lang-btn en-btn" onClick={() => onSelectLang('en')}>English</button>
+
+            {/* --- 1. TOP SECTION (Name & Title) --- */}
+            <div className="pc-header-info">
+              <div className="dual-name">
+                <h2 className="en-name">{nameEn}</h2>
+                <h2 className="fa-name">{nameFa}</h2>
+              </div>
+              <div className="dual-title">
+                <span>{titleEn}</span>
+                <span className="sep">•</span>
+                <span>{titleFa}</span>
               </div>
             </div>
 
-            <div className="pc-content">
-              <div className="pc-details">
-                <h3 className="dual-name">
-                    <span className="en-name">{nameEn}</span>
-                    <span className="fa-name">{nameFa}</span>
-                </h3>
-                <p className="dual-title">
-                   <span className="en-title">{titleEn}</span>
-                   <span className="separator">-</span>
-                   <span className="fa-title">{titleFa}</span>
-                </p>
+            {/* --- 2. MIDDLE SECTION (Avatar & Language Buttons) --- */}
+            <div className="pc-avatar-container">
+              <img className="avatar" src={avatarUrl} alt="Profile" />
+              
+              {/* Language Buttons placed over the avatar area */}
+              <div className="flag-corner en-corner" onClick={() => onSelectLang('en')}>
+                <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" alt="English" />
+              </div>
+              
+              <div className="flag-corner fa-corner" onClick={() => onSelectLang('fa')}>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Flag_of_Iran.svg" alt="Farsi" />
               </div>
             </div>
+
           </div>
         </section>
       </div>
