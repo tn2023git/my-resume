@@ -37,7 +37,7 @@
   padding: 30px 20px;
 }
 
-/* --- SAND-LIKE GLITTER --- */
+/* --- GLITTER --- */
 .pc-glitter {
   position: absolute;
   inset: 0;
@@ -75,7 +75,7 @@
 .pc-header-info {
   text-align: center;
   z-index: 15;
-  margin-bottom: 15px;
+  margin-bottom: 10px; /* Reduced to give space for bigger image */
 }
 .en-name { font-family: 'ProductSans', sans-serif; font-size: 1.6rem; color: #fff; margin: 0; }
 .fa-name { font-family: 'Anjoman', sans-serif; font-size: 1.4rem; color: var(--c1); margin: 5px 0; }
@@ -100,14 +100,16 @@
   align-items: center;
   z-index: 5;
   position: relative;
+  /* Moved up to avoid overlapping language buttons */
+  margin-top: -25px; 
 }
 
 .pc-avatar-bg {
   position: absolute;
-  width: 220px;
-  height: 220px;
+  width: 240px;
+  height: 240px;
   background: conic-gradient(from 180deg at 50% 50%, var(--c4) 0deg, var(--c1) 160deg, var(--c4) 360deg);
-  filter: blur(50px);
+  filter: blur(55px);
   opacity: 0.45;
   border-radius: 50%;
   z-index: -1;
@@ -120,8 +122,9 @@
 }
 
 .avatar-minimal {
-  width: 81%;
-  max-width: 275px;
+  /* Increased from 81% to 88% */
+  width: 88%;
+  max-width: 310px;
   height: auto;
   object-fit: contain;
   mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
@@ -155,18 +158,15 @@
 .en-corner { left: 35px; }
 .fa-corner { right: 35px; }
 
-/* --- STRONGER OUTER GLOW --- */
+/* --- OUTER GLOW --- */
 .pc-behind {
   position: absolute;
-  /* Increased spread from -40px to -80px */
   inset: -80px;
   background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), var(--c4) 0%, transparent 70%);
-  /* Higher blur for softer transition at large distance */
   filter: blur(90px);
   opacity: 0;
   transition: opacity 0.5s;
 }
-/* Increased visibility from 0.25 to 0.5 */
 .pc-card-wrapper:hover .pc-behind { opacity: 0.5; }
 
 /* --- MOBILE OPTIMIZATION --- */
@@ -179,7 +179,7 @@
   }
   .en-name { font-size: 1.3rem; }
   .fa-name { font-size: 1.1rem; }
-  .avatar-minimal { width: 75%; }
-  /* Slightly smaller spread on mobile to avoid clipping */
+  .pc-avatar-container { margin-top: -15px; }
+  .avatar-minimal { width: 80%; }
   .pc-behind { inset: -50px; filter: blur(60px); }
 }
