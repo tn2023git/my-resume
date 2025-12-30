@@ -48,7 +48,7 @@ function App() {
     en: {
         name: "Amirali Dabiri Maram",
         title: "Job Seeker",
-        summary: "English language expert and website designer with over 5 years of experience in educational, service, and administrative environments. Specialized in optimizing office processes and developing WordPress platforms. Possessing a competitive and analytical mindset with a history of reporting in national gaming events as an English caster. Committed to continuous learning and delivering results with global standards.",
+        summary: "English language expert and website designer with over 5 years of experience in educational, service, and administrative environments. Specialized in optimizing office processes and developing WordPress platforms. Possessing a competitive and analytical mindset with a history of high-level communication and coordination. Committed to continuous learning and delivering results with global standards.",
         personal: [
           { label: "Age", value: "26 Years (Born May 11th 1999)" },
           { label: "Military", value: "Exempted" },
@@ -98,17 +98,15 @@ function App() {
             ]
           },
           { 
-            category: "Gaming & Casting", 
+            category: "Communication & Media", 
             items: [
-              { text: "English Caster: 2nd National DotA 2 Championship of Iran" },
+              { text: "English Caster: 2nd National Championship event coordination" },
               { text: "Field Reporter for GameHermes:" },
               { text: "Tekken National Championship (Report)", url: "https://www.youtube.com/watch?v=t_eXzo30mAo", isVideo: true },
               { text: "DotA 2 TI9 Pubstomp (Report)", url: "https://www.youtube.com/watch?v=r2H5vpYrGeQ", isVideo: true },
               { text: "Content Creation & Streaming:" },
-              { text: "YouTube Channel (Gaming Archive)", url: "https://www.youtube.com/@tnonyoutube", isVideo: true },
-              { text: "Twitch Streamer (Former)", url: "https://www.twitch.tv/tn2023", isVideo: true },
-              { text: "Semi-Professional Gamer: 10,000+ hours in DotA 2", detail: "Focus on strategy & high-level play" },
-              { text: "FPS & Narrative Games: Battlefield 6, Rainbow Six: Siege, Complex Storylines" }
+              { text: "YouTube Channel (Archive)", url: "https://www.youtube.com/@tnonyoutube", isVideo: true },
+              { text: "Twitch Streamer (Former)", url: "https://www.twitch.tv/tn2023", isVideo: true }
             ]
           }
         ],
@@ -129,7 +127,7 @@ function App() {
       fa: {
         name: "امیرعلی دبیری مرام",
         title: "کارجو",
-        summary: "کارشناس مسلط به زبان انگلیسی و طراح وب‌سایت با بیش از ۵ سال تجربه در محیط‌های آموزشی، خدماتی و اداری. متخصص در بهینه‌سازی فرآیندهای دفتری و توسعه پلتفرم‌های وردپرسی. دارای روحیه رقابتی و تحلیل‌گر با سابقه فعالیت در رویدادهای ملی گیمینگ به عنوان گزارشگر انگلیسی. متعهد به یادگیری مستمر و ارائه نتایج با استانداردهای جهانی.",
+        summary: "کارشناس مسلط به زبان انگلیسی و طراح وب‌سایت با بیش از ۵ سال تجربه در محیط‌های آموزشی، خدماتی و اداری. متخصص در بهینه‌سازی فرآیندهای دفتری و توسعه پلتفرم‌های وردپرسی. دارای روحیه رقابتی و تحلیل‌گر با سابقه فعالیت در حوزه‌های ارتباطی و هماهنگی‌های سطح بالا. متعهد به یادگیری مستمر و ارائه نتایج با استانداردهای جهانی.",
         personal: [
           { label: "سن", value: "۲۶ سال (متولد ۲۱ اردیبهشت ۱۳۷۸)" },
           { label: "سربازی", value: "معاف دائم" },
@@ -179,17 +177,15 @@ function App() {
             ]
           },
           { 
-            category: "گیمینگ و گزارشگری", 
+            category: "ارتباطات و رسانه", 
             items: [
-              { text: "کستر انگلیسی: دومین دوره مسابقات ملی DotA 2 ایران" },
+              { text: "کستر انگلیسی: هماهنگی رویداد مسابقات ملی" },
               { text: "گزارشگر میدانی GameHermes:" },
               { text: "گزارش مسابقات ملی Tekken (ویدیو)", url: "https://www.youtube.com/watch?v=t_eXzo30mAo", isVideo: true },
               { text: "گزارش TI9 Pubstomp (ویدیو)", url: "https://www.youtube.com/watch?v=r2H5vpYrGeQ", isVideo: true },
               { text: "تولید محتوا و استریم:" },
-              { text: "کانال یوتیوب (آرشیو گیمینگ)", url: "https://www.youtube.com/@tnonyoutube", isVideo: true },
-              { text: "استریمر سابق توییچ", url: "https://www.twitch.tv/tn2023", isVideo: true },
-              { text: "گیمر نیمه‌حرفه‌ای: بیش از ۱۰,۰۰۰ ساعت تجربه در DotA 2", detail: "تمرکز بر تفکر استراتژیک" },
-              { text: "بازی‌های FPS و داستانی: Battlefield 6، Rainbow Six: Siege و داستان‌های پیچیده" }
+              { text: "کانال یوتیوب (آرشیو)", url: "https://www.youtube.com/@tnonyoutube", isVideo: true },
+              { text: "استریمر سابق توییچ", url: "https://www.twitch.tv/tn2023", isVideo: true }
             ]
           }
         ],
@@ -264,19 +260,12 @@ function App() {
 
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
-                <GradientText className="yellow-text bold-font">{isEn ? "Interests & Hobbies" : "علایق و سرگرمی‌ها"}</GradientText>
-                <div className="interests-list">
-                  {content.interests.map((cat, i) => (
-                    <div key={i} className="interest-cat">
-                      <div className="interest-cat-name bold-font">{cat.category}</div>
-                      {cat.items.map((item, idx) => (
-                        <div key={idx} className="interest-item">
-                          {item.url ? (
-                            <a href={item.url} target="_blank" rel="noreferrer" className="video-link">{item.text}</a>
-                          ) : <span>{item.text}</span>}
-                          {item.detail && <div className="interest-detail">{item.detail}</div>}
-                        </div>
-                      ))}
+                <GradientText className="yellow-text bold-font">{isEn ? "Software" : "نرم‌افزارها"}</GradientText>
+                <div className="software-container">
+                  {content.software.map((s, i) => (
+                    <div key={i} className="software-item">
+                      <span className="soft-name">{s.name}</span>
+                      <div className="dots-container">{renderDots(s.dots)}</div>
                     </div>
                   ))}
                 </div>
@@ -301,6 +290,15 @@ function App() {
 
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
+                <GradientText className="yellow-text bold-font">{isEn ? "Soft Skills" : "مهارت‌های تکمیلی"}</GradientText>
+                <div className="soft-skills-tags">
+                  {content.softSkills.map((skill, i) => <span key={i} className="soft-tag">{skill}</span>)}
+                </div>
+              </section>
+            </SmartCard>
+
+            <SmartCard className="side-pixel-wrapper">
+              <section className="side-section">
                 <GradientText className="yellow-text bold-font">{isEn ? "Certificates" : "گواهینامه‌ها"}</GradientText>
                 <div className="certs-list">
                   {content.certificates.map((cert, i) => (
@@ -309,15 +307,6 @@ function App() {
                       {cert.detail && <div className="cert-detail">{cert.detail}</div>}
                     </div>
                   ))}
-                </div>
-              </section>
-            </SmartCard>
-
-            <SmartCard className="side-pixel-wrapper">
-              <section className="side-section">
-                <GradientText className="yellow-text bold-font">{isEn ? "Soft Skills" : "مهارت‌های تکمیلی"}</GradientText>
-                <div className="soft-skills-tags">
-                  {content.softSkills.map((skill, i) => <span key={i} className="soft-tag">{skill}</span>)}
                 </div>
               </section>
             </SmartCard>
@@ -340,12 +329,19 @@ function App() {
 
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
-                <GradientText className="yellow-text bold-font">{isEn ? "Software" : "نرم‌افزارها"}</GradientText>
-                <div className="software-container">
-                  {content.software.map((s, i) => (
-                    <div key={i} className="software-item">
-                      <span className="soft-name">{s.name}</span>
-                      <div className="dots-container">{renderDots(s.dots)}</div>
+                <GradientText className="yellow-text bold-font">{isEn ? "Interests & Hobbies" : "علایق و سرگرمی‌ها"}</GradientText>
+                <div className="interests-list">
+                  {content.interests.map((cat, i) => (
+                    <div key={i} className="interest-cat">
+                      <div className="interest-cat-name bold-font">{cat.category}</div>
+                      {cat.items.map((item, idx) => (
+                        <div key={idx} className="interest-item">
+                          {item.url ? (
+                            <a href={item.url} target="_blank" rel="noreferrer" className="video-link">{item.text}</a>
+                          ) : <span>{item.text}</span>}
+                          {item.detail && <div className="interest-detail">{item.detail}</div>}
+                        </div>
+                      ))}
                     </div>
                   ))}
                 </div>
