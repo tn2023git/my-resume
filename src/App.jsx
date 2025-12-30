@@ -48,7 +48,7 @@ function App() {
     en: {
         name: "Amirali Dabiri Maram",
         title: "Job Seeker",
-        summary: "English language expert and website designer with over 5 years of experience in educational, service, and administrative environments. Specialized in optimizing office processes and developing WordPress platforms. Committed to continuous learning, delivering results with global standards, and maintaining high levels of professional communication.",
+        summary: "With over 5 years of experience in educational and administrative environments, focusing on professional English proficiency and website design. Beyond technical skills, I possess strong capabilities in public speaking, strategic thinking for complex problem-solving, and a competitive drive to achieve peak quality in every project. Combined with high teamwork skills for advancing collective goals, I am committed to optimizing processes, continuous learning, and maintaining global standards in professional communication.",
         personal: [
           { label: "Age", value: "26 Years (Born May 11th 1999)" },
           { label: "Military", value: "Exempted" },
@@ -100,11 +100,11 @@ function App() {
           {
             category: "Communications & Media",
             items: [
-              { text: "English Caster: 2nd National DotA 2 Championship of Iran" },
-              { text: "Field Reporter for GameHermes:" },
+              { text: "English Caster: 2nd National DotA 2 Championship of Iran", detail: "Professional presentation and narration skills" },
+              { text: "Field Reporter for GameHermes", detail: "Professional presentation and narration skills" },
               { text: "Tekken National Championship (Report)", url: "https://www.youtube.com/watch?v=t_eXzo30mAo", isVideo: true },
               { text: "DotA 2 TI9 Pubstomp (Report)", url: "https://www.youtube.com/watch?v=r2H5vpYrGeQ", isVideo: true },
-              { text: "Content Creation & Streaming:" },
+              { text: "Content Creation & Streaming", detail: "Experienced in video editing and digital storytelling" },
               { text: "YouTube Channel (Gaming Archive)", url: "https://www.youtube.com/@tnonyoutube", isVideo: true },
               { text: "Twitch Streamer (Former)", url: "https://www.twitch.tv/tn2023", isVideo: true }
             ]
@@ -115,7 +115,7 @@ function App() {
               { text: "Semi-Professional Gamer: 10,000+ hours in DotA 2", detail: "Focus on strategy & high-level play" },
               { text: "FPS Games: Battlefield & Rainbow Six: Siege", detail: "Improved reaction times and tactical planning" },
               { text: "ARPG Games: Path Of Exile", detail: "Complex crafting systems and expanded, deep progression systems" },
-              { text: "Narrative Games: Alan Wake, Control, Batman: Arkham Series", detail: "Complex, deep stories" }
+              { text: "Narrative Games: Alan Wake, Control, LA. Noire", detail: "Complex, deep stories" }
             ]
           }
         ],
@@ -188,11 +188,11 @@ function App() {
           {
             category: "ارتباطات و رسانه",
             items: [
-              { text: "کستر انگلیسی: دومین دوره مسابقات ملی DotA 2 ایران" },
-              { text: "گزارشگر میدانی GameHermes:" },
+              { text: "کستر انگلیسی: دومین دوره مسابقات ملی DotA 2 ایران", detail: "مهارت‌های ارائه و گویندگی حرفه‌ای" },
+              { text: "گزارشگر میدانی GameHermes", detail: "مهارت‌های ارائه و گویندگی حرفه‌ای" },
               { text: "گزارش مسابقات ملی Tekken (ویدیو)", url: "https://www.youtube.com/watch?v=t_eXzo30mAo", isVideo: true },
               { text: "گزارش TI9 Pubstomp (ویدیو)", url: "https://www.youtube.com/watch?v=r2H5vpYrGeQ", isVideo: true },
-              { text: "تولید محتوا و استریم:" },
+              { text: "تولید محتوا و استریم", detail: "تجربه در تدوین ویدیو و روایت دیجیتال" },
               { text: "کانال یوتیوب (آرشیو گیمینگ)", url: "https://www.youtube.com/@tnonyoutube", isVideo: true },
               { text: "استریمر سابق توییچ", url: "https://www.twitch.tv/tn2023", isVideo: true }
             ]
@@ -203,7 +203,7 @@ function App() {
               { text: "گیمر نیمه‌حرفه‌ای: بیش از ۱۰,۰۰۰ ساعت تجربه در DotA 2", detail: "تمرکز بر تفکر استراتژیک و بازی در سطح بالا" },
               { text: "بازی‌های FPS: مجموعه‌های Battlefield و Rainbow Six: Siege", detail: "تقویت سرعت واکنش و برنامه‌ریزی تاکتیکی" },
               { text: "بازی‌های ARPG: عنوان Path Of Exile", detail: "سیستم‌های کرفتینگ پیچیده و مکانیزم‌های پیشرفت عمیق" },
-              { text: "بازی‌های داستانی: Alan Wake، Control، Batman: Arkham Series", detail: "روایت‌های پیچیده و عمیق" }
+              { text: "بازی‌های داستانی: Alan Wake، Control، LA. Noire", detail: "روایت‌های پیچیده و عمیق" }
             ]
           }
         ],
