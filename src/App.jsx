@@ -373,8 +373,17 @@ function App() {
             </main>
           </div>
 
-          <button className="floating-return-btn" onClick={handleReturn}>
-            {isEn ? "← Back to Languages" : "→ بازگشت به انتخاب زبان"}
+          <button className="floating-return-btn" onClick={handleReturn} aria-label="Return">
+            <svg 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="2.5" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            >
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
           </button>
         </div>
       )}

@@ -313,13 +313,50 @@ body, html {
 
 /* --- Floating Return Button (Replacing Switcher) --- */
 .floating-return-btn {
-  position: fixed; bottom: 35px; left: 50%; transform: translateX(-50%);
-  background: rgba(15, 15, 15, 0.85); backdrop-filter: blur(20px);
-  padding: 12px 24px; border-radius: 100px; color: white;
-  border: 1px solid rgba(160, 10, 214, 0.4); z-index: 9999;
-  cursor: pointer; font-weight: bold; transition: all 0.3s ease;
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(15, 15, 15, 0.7);
+  backdrop-filter: blur(12px);
+  border: 2px solid var(--c1); /* استفاده از رنگ اصلی برای برجستگی */
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.05);
 }
-.floating-return-btn:hover { background: var(--purple); transform: translateX(-50%) translateY(-3px); }
+
+.floating-return-btn svg {
+  width: 28px;
+  height: 28px;
+  transition: transform 0.3s ease;
+}
+
+.floating-return-btn:hover {
+  background: var(--c1);
+  transform: translateX(-50%) scale(1.1);
+  box-shadow: 0 15px 40px rgba(var(--c1-rgb), 0.4);
+}
+
+.floating-return-btn:hover svg {
+  transform: translateX(-3px); /* افکت حرکت فلش هنگام هاور */
+}
+
+/* برای حالت موبایل کمی کوچک‌تر شود */
+@media (max-width: 768px) {
+  .floating-return-btn {
+    bottom: 20px;
+    width: 50px;
+    height: 50px;
+  }
+}
 
 /* --- Mobile Fixes --- */
 @media (max-width: 768px) {
