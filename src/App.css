@@ -353,8 +353,17 @@ body, html {
   .mobile-glass-card, 
   .full-width-summary { 
     margin-bottom: var(--spacing-mobile); 
-    background: var(--glass-bg) !important; /* Force correct bg on mobile */
+    background: var(--glass-bg) !important;
   }
+  
+  /* در موبایل انیمیشن پایین آمدن را غیرفعال و مشابه بقیه (از کنار) می‌کنیم */
+  .slide-in-top {
+    animation-name: slideLeft;
+  }
+  .rtl-mode .slide-in-top {
+    animation-name: slideRight;
+  }
+
   .resume-grid { grid-template-columns: 1fr; gap: var(--spacing-mobile); }
   .exp-row { flex-direction: column; align-items: flex-start; gap: 5px; }
   .app-wrapper { padding: 40px 15px 100px 15px; }
