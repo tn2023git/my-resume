@@ -238,7 +238,7 @@ function App() {
           {/* Summary - Top Full Width */}
           <SmartCard className={`full-width-summary ${isFirstEntry ? 'slide-in-top' : ''}`}>
             <section className="side-section summary-inner">
-              <GradientText className="yellow-text bold-font">{isEn ? "Professional Summary" : "خلاصه حرفه‌ای"}</GradientText>
+              <GradientText className="yellow-text bold-font">{isEn ? "Professional Summary" : "درباره من"}</GradientText>
               <p className="summary-text">{content.summary}</p>
             </section>
           </SmartCard>
@@ -307,7 +307,7 @@ function App() {
 
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
-                <GradientText className="yellow-text bold-font">{isEn ? "Soft Skills" : "مهارت‌های نرم"}</GradientText>
+                <GradientText className="yellow-text bold-font">{isEn ? "Soft Skills" : "مهارت‌های تکمیلی"}</GradientText>
                 <div className="soft-skills-tags">
                   {content.softSkills.map((skill, i) => <span key={i} className="soft-tag">{skill}</span>)}
                 </div>
