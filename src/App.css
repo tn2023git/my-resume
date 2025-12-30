@@ -132,6 +132,9 @@ body, html {
 .pdf-page {
   width: 100%;
   max-width: 1100px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-desktop);
 }
 
 /* --- Card Wrappers & Glassmorphism --- */
@@ -144,16 +147,12 @@ body, html {
   -webkit-backdrop-filter: blur(15px);
   border: 1px solid var(--glass-border) !important;
   border-radius: 20px !important;
-  margin-bottom: var(--spacing-desktop);
   overflow: hidden;
   height: auto !important;
-  display: block !important;
 }
 
-/* Reset specific for summary to act as full width */
 .full-width-summary {
   width: 100% !important;
-  min-height: unset !important;
 }
 
 .summary-inner {
@@ -167,16 +166,19 @@ body, html {
   margin: 0;
 }
 
-.sidebar .side-pixel-wrapper:last-child {
-  margin-bottom: 0;
+/* --- New 3-Column Grid for Sidebar items --- */
+.info-grid-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-desktop);
 }
 
-/* --- Desktop Grid --- */
-.resume-grid { 
-  display: grid; 
-  grid-template-columns: 380px 1fr; 
+/* --- Full Width Experience Section --- */
+.experience-full-width {
+  display: flex;
+  flex-direction: column;
   gap: var(--spacing-desktop);
-  align-items: flex-start; 
+  width: 100%;
 }
 
 .side-section, .exp-card { padding: 30px; }
@@ -298,7 +300,7 @@ body, html {
   display: flex; 
   justify-content: space-between; 
   align-items: center; 
-  flex-wrap: nowrap; /* Prevent breaking on mobile to keep side-by-side */
+  flex-wrap: nowrap;
   gap: 10px;
   margin-bottom: 8px;
 }
@@ -353,24 +355,21 @@ body, html {
   .mobile-glass-card, 
   .full-width-summary { 
     margin-bottom: var(--spacing-mobile); 
-    background: rgba(10, 10, 10, 0.95) !important; /* Opaque background as requested */
+    background: rgba(10, 10, 10, 0.95) !important;
   }
 
-  /* Keep job duration on opposite side on mobile */
+  .info-grid-3col { grid-template-columns: 1fr; gap: var(--spacing-mobile); }
+  
   .exp-row { flex-direction: row; justify-content: space-between; }
   .exp-row span.job-role { flex: 1; }
 
-  /* Ensure animations work for all boxes on mobile */
-  .sidebar, .main-content {
+  .info-grid-3col, .experience-full-width {
       animation: slideLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
-  .rtl-mode .sidebar, .rtl-mode .main-content {
+  .rtl-mode .info-grid-3col, .rtl-mode .experience-full-width {
       animation-name: slideRight;
   }
 
-  .resume-grid { grid-template-columns: 1fr; gap: var(--spacing-mobile); }
   .app-wrapper { padding: 40px 15px 100px 15px; }
   .floating-return-btn { bottom: 20px; width: 50px; height: 50px; }
 }
-
-@media (max-width: 1150px) { .resume-grid { grid-template-columns: 1fr; } }

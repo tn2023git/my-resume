@@ -11,7 +11,7 @@ function App() {
   const [showResume, setShowResume] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [isFirstEntry, setIsFirstEntry] = useState(true); // Track first entrance
+  const [isFirstEntry, setIsFirstEntry] = useState(true); 
   const isEn = lang === 'en';
 
   useEffect(() => {
@@ -27,13 +27,13 @@ function App() {
     setTimeout(() => {
       setShowResume(true);
       setIsExiting(false);
-      setIsFirstEntry(true); // Reset to true to allow animation when going IN
+      setIsFirstEntry(true); 
     }, 600);
   };
 
   const handleReturn = () => {
     setIsExiting(true);
-    setIsFirstEntry(false); // Disable entrance animations for the return transition
+    setIsFirstEntry(false); 
     setTimeout(() => {
         setShowResume(false);
         setIsExiting(false);
@@ -235,6 +235,7 @@ function App() {
         </div>
       ) : (
         <div className="pdf-page entrance-anim">
+          {/* 1. Summary Box - Full Width */}
           <SmartCard className={`full-width-summary ${isFirstEntry ? 'slide-in-top' : ''}`}>
             <section className="side-section summary-inner">
               <GradientText className="yellow-text bold-font">{isEn ? "Professional Summary" : "خلاصه حرفه‌ای"}</GradientText>
@@ -242,138 +243,139 @@ function App() {
             </section>
           </SmartCard>
 
-          <div className="resume-grid">
-            <aside className={`sidebar ${isFirstEntry ? 'slide-in-left' : ''}`}>
-              <SmartCard className="side-pixel-wrapper">
-                <section className="side-section">
-                  <GradientText className="yellow-text bold-font">{isEn ? "Personal & Contact" : "اطلاعات فردی و تماس"}</GradientText>
-                  {content.personal.map((p, i) => <p key={i}><b className="bold-font">{p.label}:</b> {p.value}</p>)}
-                  {content.contact.map((c, i) => (
-                    <p key={i}>
-                      <b className="bold-font">{c.label}:</b> {c.url ? (
-                        <a href={c.url} target="_blank" rel="noreferrer" className="contact-link">{c.value}</a>
-                      ) : c.value}
-                    </p>
+          {/* 2. Info Boxes - 3 Columns (Desktop) */}
+          <div className={`info-grid-3col ${isFirstEntry ? 'slide-in-left' : ''}`}>
+            <SmartCard className="side-pixel-wrapper">
+              <section className="side-section">
+                <GradientText className="yellow-text bold-font">{isEn ? "Personal & Contact" : "اطلاعات فردی و تماس"}</GradientText>
+                {content.personal.map((p, i) => <p key={i}><b className="bold-font">{p.label}:</b> {p.value}</p>)}
+                {content.contact.map((c, i) => (
+                  <p key={i}>
+                    <b className="bold-font">{c.label}:</b> {c.url ? (
+                      <a href={c.url} target="_blank" rel="noreferrer" className="contact-link">{c.value}</a>
+                    ) : c.value}
+                  </p>
+                ))}
+                <p><b className="bold-font">{isEn ? "Salary Request" : "حقوق درخواستی"}:</b> {content.salary}</p>
+              </section>
+            </SmartCard>
+
+            <SmartCard className="side-pixel-wrapper">
+              <section className="side-section">
+                <GradientText className="yellow-text bold-font">{isEn ? "Software" : "نرم‌افزارها"}</GradientText>
+                <div className="software-container">
+                  {content.software.map((s, i) => (
+                    <div key={i} className="software-item">
+                      <span className="soft-name">{s.name}</span>
+                      <div className="dots-container">{renderDots(s.dots)}</div>
+                    </div>
                   ))}
-                  <p><b className="bold-font">{isEn ? "Salary Request" : "حقوق درخواستی"}:</b> {content.salary}</p>
-                </section>
-              </SmartCard>
+                </div>
+              </section>
+            </SmartCard>
 
-              <SmartCard className="side-pixel-wrapper">
-                <section className="side-section">
-                  <GradientText className="yellow-text bold-font">{isEn ? "Software" : "نرم‌افزارها"}</GradientText>
-                  <div className="software-container">
-                    {content.software.map((s, i) => (
-                      <div key={i} className="software-item">
-                        <span className="soft-name">{s.name}</span>
-                        <div className="dots-container">{renderDots(s.dots)}</div>
+            <SmartCard className="side-pixel-wrapper">
+              <section className="side-section">
+                <GradientText className="yellow-text bold-font">{isEn ? "Technical Skills" : "مهارت‌های تخصصی"}</GradientText>
+                <div className="technical-skills-list">
+                  {content.technicalSkills.map((skill, i) => (
+                    <div key={i} className="skill-progress-item">
+                      <span className="skill-name">{skill.name}</span>
+                      <div className="progress-bar-bg">
+                        <div className="progress-bar-fill" style={{ width: `${skill.level}%` }}></div>
                       </div>
-                    ))}
-                  </div>
-                </section>
-              </SmartCard>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            </SmartCard>
 
-              <SmartCard className="side-pixel-wrapper">
-                <section className="side-section">
-                  <GradientText className="yellow-text bold-font">{isEn ? "Technical Skills" : "مهارت‌های تخصصی"}</GradientText>
-                  <div className="technical-skills-list">
-                    {content.technicalSkills.map((skill, i) => (
-                      <div key={i} className="skill-progress-item">
-                        <span className="skill-name">{skill.name}</span>
-                        <div className="progress-bar-bg">
-                          <div className="progress-bar-fill" style={{ width: `${skill.level}%` }}></div>
+            <SmartCard className="side-pixel-wrapper">
+              <section className="side-section">
+                <GradientText className="yellow-text bold-font">{isEn ? "Soft Skills" : "مهارت‌های نرم"}</GradientText>
+                <div className="soft-skills-tags">
+                  {content.softSkills.map((skill, i) => (
+                    <span key={i} className="soft-tag">{skill}</span>
+                  ))}
+                </div>
+              </section>
+            </SmartCard>
+
+            <SmartCard className="side-pixel-wrapper">
+              <section className="side-section">
+                <GradientText className="yellow-text bold-font">{isEn ? "Certificates" : "گواهینامه‌ها"}</GradientText>
+                <div className="certs-list">
+                  {content.certificates.map((cert, i) => (
+                    <div key={i} className="cert-item">
+                      <div className="cert-name bold-font">{cert.name}</div>
+                      {cert.detail && <div className="cert-detail">{cert.detail}</div>}
+                      {cert.validity && <div className="cert-validity">{cert.validity}</div>}
+                    </div>
+                  ))}
+                </div>
+              </section>
+            </SmartCard>
+
+            <SmartCard className="side-pixel-wrapper">
+              <section className="side-section">
+                <GradientText className="yellow-text bold-font">{isEn ? "Projects" : "پروژه‌ها"}</GradientText>
+                <div className="projects-list">
+                  {content.projects.map((proj, i) => (
+                    <div key={i} className="project-item">
+                      <a href={proj.url} target="_blank" rel="noreferrer" className="project-link">{proj.name}</a>
+                      <div className="project-tags">
+                        {proj.tags.map((tag, idx) => <span key={idx} className="tag">{tag}</span>)}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            </SmartCard>
+
+            {/* Interest Box occupies the 7th cell or you can move it around */}
+            <SmartCard className="side-pixel-wrapper">
+              <section className="side-section">
+                <GradientText className="yellow-text bold-font">{isEn ? "Interests & Hobbies" : "علایق و سرگرمی‌ها"}</GradientText>
+                <div className="interests-list">
+                  {content.interests.map((cat, i) => (
+                    <div key={i} className="interest-cat">
+                      <div className="interest-cat-name bold-font">{cat.category}</div>
+                      {cat.items.map((item, idx) => (
+                        <div key={idx} className="interest-item">
+                          {item.url ? (
+                            <a href={item.url} target="_blank" rel="noreferrer" className={item.isVideo ? "video-link" : "interest-link"}>
+                                {item.text}
+                            </a>
+                          ) : (
+                            <span>{item.text}</span>
+                          )}
+                          {item.detail && <div className="interest-detail">{item.detail}</div>}
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              </SmartCard>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              </section>
+            </SmartCard>
+          </div>
 
-              <SmartCard className="side-pixel-wrapper">
-                <section className="side-section">
-                  <GradientText className="yellow-text bold-font">{isEn ? "Soft Skills" : "مهارت‌های نرم"}</GradientText>
-                  <div className="soft-skills-tags">
-                    {content.softSkills.map((skill, i) => (
-                      <span key={i} className="soft-tag">{skill}</span>
-                    ))}
-                  </div>
-                </section>
+          {/* 3. Experience Section - Full Width (Desktop) */}
+          <div className={`experience-full-width ${isFirstEntry ? 'slide-in-right' : ''}`}>
+            {content.experience.map((job, i) => (
+              <SmartCard key={i} className="exp-pixel-wrapper">
+                <div className="exp-card">
+                    <div className="exp-row">
+                        <span className="job-role bold-font">{job.role}</span>
+                        <span className="job-duration">
+                            <GradientText className="duration-text bold-font">{job.duration}</GradientText>
+                        </span>
+                    </div>
+                    <div className="job-company bold-font">{job.company}</div>
+                    <div className="job-date">{job.date}</div>
+                    <p className="job-desc">{job.desc}</p>
+                </div>
               </SmartCard>
-
-              <SmartCard className="side-pixel-wrapper">
-                <section className="side-section">
-                  <GradientText className="yellow-text bold-font">{isEn ? "Certificates" : "گواهینامه‌ها"}</GradientText>
-                  <div className="certs-list">
-                    {content.certificates.map((cert, i) => (
-                      <div key={i} className="cert-item">
-                        <div className="cert-name bold-font">{cert.name}</div>
-                        {cert.detail && <div className="cert-detail">{cert.detail}</div>}
-                        {cert.validity && <div className="cert-validity">{cert.validity}</div>}
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              </SmartCard>
-
-              <SmartCard className="side-pixel-wrapper">
-                <section className="side-section">
-                  <GradientText className="yellow-text bold-font">{isEn ? "Interests & Hobbies" : "علایق و سرگرمی‌ها"}</GradientText>
-                  <div className="interests-list">
-                    {content.interests.map((cat, i) => (
-                      <div key={i} className="interest-cat">
-                        <div className="interest-cat-name bold-font">{cat.category}</div>
-                        {cat.items.map((item, idx) => (
-                          <div key={idx} className="interest-item">
-                            {item.url ? (
-                              <a href={item.url} target="_blank" rel="noreferrer" className={item.isVideo ? "video-link" : "interest-link"}>
-                                  {item.text}
-                              </a>
-                            ) : (
-                              <span>{item.text}</span>
-                            )}
-                            {item.detail && <div className="interest-detail">{item.detail}</div>}
-                          </div>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              </SmartCard>
-
-              <SmartCard className="side-pixel-wrapper">
-                <section className="side-section">
-                  <GradientText className="yellow-text bold-font">{isEn ? "Projects" : "پروژه‌ها"}</GradientText>
-                  <div className="projects-list">
-                    {content.projects.map((proj, i) => (
-                      <div key={i} className="project-item">
-                        <a href={proj.url} target="_blank" rel="noreferrer" className="project-link">{proj.name}</a>
-                        <div className="project-tags">
-                          {proj.tags.map((tag, idx) => <span key={idx} className="tag">{tag}</span>)}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              </SmartCard>
-            </aside>
-
-            <main className={`main-content ${isFirstEntry ? 'slide-in-right' : ''}`}>
-              {content.experience.map((job, i) => (
-                <SmartCard key={i} className="exp-pixel-wrapper">
-                  <div className="exp-card">
-                      <div className="exp-row">
-                          <span className="job-role bold-font">{job.role}</span>
-                          <span className="job-duration">
-                              <GradientText className="duration-text bold-font">{job.duration}</GradientText>
-                          </span>
-                      </div>
-                      <div className="job-company bold-font">{job.company}</div>
-                      <div className="job-date">{job.date}</div>
-                      <p className="job-desc">{job.desc}</p>
-                  </div>
-                </SmartCard>
-              ))}
-            </main>
+            ))}
           </div>
 
           <button className="floating-return-btn" onClick={handleReturn} aria-label="Return">
