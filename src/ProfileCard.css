@@ -5,17 +5,25 @@
   --rotate-y: 0deg;
 }
 
+/* تغییر به fixed برای جلوگیری از اسکرول و قفل شدن در مرکز */
 .pc-card-wrapper {
   perspective: 1200px;
-  position: relative;
-  width: 380px;
-  margin: auto;
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  overflow: hidden;
 }
 
 .pc-card-shell {
   transition: transform 0.15s ease-out;
   transform: rotateX(var(--rotate-y)) rotateY(var(--rotate-x));
   transform-style: preserve-3d;
+  width: 380px; /* عرض ثابت برای کارت داخل کانتینر فیکس */
 }
 
 .pc-card {
@@ -36,13 +44,12 @@
   padding: 30px 20px;
 }
 
-/* --- HARSH GLITTER (Now on top of everything) --- */
+/* --- HARSH GLITTER --- */
 .pc-glitter {
   position: absolute;
   inset: 0;
-  z-index: 10; /* Higher than avatar */
+  z-index: 10;
   opacity: 0.15;
-  /* Extremely high contrast and brightness for "harsh" effect */
   filter: url(#noiseFilter) contrast(300%) brightness(1500%);
   mix-blend-mode: screen;
   pointer-events: none;
@@ -92,13 +99,13 @@
 .en-title-text, .fa-title-text { font-family: inherit; color: rgba(255,255,255,0.8); }
 .sep { color: var(--c4); font-weight: bold; }
 
-/* --- SMALLER AVATAR & MATCHED GLOW --- */
+/* --- AVATAR & GLOW --- */
 .pc-avatar-container {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 5; /* Lower than glitter */
+  z-index: 5;
   position: relative;
 }
 
@@ -106,7 +113,6 @@
   position: absolute;
   width: 240px;
   height: 240px;
-  /* Colors matched to your main gradient: Purple to Orange/Yellow */
   background: conic-gradient(from 180deg at 50% 50%, var(--c4) 0deg, var(--c1) 160deg, var(--c4) 360deg);
   filter: blur(55px);
   opacity: 0.4;
@@ -121,15 +127,14 @@
 }
 
 .avatar-minimal {
-  width: 70%; /* Smaller profile picture */
+  width: 70%;
   max-width: 250px;
   height: auto;
   object-fit: contain;
   mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
-  /* "Grow" effect removed by not adding a hover transform here */
 }
 
-/* --- SMALL CIRCLE LANGUAGE BUTTONS --- */
+/* --- LANGUAGE BUTTONS --- */
 .pc-lang-overlay {
   position: absolute;
   inset: 0;
@@ -140,9 +145,9 @@
 .flag-btn {
   position: absolute;
   bottom: 25px;
-  width: 42px;  /* Smaller size */
-  height: 42px; /* Smaller size */
-  border-radius: 50%; /* Perfect circle */
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
   pointer-events: auto;
@@ -160,13 +165,27 @@
 .en-corner { left: 35px; }
 .fa-corner { right: 35px; }
 
-/* --- BACKGROUND GLOW --- */
+/* --- MULTICOLOR BACKGROUND GLOW --- */
 .pc-behind {
   position: absolute;
-  inset: -40px;
-  background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), var(--c4) 0%, transparent 70%);
-  filter: blur(60px);
+  /* ایجاد فضای بزرگتر برای نمایش هاله حول کارت فیکس شده */
+  top: 50%;
+  left: 50%;
+  width: 600px;
+  height: 600px;
+  transform: translate(-50%, -50%);
+  /* استفاده از تمام رنگ‌های گرادینت */
+  background: radial-gradient(
+    circle at var(--pointer-x) var(--pointer-y), 
+    var(--c4) 0%, 
+    var(--c1) 30%, 
+    var(--c2) 60%, 
+    transparent 80%
+  );
+  filter: blur(80px);
   opacity: 0;
   transition: opacity 0.5s;
+  z-index: -1;
+  pointer-events: none;
 }
-.pc-card-wrapper:hover .pc-behind { opacity: 0.25; }
+.pc-card-wrapper:hover .pc-behind { opacity: 0.4; }

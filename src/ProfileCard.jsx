@@ -65,7 +65,6 @@ const ProfileCard = ({
     <div ref={wrapRef} className="pc-card-wrapper">
       <svg style={{ position: 'absolute', width: 0, height: 0 }}>
         <filter id="noiseFilter">
-          {/* Increased baseFrequency for harsher/finer grain */}
           <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch" />
           <feColorMatrix type="saturate" values="0" />
         </filter>
@@ -77,12 +76,10 @@ const ProfileCard = ({
         <section className="pc-card">
           <div className="pc-inside" style={{ '--inner-gradient': DEFAULT_INNER_GRADIENT }}>
             
-            {/* Glitter is now ABOVE the avatar container in Z-index via CSS */}
             <div className="pc-glitter" />
             <div className="pc-shine" />
             <div className="pc-glare" />
 
-            {/* Header Info */}
             <div className="pc-header-info">
               <div className="dual-name">
                 <h2 className="en-name bold-font">{nameEn}</h2>
@@ -95,13 +92,11 @@ const ProfileCard = ({
               </div>
             </div>
 
-            {/* Avatar Container */}
             <div className="pc-avatar-container">
               <div className="pc-avatar-bg" />
               <img className="avatar-minimal" src={avatarUrl} alt="Profile" />
             </div>
 
-            {/* Language Buttons - Small & Circle */}
             <div className="pc-lang-overlay">
               <div className="flag-btn en-corner" onClick={(e) => { e.stopPropagation(); onSelectLang('en'); }}>
                 <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" alt="EN" />
