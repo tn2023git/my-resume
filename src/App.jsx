@@ -108,6 +108,12 @@ function App() {
               { text: "YouTube Channel (Archive)", url: "https://www.youtube.com/@tnonyoutube", isVideo: true },
               { text: "Twitch Streamer (Former)", url: "https://www.twitch.tv/tn2023", isVideo: true }
             ]
+          },
+          {
+            category: "Gaming",
+            items: [
+              { text: "Deep interest in games with complex mechanics and extended progression systems like Path Of Exile" }
+            ]
           }
         ],
         projects: [
@@ -186,6 +192,12 @@ function App() {
               { text: "تولید محتوا و استریم:" },
               { text: "کانال یوتیوب (آرشیو)", url: "https://www.youtube.com/@tnonyoutube", isVideo: true },
               { text: "استریمر سابق توییچ", url: "https://www.twitch.tv/tn2023", isVideo: true }
+            ]
+          },
+          {
+            category: "بازی‌های ویدیویی",
+            items: [
+              { text: "علاقه‌مند به بازی‌هایی با مکانیسم‌های پیچیده و سیستم‌های پیشرفت طولانی مانند Path Of Exile" }
             ]
           }
         ],
