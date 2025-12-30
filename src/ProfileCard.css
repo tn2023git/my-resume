@@ -1,17 +1,22 @@
+:root {
+  --pointer-x: 50%;
+  --pointer-y: 50%;
+  --rotate-x: 0deg;
+  --rotate-y: 0deg;
+  --sunpillar-1: #ff0055;
+  --sunpillar-2: #00eeff;
+  --sunpillar-3: #9900ff;
+}
+
 .pc-card-wrapper {
   perspective: 1000px;
   position: relative;
   width: 360px;
-  max-width: 90vw;
   margin: auto;
-  --sunpillar-1: hsl(2, 100%, 73%);
-  --sunpillar-6: hsl(283, 100%, 73%);
 }
 
 .pc-card-shell {
-  position: relative;
-  z-index: 1;
-  transition: transform 0.15s ease-out;
+  transition: transform 0.2s ease-out;
   transform: rotateX(var(--rotate-y)) rotateY(var(--rotate-x));
   transform-style: preserve-3d;
 }
@@ -22,83 +27,136 @@
   border-radius: 30px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+  position: relative;
 }
 
 .pc-inside {
   height: 100%;
   background: var(--inner-gradient);
-  position: relative;
   display: flex;
   flex-direction: column;
 }
 
-/* Header Section (Name & Title at Top) */
-.pc-header-info {
-    padding: 25px 15px;
-    text-align: center;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%);
-    z-index: 5;
+/* --- GLITTER EFFECT (The Grainy Sparkle) --- */
+.pc-glitter {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  opacity: 0;
+  mix-blend-mode: color-dodge;
+  transition: opacity 0.3s;
+  background-image: 
+    url("https://assets.codepen.io/13471/noise.png"), 
+    radial-gradient(circle at var(--pointer-x) var(--pointer-y), #fff, #000);
+  background-size: 200px, 100% 100%;
+  background-blend-mode: overlay;
+  pointer-events: none;
 }
 
-.dual-name { display: flex; flex-direction: column; gap: 2px; }
-.en-name { font-size: 1.4rem; color: #fff; font-family: 'ProductSans'; }
-.fa-name { font-size: 1.25rem; color: #F3BC08; font-family: 'Anjoman'; font-weight: bold; }
+.pc-card-wrapper:hover .pc-glitter {
+  opacity: 0.25;
+}
+
+/* --- SHINE EFFECT (The Rainbow Color) --- */
+.pc-shine {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  opacity: 0;
+  mix-blend-mode: color-dodge;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  background: linear-gradient(
+    110deg,
+    transparent 20%,
+    var(--sunpillar-1) 40%,
+    var(--sunpillar-2) 50%,
+    var(--sunpillar-3) 60%,
+    transparent 80%
+  );
+  background-size: 200% 200%;
+  background-position: var(--pointer-x) var(--pointer-y);
+}
+
+.pc-card-wrapper:hover .pc-shine {
+  opacity: 0.3;
+}
+
+/* --- GLARE EFFECT (The Hotspot) --- */
+.pc-glare {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  opacity: 0;
+  background: radial-gradient(
+    circle at var(--pointer-x) var(--pointer-y),
+    rgba(255,255,255,0.4) 0%,
+    transparent 60%
+  );
+  transition: opacity 0.3s;
+}
+
+.pc-card-wrapper:hover .pc-glare {
+  opacity: 1;
+}
+
+/* --- UI ELEMENTS --- */
+.pc-header-info {
+  padding: 30px 20px 10px;
+  text-align: center;
+  z-index: 5;
+}
+
+.dual-name { display: flex; flex-direction: column; gap: 5px; margin: 0; }
+.en-name { color: #fff; font-size: 1.5rem; font-family: 'ProductSans'; }
+.fa-name { color: #F3BC08; font-size: 1.3rem; font-family: 'Anjoman'; }
 
 .dual-title { 
-    display: flex; justify-content: center; align-items: center; gap: 8px;
-    font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-top: 8px;
+  display: flex; justify-content: center; align-items: center; gap: 10px;
+  margin-top: 10px; color: rgba(255,255,255,0.6); font-size: 0.9rem;
 }
-.sep { color: #A010D6; font-weight: bold; }
+.sep { color: #9900ff; font-weight: bold; }
 
-/* Avatar & Flags Container */
 .pc-avatar-container {
   flex: 1;
   position: relative;
-  overflow: hidden;
+  margin-top: 10px;
 }
 
 .avatar {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  position: absolute;
-  top: 0; left: 0;
   mask-image: linear-gradient(to top, black 80%, transparent 100%);
   -webkit-mask-image: linear-gradient(to top, black 80%, transparent 100%);
-  z-index: 1;
 }
 
-/* Glitter & Shine */
-.pc-shine {
-  position: absolute; inset: 0; z-index: 3;
-  background: repeating-linear-gradient(var(--rotate-x), var(--sunpillar-1) 0%, transparent 10%, var(--sunpillar-6) 20%);
-  opacity: 0.15; mix-blend-mode: color-dodge; pointer-events: none;
-}
-
-.pc-glare {
-  position: absolute; inset: 0; z-index: 4;
-  background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(255, 255, 255, 0.2) 0%, transparent 60%);
-  mix-blend-mode: overlay; pointer-events: none;
-}
-
-/* Flag Buttons */
 .flag-corner {
-  position: absolute; bottom: 20px; width: 55px; height: 55px;
-  border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.4);
-  padding: 0; overflow: hidden; cursor: pointer; background: #000;
-  z-index: 10; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.2);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+  position: absolute;
+  bottom: 25px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.5);
+  overflow: hidden;
+  cursor: pointer;
+  background: #000;
+  transition: transform 0.2s;
+  z-index: 10;
 }
+.flag-corner:hover { transform: scale(1.1); border-color: #F3BC08; }
 .flag-corner img { width: 100%; height: 100%; object-fit: cover; }
-.flag-corner:hover { transform: scale(1.1) translateY(-5px); border-color: #F3BC08; }
 
 .en-corner { left: 20px; }
 .fa-corner { right: 20px; }
 
 .pc-behind {
-  position: absolute; inset: -20px; z-index: 0;
-  background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(160, 10, 214, 0.3) 0%, transparent 70%);
-  filter: blur(40px); opacity: 0; transition: opacity 0.4s;
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(153, 0, 255, 0.2), transparent 70%);
+  filter: blur(40px);
+  opacity: 0;
+  transition: opacity 0.4s;
 }
 .pc-card-wrapper:hover .pc-behind { opacity: 1; }
