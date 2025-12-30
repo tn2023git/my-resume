@@ -181,38 +181,50 @@
   z-index: 100;
   pointer-events: none;
   transform: translateZ(50px);
-  overflow: visible; /* Prevents button cutoff */
+  overflow: visible;
 }
 
-/* Tooltip Styling */
+/* Base Tooltip Styling */
 .flag-btn::after {
   content: attr(data-tooltip);
   position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-10px);
-  background: rgba(0, 0, 0, 0.85);
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 6px;
-  font-size: 0.75rem;
+  bottom: 25px;
+  background: rgba(15, 15, 15, 0.4);
+  color: rgba(255, 255, 255, 0.85);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.65rem;
   white-space: nowrap;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.3s ease;
-  border: 1px solid var(--glass-border);
+  transition: opacity 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   pointer-events: none;
+  backdrop-filter: blur(2px);
+}
+
+/* Specific Fonts for Tooltips */
+.en-corner::after {
+  font-family: 'ProductSans', sans-serif;
+  left: 170%;
+  transform: translateX(0);
+}
+
+.fa-corner::after {
+  font-family: 'Anjoman', sans-serif;
+  right: 170%;
+  transform: translateX(0);
+  direction: rtl;
 }
 
 .flag-btn:hover::after {
   opacity: 1;
   visibility: visible;
-  transform: translateX(-50%) translateY(-15px);
 }
 
 .flag-btn {
   position: absolute;
-  bottom: 25px; /* Moved up to prevent cutoff */
+  bottom: 25px;
   width: 54px;
   height: 54px;
   display: flex;
@@ -222,12 +234,12 @@
   pointer-events: auto;
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   z-index: 110;
-  animation: initialPulse 2s ease-in-out 3; /* Initial Pulse effect */
+  animation: initialPulse 2s ease-in-out 3;
 }
 
 @keyframes initialPulse {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.15); box-shadow: 0 0 20px rgba(255, 215, 0, 0.2); }
+  50% { transform: scale(1.1); box-shadow: 0 0 15px rgba(255, 215, 0, 0.1); }
 }
 
 .flag-btn img { 
@@ -242,7 +254,7 @@
 }
 
 .flag-btn:hover {
-  transform: scale(1.2) translateY(-5px); /* Moves up slightly on hover */
+  transform: scale(1.15) translateY(-3px);
 }
 
 .flag-btn:hover img {
@@ -286,5 +298,5 @@
   .flag-btn img { width: 38px; height: 38px; }
   .en-corner { left: 15px; }
   .fa-corner { right: 15px; }
-  .flag-btn::after { display: none; } /* Hide tooltips on mobile */
+  .flag-btn::after { display: none; }
 }
