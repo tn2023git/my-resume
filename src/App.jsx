@@ -61,7 +61,6 @@ function App() {
           { label: "Telegram", value: "tn2023", url: "https://t.me/tn2023" }
         ],
         languages: [{ name: "English", level: "Native" }],
-        salary: "20-25 Million Tomans",
         software: [
           { name: "Adobe Photoshop", dots: 3 }, 
           { name: "Adobe Premiere", dots: 3 },
@@ -133,7 +132,7 @@ function App() {
           { role: "Salesperson", company: "Matin Mobile", date: "Jun 2016 - Dec 2016", duration: "6 Months", desc: "Cellphone software repairs, sale of peripherals and accessories." }
         ]
       },
-      fa: {
+    fa: {
         name: "امیرعلی دبیری مرام",
         title: "کارجو",
         summary: "دارای بیش از ۵ سال تجربه در حوزه‌های آموزشی و اداری با تمرکز بر تسلط حرفه‌ای به زبان انگلیسی و طراحی وب‌سایت. فراتر از مهارت‌های فنی، دارای توانمندی بالا در فن بیان و سخنرانی عمومی و تفکر استراتژیک در حل مسائل پیچیده هستم. روحیه‌ی رقابتی در کنار مهارت‌های همکاری تیمی بالا برای پیشبرد اهداف مشترک، مرا در دستیابی به بالاترین سطح کیفیت در پروژه‌ها یاری می‌کند. متعهد به بهینه‌سازی فرآیندها، یادگیری مستمر و حفظ استانداردهای جهانی در ارتباطات حرفه‌ای.",
@@ -149,7 +148,6 @@ function App() {
           { label: "تلگرام", value: "tn2023", url: "https://t.me/tn2023" }
         ],
         languages: [{ name: "انگلیسی", level: "Native" }],
-        salary: "۲۰-۲۵ میلیون تومان",
         software: [
           { name: "Adobe Photoshop", dots: 3 }, 
           { name: "Adobe Premiere", dots: 3 },
@@ -273,7 +271,6 @@ function App() {
                     ) : c.value}
                   </p>
                 ))}
-                <p><b className="bold-font">{isEn ? "Salary Request" : "حقوق درخواستی"}:</b> {content.salary}</p>
               </section>
             </SmartCard>
 
