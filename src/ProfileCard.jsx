@@ -133,11 +133,19 @@ const ProfileCard = ({
             </div>
 
             <div className="pc-lang-overlay">
-              <div className="flag-btn en-corner" onClick={(e) => { e.stopPropagation(); onSelectLang('en'); }}>
+              <div 
+                className="flag-btn en-corner" 
+                data-tooltip="View English Resume"
+                onClick={(e) => { e.stopPropagation(); onSelectLang('en'); }}
+              >
                 <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" alt="EN" />
               </div>
               
-              <div className="flag-btn fa-corner" onClick={(e) => { e.stopPropagation(); onSelectLang('fa'); }}>
+              <div 
+                className="flag-btn fa-corner" 
+                data-tooltip="مشاهده رزومه فارسی"
+                onClick={(e) => { e.stopPropagation(); onSelectLang('fa'); }}
+              >
                 <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Flag_of_Iran.svg" alt="FA" />
               </div>
             </div>

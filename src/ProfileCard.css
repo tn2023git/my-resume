@@ -181,12 +181,38 @@
   z-index: 100;
   pointer-events: none;
   transform: translateZ(50px);
+  overflow: visible; /* Prevents button cutoff */
 }
 
-/* Updated Flag Buttons with larger hitbox */
+/* Tooltip Styling */
+.flag-btn::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid var(--glass-border);
+  pointer-events: none;
+}
+
+.flag-btn:hover::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(-15px);
+}
+
 .flag-btn {
   position: absolute;
-  bottom: 10px;
+  bottom: 25px; /* Moved up to prevent cutoff */
   width: 54px;
   height: 54px;
   display: flex;
@@ -196,30 +222,35 @@
   pointer-events: auto;
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   z-index: 110;
+  animation: initialPulse 2s ease-in-out 3; /* Initial Pulse effect */
+}
+
+@keyframes initialPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); box-shadow: 0 0 20px rgba(255, 215, 0, 0.2); }
 }
 
 .flag-btn img { 
-  width: 42px; 
-  height: 42px; 
+  width: 44px; 
+  height: 44px; 
   border-radius: 50%;
   object-fit: cover;
   background: rgba(15, 15, 15, 0.85);
   backdrop-filter: blur(8px);
   border: 1.5px solid var(--glass-border);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: border-color 0.3s ease;
 }
 
 .flag-btn:hover {
-  transform: scale(1.1);
+  transform: scale(1.2) translateY(-5px); /* Moves up slightly on hover */
 }
 
 .flag-btn:hover img {
   border-color: var(--c1);
-  box-shadow: 0 0 15px rgba(var(--c1-rgb), 0.3);
 }
 
-.en-corner { left: 10px; }
-.fa-corner { right: 10px; }
+.en-corner { left: 20px; }
+.fa-corner { right: 20px; }
 
 .pc-behind {
   position: absolute;
@@ -251,12 +282,9 @@
   .en-name { font-size: 1.3rem; }
   .fa-name { font-size: 1.1rem; }
   
-  .pc-glitter-color { opacity: 0.15 !important; }
-  .pc-shine, .pc-glare { opacity: 0.5 !important; }
-  .pc-behind { opacity: 0.15 !important; }
-
-  .flag-btn { bottom: 8px; width: 50px; height: 50px; }
+  .flag-btn { bottom: 20px; width: 48px; height: 48px; }
   .flag-btn img { width: 38px; height: 38px; }
-  .en-corner { left: 8px; }
-  .fa-corner { right: 8px; }
-} 
+  .en-corner { left: 15px; }
+  .fa-corner { right: 15px; }
+  .flag-btn::after { display: none; } /* Hide tooltips on mobile */
+}
