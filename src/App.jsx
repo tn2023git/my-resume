@@ -61,6 +61,23 @@ function App() {
         { name: "TTC (Teacher Training Course)", detail: "Score: 52/60" },
         { name: "Diploma in Tourism", detail: "" }
       ],
+      interests: [
+        { 
+          category: "Gaming & Casting", 
+          items: [
+            { text: "English Caster: 2nd National DotA 2 Championship of Iran", isBold: true },
+            { text: "Field Reporter: GameHermes (Tekken National Champ / TI9 Pubstomp)", url: "https://www.youtube.com/watch?v=t_eXzo30mAo" },
+            { text: "Semi-Professional Gamer: 10,000+ hours in DotA 2", detail: "Focus on strategy & high-level play" },
+            { text: "FPS & Narrative Games: Battlefield 6, Rainbow Six Siege, Complex Storylines" }
+          ]
+        },
+        {
+          category: "Music",
+          items: [
+            { text: "Electric Guitarist", detail: "Pre-intermediate level, currently training towards professional proficiency" }
+          ]
+        }
+      ],
       projects: [
         { name: "IranBarc", url: "https://iranbarc.com/", tags: ["AI", "Wordpress", "Elementor"] },
         { name: "Darmazon", url: "https://darmazon.com/", tags: ["Photoshop", "Wordpress", "Elementor"] },
@@ -117,6 +134,23 @@ function App() {
         },
         { name: "مدرک TTC (تربیت مدرس)", detail: "نمره: ۵۲ از ۶۰" },
         { name: "دیپلم گردشگری", detail: "" }
+      ],
+      interests: [
+        { 
+          category: "گیمینگ و گزارشگری", 
+          items: [
+            { text: "کستر انگلیسی: دومین دوره مسابقات ملی DotA 2 ایران", isBold: true },
+            { text: "گزارشگر میدانی: مجموعه GameHermes (مسابقات ملی Tekken / TI9 Pubstomp)", url: "https://www.youtube.com/watch?v=t_eXzo30mAo" },
+            { text: "گیمر نیمه‌حرفه‌ای: بیش از ۱۰,۰۰۰ ساعت تجربه در DotA 2", detail: "تمرکز بر تفکر استراتژیک و بازی در سطح بالا" },
+            { text: "بازی‌های FPS و داستانی: Battlefield 6، Siege و بازی‌های داستانی پیچیده" }
+          ]
+        },
+        {
+          category: "موسیقی",
+          items: [
+            { text: "نوازنده گیتار الکتریک", detail: "سطح Pre-intermediate، در حال آموزش برای رسیدن به سطح حرفه‌ای" }
+          ]
+        }
       ],
       projects: [
         { name: "ایران بارسی", url: "https://iranbarc.com/", tags: ["AI", "Wordpress", "Elementor"] },
@@ -196,15 +230,6 @@ function App() {
 
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
-                <GradientText className="yellow-text bold-font">{isEn ? "Soft Skills" : "مهارت‌های نرم"}</GradientText>
-                <div className="skills-grid">
-                  {content.softSkills.map((skill, i) => <span key={i} className="skill-tag">{skill}</span>)}
-                </div>
-              </section>
-            </SmartCard>
-
-            <SmartCard className="side-pixel-wrapper">
-              <section className="side-section">
                 <GradientText className="yellow-text bold-font">{isEn ? "Certificates" : "گواهینامه‌ها"}</GradientText>
                 <div className="certs-list">
                   {content.certificates.map((cert, i) => (
@@ -212,6 +237,31 @@ function App() {
                       <div className="cert-name bold-font">{cert.name}</div>
                       {cert.detail && <div className="cert-detail">{cert.detail}</div>}
                       {cert.validity && <div className="cert-validity">{cert.validity}</div>}
+                    </div>
+                  ))}
+                </div>
+              </section>
+            </SmartCard>
+
+            <SmartCard className="side-pixel-wrapper">
+              <section className="side-section">
+                <GradientText className="yellow-text bold-font">{isEn ? "Interests & Hobbies" : "علایق و سرگرمی‌ها"}</GradientText>
+                <div className="interests-list">
+                  {content.interests.map((cat, i) => (
+                    <div key={i} className="interest-cat">
+                      <div className="interest-cat-name bold-font">{cat.category}</div>
+                      {cat.items.map((item, idx) => (
+                        <div key={idx} className="interest-item">
+                          {item.url ? (
+                            <a href={item.url} target="_blank" rel="noreferrer" className="interest-link">
+                                {item.text}
+                            </a>
+                          ) : (
+                            <span className={item.isBold ? "bold-font" : ""}>{item.text}</span>
+                          )}
+                          {item.detail && <div className="interest-detail">{item.detail}</div>}
+                        </div>
+                      ))}
                     </div>
                   ))}
                 </div>
