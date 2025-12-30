@@ -100,22 +100,22 @@ function App() {
           {
             category: "Communications & Media",
             items: [
-              { text: "Content Creation", detail: "Experienced in video editing and digital storytelling" },
-              { text: "Public Speaking", detail: "Professional presentation and narration skills" }
-            ]
-          },
-          { 
-            category: "Gaming & Casting", 
-            items: [
               { text: "English Caster: 2nd National DotA 2 Championship of Iran" },
               { text: "Field Reporter for GameHermes:" },
               { text: "Tekken National Championship (Report)", url: "https://www.youtube.com/watch?v=t_eXzo30mAo", isVideo: true },
               { text: "DotA 2 TI9 Pubstomp (Report)", url: "https://www.youtube.com/watch?v=r2H5vpYrGeQ", isVideo: true },
               { text: "Content Creation & Streaming:" },
               { text: "YouTube Channel (Gaming Archive)", url: "https://www.youtube.com/@tnonyoutube", isVideo: true },
-              { text: "Twitch Streamer (Former)", url: "https://www.twitch.tv/tn2023", isVideo: true },
+              { text: "Twitch Streamer (Former)", url: "https://www.twitch.tv/tn2023", isVideo: true }
+            ]
+          },
+          { 
+            category: "Gaming", 
+            items: [
               { text: "Semi-Professional Gamer: 10,000+ hours in DotA 2", detail: "Focus on strategy & high-level play" },
-              { text: "FPS & Narrative Games: Battlefield 6, Rainbow Six: Siege, Complex Storylines" }
+              { text: "FPS Games: Battlefield & Rainbow Six: Siege", detail: "Improved reaction times and tactical planning" },
+              { text: "ARPG Games: Path Of Exile", detail: "Complex crafting systems and expanded, deep progression systems" },
+              { text: "Narrative Games: Alan Wake, Control, Batman: Arkham Series", detail: "Complex, deep stories" }
             ]
           }
         ],
@@ -136,7 +136,7 @@ function App() {
       fa: {
         name: "امیرعلی دبیری مرام",
         title: "کارجو",
-        summary: "دارای بیش از ۵ سال تجربه کاری در حوزه‌های آموزشی، خدماتی و اداری با تمرکز بر تسلط حرفه‌ای به زبان انگلیسی و طراحی پلتفرم‌های وردپرسی. توانمند در بهینه‌سازی فرآیندهای دفتری و ارائه نتایج مطابق با استانداردهای جهانی. متعهد به یادگیری مستمر و حفظ سطح بالای ارتباطات حرفه‌ای در محیط‌های کاری پویا.",
+        summary: "دارای بیش از ۵ سال تجربه در حوزه‌های آموزشی و اداری با تمرکز بر تسلط حرفه‌ای به زبان انگلیسی و طراحی وب‌سایت. فراتر از مهارت‌های فنی، دارای توانمندی بالا در فن بیان و سخنرانی عمومی و تفکر استراتژیک در حل مسائل پیچیده هستم. روحیه‌ی رقابتی در کنار مهارت‌های همکاری تیمی بالا برای پیشبرد اهداف مشترک، مرا در دستیابی به بالاترین سطح کیفیت در پروژه‌ها یاری می‌کند. متعهد به بهینه‌سازی فرآیندها، یادگیری مستمر و حفظ استانداردهای جهانی در ارتباطات حرفه‌ای.",
         personal: [
           { label: "سن", value: "۲۶ سال (متولد ۲۱ اردیبهشت ۱۳۷۸)" },
           { label: "سربازی", value: "معاف دائم" },
@@ -188,22 +188,22 @@ function App() {
           {
             category: "ارتباطات و رسانه",
             items: [
-              { text: "تولید محتوا", detail: "تجربه در تدوین ویدیو و روایت دیجیتال" },
-              { text: "فن بیان", detail: "مهارت‌های ارائه و گویندگی حرفه‌ای" }
-            ]
-          },
-          { 
-            category: "گیمینگ و گزارشگری", 
-            items: [
               { text: "کستر انگلیسی: دومین دوره مسابقات ملی DotA 2 ایران" },
               { text: "گزارشگر میدانی GameHermes:" },
               { text: "گزارش مسابقات ملی Tekken (ویدیو)", url: "https://www.youtube.com/watch?v=t_eXzo30mAo", isVideo: true },
               { text: "گزارش TI9 Pubstomp (ویدیو)", url: "https://www.youtube.com/watch?v=r2H5vpYrGeQ", isVideo: true },
               { text: "تولید محتوا و استریم:" },
               { text: "کانال یوتیوب (آرشیو گیمینگ)", url: "https://www.youtube.com/@tnonyoutube", isVideo: true },
-              { text: "استریمر سابق توییچ", url: "https://www.twitch.tv/tn2023", isVideo: true },
-              { text: "گیمر نیمه‌حرفه‌ای: بیش از ۱۰,۰۰۰ ساعت تجربه در DotA 2", detail: "تمرکز بر تفکر استراتژیک" },
-              { text: "بازی‌های FPS و داستانی: Battlefield 6، Rainbow Six: Siege و داستان‌های پیچیده" }
+              { text: "استریمر سابق توییچ", url: "https://www.twitch.tv/tn2023", isVideo: true }
+            ]
+          },
+          { 
+            category: "گیمینگ", 
+            items: [
+              { text: "گیمر نیمه‌حرفه‌ای: بیش از ۱۰,۰۰۰ ساعت تجربه در DotA 2", detail: "تمرکز بر تفکر استراتژیک و بازی در سطح بالا" },
+              { text: "بازی‌های FPS: مجموعه‌های Battlefield و Rainbow Six: Siege", detail: "تقویت سرعت واکنش و برنامه‌ریزی تاکتیکی" },
+              { text: "بازی‌های ARPG: عنوان Path Of Exile", detail: "سیستم‌های کرفتینگ پیچیده و مکانیزم‌های پیشرفت عمیق" },
+              { text: "بازی‌های داستانی: Alan Wake، Control، Batman: Arkham Series", detail: "روایت‌های پیچیده و عمیق" }
             ]
           }
         ],
