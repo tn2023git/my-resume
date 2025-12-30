@@ -65,8 +65,10 @@ function App() {
         { 
           category: "Gaming & Casting", 
           items: [
-            { text: "English Caster: 2nd National DotA 2 Championship of Iran", isBold: true },
-            { text: "Field Reporter: GameHermes (Tekken National Champ / TI9 Pubstomp)", url: "https://www.youtube.com/watch?v=t_eXzo30mAo" },
+            { text: "English Caster: 2nd National DotA 2 Championship of Iran" },
+            { text: "Field Reporter for GameHermes:" },
+            { text: "Tekken National Championship (Report)", url: "https://www.youtube.com/watch?v=t_eXzo30mAo", isVideo: true },
+            { text: "DotA 2 TI9 Pubstomp (Report)", url: "https://www.youtube.com/watch?v=r2H5vpYrGeQ", isVideo: true },
             { text: "Semi-Professional Gamer: 10,000+ hours in DotA 2", detail: "Focus on strategy & high-level play" },
             { text: "FPS & Narrative Games: Battlefield 6, Rainbow Six Siege, Complex Storylines" }
           ]
@@ -139,10 +141,12 @@ function App() {
         { 
           category: "گیمینگ و گزارشگری", 
           items: [
-            { text: "کستر انگلیسی: دومین دوره مسابقات ملی DotA 2 ایران", isBold: true },
-            { text: "گزارشگر میدانی: مجموعه GameHermes (مسابقات ملی Tekken / TI9 Pubstomp)", url: "https://www.youtube.com/watch?v=t_eXzo30mAo" },
-            { text: "گیمر نیمه‌حرفه‌ای: بیش از ۱۰,۰۰۰ ساعت تجربه در DotA 2", detail: "تمرکز بر تفکر استراتژیک و بازی در سطح بالا" },
-            { text: "بازی‌های FPS و داستانی: Battlefield 6، Siege و بازی‌های داستانی پیچیده" }
+            { text: "کستر انگلیسی: دومین دوره مسابقات ملی DotA 2 ایران" },
+            { text: "گزارشگر میدانی GameHermes:" },
+            { text: "گزارش مسابقات ملی Tekken (ویدیو)", url: "https://www.youtube.com/watch?v=t_eXzo30mAo", isVideo: true },
+            { text: "گزارش TI9 Pubstomp (ویدیو)", url: "https://www.youtube.com/watch?v=r2H5vpYrGeQ", isVideo: true },
+            { text: "گیمر نیمه‌حرفه‌ای: بیش از ۱۰,۰۰۰ ساعت تجربه در DotA 2", detail: "تمرکز بر تفکر استراتژیک" },
+            { text: "بازی‌های FPS و داستانی: Battlefield 6، Siege و داستان‌های پیچیده" }
           ]
         },
         {
@@ -253,11 +257,11 @@ function App() {
                       {cat.items.map((item, idx) => (
                         <div key={idx} className="interest-item">
                           {item.url ? (
-                            <a href={item.url} target="_blank" rel="noreferrer" className="interest-link">
+                            <a href={item.url} target="_blank" rel="noreferrer" className={item.isVideo ? "video-link" : "interest-link"}>
                                 {item.text}
                             </a>
                           ) : (
-                            <span className={item.isBold ? "bold-font" : ""}>{item.text}</span>
+                            <span>{item.text}</span>
                           )}
                           {item.detail && <div className="interest-detail">{item.detail}</div>}
                         </div>
