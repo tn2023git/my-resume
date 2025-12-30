@@ -74,56 +74,59 @@ const ProfileCard = ({
   }, [tiltEngine]);
 
   return (
-    <div ref={wrapRef} className="pc-card-wrapper">
-      <svg style={{ position: 'absolute', width: 0, height: 0 }}>
-        <filter id="noiseFilter">
-          <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="3" stitchTiles="stitch" />
-          <feColorMatrix type="saturate" values="0" />
-        </filter>
-      </svg>
+    /* اضافه شدن کلاس gateway-mode برای کنترل ارتفاع کل صفحه */
+    <div className="gateway-mode">
+      <div ref={wrapRef} className="pc-card-wrapper">
+        <svg style={{ position: 'absolute', width: 0, height: 0 }}>
+          <filter id="noiseFilter">
+            <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="3" stitchTiles="stitch" />
+            <feColorMatrix type="saturate" values="0" />
+          </filter>
+        </svg>
 
-      <div className="pc-behind" />
-      
-      <div ref={shellRef} className="pc-card-shell">
-        <section className="pc-card">
-          <div className="pc-inside" style={{ '--inner-gradient': DEFAULT_INNER_GRADIENT }}>
-            
-            <div className="pc-glitter" />
-            <div className="pc-shine" />
-            <div className="pc-glare" />
-
-            <div className="pc-header-info">
-              <div className="dual-name">
-                <h2 className="en-name bold-font">{nameEn}</h2>
-                <h2 className="fa-name bold-font">{nameFa}</h2>
-              </div>
-              <div className="dual-title">
-                <span className="en-title-text">{titleEn}</span>
-                <span className="sep">-</span>
-                <span className="fa-title-text">{titleFa}</span>
-              </div>
-            </div>
-
-            <div className="pc-avatar-container">
-              <div className="pc-avatar-bg" />
-              <img className="avatar-minimal" src={avatarUrl} alt="Profile" />
-            </div>
-
-            <div className="pc-lang-overlay">
-              <div className="flag-btn en-corner" onClick={(e) => { e.stopPropagation(); onSelectLang('en'); }}>
-                <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" alt="EN" />
-              </div>
+        <div className="pc-behind" />
+        
+        <div ref={shellRef} className="pc-card-shell">
+          <section className="pc-card">
+            <div className="pc-inside" style={{ '--inner-gradient': DEFAULT_INNER_GRADIENT }}>
               
-              <div className="flag-btn fa-corner" onClick={(e) => { e.stopPropagation(); onSelectLang('fa'); }}>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Flag_of_Iran.svg" alt="FA" />
-              </div>
-            </div>
+              <div className="pc-glitter" />
+              <div className="pc-shine" />
+              <div className="pc-glare" />
 
-          </div>
-        </section>
+              <div className="pc-header-info">
+                <div className="dual-name">
+                  <h2 className="en-name bold-font">{nameEn}</h2>
+                  <h2 className="fa-name bold-font">{nameFa}</h2>
+                </div>
+                <div className="dual-title">
+                  <span className="en-title-text">{titleEn}</span>
+                  <span className="sep">-</span>
+                  <span className="fa-title-text">{titleFa}</span>
+                </div>
+              </div>
+
+              <div className="pc-avatar-container">
+                <div className="pc-avatar-bg" />
+                <img className="avatar-minimal" src={avatarUrl} alt="Profile" />
+              </div>
+
+              <div className="pc-lang-overlay">
+                <div className="flag-btn en-corner" onClick={(e) => { e.stopPropagation(); onSelectLang('en'); }}>
+                  <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" alt="EN" />
+                </div>
+                
+                <div className="flag-btn fa-corner" onClick={(e) => { e.stopPropagation(); onSelectLang('fa'); }}>
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Flag_of_Iran.svg" alt="FA" />
+                </div>
+              </div>
+
+            </div>
+          </section>
+        </div>
       </div>
     </div>
   );
 };
 
-export default React.memo(ProfileCard); 
+export default React.memo(ProfileCard);
