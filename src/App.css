@@ -196,7 +196,7 @@ body, html {
   
   .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary, .mobile-glass-card {
     background: transparent !important;
-    border: 1px solid #eee !important;
+    border: 1px solid #ddd !important;
     box-shadow: none !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
@@ -205,22 +205,34 @@ body, html {
     margin-bottom: 15px !important;
   }
   
-  .info-columns-container { column-count: 2 !important; display: block !important; }
-  .summary-text, .job-desc, .skill-name { color: #333 !important; }
+  /* Titles visibility fix */
+  .yellow-text {
+    color: black !important;
+    -webkit-text-fill-color: black !important; /* Forces black text in print */
+    border-bottom: 2px solid #000 !important;
+    opacity: 1 !important;
+  }
+
+  .info-columns-container { column-count: 3 !important; column-gap: 20px !important; display: block !important; }
+  .summary-text, .job-desc, .skill-name { color: #000 !important; }
   
-  .yellow-text, .duration-text, .job-company, .contact-link, .video-link, .project-link { 
+  .duration-text, .job-company, .contact-link, .video-link, .project-link { 
     color: black !important; 
-    background: none !important; 
-    -webkit-text-fill-color: initial !important;
+    -webkit-text-fill-color: black !important;
     text-decoration: underline !important;
   }
   
-  .progress-bar-bg { border: 1px solid #ccc; background: #f0f0f0 !important; }
-  .progress-bar-fill { background: #444 !important; }
-  .dot { border: 1px solid #999; }
-  .dot.filled { background: #333 !important; box-shadow: none !important; }
+  .progress-bar-bg { border: 1px solid #000; background: #eee !important; }
+  .progress-bar-fill { background: #000 !important; }
+  .dot { border: 1px solid #000; background: transparent !important; }
+  .dot.filled { background: #000 !important; box-shadow: none !important; }
   
-  .soft-tag, .tag { border: 1px solid #ccc !important; color: black !important; background: white !important; }
+  .soft-tag, .tag { border: 1px solid #000 !important; color: black !important; background: white !important; }
   
-  * { animation: none !important; transition: none !important; }
+  * { 
+    animation: none !important; 
+    transition: none !important; 
+    -webkit-print-color-adjust: exact !important; 
+    print-color-adjust: exact !important; 
+  }
 }
