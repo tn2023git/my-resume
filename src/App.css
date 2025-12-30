@@ -221,7 +221,7 @@ body, html {
   .floating-actions-container .floating-btn:last-child { display: none !important; }
 }
 
-/* --- PRINT OPTIMIZATION (ELIMINATING GAPS & BLACK MARGINS) --- */
+/* --- PRINT OPTIMIZATION --- */
 @media print {
   @page { 
     size: A4; 
@@ -230,21 +230,26 @@ body, html {
   
   html, body { 
     background-color: #ffffff !important; 
+    background: #ffffff !important;
     color: #000000 !important; 
     margin: 0 !important;
     padding: 0 !important;
     height: auto !important;
     width: 100% !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
   #root, .app-wrapper {
     background-color: #ffffff !important;
+    background: #ffffff !important;
     padding: 0 !important;
     margin: 0 !important;
     display: block !important;
+    width: 100% !important;
   }
 
-  .bg-container, .floating-actions-container, .gateway-container, canvas { 
+  .bg-container, .floating-actions-container, .gateway-container, canvas, .pixel-card-canvas { 
     display: none !important; 
   }
   
@@ -252,51 +257,79 @@ body, html {
     max-width: 100% !important; 
     gap: 10px !important; 
     display: block !important;
+    background: #ffffff !important;
   }
 
-  /* ALLOW content to break across pages to remove large empty spaces */
-  .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary {
+  /* RAW CONTENT FLOW - Removes gaps by allowing natural page breaks */
+  .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary, .mobile-glass-card {
     background: transparent !important;
     border: none !important;
+    border-radius: 0 !important;
     padding: 0 !important;
-    margin-bottom: 15px !important;
+    margin-bottom: 20px !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
     display: block !important;
     width: 100% !important;
-    break-inside: auto !important; /* Changed from avoid to auto */
+    break-inside: auto !important;
     page-break-inside: auto !important;
+  }
+
+  /* FORCING MAIN TITLES TO BLACK */
+  .yellow-text, 
+  .interest-cat-name, 
+  h1, h2, h3, h4 {
+    font-size: 1.3rem !important;
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
+    border-bottom: 1.5px solid #000000 !important;
+    margin-top: 15px !important;
+    margin-bottom: 10px !important;
+    padding-bottom: 5px !important;
+    font-weight: bold !important;
+    display: block !important;
   }
 
   .info-columns-container { 
     column-count: 1 !important; 
     display: block !important;
+    width: 100% !important;
   }
 
-  .yellow-text {
-    font-size: 1.2rem !important;
-    color: #000 !important;
-    border-bottom: 1px solid #000 !important;
-    margin-top: 15px !important;
-    margin-bottom: 8px !important;
-    padding-bottom: 3px !important;
+  .summary-text, .job-desc, .skill-name, .cert-name, .interest-item { 
+    color: #000000 !important; 
+    -webkit-text-fill-color: #000000 !important;
+    line-height: 1.6 !important;
   }
 
-  .summary-text, .job-desc { 
-    color: #000 !important; 
-    line-height: 1.4 !important;
+  .job-company { 
+    color: #000000 !important; 
+    -webkit-text-fill-color: #000000 !important;
+    font-weight: bold !important; 
   }
+
+  /* Proficiency Marks Printing */
+  .dot { border: 1px solid #000 !important; background: transparent !important; }
+  .dot.filled { background: #000 !important; background-color: #000 !important; }
+  .progress-bar-bg { border: 1px solid #000 !important; background: #fff !important; }
+  .progress-bar-fill { background: #000 !important; background-color: #000 !important; }
 
   .soft-tag, .tag {
     border: 1px solid #000 !important;
-    padding: 1px 5px !important;
-    margin: 2px !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
+    padding: 2px 8px !important;
     display: inline-block !important;
   }
 
+  /* Global Black Text Force */
   * { 
-    color: #000 !important; 
-    background-color: transparent !important;
+    color: #000000 !important; 
+    -webkit-text-fill-color: #000000 !important;
     text-shadow: none !important;
     box-shadow: none !important;
     animation: none !important;
+    transition: none !important;
   }
 }
