@@ -18,7 +18,7 @@
   overflow: hidden;
 }
 
-/* --- MOBILE SPECIFIC: Effects always ON --- */
+/* --- MOBILE SPECIFIC --- */
 .pc-is-mobile .pc-glitter-color,
 .pc-is-mobile .pc-shine,
 .pc-is-mobile .pc-glare {
@@ -29,7 +29,7 @@
   opacity: 0.2 !important;
 }
 
-/* --- DESKTOP SPECIFIC: Effects only on Hover --- */
+/* --- DESKTOP SPECIFIC --- */
 .pc-is-desktop:hover .pc-glitter-color { opacity: 0.35; }
 .pc-is-desktop:hover .pc-shine, 
 .pc-is-desktop:hover .pc-glare { opacity: 0.8; }
@@ -222,17 +222,17 @@
   pointer-events: none;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .pc-card-shell { width: 310px; }
   .pc-card { height: 460px; }
   .pc-avatar-bg { width: 180px; height: 180px; }
   .en-name { font-size: 1.3rem; }
   .fa-name { font-size: 1.1rem; }
   
-  .pc-behind { opacity: 0.2 !important; }
-  .pc-glitter-base { opacity: 0.15; }
+  /* اطمینان از نمایش المان‌ها در حالت موبایل */
   .pc-glitter-color { opacity: 0.25 !important; }
   .pc-shine, .pc-glare { opacity: 0.6 !important; }
+  .pc-behind { opacity: 0.2 !important; }
 
   .flag-btn { bottom: 12px; }
   .en-corner { left: 12px; }

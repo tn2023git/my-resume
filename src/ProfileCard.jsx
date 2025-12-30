@@ -17,8 +17,10 @@ const ProfileCard = ({
 
   useEffect(() => {
     const checkMobile = () => {
-      // استفاده از Touch support برای تشخیص دقیق‌تر موبایل
-      setIsMobile('ontouchstart' in window || navigator.maxTouchPoints > 0);
+      // ترکیبی از عرض صفحه و قابلیت لمس برای پایداری بیشتر
+      const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      const isSmallScreen = window.innerWidth <= 768;
+      setIsMobile(hasTouch || isSmallScreen);
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
@@ -59,10 +61,11 @@ const ProfileCard = ({
     const shell = shellRef.current;
     if (!shell) return;
 
+    let mobileRaf;
+
     if (isMobile) {
-      // --- ONLY FOR MOBILE: Auto Animation ---
+      // --- MOBILE: Auto Animation ---
       let angle = 0;
-      let mobileRaf;
       const autoAnimate = () => {
         angle += 0.008; 
         const x = 50 + Math.cos(angle) * 35;
@@ -71,12 +74,8 @@ const ProfileCard = ({
         mobileRaf = requestAnimationFrame(autoAnimate);
       };
       mobileRaf = requestAnimationFrame(autoAnimate);
-      return () => {
-        cancelAnimationFrame(mobileRaf);
-        tiltEngine.stop();
-      };
     } else {
-      // --- ONLY FOR PC: Mouse Interaction ---
+      // --- DESKTOP: Mouse Interaction ---
       const onMove = e => {
         const rect = shell.getBoundingClientRect();
         tiltEngine.setTarget(((e.clientX - rect.left) / rect.width) * 100, ((e.clientY - rect.top) / rect.height) * 100);
@@ -85,12 +84,17 @@ const ProfileCard = ({
       
       shell.addEventListener('pointermove', onMove);
       shell.addEventListener('pointerleave', onLeave);
+      
       return () => {
         shell.removeEventListener('pointermove', onMove);
         shell.removeEventListener('pointerleave', onLeave);
-        tiltEngine.stop();
       };
     }
+
+    return () => {
+      if (mobileRaf) cancelAnimationFrame(mobileRaf);
+      tiltEngine.stop();
+    };
   }, [tiltEngine, isMobile]);
 
   return (
