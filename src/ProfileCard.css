@@ -36,17 +36,18 @@
   padding: 30px 20px;
 }
 
-/* --- GLITTER & COLORS MATCHED TO ROOT --- */
+/* --- GLITTER IMPROVED (Always slightly visible like original) --- */
 .pc-glitter {
   position: absolute;
   inset: 0;
   z-index: 2;
-  opacity: 0;
-  filter: url(#noiseFilter) contrast(140%) brightness(120%);
+  opacity: 0.1; /* Small visibility even without hover */
+  filter: url(#noiseFilter) contrast(150%) brightness(1000%);
   mix-blend-mode: screen;
   pointer-events: none;
+  transition: opacity 0.3s ease;
 }
-.pc-card-wrapper:hover .pc-glitter { opacity: 0.15; }
+.pc-card-wrapper:hover .pc-glitter { opacity: 0.25; }
 
 .pc-shine {
   position: absolute;
@@ -85,67 +86,95 @@
   gap: 10px;
   margin-top: 8px;
   font-size: 1rem;
+  /* Prevent RTL from flipping English/Persian title positions */
+  direction: ltr !important; 
 }
-.en-title-text { font-family: 'ProductSans', sans-serif; color: rgba(255,255,255,0.6); }
-.fa-title-text { font-family: 'Anjoman', sans-serif; color: rgba(255,255,255,0.6); }
-.sep { color: var(--c4); }
+.en-title-text { font-family: 'ProductSans', sans-serif; color: rgba(255,255,255,0.8); }
+.fa-title-text { font-family: 'Anjoman', sans-serif; color: rgba(255,255,255,0.8); }
+.sep { color: var(--c4); font-weight: bold; }
 
-/* --- AVATAR - NO RING --- */
+/* --- AVATAR & BACKGROUND GLOW --- */
 .pc-avatar-container {
   flex: 1;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  z-index: 1;
-  overflow: hidden;
-}
-.avatar-minimal {
-  width: 85%;
-  height: auto;
-  object-fit: contain;
-  /* Soft fade at the bottom to blend with card */
-  mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+  align-items: center;
+  z-index: 5;
+  position: relative;
 }
 
-/* --- LANGUAGE BUTTONS - FIXED & CLICKABLE --- */
+.pc-avatar-bg {
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  /* Original style glow: Red and Blue blast */
+  background: conic-gradient(from 180deg at 50% 50%, #ff0000 0deg, #00eeff 160deg, #ff0000 360deg);
+  filter: blur(60px);
+  opacity: 0.35;
+  border-radius: 50%;
+  z-index: -1;
+  animation: rotateGlow 10s linear infinite;
+}
+
+@keyframes rotateGlow {
+  from { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.1); }
+  to { transform: rotate(360deg) scale(1); }
+}
+
+.avatar-minimal {
+  width: 90%;
+  max-width: 320px;
+  height: auto;
+  object-fit: contain;
+  z-index: 6;
+  mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+  transition: transform 0.5s ease;
+}
+
+.pc-card-wrapper:hover .avatar-minimal {
+  transform: scale(1.05);
+}
+
+/* --- LANGUAGE BUTTONS --- */
 .pc-lang-overlay {
   position: absolute;
   inset: 0;
-  z-index: 20; /* High z-index to stay above effects */
-  pointer-events: none; /* Allows hover to work on card, but children override */
+  z-index: 20;
+  pointer-events: none;
 }
 
 .flag-btn {
   position: absolute;
   bottom: 25px;
-  width: 50px;
-  height: 50px;
-  border-radius: 15px;
+  width: 55px;
+  height: 55px;
+  border-radius: 18px;
   overflow: hidden;
   cursor: pointer;
-  pointer-events: auto; /* Re-enables clicking */
-  background: rgba(15, 15, 15, 0.6);
+  pointer-events: auto;
+  background: rgba(15, 15, 15, 0.8);
   backdrop-filter: blur(10px);
   border: 1px solid var(--glass-border);
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 .flag-btn:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px) scale(1.1);
   border-color: var(--c1);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 10px 25px rgba(243, 188, 8, 0.3);
 }
 .flag-btn img { width: 100%; height: 100%; object-fit: cover; }
 
 .en-corner { left: 25px; }
 .fa-corner { right: 25px; }
 
-/* --- GLOW BEHIND --- */
+/* --- GLOW BEHIND CARD --- */
 .pc-behind {
   position: absolute;
-  inset: -30px;
+  inset: -40px;
   background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), var(--c4) 0%, transparent 70%);
-  filter: blur(50px);
+  filter: blur(60px);
   opacity: 0;
-  transition: opacity 0.4s;
+  transition: opacity 0.5s;
 }
-.pc-card-wrapper:hover .pc-behind { opacity: 0.2; }
+.pc-card-wrapper:hover .pc-behind { opacity: 0.25; }

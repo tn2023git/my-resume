@@ -66,7 +66,7 @@ const ProfileCard = ({
     <div ref={wrapRef} className="pc-card-wrapper">
       <svg style={{ position: 'absolute', width: 0, height: 0 }}>
         <filter id="noiseFilter">
-          <feTurbulence type="fractalNoise" baseFrequency="0.65" stitchTiles="stitch" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="3" stitchTiles="stitch" />
           <feColorMatrix type="saturate" values="0" />
         </filter>
       </svg>
@@ -81,7 +81,7 @@ const ProfileCard = ({
             <div className="pc-shine" />
             <div className="pc-glare" />
 
-            {/* Header Info - Properly Fonted & Centered */}
+            {/* Header Info */}
             <div className="pc-header-info">
               <div className="dual-name">
                 <h2 className="en-name bold-font">{nameEn}</h2>
@@ -94,12 +94,13 @@ const ProfileCard = ({
               </div>
             </div>
 
-            {/* Avatar - No Ring, Integrated Masking */}
+            {/* Avatar with Background Animation */}
             <div className="pc-avatar-container">
+              <div className="pc-avatar-bg" />
               <img className="avatar-minimal" src={avatarUrl} alt="Profile" />
             </div>
 
-            {/* Language Buttons - Repositioned & Clickable */}
+            {/* Language Buttons */}
             <div className="pc-lang-overlay">
               <div className="flag-btn en-corner" onClick={(e) => { e.stopPropagation(); onSelectLang('en'); }}>
                 <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" alt="EN" />
