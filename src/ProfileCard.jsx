@@ -14,12 +14,6 @@ const ProfileCard = ({
   const wrapRef = useRef(null);
   const shellRef = useRef(null);
 
-  useEffect(() => {
-    const originalStyle = window.getComputedStyle(document.body).overflow;
-    document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = originalStyle; };
-  }, []);
-
   const tiltEngine = useMemo(() => {
     let rafId = null;
     let running = false;
@@ -53,85 +47,73 @@ const ProfileCard = ({
   useEffect(() => {
     const shell = shellRef.current;
     if (!shell) return;
-
     const onMove = e => {
       const rect = shell.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 100;
-      const y = ((e.clientY - rect.top) / rect.height) * 100;
-      tiltEngine.setTarget(x, y);
+      tiltEngine.setTarget(((e.clientX - rect.left) / rect.width) * 100, ((e.clientY - rect.top) / rect.height) * 100);
     };
-
-    const handleOrientation = (e) => {
-      if (e.gamma === null || e.beta === null) return;
-      // اصلاح سنسور موبایل برای حرکت نرم کارت و هاله
-      const x = Math.min(Math.max(((e.gamma || 0) + 20) / 40 * 100, 0), 100);
-      const y = Math.min(Math.max(((e.beta || 0) - 25) / 40 * 100, 0), 100);
-      tiltEngine.setTarget(x, y);
-    };
-
+    const onLeave = () => tiltEngine.setTarget(50, 50);
     shell.addEventListener('pointermove', onMove);
-    shell.addEventListener('pointerleave', () => tiltEngine.setTarget(50, 50));
-    window.addEventListener('deviceorientation', handleOrientation, true);
-
+    shell.addEventListener('pointerleave', onLeave);
     return () => {
       shell.removeEventListener('pointermove', onMove);
-      window.removeEventListener('deviceorientation', handleOrientation, true);
+      shell.removeEventListener('pointerleave', onLeave);
       tiltEngine.stop();
     };
   }, [tiltEngine]);
 
   return (
-    <div className="gateway-mode">
-      <div ref={wrapRef} className="pc-card-wrapper">
-        {/* هاله بیرونی با رنگ‌های گرادینت */}
-        <div className="pc-behind" />
+    <div ref={wrapRef} className="pc-card-wrapper">
+      <svg style={{ position: 'absolute', width: 0, height: 0 }}>
+        <filter id="noiseFilter">
+          {/* Increased baseFrequency for harsher/finer grain */}
+          <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch" />
+          <feColorMatrix type="saturate" values="0" />
+        </filter>
+      </svg>
 
-        <svg style={{ position: 'absolute', width: 0, height: 0 }}>
-          <filter id="noiseFilter">
-            <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="3" stitchTiles="stitch" />
-            <feColorMatrix type="saturate" values="0" />
-          </filter>
-        </svg>
-        
-        <div ref={shellRef} className="pc-card-shell">
-          <section className="pc-card">
-            <div className="pc-inside" style={{ '--inner-gradient': DEFAULT_INNER_GRADIENT }}>
-              
-              <div className="pc-header-info">
-                <div className="dual-name">
-                  <h2 className="en-name bold-font">{nameEn}</h2>
-                  <h2 className="fa-name bold-font">{nameFa}</h2>
-                </div>
-                <div className="dual-title">
-                  <span className="en-title-text">{titleEn}</span>
-                  <span className="sep">-</span>
-                  <span className="fa-title-text">{titleFa}</span>
-                </div>
+      <div className="pc-behind" />
+      
+      <div ref={shellRef} className="pc-card-shell">
+        <section className="pc-card">
+          <div className="pc-inside" style={{ '--inner-gradient': DEFAULT_INNER_GRADIENT }}>
+            
+            {/* Glitter is now ABOVE the avatar container in Z-index via CSS */}
+            <div className="pc-glitter" />
+            <div className="pc-shine" />
+            <div className="pc-glare" />
+
+            {/* Header Info */}
+            <div className="pc-header-info">
+              <div className="dual-name">
+                <h2 className="en-name bold-font">{nameEn}</h2>
+                <h2 className="fa-name bold-font">{nameFa}</h2>
               </div>
-
-              <div className="pc-avatar-container">
-                <div className="pc-avatar-bg" />
-                <img className="avatar-minimal" src={avatarUrl} alt="Profile" />
+              <div className="dual-title">
+                <span className="en-title-text">{titleEn}</span>
+                <span className="sep">-</span>
+                <span className="fa-title-text">{titleFa}</span>
               </div>
-
-              {/* Glitter با پوشش بزرگتر برای رفع Cutoff */}
-              <div className="pc-glitter" />
-              <div className="pc-shine" />
-              <div className="pc-glare" />
-
-              <div className="pc-lang-overlay">
-                <div className="flag-btn en-corner" onClick={(e) => { e.stopPropagation(); onSelectLang('en'); }}>
-                  <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" alt="EN" />
-                </div>
-                
-                <div className="flag-btn fa-corner" onClick={(e) => { e.stopPropagation(); onSelectLang('fa'); }}>
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Flag_of_Iran.svg" alt="FA" />
-                </div>
-              </div>
-
             </div>
-          </section>
-        </div>
+
+            {/* Avatar Container */}
+            <div className="pc-avatar-container">
+              <div className="pc-avatar-bg" />
+              <img className="avatar-minimal" src={avatarUrl} alt="Profile" />
+            </div>
+
+            {/* Language Buttons - Small & Circle */}
+            <div className="pc-lang-overlay">
+              <div className="flag-btn en-corner" onClick={(e) => { e.stopPropagation(); onSelectLang('en'); }}>
+                <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" alt="EN" />
+              </div>
+              
+              <div className="flag-btn fa-corner" onClick={(e) => { e.stopPropagation(); onSelectLang('fa'); }}>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Flag_of_Iran.svg" alt="FA" />
+              </div>
+            </div>
+
+          </div>
+        </section>
       </div>
     </div>
   );

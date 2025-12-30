@@ -5,48 +5,15 @@
   --rotate-y: 0deg;
 }
 
-.gateway-mode {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  background: #050505;
-  overflow: hidden;
-  touch-action: none;
-}
-
 .pc-card-wrapper {
   perspective: 1200px;
   position: relative;
   width: 380px;
   margin: auto;
-  transition: width 0.3s ease;
 }
-
-/* --- OUTER GLOW (بازگردانی شده) --- */
-.pc-behind {
-  position: absolute;
-  inset: -100px; /* فضای بزرگتر برای هاله */
-  background: radial-gradient(
-    circle at var(--pointer-x) var(--pointer-y), 
-    var(--c4) 0%, 
-    var(--c1) 30%, 
-    transparent 70%
-  );
-  filter: blur(80px);
-  opacity: 0.4; /* همیشه مقداری هاله داشته باشد */
-  transition: opacity 0.5s ease;
-  z-index: -1;
-  pointer-events: none;
-}
-.pc-card-wrapper:hover .pc-behind { opacity: 0.7; }
 
 .pc-card-shell {
-  transition: transform 0.2s ease-out;
+  transition: transform 0.15s ease-out;
   transform: rotateX(var(--rotate-y)) rotateY(var(--rotate-x));
   transform-style: preserve-3d;
 }
@@ -69,18 +36,19 @@
   padding: 30px 20px;
 }
 
-/* --- GLITTER (اصلاح Cutoff و شفافیت) --- */
+/* --- HARSH GLITTER (Now on top of everything) --- */
 .pc-glitter {
   position: absolute;
-  inset: -20%; /* بزرگتر از کانتینر برای رفع بریدگی در لبه‌ها */
-  z-index: 10;
-  opacity: 0.12; /* کاهش شدت گرادینت */
-  filter: url(#noiseFilter) contrast(150%) brightness(1000%);
+  inset: 0;
+  z-index: 10; /* Higher than avatar */
+  opacity: 0.15;
+  /* Extremely high contrast and brightness for "harsh" effect */
+  filter: url(#noiseFilter) contrast(300%) brightness(1500%);
   mix-blend-mode: screen;
   pointer-events: none;
   transition: opacity 0.3s ease;
 }
-.pc-card-wrapper:hover .pc-glitter { opacity: 0.25; }
+.pc-card-wrapper:hover .pc-glitter { opacity: 0.4; }
 
 .pc-shine {
   position: absolute;
@@ -99,15 +67,15 @@
   inset: 0;
   z-index: 12;
   opacity: 0;
-  background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(255,255,255,0.15) 0%, transparent 60%);
+  background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(255,255,255,0.2) 0%, transparent 60%);
 }
 .pc-card-wrapper:hover .pc-shine, .pc-card-wrapper:hover .pc-glare { opacity: 1; }
 
-/* --- HEADER --- */
+/* --- HEADER INFO --- */
 .pc-header-info {
   text-align: center;
   z-index: 15;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 .en-name { font-family: 'ProductSans', sans-serif; font-size: 1.6rem; color: #fff; margin: 0; }
 .fa-name { font-family: 'Anjoman', sans-serif; font-size: 1.4rem; color: var(--c1); margin: 5px 0; }
@@ -118,34 +86,33 @@
   align-items: center;
   gap: 10px;
   margin-top: 8px;
-  font-size: 0.95rem;
+  font-size: 1rem;
   direction: ltr !important; 
 }
-.en-title-text { font-family: inherit; color: rgba(255,255,255,0.7); }
-.fa-title-text { font-family: 'Anjoman', sans-serif; color: rgba(255,255,255,0.7); font-weight: 500; }
-.sep { color: var(--c4); }
+.en-title-text, .fa-title-text { font-family: inherit; color: rgba(255,255,255,0.8); }
+.sep { color: var(--c4); font-weight: bold; }
 
-/* --- AVATAR & GLOW --- */
+/* --- SMALLER AVATAR & MATCHED GLOW --- */
 .pc-avatar-container {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 5;
+  z-index: 5; /* Lower than glitter */
   position: relative;
-  margin-top: -25px; 
 }
 
 .pc-avatar-bg {
   position: absolute;
   width: 240px;
   height: 240px;
+  /* Colors matched to your main gradient: Purple to Orange/Yellow */
   background: conic-gradient(from 180deg at 50% 50%, var(--c4) 0deg, var(--c1) 160deg, var(--c4) 360deg);
   filter: blur(55px);
-  opacity: 0.45;
+  opacity: 0.4;
   border-radius: 50%;
   z-index: -1;
-  animation: rotateGlow 15s linear infinite;
+  animation: rotateGlow 12s linear infinite;
 }
 
 @keyframes rotateGlow {
@@ -154,14 +121,15 @@
 }
 
 .avatar-minimal {
-  width: 88%;
-  max-width: 310px;
+  width: 70%; /* Smaller profile picture */
+  max-width: 250px;
   height: auto;
   object-fit: contain;
   mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+  /* "Grow" effect removed by not adding a hover transform here */
 }
 
-/* --- LANGUAGES (دکمه‌ها نزدیک‌تر به گوشه) --- */
+/* --- SMALL CIRCLE LANGUAGE BUTTONS --- */
 .pc-lang-overlay {
   position: absolute;
   inset: 0;
@@ -171,32 +139,34 @@
 
 .flag-btn {
   position: absolute;
-  bottom: 15px; /* نزدیک‌تر به لبه پایین */
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
+  bottom: 25px;
+  width: 42px;  /* Smaller size */
+  height: 42px; /* Smaller size */
+  border-radius: 50%; /* Perfect circle */
   overflow: hidden;
   cursor: pointer;
   pointer-events: auto;
-  background: rgba(15, 15, 15, 0.9);
+  background: rgba(15, 15, 15, 0.85);
   backdrop-filter: blur(8px);
-  border: 1px solid var(--glass-border);
-  transition: transform 0.3s ease;
+  border: 1.5px solid var(--glass-border);
+  transition: all 0.3s ease;
 }
-.flag-btn:hover { transform: scale(1.2); border-color: var(--c1); }
+.flag-btn:hover {
+  transform: scale(1.15);
+  border-color: var(--c1);
+}
 .flag-btn img { width: 100%; height: 100%; object-fit: cover; }
 
-.en-corner { left: 15px; } /* نزدیک‌تر به گوشه چپ */
-.fa-corner { right: 15px; } /* نزدیک‌تر به گوشه راست */
+.en-corner { left: 35px; }
+.fa-corner { right: 35px; }
 
-/* --- MOBILE OPTIMIZATION --- */
-@media (max-width: 480px) {
-  .pc-card-wrapper { width: 320px; }
-  .pc-card { height: 480px; }
-  .pc-behind { inset: -60px; filter: blur(50px); opacity: 0.5; }
-  .pc-glitter { opacity: 0.15; } /* کاهش شدت برای موبایل */
-  .en-name { font-size: 1.3rem; }
-  .fa-name { font-size: 1.1rem; }
-  .pc-avatar-container { margin-top: -15px; }
-  .avatar-minimal { width: 85%; }
+/* --- BACKGROUND GLOW --- */
+.pc-behind {
+  position: absolute;
+  inset: -40px;
+  background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), var(--c4) 0%, transparent 70%);
+  filter: blur(60px);
+  opacity: 0;
+  transition: opacity 0.5s;
 }
+.pc-card-wrapper:hover .pc-behind { opacity: 0.25; }
