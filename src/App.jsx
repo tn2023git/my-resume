@@ -62,6 +62,12 @@ function App() {
         { name: "Diploma in Tourism", detail: "" }
       ],
       interests: [
+        {
+          category: "Music",
+          items: [
+            { text: "Electric Guitarist", detail: "Pre-intermediate level, currently training towards professional proficiency" }
+          ]
+        },
         { 
           category: "Gaming & Casting", 
           items: [
@@ -71,12 +77,6 @@ function App() {
             { text: "DotA 2 TI9 Pubstomp (Report)", url: "https://www.youtube.com/watch?v=r2H5vpYrGeQ", isVideo: true },
             { text: "Semi-Professional Gamer: 10,000+ hours in DotA 2", detail: "Focus on strategy & high-level play" },
             { text: "FPS & Narrative Games: Battlefield 6, Rainbow Six Siege, Complex Storylines" }
-          ]
-        },
-        {
-          category: "Music",
-          items: [
-            { text: "Electric Guitarist", detail: "Pre-intermediate level, currently training towards professional proficiency" }
           ]
         }
       ],
@@ -138,6 +138,12 @@ function App() {
         { name: "دیپلم گردشگری", detail: "" }
       ],
       interests: [
+        {
+          category: "موسیقی",
+          items: [
+            { text: "نوازنده گیتار الکتریک", detail: "سطح Pre-intermediate، در حال آموزش برای رسیدن به سطح حرفه‌ای" }
+          ]
+        },
         { 
           category: "گیمینگ و گزارشگری", 
           items: [
@@ -147,12 +153,6 @@ function App() {
             { text: "گزارش TI9 Pubstomp (ویدیو)", url: "https://www.youtube.com/watch?v=r2H5vpYrGeQ", isVideo: true },
             { text: "گیمر نیمه‌حرفه‌ای: بیش از ۱۰,۰۰۰ ساعت تجربه در DotA 2", detail: "تمرکز بر تفکر استراتژیک" },
             { text: "بازی‌های FPS و داستانی: Battlefield 6، Siege و داستان‌های پیچیده" }
-          ]
-        },
-        {
-          category: "موسیقی",
-          items: [
-            { text: "نوازنده گیتار الکتریک", detail: "سطح Pre-intermediate، در حال آموزش برای رسیدن به سطح حرفه‌ای" }
           ]
         }
       ],
@@ -321,4 +321,4 @@ function App() {
   );
 }
 
-export default App;
+export default App; 
