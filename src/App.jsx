@@ -11,6 +11,7 @@ function App() {
   const [showResume, setShowResume] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isFirstEntry, setIsFirstEntry] = useState(true); // Track first entrance
   const isEn = lang === 'en';
 
   useEffect(() => {
@@ -26,11 +27,13 @@ function App() {
     setTimeout(() => {
       setShowResume(true);
       setIsExiting(false);
+      setIsFirstEntry(true); // Reset to true to allow animation when going IN
     }, 600);
   };
 
   const handleReturn = () => {
     setIsExiting(true);
+    setIsFirstEntry(false); // Disable entrance animations for the return transition
     setTimeout(() => {
         setShowResume(false);
         setIsExiting(false);
@@ -232,7 +235,7 @@ function App() {
         </div>
       ) : (
         <div className="pdf-page entrance-anim">
-          <SmartCard className="full-width-summary slide-in-top">
+          <SmartCard className={`full-width-summary ${isFirstEntry ? 'slide-in-top' : ''}`}>
             <section className="side-section summary-inner">
               <GradientText className="yellow-text bold-font">{isEn ? "Professional Summary" : "خلاصه حرفه‌ای"}</GradientText>
               <p className="summary-text">{content.summary}</p>
@@ -240,7 +243,7 @@ function App() {
           </SmartCard>
 
           <div className="resume-grid">
-            <aside className="sidebar slide-in-left">
+            <aside className={`sidebar ${isFirstEntry ? 'slide-in-left' : ''}`}>
               <SmartCard className="side-pixel-wrapper">
                 <section className="side-section">
                   <GradientText className="yellow-text bold-font">{isEn ? "Personal & Contact" : "اطلاعات فردی و تماس"}</GradientText>
@@ -354,7 +357,7 @@ function App() {
               </SmartCard>
             </aside>
 
-            <main className="main-content slide-in-right">
+            <main className={`main-content ${isFirstEntry ? 'slide-in-right' : ''}`}>
               {content.experience.map((job, i) => (
                 <SmartCard key={i} className="exp-pixel-wrapper">
                   <div className="exp-card">
