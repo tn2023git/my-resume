@@ -5,7 +5,6 @@
   --rotate-y: 0deg;
 }
 
-/* کارت را در مرکز صفحه قفل می‌کند */
 .pc-card-wrapper {
   perspective: 1200px;
   position: fixed;
@@ -44,7 +43,6 @@
   padding: 30px 20px;
 }
 
-/* --- GLITTER --- */
 .pc-glitter {
   position: absolute;
   inset: 0;
@@ -78,7 +76,6 @@
 }
 .pc-card-wrapper:hover .pc-shine, .pc-card-wrapper:hover .pc-glare { opacity: 1; }
 
-/* --- HEADER INFO & FIXED FONTS --- */
 .pc-header-info {
   text-align: center;
   z-index: 15;
@@ -97,21 +94,10 @@
   direction: ltr !important; 
 }
 
-/* اصلاح فونت تایتل انگلیسی */
-.en-title-text { 
-  font-family: 'ProductSans', sans-serif; 
-  color: rgba(255,255,255,0.8); 
-}
-
-/* اصلاح فونت تایتل فارسی */
-.fa-title-text { 
-  font-family: 'Anjoman', sans-serif; 
-  color: rgba(255,255,255,0.8); 
-}
-
+.en-title-text { font-family: 'ProductSans', sans-serif; color: rgba(255,255,255,0.8); }
+.fa-title-text { font-family: 'Anjoman', sans-serif; color: rgba(255,255,255,0.8); }
 .sep { color: var(--c4); font-weight: bold; }
 
-/* --- AVATAR & GLOW --- */
 .pc-avatar-container {
   flex: 1;
   display: flex;
@@ -146,7 +132,6 @@
   mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
 }
 
-/* --- LANGUAGE BUTTONS --- */
 .pc-lang-overlay {
   position: absolute;
   inset: 0;
@@ -177,7 +162,6 @@
 .en-corner { left: 35px; }
 .fa-corner { right: 35px; }
 
-/* --- BACKGROUND GLOW --- */
 .pc-behind {
   position: absolute;
   top: 50%;
@@ -207,4 +191,9 @@
   .pc-avatar-bg { width: 180px; height: 180px; }
   .en-name { font-size: 1.3rem; }
   .fa-name { font-size: 1.1rem; }
+  
+  /* نمایش هاله نوری، شاین و گلایتر در موبایل بدون نیاز به هاور */
+  .pc-behind { opacity: 0.35; }
+  .pc-glitter { opacity: 0.25; }
+  .pc-shine, .pc-glare { opacity: 0.8; }
 }

@@ -47,16 +47,34 @@ const ProfileCard = ({
   useEffect(() => {
     const shell = shellRef.current;
     if (!shell) return;
+
+    // حرکت با ماوس
     const onMove = e => {
       const rect = shell.getBoundingClientRect();
       tiltEngine.setTarget(((e.clientX - rect.left) / rect.width) * 100, ((e.clientY - rect.top) / rect.height) * 100);
     };
+    
+    // حرکت با سنسور موبایل
+    const handleOrientation = (e) => {
+      if (e.beta === null || e.gamma === null) return;
+      
+      // تبدیل زاویه گوشی به درصد (محدوده معمولی حرکت دست: بتا ۱۵ تا ۴۵، گاما -۲۰ تا ۲۰)
+      const x = Math.min(Math.max(((e.gamma || 0) + 20) / 40 * 100, 0), 100);
+      const y = Math.min(Math.max(((e.beta || 0) - 25) / 40 * 100, 0), 100);
+      
+      tiltEngine.setTarget(x, y);
+    };
+
     const onLeave = () => tiltEngine.setTarget(50, 50);
+
     shell.addEventListener('pointermove', onMove);
     shell.addEventListener('pointerleave', onLeave);
+    window.addEventListener('deviceorientation', handleOrientation, true);
+
     return () => {
       shell.removeEventListener('pointermove', onMove);
       shell.removeEventListener('pointerleave', onLeave);
+      window.removeEventListener('deviceorientation', handleOrientation, true);
       tiltEngine.stop();
     };
   }, [tiltEngine]);
