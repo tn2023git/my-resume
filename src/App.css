@@ -155,14 +155,19 @@ body, html {
 .side-pixel-wrapper,
 .exp-pixel-wrapper,
 .mobile-glass-card {
-  background: var(--glass-bg) !important;
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border: 1px solid var(--glass-border) !important;
-  border-radius: 20px !important;
-  margin-bottom: var(--spacing-desktop);
-  overflow: hidden;
-  height: auto !important;
+  background: rgba(255, 255, 255, 0.05) !important; /* شفافیت کم */
+  backdrop-filter: blur(10px) !important; /* افکت شیشه‌ای */
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  padding: 20px;
+  /* حذف هرگونه پس‌زمینه مات احتمالی از باکس اول */
+  opacity: 1;
+}
+
+/* اطمینان از اینکه باکس اول (Summary) همسان با بقیه است */
+.full-width-summary .mobile-glass-card {
+  background: rgba(255, 255, 255, 0.05) !important;
 }
 
 .sidebar .side-pixel-wrapper:last-child {
