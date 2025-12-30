@@ -167,7 +167,7 @@ body, html {
 .certs-list { display: flex; flex-direction: column; gap: 12px; }
 .cert-item { display: flex; flex-direction: column; }
 .cert-name { font-size: 1rem; color: white; }
-.cert-detail { font-size: 0.85rem; color: var(--yellow); opacity: 0.9; margin-top: 2px; }
+.cert-detail, .cert-validity { font-size: 0.85rem; color: var(--yellow); opacity: 0.9; margin-top: 2px; }
 
 /* --- Projects Section --- */
 .projects-list { display: flex; flex-direction: column; gap: 20px; }
