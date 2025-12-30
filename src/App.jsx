@@ -243,9 +243,7 @@ function App() {
             </section>
           </SmartCard>
 
-          {/* Info Sections - 3 Columns Masonry Style */}
           <div className={`info-columns-container ${isFirstEntry ? 'slide-in-left' : ''}`}>
-            
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
                 <GradientText className="yellow-text bold-font">{isEn ? "Personal & Contact" : "اطلاعات فردی و تماس"}</GradientText>
@@ -350,10 +348,8 @@ function App() {
                 </div>
               </section>
             </SmartCard>
-
           </div>
 
-          {/* Experience - Bottom Full Width */}
           <div className={`experience-full-width ${isFirstEntry ? 'slide-in-right' : ''}`}>
             {content.experience.map((job, i) => (
               <SmartCard key={i} className="exp-pixel-wrapper">

@@ -31,7 +31,7 @@
   --glass-bg: rgba(15, 15, 15, 0.45); 
   --glass-border: rgba(255, 255, 255, 0.08);
   --spacing-desktop: 25px;
-  --spacing-mobile: 20px; /* Increased for better touch-target and uniformity */
+  --spacing-mobile: 20px;
 }
 
 /* --- Base Layout --- */
@@ -86,47 +86,20 @@ body, html {
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 /* --- Entrance Animations --- */
-.slide-in-left {
-  animation: slideLeft 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
+.slide-in-left { animation: slideLeft 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.slide-in-right { animation: slideRight 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.slide-in-top { animation: slideTop 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
-.slide-in-right {
-  animation: slideRight 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.slide-in-top {
-  animation: slideTop 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes slideLeft {
-  from { opacity: 0; transform: translateX(-50px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes slideRight {
-  from { opacity: 0; transform: translateX(50px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes slideTop {
-  from { opacity: 0; transform: translateY(-30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+@keyframes slideLeft { from { opacity: 0; transform: translateX(-50px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes slideRight { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes slideTop { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
 
 .rtl-mode .slide-in-left { animation-name: slideRight; }
 .rtl-mode .slide-in-right { animation-name: slideLeft; }
 
 /* --- Direction & Alignment --- */
-.ltr-mode { 
-  direction: ltr; 
-  font-family: 'ProductSans', sans-serif !important;
-  text-align: left;
-}
-.rtl-mode { 
-  direction: rtl; 
-  font-family: 'Anjoman', sans-serif !important;
-  text-align: right;
-}
+.ltr-mode { direction: ltr; font-family: 'ProductSans', sans-serif !important; text-align: left; }
+.rtl-mode { direction: rtl; font-family: 'Anjoman', sans-serif !important; text-align: right; }
 
 .pdf-page {
   width: 100%;
@@ -137,10 +110,7 @@ body, html {
 }
 
 /* --- Card Wrappers & Glassmorphism --- */
-.side-pixel-wrapper,
-.exp-pixel-wrapper,
-.mobile-glass-card,
-.full-width-summary {
+.side-pixel-wrapper, .exp-pixel-wrapper, .mobile-glass-card, .full-width-summary {
   background: var(--glass-bg) !important;
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
@@ -150,58 +120,18 @@ body, html {
   height: auto !important;
 }
 
-.side-pixel-wrapper {
-  display: inline-block;
-  width: 100%;
-  margin-bottom: var(--spacing-desktop); /* Control spacing via masonry gap */
-  break-inside: avoid;
-}
-
-.full-width-summary {
-  width: 100% !important;
-}
-
-.summary-inner {
-  padding: 25px 30px !important;
-}
-
-.summary-text {
-  font-size: 1.05rem;
-  line-height: 1.8;
-  color: rgba(255, 255, 255, 0.85);
-  margin: 0;
-}
-
-.info-columns-container {
-  column-count: 3;
-  column-gap: var(--spacing-desktop);
-  width: 100%;
-}
-
-.experience-full-width {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-desktop);
-  width: 100%;
-}
-
+.side-pixel-wrapper { display: inline-block; width: 100%; break-inside: avoid; margin-bottom: var(--spacing-desktop); }
+.full-width-summary { width: 100% !important; }
+.summary-inner { padding: 25px 30px !important; }
+.summary-text { font-size: 1.05rem; line-height: 1.8; color: rgba(255, 255, 255, 0.85); margin: 0; }
+.info-columns-container { column-count: 3; column-gap: var(--spacing-desktop); width: 100%; }
+.experience-full-width { display: flex; flex-direction: column; gap: var(--spacing-desktop); width: 100%; }
 .side-section, .exp-card { padding: 30px; }
-
-.contact-link {
-    color: var(--yellow);
-    text-decoration: underline;
-}
+.contact-link { color: var(--yellow); text-decoration: underline; }
 
 /* --- Software Section --- */
-.software-item { 
-  display: flex; 
-  justify-content: space-between; 
-  align-items: center; 
-  margin-bottom: 15px; 
-}
-.software-container > .software-item:last-child {
-  margin-bottom: 0; /* Removed bottom margin from software section */
-}
+.software-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.software-container > .software-item:last-child { margin-bottom: 0; }
 .dots-container { display: flex; gap: 6px; }
 .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.1); }
 .dot.filled { background: var(--purple); box-shadow: 0 0 8px var(--purple); }
@@ -225,15 +155,7 @@ body, html {
 /* --- Interests & Projects Section --- */
 .interests-list { display: flex; flex-direction: column; gap: 20px; }
 .interest-cat { display: flex; flex-direction: column; gap: 8px; }
-.interest-cat-name { 
-  font-size: 0.85rem; 
-  text-transform: uppercase; 
-  color: var(--purple); 
-  letter-spacing: 1px;
-  border-bottom: 1px solid rgba(160, 16, 214, 0.2);
-  padding-bottom: 4px;
-  margin-bottom: 4px;
-}
+.interest-cat-name { font-size: 0.85rem; text-transform: uppercase; color: var(--purple); letter-spacing: 1px; border-bottom: 1px solid rgba(160, 16, 214, 0.2); padding-bottom: 4px; margin-bottom: 4px; }
 .interest-item { display: flex; flex-direction: column; font-size: 0.9rem; line-height: 1.5; margin-bottom: 4px; }
 .video-link { color: var(--yellow); text-decoration: underline; text-underline-offset: 3px; font-size: 0.9rem; transition: opacity 0.3s ease; }
 .interest-detail { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: 2px; }
@@ -257,21 +179,48 @@ body, html {
 
 /* --- Mobile Fixes --- */
 @media (max-width: 768px) {
-  .info-columns-container { 
-    display: flex; 
-    flex-direction: column; 
-    gap: var(--spacing-mobile); 
-    column-count: unset; /* Switching to flex for true uniform gap on mobile */
-  }
-  .pdf-page {
-    gap: var(--spacing-mobile);
-  }
-  .experience-full-width {
-    gap: var(--spacing-mobile);
-  }
-  .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary { 
-    background: rgba(10, 10, 10, 0.95) !important; 
-    margin-bottom: 0 !important; /* Spacing handled by container gap */
-  }
+  .info-columns-container { display: flex; flex-direction: column; gap: var(--spacing-mobile); column-count: unset; }
+  .pdf-page, .experience-full-width { gap: var(--spacing-mobile); }
+  .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary { background: rgba(10, 10, 10, 0.95) !important; margin-bottom: 0 !important; }
   .app-wrapper { padding: 40px 15px 100px 15px; }
+}
+
+/* --- Print Styles --- */
+@media print {
+  @page { size: A4; margin: 10mm; }
+  
+  body, html { background: white !important; color: black !important; }
+  .bg-container, .floating-return-btn, .gateway-container { display: none !important; }
+  
+  .app-wrapper { padding: 0 !important; display: block !important; background: white !important; }
+  
+  .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary, .mobile-glass-card {
+    background: transparent !important;
+    border: 1px solid #eee !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    color: black !important;
+    break-inside: avoid;
+    margin-bottom: 15px !important;
+  }
+  
+  .info-columns-container { column-count: 2 !important; display: block !important; }
+  .summary-text, .job-desc, .skill-name { color: #333 !important; }
+  
+  .yellow-text, .duration-text, .job-company, .contact-link, .video-link, .project-link { 
+    color: black !important; 
+    background: none !important; 
+    -webkit-text-fill-color: initial !important;
+    text-decoration: underline !important;
+  }
+  
+  .progress-bar-bg { border: 1px solid #ccc; background: #f0f0f0 !important; }
+  .progress-bar-fill { background: #444 !important; }
+  .dot { border: 1px solid #999; }
+  .dot.filled { background: #333 !important; box-shadow: none !important; }
+  
+  .soft-tag, .tag { border: 1px solid #ccc !important; color: black !important; background: white !important; }
+  
+  * { animation: none !important; transition: none !important; }
 }
