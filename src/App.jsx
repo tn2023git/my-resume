@@ -261,6 +261,7 @@ function App() {
           </SmartCard>
 
           <div className={`info-columns-container ${isFirstEntry ? 'slide-in-left' : ''}`}>
+            {/* 1. Personal & Contact */}
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
                 <GradientText className="yellow-text bold-font">{isEn ? "Personal & Contact" : "اطلاعات فردی و تماس"}</GradientText>
@@ -276,27 +277,22 @@ function App() {
               </section>
             </SmartCard>
 
+            {/* 2. Software */}
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
-                <GradientText className="yellow-text bold-font">{isEn ? "Interests & Hobbies" : "علایق و سرگرمی‌ها"}</GradientText>
-                <div className="interests-list">
-                  {content.interests.map((cat, i) => (
-                    <div key={i} className="interest-cat">
-                      <div className="interest-cat-name bold-font">{cat.category}</div>
-                      {cat.items.map((item, idx) => (
-                        <div key={idx} className="interest-item">
-                          {item.url ? (
-                            <a href={item.url} target="_blank" rel="noreferrer" className="video-link">{item.text}</a>
-                          ) : <span>{item.text}</span>}
-                          {item.detail && <div className="interest-detail">{item.detail}</div>}
-                        </div>
-                      ))}
+                <GradientText className="yellow-text bold-font">{isEn ? "Software" : "نرم‌افزارها"}</GradientText>
+                <div className="software-container">
+                  {content.software.map((s, i) => (
+                    <div key={i} className="software-item">
+                      <span className="soft-name">{s.name}</span>
+                      <div className="dots-container">{renderDots(s.dots)}</div>
                     </div>
                   ))}
                 </div>
               </section>
             </SmartCard>
 
+            {/* 3. Technical Skills */}
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
                 <GradientText className="yellow-text bold-font">{isEn ? "Technical Skills" : "مهارت‌های تخصصی"}</GradientText>
@@ -313,6 +309,17 @@ function App() {
               </section>
             </SmartCard>
 
+            {/* 4. Soft Skills (Swapped with Projects) */}
+            <SmartCard className="side-pixel-wrapper">
+              <section className="side-section">
+                <GradientText className="yellow-text bold-font">{isEn ? "Soft Skills" : "مهارت‌های تکمیلی"}</GradientText>
+                <div className="soft-skills-tags">
+                  {content.softSkills.map((skill, i) => <span key={i} className="soft-tag">{skill}</span>)}
+                </div>
+              </section>
+            </SmartCard>
+
+            {/* 5. Certificates */}
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
                 <GradientText className="yellow-text bold-font">{isEn ? "Certificates" : "گواهینامه‌ها"}</GradientText>
@@ -327,15 +334,7 @@ function App() {
               </section>
             </SmartCard>
 
-            <SmartCard className="side-pixel-wrapper">
-              <section className="side-section">
-                <GradientText className="yellow-text bold-font">{isEn ? "Soft Skills" : "مهارت‌های تکمیلی"}</GradientText>
-                <div className="soft-skills-tags">
-                  {content.softSkills.map((skill, i) => <span key={i} className="soft-tag">{skill}</span>)}
-                </div>
-              </section>
-            </SmartCard>
-
+            {/* 6. Projects (Swapped with Soft Skills) */}
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
                 <GradientText className="yellow-text bold-font">{isEn ? "Projects" : "پروژه‌ها"}</GradientText>
@@ -352,14 +351,22 @@ function App() {
               </section>
             </SmartCard>
 
+            {/* 7. Interests & Hobbies */}
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
-                <GradientText className="yellow-text bold-font">{isEn ? "Software" : "نرم‌افزارها"}</GradientText>
-                <div className="software-container">
-                  {content.software.map((s, i) => (
-                    <div key={i} className="software-item">
-                      <span className="soft-name">{s.name}</span>
-                      <div className="dots-container">{renderDots(s.dots)}</div>
+                <GradientText className="yellow-text bold-font">{isEn ? "Interests & Hobbies" : "علایق و سرگرمی‌ها"}</GradientText>
+                <div className="interests-list">
+                  {content.interests.map((cat, i) => (
+                    <div key={i} className="interest-cat">
+                      <div className="interest-cat-name bold-font">{cat.category}</div>
+                      {cat.items.map((item, idx) => (
+                        <div key={idx} className="interest-item">
+                          {item.url ? (
+                            <a href={item.url} target="_blank" rel="noreferrer" className="video-link">{item.text}</a>
+                          ) : <span>{item.text}</span>}
+                          {item.detail && <div className="interest-detail">{item.detail}</div>}
+                        </div>
+                      ))}
                     </div>
                   ))}
                 </div>
