@@ -17,7 +17,6 @@ const ProfileCard = ({
 
   useEffect(() => {
     const checkMobile = () => {
-      // ترکیبی از عرض صفحه و قابلیت لمس برای پایداری بیشتر
       const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
       const isSmallScreen = window.innerWidth <= 768;
       setIsMobile(hasTouch || isSmallScreen);
@@ -64,7 +63,6 @@ const ProfileCard = ({
     let mobileRaf;
 
     if (isMobile) {
-      // --- MOBILE: Auto Animation ---
       let angle = 0;
       const autoAnimate = () => {
         angle += 0.008; 
@@ -75,7 +73,6 @@ const ProfileCard = ({
       };
       mobileRaf = requestAnimationFrame(autoAnimate);
     } else {
-      // --- DESKTOP: Mouse Interaction ---
       const onMove = e => {
         const rect = shell.getBoundingClientRect();
         tiltEngine.setTarget(((e.clientX - rect.left) / rect.width) * 100, ((e.clientY - rect.top) / rect.height) * 100);
