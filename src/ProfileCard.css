@@ -18,30 +18,30 @@
   overflow: hidden;
 }
 
-/* --- MOBILE AUTO-ANIMATION --- */
+/* --- MOBILE AUTO-ANIMATION (Direction: Top-Left to Bottom-Right) --- */
 @keyframes autoTilt {
   0%, 100% { 
-    transform: rotateX(-3deg) rotateY(-5deg); 
-    --pointer-x: 30%; --pointer-y: 30%;
+    transform: rotateX(4deg) rotateY(-6deg); 
+    --pointer-x: 15%; --pointer-y: 15%;
   }
   50% { 
-    transform: rotateX(3deg) rotateY(5deg); 
-    --pointer-x: 70%; --pointer-y: 70%;
+    transform: rotateX(-4deg) rotateY(6deg); 
+    --pointer-x: 85%; --pointer-y: 85%;
   }
 }
 
 .pc-is-mobile .pc-card-shell {
-  animation: autoTilt 6s ease-in-out infinite;
+  animation: autoTilt 7s ease-in-out infinite;
 }
 
 .pc-is-mobile .pc-glitter-color,
 .pc-is-mobile .pc-shine,
 .pc-is-mobile .pc-glare {
-  opacity: 0.5 !important; /* Keep effects active on mobile */
+  opacity: 0.6 !important;
 }
 
 .pc-is-mobile .pc-behind {
-  opacity: 0.15 !important;
+  opacity: 0.18 !important;
 }
 
 /* ----------------------------- */

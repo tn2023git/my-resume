@@ -15,7 +15,6 @@ const ProfileCard = ({
   const shellRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
 
-  // Check for mobile on mount
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth <= 768);
     checkMobile();
@@ -55,7 +54,7 @@ const ProfileCard = ({
 
   useEffect(() => {
     const shell = shellRef.current;
-    if (!shell || isMobile) return; // Disable tilt engine on mobile
+    if (!shell || isMobile) return;
 
     const onMove = e => {
       const rect = shell.getBoundingClientRect();
