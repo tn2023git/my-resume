@@ -76,11 +76,13 @@ const ProfileCard = ({
 
   return (
     <div ref={wrapRef} className="pc-card-wrapper">
+      {/* فیلتر نویز اصلاح شده برای ذرات بسیار ریز و حذف قرمز/آبی */}
       <svg style={{ position: 'absolute', width: 0, height: 0 }}>
         <filter id="glitterNoise">
-          {/* نویز شدید برای ایجاد نقاط اکلیلی */}
-          <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch" />
-          <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 10 -4" />
+          {/* افزایش baseFrequency برای ریزتر شدن (Massive -> Fine) */}
+          <feTurbulence type="fractalNoise" baseFrequency="0.99" numOctaves="1" stitchTiles="stitch" />
+          {/* حذف نویز رنگی و تبدیل به سیاه و سفید خالص با کنتراست بالا */}
+          <feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 15 -7" />
         </filter>
       </svg>
 
@@ -90,7 +92,6 @@ const ProfileCard = ({
         <section className="pc-card">
           <div className="pc-inside" style={{ '--inner-gradient': DEFAULT_INNER_GRADIENT }}>
             
-            {/* لایه‌های جدید اکلیل */}
             <div className="pc-glitter-base" />
             <div className="pc-glitter-color" />
             
