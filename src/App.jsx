@@ -159,7 +159,7 @@ function App() {
       projects: [
         { name: "ایران بارسی", url: "https://iranbarc.com/", tags: ["AI", "Wordpress", "Elementor"] },
         { name: "درمازون", url: "https://darmazon.com/", tags: ["Photoshop", "Wordpress", "Elementor"] },
-        { name: "آتنا زیست درمان", url: "https://atenazistdarman.co", tags: ["AI", "Wordpress", "Elementor", "Premiere", "Photoshop"] }
+        { name: "آتنا زیست درمان", url: "https://atenazistdarman.com", tags: ["AI", "Wordpress", "Elementor", "Premiere", "Photoshop"] }
       ],
       experience: [
         { role: "منشی و مسئول دفتر", company: "آتنا زیست درمان", date: "فروردین ۱۴۰۳ - آبان ۱۴۰۴", duration: "۱ سال و ۷ ماه", desc: "انجام تمامی امور اداری و دفتری، تنظیم نامه ها، بایگانی، پاسخگویی به تلفن ها و صدور فاکتور ها، ثبت اطلاعات در سیستم CRM فرادیس، تهیه گزارش ها و رسیدگی به مشکلات ساده نرم افزاری روزمره." },
