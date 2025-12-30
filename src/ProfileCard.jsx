@@ -76,12 +76,9 @@ const ProfileCard = ({
 
   return (
     <div ref={wrapRef} className="pc-card-wrapper">
-      {/* فیلتر نویز اصلاح شده برای ذرات بسیار ریز و حذف قرمز/آبی */}
       <svg style={{ position: 'absolute', width: 0, height: 0 }}>
         <filter id="glitterNoise">
-          {/* افزایش baseFrequency برای ریزتر شدن (Massive -> Fine) */}
           <feTurbulence type="fractalNoise" baseFrequency="0.99" numOctaves="1" stitchTiles="stitch" />
-          {/* حذف نویز رنگی و تبدیل به سیاه و سفید خالص با کنتراست بالا */}
           <feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 15 -7" />
         </filter>
       </svg>

@@ -43,13 +43,13 @@
   padding: 30px 20px;
 }
 
-/* --- REFINED GLITTER (Small & Theme-Only) --- */
+/* --- REFINED GLITTER (Lower Intensity) --- */
 .pc-glitter-base {
   position: absolute;
   inset: 0;
   z-index: 10;
   filter: url(#glitterNoise);
-  opacity: 0.3;
+  opacity: 0.15; /* Reduced from 0.3 */
   mix-blend-mode: screen;
   pointer-events: none;
 }
@@ -59,7 +59,6 @@
   inset: -100%;
   z-index: 11;
   opacity: 0;
-  /* استفاده مستقیم و تصادفی فقط از رنگ‌های تم شما */
   background: conic-gradient(
     from 0deg,
     var(--c1),
@@ -69,15 +68,16 @@
     var(--c2)
   );
   background-size: 100px 100px;
-  filter: blur(30px) contrast(150%);
+  /* Added saturation reduction for softer colors */
+  filter: blur(30px) contrast(120%) saturate(60%); 
   mix-blend-mode: color-dodge;
-  /* حرکت پارالاکس نرم */
   transform: translate(calc(var(--pointer-x) * -0.1), calc(var(--pointer-y) * -0.1));
   pointer-events: none;
   transition: opacity 0.4s ease;
 }
 
-.pc-card-wrapper:hover .pc-glitter-color { opacity: 0.6; }
+/* Lowered hover opacity from 0.6 to 0.35 */
+.pc-card-wrapper:hover .pc-glitter-color { opacity: 0.35; }
 
 /* ----------------------------- */
 
@@ -98,9 +98,9 @@
   inset: 0;
   z-index: 13;
   opacity: 0;
-  background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(255,255,255,0.2) 0%, transparent 60%);
+  background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(255,255,255,0.15) 0%, transparent 60%);
 }
-.pc-card-wrapper:hover .pc-shine, .pc-card-wrapper:hover .pc-glare { opacity: 1; }
+.pc-card-wrapper:hover .pc-shine, .pc-card-wrapper:hover .pc-glare { opacity: 0.8; }
 
 .pc-header-info {
   text-align: center;
@@ -139,7 +139,7 @@
   height: 240px;
   background: conic-gradient(from 180deg at 50% 50%, var(--c4) 0deg, var(--c1) 160deg, var(--c4) 360deg);
   filter: blur(55px);
-  opacity: 0.4;
+  opacity: 0.25; /* Lowered from 0.4 */
   border-radius: 50%;
   z-index: -1;
   animation: rotateGlow 12s linear infinite;
@@ -208,7 +208,7 @@
   z-index: -1;
   pointer-events: none;
 }
-.pc-card-wrapper:hover .pc-behind { opacity: 0.4; }
+.pc-card-wrapper:hover .pc-behind { opacity: 0.25; } /* Lowered from 0.4 */
 
 /* --- MOBILE OPTIMIZATION --- */
 @media (max-width: 480px) {
@@ -218,8 +218,8 @@
   .en-name { font-size: 1.3rem; }
   .fa-name { font-size: 1.1rem; }
   
-  .pc-behind { opacity: 0.35; }
-  .pc-glitter-base { opacity: 0.3; }
-  .pc-glitter-color { opacity: 0.4; }
-  .pc-shine, .pc-glare { opacity: 0.8; }
+  .pc-behind { opacity: 0.2; }
+  .pc-glitter-base { opacity: 0.15; }
+  .pc-glitter-color { opacity: 0.25; }
+  .pc-shine, .pc-glare { opacity: 0.6; }
 }
