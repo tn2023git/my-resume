@@ -56,26 +56,25 @@ const ProfileCard = ({
 
     const onMove = e => {
       const rect = shell.getBoundingClientRect();
-      tiltEngine.setTarget(((e.clientX - rect.left) / rect.width) * 100, ((e.clientY - rect.top) / rect.height) * 100);
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      tiltEngine.setTarget(x, y);
     };
 
     const handleOrientation = (e) => {
       if (e.gamma === null || e.beta === null) return;
-      // اصلاح زاویه برای موبایل
+      // سنسور موبایل
       const x = Math.min(Math.max(((e.gamma || 0) + 20) / 40 * 100, 0), 100);
       const y = Math.min(Math.max(((e.beta || 0) - 25) / 40 * 100, 0), 100);
       tiltEngine.setTarget(x, y);
     };
 
-    const onLeave = () => tiltEngine.setTarget(50, 50);
-
     shell.addEventListener('pointermove', onMove);
-    shell.addEventListener('pointerleave', onLeave);
+    shell.addEventListener('pointerleave', () => tiltEngine.setTarget(50, 50));
     window.addEventListener('deviceorientation', handleOrientation, true);
 
     return () => {
       shell.removeEventListener('pointermove', onMove);
-      shell.removeEventListener('pointerleave', onLeave);
       window.removeEventListener('deviceorientation', handleOrientation);
       tiltEngine.stop();
     };
@@ -84,28 +83,18 @@ const ProfileCard = ({
   return (
     <div className="gateway-mode">
       <div ref={wrapRef} className="pc-card-wrapper">
+        
+        {/* هاله نوری بیرونی (Outer Glow) */}
+        <div className="pc-behind" />
+
         <svg style={{ position: 'absolute', width: 0, height: 0 }}>
           <filter id="noiseFilter">
             <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="3" stitchTiles="stitch" />
             <feColorMatrix type="saturate" values="0" />
           </filter>
         </svg>
-
-        <div className="pc-behind" style={{ 
-          position: 'absolute', 
-          inset: '-100px', 
-          background: 'radial-gradient(circle at var(--pointer-x) var(--pointer-y), var(--c4) 0%, transparent 70%)',
-          filter: 'blur(80px)',
-          opacity: 'var(--behind-op, 0)',
-          transition: 'opacity 0.4s'
-        }} />
         
-        <div 
-          ref={shellRef} 
-          className="pc-card-shell"
-          onMouseEnter={() => wrapRef.current?.style.setProperty('--behind-op', '0.5')}
-          onMouseLeave={() => wrapRef.current?.style.setProperty('--behind-op', '0')}
-        >
+        <div ref={shellRef} className="pc-card-shell">
           <section className="pc-card">
             <div className="pc-inside" style={{ '--inner-gradient': DEFAULT_INNER_GRADIENT }}>
               
@@ -126,6 +115,7 @@ const ProfileCard = ({
                 <img className="avatar-minimal" src={avatarUrl} alt="Profile" />
               </div>
 
+              {/* لایه‌های نوری روی آواتار */}
               <div className="pc-glitter" />
               <div className="pc-shine" />
               <div className="pc-glare" />
