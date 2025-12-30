@@ -100,11 +100,11 @@ function App() {
           {
             category: "Communications & Media",
             items: [
-              { text: "English Caster: 2nd National DotA 2 Championship of Iran", detail: "Professional presentation and narration skills" },
-              { text: "Field Reporter for GameHermes", detail: "Professional presentation and narration skills" },
+              { text: "English Caster: 2nd National DotA 2 Championship of Iran", detail: "Professional presentation and narration" },
+              { text: "Field Reporter for GameHermes", detail: "Professional presentation and narration" },
               { text: "Tekken National Championship (Report)", url: "https://www.youtube.com/watch?v=t_eXzo30mAo", isVideo: true },
               { text: "DotA 2 TI9 Pubstomp (Report)", url: "https://www.youtube.com/watch?v=r2H5vpYrGeQ", isVideo: true },
-              { text: "Content Creation & Streaming", detail: "Experienced in video editing and digital storytelling" },
+              { text: "Content Creation & Streaming", detail: "Video editing and digital storytelling" },
               { text: "YouTube Channel (Gaming Archive)", url: "https://www.youtube.com/@tnonyoutube", isVideo: true },
               { text: "Twitch Streamer (Former)", url: "https://www.twitch.tv/tn2023", isVideo: true }
             ]
@@ -188,11 +188,11 @@ function App() {
           {
             category: "ارتباطات و رسانه",
             items: [
-              { text: "کستر انگلیسی: دومین دوره مسابقات ملی DotA 2 ایران", detail: "مهارت‌های ارائه و گویندگی حرفه‌ای" },
-              { text: "گزارشگر میدانی GameHermes", detail: "مهارت‌های ارائه و گویندگی حرفه‌ای" },
+              { text: "کستر انگلیسی: دومین دوره مسابقات ملی DotA 2 ایران", detail: "ارائه و گزارشگری حرفه‌ای" },
+              { text: "گزارشگر میدانی GameHermes", detail: "ارائه و گزارشگری حرفه‌ای" },
               { text: "گزارش مسابقات ملی Tekken (ویدیو)", url: "https://www.youtube.com/watch?v=t_eXzo30mAo", isVideo: true },
               { text: "گزارش TI9 Pubstomp (ویدیو)", url: "https://www.youtube.com/watch?v=r2H5vpYrGeQ", isVideo: true },
-              { text: "تولید محتوا و استریم", detail: "تجربه در تدوین ویدیو و روایت دیجیتال" },
+              { text: "تولید محتوا و استریم", detail: "تدوین ویدیو و روایت دیجیتال" },
               { text: "کانال یوتیوب (آرشیو گیمینگ)", url: "https://www.youtube.com/@tnonyoutube", isVideo: true },
               { text: "استریمر سابق توییچ", url: "https://www.twitch.tv/tn2023", isVideo: true }
             ]
