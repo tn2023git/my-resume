@@ -14,11 +14,9 @@ const ProfileCard = ({
   const wrapRef = useRef(null);
   const shellRef = useRef(null);
 
-  // قفل کردن اسکرول کل صفحه هنگام نمایش کارت
   useEffect(() => {
     const originalStyle = window.getComputedStyle(document.body).overflow;
     document.body.style.overflow = 'hidden';
-    
     return () => {
       document.body.style.overflow = originalStyle;
     };
@@ -64,20 +62,18 @@ const ProfileCard = ({
     };
 
     const handleOrientation = (e) => {
-      const x = Math.min(Math.max(((e.gamma || 0) + 20) / 40 * 100, 0), 100);
-      const y = Math.min(Math.max(((e.beta || 0) - 20) / 40 * 100, 0), 100);
+      // بهبود حساسیت سنسور برای موبایل
+      const x = Math.min(Math.max(((e.gamma || 0) + 25) / 50 * 100, 0), 100);
+      const y = Math.min(Math.max(((e.beta || 0) - 25) / 50 * 100, 0), 100);
       tiltEngine.setTarget(x, y);
     };
 
-    const onLeave = () => tiltEngine.setTarget(50, 50);
-
     shell.addEventListener('pointermove', onMove);
-    shell.addEventListener('pointerleave', onLeave);
+    shell.addEventListener('pointerleave', () => tiltEngine.setTarget(50, 50));
     window.addEventListener('deviceorientation', handleOrientation);
 
     return () => {
       shell.removeEventListener('pointermove', onMove);
-      shell.removeEventListener('pointerleave', onLeave);
       window.removeEventListener('deviceorientation', handleOrientation);
       tiltEngine.stop();
     };
@@ -120,12 +116,19 @@ const ProfileCard = ({
                 <img className="avatar-minimal" src={avatarUrl} alt="Profile" />
               </div>
 
+              {/* دکمه‌ها دوباره بخشی از کارت شدند اما با Z-index فیزیکی بالاتر */}
               <div className="pc-lang-overlay">
-                <div className="flag-btn en-corner" onClick={(e) => { e.stopPropagation(); onSelectLang('en'); }}>
+                <div 
+                  className="flag-btn en-corner" 
+                  onClick={(e) => { e.stopPropagation(); onSelectLang('en'); }}
+                >
                   <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" alt="EN" />
                 </div>
                 
-                <div className="flag-btn fa-corner" onClick={(e) => { e.stopPropagation(); onSelectLang('fa'); }}>
+                <div 
+                  className="flag-btn fa-corner" 
+                  onClick={(e) => { e.stopPropagation(); onSelectLang('fa'); }}
+                >
                   <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Flag_of_Iran.svg" alt="FA" />
                 </div>
               </div>
