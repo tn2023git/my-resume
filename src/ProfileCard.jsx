@@ -54,21 +54,26 @@ const ProfileCard = ({
     const shell = shellRef.current;
     if (!shell) return;
 
+    // حرکت ماوس در دسکتاپ
     const onMove = e => {
       const rect = shell.getBoundingClientRect();
       tiltEngine.setTarget(((e.clientX - rect.left) / rect.width) * 100, ((e.clientY - rect.top) / rect.height) * 100);
     };
 
+    // حرکت ژیروسکوپ در موبایل
     const handleOrientation = (e) => {
-      // سنسور ژیروسکوپ برای موبایل
-      const x = Math.min(Math.max(((e.gamma || 0) + 15) / 30 * 100, 0), 100);
-      const y = Math.min(Math.max(((e.beta || 0) - 20) / 30 * 100, 0), 100);
+      if (e.gamma === null || e.beta === null) return;
+      // نرمال‌سازی اعداد ژیروسکوپ برای محدوده ۰ تا ۱۰۰
+      const x = Math.min(Math.max(((e.gamma || 0) + 20) / 40 * 100, 0), 100);
+      const y = Math.min(Math.max(((e.beta || 0) - 25) / 40 * 100, 0), 100);
       tiltEngine.setTarget(x, y);
     };
 
     shell.addEventListener('pointermove', onMove);
     shell.addEventListener('pointerleave', () => tiltEngine.setTarget(50, 50));
-    window.addEventListener('deviceorientation', handleOrientation);
+    
+    // فعال‌سازی سنسور حرکت
+    window.addEventListener('deviceorientation', handleOrientation, true);
 
     return () => {
       shell.removeEventListener('pointermove', onMove);
@@ -93,7 +98,6 @@ const ProfileCard = ({
           <section className="pc-card">
             <div className="pc-inside" style={{ '--inner-gradient': DEFAULT_INNER_GRADIENT }}>
               
-              {/* ۱. متن در بالا */}
               <div className="pc-header-info">
                 <div className="dual-name">
                   <h2 className="en-name bold-font">{nameEn}</h2>
@@ -106,18 +110,15 @@ const ProfileCard = ({
                 </div>
               </div>
 
-              {/* ۲. آواتار در زیر افکت‌ها */}
               <div className="pc-avatar-container">
                 <div className="pc-avatar-bg" />
                 <img className="avatar-minimal" src={avatarUrl} alt="Profile" />
               </div>
 
-              {/* ۳. افکت‌ها در لایه میانی (روی آواتار) */}
               <div className="pc-glitter" />
               <div className="pc-shine" />
               <div className="pc-glare" />
 
-              {/* ۴. دکمه‌ها در لایه نهایی */}
               <div className="pc-lang-overlay">
                 <div className="flag-btn en-corner" onClick={(e) => { e.stopPropagation(); onSelectLang('en'); }}>
                   <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" alt="EN" />

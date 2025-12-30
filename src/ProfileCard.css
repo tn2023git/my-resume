@@ -51,12 +51,11 @@
   transform-style: preserve-3d;
 }
 
-/* --- HEADER (حالا در بالا قرار دارد) --- */
+/* --- HEADER --- */
 .pc-header-info {
   text-align: center;
-  z-index: 50; /* بالاتر از همه برای وضوح متن */
+  z-index: 50;
   margin-top: 10px;
-  margin-bottom: 20px;
   transform: translateZ(40px);
 }
 .en-name { font-family: 'ProductSans', sans-serif; font-size: 1.6rem; color: #fff; margin: 0; }
@@ -71,32 +70,29 @@
   font-size: 0.95rem;
   direction: ltr !important; 
 }
-.en-title-text { 
-  font-family: 'ProductSans', sans-serif !important; 
-  color: rgba(255,255,255,0.7); 
-}
+.en-title-text { font-family: 'ProductSans', sans-serif !important; color: rgba(255,255,255,0.7); }
 .fa-title-text { font-family: 'Anjoman', sans-serif; color: rgba(255,255,255,0.7); font-weight: 500; }
 .sep { color: var(--c4); }
 
-/* --- AVATAR (پایین‌تر از متن و افکت‌ها) --- */
+/* --- AVATAR (UPGRADED TO CENTER) --- */
 .pc-avatar-container {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 5; /* لایه زیرین افکت‌ها */
+  z-index: 5;
   position: relative;
-  margin-top: 20px;
+  margin-top: -40px; /* انتقال به سمت مرکز */
   transform: translateZ(10px);
 }
 
 .pc-avatar-bg {
   position: absolute;
-  width: 250px;
-  height: 250px;
+  width: 260px;
+  height: 260px;
   background: conic-gradient(from 180deg at 50% 50%, var(--c4) 0deg, var(--c1) 160deg, var(--c4) 360deg);
   filter: blur(55px);
-  opacity: 0.45;
+  opacity: 0.5;
   border-radius: 50%;
   animation: rotateGlow 15s linear infinite;
 }
@@ -107,18 +103,18 @@
 }
 
 .avatar-minimal {
-  width: 90%;
-  max-width: 320px;
+  width: 95%;
+  max-width: 330px;
   height: auto;
   object-fit: contain;
-  mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 82%, transparent 100%);
 }
 
-/* --- EFFECTS (روی تصویر قرار دارند) --- */
+/* --- EFFECTS ON TOP OF AVATAR --- */
 .pc-glitter {
   position: absolute;
   inset: 0;
-  z-index: 30; /* روی آواتار */
+  z-index: 30;
   opacity: 0.15;
   filter: url(#noiseFilter) contrast(180%) brightness(1000%);
   mix-blend-mode: screen;
@@ -161,9 +157,9 @@
 
 .flag-btn {
   position: absolute;
-  bottom: 15px; /* نزدیک‌تر به کف */
-  width: 42px;
-  height: 42px;
+  bottom: 15px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
@@ -172,10 +168,10 @@
   backdrop-filter: blur(8px);
   border: 1px solid var(--glass-border);
   transform: translateZ(60px);
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
 }
-.en-corner { left: 15px; } /* نزدیک‌تر به لبه چپ */
-.fa-corner { right: 15px; } /* نزدیک‌تر به لبه راست */
+.en-corner { left: 15px; }
+.fa-corner { right: 15px; }
 .flag-btn:hover { transform: translateZ(70px) scale(1.15); border-color: var(--c1); }
 .flag-btn img { width: 100%; height: 100%; object-fit: cover; }
 
@@ -194,15 +190,13 @@
 @media (max-width: 480px) {
   .pc-card-wrapper { width: 310px; }
   .pc-card { height: 480px; }
+  .pc-avatar-container { margin-top: -30px; }
   
-  /* افزایش درخشش برای موبایل */
   .pc-shine, .pc-glare { opacity: 0.8 !important; }
-  .pc-glitter { opacity: 0.3 !important; }
-  .pc-behind { opacity: 0.5; inset: -60px; filter: blur(60px); }
+  .pc-glitter { opacity: 0.35 !important; }
+  .pc-behind { opacity: 0.5; inset: -70px; }
   
-  .en-name { font-size: 1.4rem; }
-  .fa-name { font-size: 1.2rem; }
-  .flag-btn { width: 46px; height: 46px; bottom: 10px; }
-  .en-corner { left: 10px; }
-  .fa-corner { right: 10px; }
+  .flag-btn { width: 48px; height: 48px; bottom: 12px; }
+  .en-corner { left: 12px; }
+  .fa-corner { right: 12px; }
 }
