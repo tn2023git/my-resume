@@ -1,19 +1,13 @@
-/* --- Profile Card Wrapper & Perspective --- */
 .pc-card-wrapper {
   perspective: 1000px;
   position: relative;
-  width: 350px;
+  width: 360px;
   max-width: 90vw;
   margin: auto;
   --sunpillar-1: hsl(2, 100%, 73%);
-  --sunpillar-2: hsl(53, 100%, 73%);
-  --sunpillar-3: hsl(94, 100%, 73%);
-  --sunpillar-4: hsl(151, 100%, 73%);
-  --sunpillar-5: hsl(221, 100%, 73%);
   --sunpillar-6: hsl(283, 100%, 73%);
 }
 
-/* --- The Main Card Shell --- */
 .pc-card-shell {
   position: relative;
   z-index: 1;
@@ -27,62 +21,41 @@
   background: #000;
   border-radius: 30px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
-  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
 }
 
 .pc-inside {
   height: 100%;
-  background: linear-gradient(145deg, #60496e8c 0%, #71C4FF44 100%);
+  background: var(--inner-gradient);
   position: relative;
   display: flex;
   flex-direction: column;
 }
 
-/* --- Glitter & Shine Effects --- */
-.pc-shine {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  /* Holo/Glitter effect using repeating gradients */
-  background: repeating-linear-gradient(
-    var(--rotate-x),
-    var(--sunpillar-1) 0%,
-    var(--sunpillar-2) 5%,
-    var(--sunpillar-3) 10%,
-    var(--sunpillar-4) 15%,
-    var(--sunpillar-5) 20%,
-    var(--sunpillar-6) 25%
-  );
-  background-size: 300% 300%;
-  background-position: var(--pointer-x) var(--pointer-y);
-  opacity: 0.18;
-  mix-blend-mode: color-dodge;
-  filter: brightness(1.2) contrast(1.2);
-  pointer-events: none;
+/* Header Section (Name & Title at Top) */
+.pc-header-info {
+    padding: 25px 15px;
+    text-align: center;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%);
+    z-index: 5;
 }
 
-.pc-glare {
-  position: absolute;
-  inset: 0;
-  z-index: 4;
-  background: radial-gradient(
-    circle at var(--pointer-x) var(--pointer-y),
-    rgba(255, 255, 255, 0.3) 0%,
-    rgba(255, 255, 255, 0) 60%
-  );
-  mix-blend-mode: overlay;
-  pointer-events: none;
-}
+.dual-name { display: flex; flex-direction: column; gap: 2px; }
+.en-name { font-size: 1.4rem; color: #fff; font-family: 'ProductSans'; }
+.fa-name { font-size: 1.25rem; color: #F3BC08; font-family: 'Anjoman'; font-weight: bold; }
 
-/* --- Avatar Section --- */
-.pc-avatar-content {
+.dual-title { 
+    display: flex; justify-content: center; align-items: center; gap: 8px;
+    font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-top: 8px;
+}
+.sep { color: #A010D6; font-weight: bold; }
+
+/* Avatar & Flags Container */
+.pc-avatar-container {
   flex: 1;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  overflow: hidden;
 }
 
 .avatar {
@@ -90,112 +63,42 @@
   height: 100%;
   object-fit: cover;
   position: absolute;
-  top: 0;
-  left: 0;
-  mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
+  top: 0; left: 0;
+  mask-image: linear-gradient(to top, black 80%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to top, black 80%, transparent 100%);
   z-index: 1;
 }
 
-/* --- Flag Buttons in Corners --- */
+/* Glitter & Shine */
+.pc-shine {
+  position: absolute; inset: 0; z-index: 3;
+  background: repeating-linear-gradient(var(--rotate-x), var(--sunpillar-1) 0%, transparent 10%, var(--sunpillar-6) 20%);
+  opacity: 0.15; mix-blend-mode: color-dodge; pointer-events: none;
+}
+
+.pc-glare {
+  position: absolute; inset: 0; z-index: 4;
+  background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(255, 255, 255, 0.2) 0%, transparent 60%);
+  mix-blend-mode: overlay; pointer-events: none;
+}
+
+/* Flag Buttons */
 .flag-corner {
-  position: absolute;
-  bottom: 20px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.4);
-  background: rgba(0, 0, 0, 0.7);
-  padding: 0;
-  overflow: hidden;
-  cursor: pointer;
-  z-index: 10;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  backdrop-filter: blur(5px);
+  position: absolute; bottom: 20px; width: 55px; height: 55px;
+  border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.4);
+  padding: 0; overflow: hidden; cursor: pointer; background: #000;
+  z-index: 10; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.4);
 }
+.flag-corner img { width: 100%; height: 100%; object-fit: cover; }
+.flag-corner:hover { transform: scale(1.1) translateY(-5px); border-color: #F3BC08; }
 
-.flag-corner img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
+.en-corner { left: 20px; }
+.fa-corner { right: 20px; }
 
-.flag-corner:hover {
-  transform: scale(1.15) translateY(-5px);
-  border-color: #F3BC08;
-  box-shadow: 0 0 20px rgba(243, 188, 8, 0.5);
-}
-
-.en-corner {
-  left: 20px;
-}
-
-.fa-corner {
-  right: 20px;
-}
-
-/* --- Info/Details Section --- */
-.pc-details {
-  background: rgba(0, 0, 0, 0.75);
-  padding: 25px;
-  text-align: center;
-  backdrop-filter: blur(15px);
-  z-index: 5;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.dual-name {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin-bottom: 12px;
-}
-
-.dual-name span:first-child {
-  font-family: 'ProductSans', sans-serif;
-  font-size: 1.5rem;
-  color: #fff;
-  letter-spacing: 0.5px;
-}
-
-.fa-name {
-  font-family: 'Anjoman', sans-serif;
-  font-size: 1.3rem;
-  color: #F3BC08;
-  font-weight: bold;
-}
-
-.dual-title {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.sep {
-  color: #A010D6;
-  font-weight: bold;
-  opacity: 0.8;
-}
-
-/* --- Behind Card Glow --- */
 .pc-behind {
-  position: absolute;
-  inset: -30px;
-  z-index: 0;
-  background: radial-gradient(
-    circle at var(--pointer-x) var(--pointer-y),
-    rgba(160, 16, 214, 0.35) 0%,
-    transparent 70%
-  );
-  filter: blur(50px);
-  opacity: 0;
-  transition: opacity 0.4s ease;
+  position: absolute; inset: -20px; z-index: 0;
+  background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(160, 10, 214, 0.3) 0%, transparent 70%);
+  filter: blur(40px); opacity: 0; transition: opacity 0.4s;
 }
-
-.pc-card-wrapper:hover .pc-behind {
-  opacity: 1;
-}
+.pc-card-wrapper:hover .pc-behind { opacity: 1; }
