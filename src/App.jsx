@@ -202,7 +202,7 @@ function App() {
       <div className="pdf-page">
         {/* Full-width Summary Header */}
         <SmartCard className="full-width-summary">
-          <section className="side-section">
+          <section className="side-section summary-inner">
             <GradientText className="yellow-text bold-font">{isEn ? "Professional Summary" : "خلاصه حرفه‌ای"}</GradientText>
             <p className="summary-text">{content.summary}</p>
           </section>
