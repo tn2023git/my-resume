@@ -102,6 +102,12 @@ body, html {
   margin-bottom: 0;
 }
 
+/* Summary text styling */
+.summary-text {
+    font-size: 1.05rem;
+    line-height: 1.8;
+}
+
 /* --- Desktop Grid --- */
 .resume-grid { 
   display: grid; 
@@ -111,6 +117,12 @@ body, html {
 }
 
 .side-section, .exp-card { padding: 30px; }
+
+/* Contact Link Styling */
+.contact-link {
+    color: var(--yellow);
+    text-decoration: underline;
+}
 
 /* --- Software Section (Dots) --- */
 .software-item { 

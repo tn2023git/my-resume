@@ -21,6 +21,7 @@ function App() {
     en: {
       name: "Amirali Dabiri Maram",
       title: "Job Seeker",
+      summary: "English language expert and website designer with over 5 years of experience in educational, service, and administrative environments. Specialized in optimizing office processes and developing WordPress platforms. Possessing a competitive and analytical mindset with a history of reporting in national gaming events as an English caster. Committed to continuous learning and delivering results with global standards.",
       personal: [
         { label: "Age", value: "26 Years (Born May 11th 1999)" },
         { label: "Military", value: "Exempted" },
@@ -29,7 +30,8 @@ function App() {
       ],
       contact: [
         { label: "Phone", value: "09371783669" },
-        { label: "Email", value: "a.dmaram2023@gmail.com" }
+        { label: "Email", value: "a.dmaram2023@gmail.com" },
+        { label: "Telegram", value: "tn2023", url: "https://t.me/tn2023" }
       ],
       languages: [{ name: "English", level: "Native" }],
       salary: "20-25 Million Tomans",
@@ -51,7 +53,6 @@ function App() {
         { name: "Computer software repairs", level: 80 },
         { name: "WordPress Website Design", level: 90 }
       ],
-      softSkills: ["Fast learner", "Team Worker", "Creativity"],
       certificates: [
         { 
           name: "IELTS Academic (Overall: 8.0)", 
@@ -75,6 +76,9 @@ function App() {
             { text: "Field Reporter for GameHermes:" },
             { text: "Tekken National Championship (Report)", url: "https://www.youtube.com/watch?v=t_eXzo30mAo", isVideo: true },
             { text: "DotA 2 TI9 Pubstomp (Report)", url: "https://www.youtube.com/watch?v=r2H5vpYrGeQ", isVideo: true },
+            { text: "Content Creation & Streaming:" },
+            { text: "YouTube Channel (Gaming Archive)", url: "https://www.youtube.com/@tnonyoutube", isVideo: true },
+            { text: "Twitch Streamer (Former)", url: "https://www.twitch.tv/tn2023", isVideo: true },
             { text: "Semi-Professional Gamer: 10,000+ hours in DotA 2", detail: "Focus on strategy & high-level play" },
             { text: "FPS & Narrative Games: Battlefield 6, Rainbow Six Siege, Complex Storylines" }
           ]
@@ -97,6 +101,7 @@ function App() {
     fa: {
       name: "امیرعلی دبیری مرام",
       title: "کارجو",
+      summary: "کارشناس مسلط به زبان انگلیسی و طراح وب‌سایت با بیش از ۵ سال تجربه در محیط‌های آموزشی، خدماتی و اداری. متخصص در بهینه‌سازی فرآیندهای دفتری و توسعه پلتفرم‌های وردپرسی. دارای روحیه رقابتی و تحلیل‌گر با سابقه فعالیت در رویدادهای ملی گیمینگ به عنوان گزارشگر انگلیسی. متعهد به یادگیری مستمر و ارائه نتایج با استانداردهای جهانی.",
       personal: [
         { label: "سن", value: "۲۶ سال (متولد ۲۱ اردیبهشت ۱۳۷۸)" },
         { label: "سربازی", value: "معاف دائم" },
@@ -105,7 +110,8 @@ function App() {
       ],
       contact: [
         { label: "موبایل", value: "۰۹۳۷۱۷۸۳۶۶۹" },
-        { label: "ایمیل", value: "a.dmaram2023@gmail.com" }
+        { label: "ایمیل", value: "a.dmaram2023@gmail.com" },
+        { label: "تلگرام", value: "tn2023", url: "https://t.me/tn2023" }
       ],
       languages: [{ name: "انگلیسی", level: "Native" }],
       salary: "۲۰-۲۵ میلیون تومان",
@@ -151,6 +157,9 @@ function App() {
             { text: "گزارشگر میدانی GameHermes:" },
             { text: "گزارش مسابقات ملی Tekken (ویدیو)", url: "https://www.youtube.com/watch?v=t_eXzo30mAo", isVideo: true },
             { text: "گزارش TI9 Pubstomp (ویدیو)", url: "https://www.youtube.com/watch?v=r2H5vpYrGeQ", isVideo: true },
+            { text: "تولید محتوا و استریم:" },
+            { text: "کانال یوتیوب (آرشیو گیمینگ)", url: "https://www.youtube.com/@tnonyoutube", isVideo: true },
+            { text: "استریمر سابق توییچ", url: "https://www.twitch.tv/tn2023", isVideo: true },
             { text: "گیمر نیمه‌حرفه‌ای: بیش از ۱۰,۰۰۰ ساعت تجربه در DotA 2", detail: "تمرکز بر تفکر استراتژیک" },
             { text: "بازی‌های FPS و داستانی: Battlefield 6، Siege و داستان‌های پیچیده" }
           ]
@@ -197,7 +206,13 @@ function App() {
               <section className="side-section">
                 <GradientText className="yellow-text bold-font">{isEn ? "Personal & Contact" : "اطلاعات فردی و تماس"}</GradientText>
                 {content.personal.map((p, i) => <p key={i}><b className="bold-font">{p.label}:</b> {p.value}</p>)}
-                {content.contact.map((c, i) => <p key={i}><b className="bold-font">{c.label}:</b> {c.value}</p>)}
+                {content.contact.map((c, i) => (
+                  <p key={i}>
+                    <b className="bold-font">{c.label}:</b> {c.url ? (
+                      <a href={c.url} target="_blank" rel="noreferrer" className="contact-link">{c.value}</a>
+                    ) : c.value}
+                  </p>
+                ))}
                 <p><b className="bold-font">{isEn ? "Salary Request" : "حقوق درخواستی"}:</b> {content.salary}</p>
               </section>
             </SmartCard>
@@ -290,6 +305,13 @@ function App() {
           </aside>
 
           <main className="main-content">
+            <SmartCard className="exp-pixel-wrapper summary-card">
+              <div className="exp-card">
+                <GradientText className="yellow-text bold-font">{isEn ? "Professional Summary" : "خلاصه حرفه‌ای"}</GradientText>
+                <p className="job-desc summary-text">{content.summary}</p>
+              </div>
+            </SmartCard>
+
             {content.experience.map((job, i) => (
               <SmartCard key={i} className="exp-pixel-wrapper">
                 <div className="exp-card">
@@ -321,4 +343,4 @@ function App() {
   );
 }
 
-export default App; 
+export default App;
