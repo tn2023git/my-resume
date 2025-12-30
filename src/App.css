@@ -221,76 +221,49 @@ body, html {
   .floating-actions-container .floating-btn:last-child { display: none !important; }
 }
 
-/* --- CRITICAL PRINT FIXES (ELIMINATING BLACK MARGINS) --- */
+/* --- PRINT OPTIMIZATION (ELIMINATING GAPS & BLACK MARGINS) --- */
 @media print {
   @page { 
     size: A4; 
     margin: 10mm; 
   }
   
-  /* Force white background on the entire print canvas */
   html, body { 
     background-color: #ffffff !important; 
-    background: #ffffff !important;
     color: #000000 !important; 
     margin: 0 !important;
     padding: 0 !important;
-    overflow: visible !important;
     height: auto !important;
     width: 100% !important;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
   }
 
-  /* Reset any potential dark background from high-level containers */
   #root, .app-wrapper {
     background-color: #ffffff !important;
-    background: #ffffff !important;
     padding: 0 !important;
     margin: 0 !important;
-    width: 100% !important;
+    display: block !important;
   }
 
-  ::-webkit-scrollbar { display: none !important; }
-  
-  /* Hide all UI and background components */
-  .bg-container, 
-  .floating-actions-container, 
-  .gateway-container, 
-  canvas, 
-  .pixel-card-canvas { 
+  .bg-container, .floating-actions-container, .gateway-container, canvas { 
     display: none !important; 
   }
   
   .pdf-page { 
     max-width: 100% !important; 
-    gap: 15px !important; 
+    gap: 10px !important; 
     display: block !important;
-    background: transparent !important;
   }
 
-  /* Remove all box styling for raw text flow */
-  .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary, .mobile-glass-card {
+  /* ALLOW content to break across pages to remove large empty spaces */
+  .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary {
     background: transparent !important;
     border: none !important;
-    border-radius: 0 !important;
     padding: 0 !important;
-    margin-bottom: 20px !important;
-    box-shadow: none !important;
-    backdrop-filter: none !important;
+    margin-bottom: 15px !important;
     display: block !important;
     width: 100% !important;
-    page-break-inside: avoid !important;
-  }
-
-  .yellow-text {
-    font-size: 1.3rem !important;
-    color: #000000 !important;
-    border-bottom: 1.5px solid #000 !important;
-    margin-top: 10px !important;
-    margin-bottom: 10px !important;
-    padding-bottom: 5px !important;
-    font-weight: bold !important;
+    break-inside: auto !important; /* Changed from avoid to auto */
+    page-break-inside: auto !important;
   }
 
   .info-columns-container { 
@@ -298,29 +271,32 @@ body, html {
     display: block !important;
   }
 
-  .summary-text, .job-desc { 
-    color: #000000 !important; 
-    line-height: 1.6 !important;
+  .yellow-text {
+    font-size: 1.2rem !important;
+    color: #000 !important;
+    border-bottom: 1px solid #000 !important;
+    margin-top: 15px !important;
+    margin-bottom: 8px !important;
+    padding-bottom: 3px !important;
   }
 
-  /* Minimalist Proficiency Marks */
-  .dot { border: 1px solid #000 !important; background: transparent !important; }
-  .dot.filled { background: #000 !important; }
-  .progress-bar-bg { border: 1px solid #000 !important; background: #fff !important; }
-  .progress-bar-fill { background: #000 !important; }
+  .summary-text, .job-desc { 
+    color: #000 !important; 
+    line-height: 1.4 !important;
+  }
 
   .soft-tag, .tag {
     border: 1px solid #000 !important;
-    background: #fff !important;
-    color: #000 !important;
-    padding: 2px 8px !important;
+    padding: 1px 5px !important;
+    margin: 2px !important;
+    display: inline-block !important;
   }
 
-  /* Ensure ALL text elements are black */
   * { 
-    color: #000000 !important; 
+    color: #000 !important; 
+    background-color: transparent !important;
     text-shadow: none !important;
+    box-shadow: none !important;
     animation: none !important;
-    transition: none !important;
   }
 }
