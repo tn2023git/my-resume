@@ -5,6 +5,7 @@
   --rotate-y: 0deg;
 }
 
+/* کانتینر تمام صفحه که روی بقیه محتوا قرار می‌گیرد */
 .gateway-mode {
   position: fixed;
   inset: 0;
@@ -14,9 +15,9 @@
   align-items: center;
   justify-content: center;
   z-index: 9999;
-  background: #050505;
+  background: #050505; /* همرنگ پس‌زمینه کارت برای یکپارچگی */
   overflow: hidden;
-  touch-action: none;
+  touch-action: none; /* جلوگیری از اسکرول لمسی */
 }
 
 .pc-card-wrapper {
@@ -40,7 +41,6 @@
   overflow: hidden;
   border: 1px solid var(--glass-border);
   position: relative;
-  transform: translateZ(0);
 }
 
 .pc-inside {
@@ -50,53 +50,47 @@
   flex-direction: column;
   position: relative;
   padding: 30px 20px;
-  transform-style: preserve-3d;
 }
 
-/* --- EFFECTS (بالای تصویر قرار دارند) --- */
+/* --- GLITTER --- */
 .pc-glitter {
   position: absolute;
   inset: 0;
-  z-index: 20; /* بالاتر از آواتار */
+  z-index: 10;
   opacity: 0.15;
   filter: url(#noiseFilter) contrast(180%) brightness(1000%);
   mix-blend-mode: screen;
   pointer-events: none;
   transition: opacity 0.3s ease;
-  transform: translateZ(1px);
 }
 .pc-card-wrapper:hover .pc-glitter { opacity: 0.35; }
 
 .pc-shine {
   position: absolute;
-  inset: -100%; /* وسیع برای جلوگیری از بریدگی در موبایل */
-  z-index: 21;
+  inset: 0;
+  z-index: 11;
   opacity: 0;
   mix-blend-mode: overlay;
-  background: linear-gradient(110deg, transparent 25%, var(--c4) 48%, var(--c1) 50%, var(--c2) 52%, transparent 75%);
-  background-size: 300% 300%;
+  background: linear-gradient(110deg, transparent 20%, var(--c4) 40%, var(--c1) 50%, var(--c2) 60%, transparent 80%);
+  background-size: 200% 200%;
   background-position: var(--pointer-x) var(--pointer-y);
   pointer-events: none;
-  transform: translateZ(2px);
 }
 
 .pc-glare {
   position: absolute;
-  inset: -50%;
-  z-index: 22;
+  inset: 0;
+  z-index: 12;
   opacity: 0;
-  background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(255,255,255,0.3) 0%, transparent 60%);
-  pointer-events: none;
-  transform: translateZ(3px);
+  background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(255,255,255,0.2) 0%, transparent 60%);
 }
 .pc-card-wrapper:hover .pc-shine, .pc-card-wrapper:hover .pc-glare { opacity: 1; }
 
 /* --- HEADER --- */
 .pc-header-info {
   text-align: center;
-  z-index: 25;
+  z-index: 15;
   margin-bottom: 10px;
-  transform: translateZ(35px);
 }
 .en-name { font-family: 'ProductSans', sans-serif; font-size: 1.6rem; color: #fff; margin: 0; }
 .fa-name { font-family: 'Anjoman', sans-serif; font-size: 1.4rem; color: var(--c1); margin: 5px 0; }
@@ -108,31 +102,35 @@
   gap: 10px;
   margin-top: 8px;
   font-size: 0.95rem;
-  direction: ltr !important;
+  direction: ltr !important; 
 }
 .en-title-text { font-family: inherit; color: rgba(255,255,255,0.7); }
-.fa-title-text { font-family: 'Anjoman', sans-serif; color: rgba(255,255,255,0.7); font-weight: 500; }
+
+.fa-title-text { 
+  font-family: 'Anjoman', sans-serif; 
+  color: rgba(255,255,255,0.7); 
+  font-weight: 500;
+}
 .sep { color: var(--c4); }
 
-/* --- AVATAR (زیر افکت‌ها) --- */
+/* --- AVATAR & GLOW --- */
 .pc-avatar-container {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 5; /* زیر Glitter و Shine */
+  z-index: 5;
   position: relative;
-  margin-top: -25px;
-  transform: translateZ(10px);
+  margin-top: -25px; 
 }
 
 .pc-avatar-bg {
   position: absolute;
-  width: 260px;
-  height: 260px;
+  width: 240px;
+  height: 240px;
   background: conic-gradient(from 180deg at 50% 50%, var(--c4) 0deg, var(--c1) 160deg, var(--c4) 360deg);
-  filter: blur(50px);
-  opacity: 0.5;
+  filter: blur(55px);
+  opacity: 0.45;
   border-radius: 50%;
   z-index: -1;
   animation: rotateGlow 15s linear infinite;
@@ -151,20 +149,19 @@
   mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
 }
 
-/* --- LANGUAGES (بالاترین لایه برای تاچ صحیح) --- */
+/* --- LANGUAGES --- */
 .pc-lang-overlay {
   position: absolute;
   inset: 0;
-  z-index: 100;
+  z-index: 30;
   pointer-events: none;
-  transform-style: preserve-3d;
 }
 
 .flag-btn {
   position: absolute;
-  bottom: 25px;
-  width: 44px;
-  height: 44px;
+  bottom: 20px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
@@ -172,13 +169,9 @@
   background: rgba(15, 15, 15, 0.9);
   backdrop-filter: blur(8px);
   border: 1px solid var(--glass-border);
-  transform: translateZ(60px); /* جلوتر از همه افکت‌ها */
-  transition: transform 0.2s ease;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.4);
-  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.3s ease;
 }
-.flag-btn:hover { border-color: var(--c1); transform: translateZ(70px) scale(1.1); }
-.flag-btn:active { transform: translateZ(50px) scale(0.9); }
+.flag-btn:hover { transform: scale(1.2); border-color: var(--c1); }
 .flag-btn img { width: 100%; height: 100%; object-fit: cover; }
 
 .en-corner { left: 35px; }
@@ -187,22 +180,25 @@
 /* --- OUTER GLOW --- */
 .pc-behind {
   position: absolute;
-  inset: -150px;
-  background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), var(--c4) 0%, transparent 75%);
-  filter: blur(100px);
+  inset: -80px;
+  background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), var(--c4) 0%, transparent 70%);
+  filter: blur(90px);
   opacity: 0;
   transition: opacity 0.5s;
-  z-index: -1;
 }
-.pc-card-wrapper:hover .pc-behind { opacity: 0.6; }
+.pc-card-wrapper:hover .pc-behind { opacity: 0.5; }
 
+/* --- MOBILE OPTIMIZATION --- */
 @media (max-width: 480px) {
-  .pc-card-wrapper { width: 310px; }
-  .pc-card { height: 480px; }
+  .pc-card-wrapper {
+    width: 300px; /* کاهش جزئی عرض برای جلوگیری از بریدگی هاله */
+  }
+  .pc-card {
+    height: 460px;
+  }
   .en-name { font-size: 1.3rem; }
   .fa-name { font-size: 1.1rem; }
   .pc-avatar-container { margin-top: -15px; }
-  .avatar-minimal { width: 85%; }
-  .pc-behind { inset: -100px; opacity: 0.45; filter: blur(70px); }
-  .flag-btn { width: 48px; height: 48px; bottom: 20px; }
+  .avatar-minimal { width: 80%; }
+  .pc-behind { inset: -40px; filter: blur(50px); }
 }
