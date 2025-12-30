@@ -225,8 +225,8 @@
 .flag-btn {
   position: absolute;
   bottom: 25px;
-  width: 54px;
-  height: 54px;
+  width: 60px; /* Slightly wider for rectangle look */
+  height: 48px; 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -243,9 +243,9 @@
 }
 
 .flag-btn img { 
-  width: 44px; 
-  height: 44px; 
-  border-radius: 50%;
+  width: 100%; 
+  height: 100%; 
+  border-radius: 12px; /* Rounded rectangle corners */
   object-fit: cover;
   background: rgba(15, 15, 15, 0.85);
   backdrop-filter: blur(8px);
@@ -294,8 +294,8 @@
   .en-name { font-size: 1.3rem; }
   .fa-name { font-size: 1.1rem; }
   
-  .flag-btn { bottom: 20px; width: 48px; height: 48px; }
-  .flag-btn img { width: 38px; height: 38px; }
+  .flag-btn { bottom: 20px; width: 52px; height: 40px; }
+  .flag-btn img { border-radius: 10px; }
   .en-corner { left: 15px; }
   .fa-corner { right: 15px; }
   .flag-btn::after { display: none; }
