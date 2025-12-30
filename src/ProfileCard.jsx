@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useMemo } from 'react';
 import './ProfileCard.css';
 
-const DEFAULT_INNER_GRADIENT = 'linear-gradient(145deg, #121212 0%, #000000 100%)';
+const DEFAULT_INNER_GRADIENT = 'linear-gradient(145deg, #0f0f0f 0%, #050505 100%)';
 
 const ProfileCard = ({
   avatarUrl,
@@ -10,8 +10,7 @@ const ProfileCard = ({
   titleEn = "Job Seeker",
   titleFa = "کارجو",
   onSelectLang,
-  enableMobileTilt = true,
-  mobileTiltSensitivity = 5
+  enableMobileTilt = true
 }) => {
   const wrapRef = useRef(null);
   const shellRef = useRef(null);
@@ -26,8 +25,8 @@ const ProfileCard = ({
       if (!wrap) return;
       wrap.style.setProperty('--pointer-x', `${x}%`);
       wrap.style.setProperty('--pointer-y', `${y}%`);
-      wrap.style.setProperty('--rotate-x', `${(x - 50) / 6}deg`);
-      wrap.style.setProperty('--rotate-y', `${-(y - 50) / 6}deg`);
+      wrap.style.setProperty('--rotate-x', `${(x - 50) / 7}deg`);
+      wrap.style.setProperty('--rotate-y', `${-(y - 50) / 7}deg`);
     };
 
     const step = () => {
@@ -49,16 +48,11 @@ const ProfileCard = ({
   useEffect(() => {
     const shell = shellRef.current;
     if (!shell) return;
-
     const onMove = e => {
       const rect = shell.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 100;
-      const y = ((e.clientY - rect.top) / rect.height) * 100;
-      tiltEngine.setTarget(x, y);
+      tiltEngine.setTarget(((e.clientX - rect.left) / rect.width) * 100, ((e.clientY - rect.top) / rect.height) * 100);
     };
-
     const onLeave = () => tiltEngine.setTarget(50, 50);
-
     shell.addEventListener('pointermove', onMove);
     shell.addEventListener('pointerleave', onLeave);
     return () => {
@@ -70,10 +64,9 @@ const ProfileCard = ({
 
   return (
     <div ref={wrapRef} className="pc-card-wrapper">
-      {/* Dynamic Glitter Filter - No image needed */}
       <svg style={{ position: 'absolute', width: 0, height: 0 }}>
         <filter id="noiseFilter">
-          <feTurbulence type="fractalNoise" baseFrequency="0.6" stitchTiles="stitch" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.65" stitchTiles="stitch" />
           <feColorMatrix type="saturate" values="0" />
         </filter>
       </svg>
@@ -88,30 +81,32 @@ const ProfileCard = ({
             <div className="pc-shine" />
             <div className="pc-glare" />
 
-            {/* --- 1. TOP SECTION (Name & Title) --- */}
+            {/* Header Info - Properly Fonted & Centered */}
             <div className="pc-header-info">
               <div className="dual-name">
-                <h2 className="en-name">{nameEn}</h2>
-                <h2 className="fa-name">{nameFa}</h2>
+                <h2 className="en-name bold-font">{nameEn}</h2>
+                <h2 className="fa-name bold-font">{nameFa}</h2>
               </div>
               <div className="dual-title">
-                <span>{titleEn}</span>
-                <span className="sep">•</span>
-                <span>{titleFa}</span>
+                <span className="en-title-text">{titleEn}</span>
+                <span className="sep">-</span>
+                <span className="fa-title-text">{titleFa}</span>
               </div>
             </div>
 
-            {/* --- 2. MIDDLE SECTION (Avatar & Language Buttons) --- */}
+            {/* Avatar - No Ring, Integrated Masking */}
             <div className="pc-avatar-container">
-              <img className="avatar" src={avatarUrl} alt="Profile" />
-              
-              {/* Language Buttons placed over the avatar area */}
-              <div className="flag-corner en-corner" onClick={() => onSelectLang('en')}>
-                <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" alt="English" />
+              <img className="avatar-minimal" src={avatarUrl} alt="Profile" />
+            </div>
+
+            {/* Language Buttons - Repositioned & Clickable */}
+            <div className="pc-lang-overlay">
+              <div className="flag-btn en-corner" onClick={(e) => { e.stopPropagation(); onSelectLang('en'); }}>
+                <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" alt="EN" />
               </div>
               
-              <div className="flag-corner fa-corner" onClick={() => onSelectLang('fa')}>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Flag_of_Iran.svg" alt="Farsi" />
+              <div className="flag-btn fa-corner" onClick={(e) => { e.stopPropagation(); onSelectLang('fa'); }}>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Flag_of_Iran.svg" alt="FA" />
               </div>
             </div>
 

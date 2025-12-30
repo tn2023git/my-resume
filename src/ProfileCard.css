@@ -3,9 +3,6 @@
   --pointer-y: 50%;
   --rotate-x: 0deg;
   --rotate-y: 0deg;
-  --sunpillar-1: #ff0055;
-  --sunpillar-2: #00eeff;
-  --sunpillar-3: #9900ff;
 }
 
 .pc-card-wrapper {
@@ -13,22 +10,20 @@
   position: relative;
   width: 380px;
   margin: auto;
-  z-index: 10;
 }
 
 .pc-card-shell {
-  transition: transform 0.1s ease-out;
+  transition: transform 0.15s ease-out;
   transform: rotateX(var(--rotate-y)) rotateY(var(--rotate-x));
   transform-style: preserve-3d;
 }
 
 .pc-card {
-  height: 540px;
-  background: #000;
-  border-radius: 40px;
+  height: 520px;
+  background: #050505;
+  border-radius: 30px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+  border: 1px solid var(--glass-border);
   position: relative;
 }
 
@@ -37,45 +32,32 @@
   background: var(--inner-gradient);
   display: flex;
   flex-direction: column;
-  padding: 25px;
   position: relative;
+  padding: 30px 20px;
 }
 
-/* --- NO-IMAGE GLITTER --- */
+/* --- GLITTER & COLORS MATCHED TO ROOT --- */
 .pc-glitter {
   position: absolute;
   inset: 0;
   z-index: 2;
   opacity: 0;
-  filter: url(#noiseFilter) contrast(150%) brightness(120%);
+  filter: url(#noiseFilter) contrast(140%) brightness(120%);
   mix-blend-mode: screen;
   pointer-events: none;
-  transition: opacity 0.4s ease;
 }
+.pc-card-wrapper:hover .pc-glitter { opacity: 0.15; }
 
-.pc-card-wrapper:hover .pc-glitter {
-  opacity: 0.12; /* Delicate sparkle */
-}
-
-/* --- SHINE --- */
 .pc-shine {
   position: absolute;
   inset: 0;
   z-index: 3;
   opacity: 0;
-  mix-blend-mode: color-dodge;
-  transition: opacity 0.3s;
-  pointer-events: none;
-  background: linear-gradient(
-    110deg,
-    transparent 20%,
-    var(--sunpillar-1) 40%,
-    var(--sunpillar-2) 50%,
-    var(--sunpillar-3) 60%,
-    transparent 80%
-  );
+  mix-blend-mode: overlay;
+  background: linear-gradient(110deg, transparent 20%, var(--c4) 40%, var(--c1) 50%, var(--c2) 60%, transparent 80%);
   background-size: 200% 200%;
   background-position: var(--pointer-x) var(--pointer-y);
+  pointer-events: none;
 }
 
 .pc-glare {
@@ -83,109 +65,87 @@
   inset: 0;
   z-index: 4;
   opacity: 0;
-  background: radial-gradient(
-    circle at var(--pointer-x) var(--pointer-y),
-    rgba(255,255,255,0.3) 0%,
-    transparent 60%
-  );
-  transition: opacity 0.3s;
+  background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(255,255,255,0.2) 0%, transparent 60%);
 }
+.pc-card-wrapper:hover .pc-shine, .pc-card-wrapper:hover .pc-glare { opacity: 1; }
 
-.pc-card-wrapper:hover .pc-shine,
-.pc-card-wrapper:hover .pc-glare { opacity: 1; }
-
-/* --- TEXT SECTION (Top Centered) --- */
+/* --- HEADER INFO --- */
 .pc-header-info {
-  padding: 10px 0 20px;
   text-align: center;
-  z-index: 5;
+  z-index: 10;
+  margin-bottom: 20px;
+}
+.en-name { font-family: 'ProductSans', sans-serif; font-size: 1.6rem; color: #fff; margin: 0; }
+.fa-name { font-family: 'Anjoman', sans-serif; font-size: 1.4rem; color: var(--c1); margin: 5px 0; }
+
+.dual-title {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+  font-size: 1rem;
 }
+.en-title-text { font-family: 'ProductSans', sans-serif; color: rgba(255,255,255,0.6); }
+.fa-title-text { font-family: 'Anjoman', sans-serif; color: rgba(255,255,255,0.6); }
+.sep { color: var(--c4); }
 
-.dual-name { margin-bottom: 8px; }
-.en-name { 
-  color: #fff; 
-  font-size: 1.6rem; 
-  font-family: 'ProductSans', sans-serif; 
-  margin: 0;
-  letter-spacing: 0.5px;
-}
-.fa-name { 
-  color: #F3BC08; 
-  font-size: 1.4rem; 
-  font-family: 'Anjoman', sans-serif; 
-  margin: 4px 0 0 0;
-}
-
-.dual-title { 
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
-  gap: 8px;
-  color: rgba(255,255,255,0.55); 
-  font-size: 0.95rem;
-}
-.sep { color: #9900ff; font-weight: bold; }
-
-/* --- AVATAR SECTION --- */
+/* --- AVATAR - NO RING --- */
 .pc-avatar-container {
   flex: 1;
-  position: relative;
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin-top: 10px;
+  align-items: flex-start;
   z-index: 1;
+  overflow: hidden;
+}
+.avatar-minimal {
+  width: 85%;
+  height: auto;
+  object-fit: contain;
+  /* Soft fade at the bottom to blend with card */
+  mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
 }
 
-.avatar {
-  width: 240px;
-  height: 240px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 5px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-}
-
-/* --- LANGUAGE BUTTONS (Corners) --- */
-.flag-corner {
+/* --- LANGUAGE BUTTONS - FIXED & CLICKABLE --- */
+.pc-lang-overlay {
   position: absolute;
-  bottom: 20px;
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  border: 2px solid rgba(255,255,255,0.2);
+  inset: 0;
+  z-index: 20; /* High z-index to stay above effects */
+  pointer-events: none; /* Allows hover to work on card, but children override */
+}
+
+.flag-btn {
+  position: absolute;
+  bottom: 25px;
+  width: 50px;
+  height: 50px;
+  border-radius: 15px;
   overflow: hidden;
   cursor: pointer;
-  background: rgba(0,0,0,0.6);
+  pointer-events: auto; /* Re-enables clicking */
+  background: rgba(15, 15, 15, 0.6);
   backdrop-filter: blur(10px);
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  z-index: 10;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  border: 1px solid var(--glass-border);
+  transition: all 0.3s ease;
 }
-
-.flag-corner:hover { 
-  transform: scale(1.15) translateY(-5px); 
-  border-color: #F3BC08;
-  box-shadow: 0 10px 20px rgba(243, 188, 8, 0.3);
+.flag-btn:hover {
+  transform: translateY(-5px);
+  border-color: var(--c1);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.4);
 }
+.flag-btn img { width: 100%; height: 100%; object-fit: cover; }
 
-.flag-corner img { width: 100%; height: 100%; object-fit: cover; }
+.en-corner { left: 25px; }
+.fa-corner { right: 25px; }
 
-.en-corner { left: 15%; }
-.fa-corner { right: 15%; }
-
-/* --- BACKGROUND GLOW --- */
+/* --- GLOW BEHIND --- */
 .pc-behind {
   position: absolute;
   inset: -30px;
-  background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(153, 0, 255, 0.25), transparent 70%);
+  background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), var(--c4) 0%, transparent 70%);
   filter: blur(50px);
   opacity: 0;
   transition: opacity 0.4s;
 }
-.pc-card-wrapper:hover .pc-behind { opacity: 1; }
+.pc-card-wrapper:hover .pc-behind { opacity: 0.2; }
