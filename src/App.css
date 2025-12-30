@@ -182,7 +182,6 @@ body, html {
   display: flex;
   gap: 15px;
   z-index: 1000;
-  /* Direction neutral container */
   direction: ltr !important; 
 }
 
@@ -219,6 +218,8 @@ body, html {
   .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary { background: rgba(10, 10, 10, 0.95) !important; margin-bottom: 0 !important; }
   .app-wrapper { padding: 40px 15px 100px 15px; }
   .floating-actions-container { bottom: 20px; }
+  /* Hide the print button (last button in container) on mobile */
+  .floating-actions-container .floating-btn:last-child { display: none !important; }
 }
 
 /* --- CRITICAL PRINT FIXES --- */
