@@ -1,122 +1,149 @@
-import React, { useEffect, useRef, useCallback, useMemo } from 'react';
-import './ProfileCard.css';
+import { useEffect, useRef } from 'react';
+import './PixelCard.css';
 
-const DEFAULT_INNER_GRADIENT = 'linear-gradient(145deg, #1a1a1a 0%, #000 100%)';
+class Pixel {
+  constructor(canvas, context, x, y, color, speed, delay) {
+    this.width = canvas.width;
+    this.height = canvas.height;
+    this.ctx = context;
+    this.x = x;
+    this.y = y;
+    this.color = color;
+    this.speed = this.getRandomValue(0.1, 0.9) * speed;
+    this.size = 0;
+    this.sizeStep = Math.random() * 0.4;
+    this.minSize = 0.5;
+    this.maxSizeInteger = 2;
+    this.maxSize = this.getRandomValue(this.minSize, this.maxSizeInteger);
+    this.delay = delay;
+    this.counter = 0;
+    this.counterStep = Math.random() * 4 + (this.width + this.height) * 0.01;
+    this.isIdle = false;
+    this.isReverse = false;
+    this.isShimmer = false;
+  }
 
-const ProfileCard = ({
-  avatarUrl,
-  nameEn = "Amirali Dabiri Maram",
-  nameFa = "امیرعلی دبیری مرام",
-  titleEn = "Job Seeker",
-  titleFa = "کارجو",
-  onSelectLang,
-}) => {
-  const wrapRef = useRef(null);
+  getRandomValue(min, max) { return Math.random() * (max - min) + min; }
 
-  const tiltEngine = useMemo(() => {
-    let rafId = null;
-    let running = false;
-    let currentX = 50, currentY = 50, targetX = 50, targetY = 50;
+  draw() {
+    const centerOffset = this.maxSizeInteger * 0.5 - this.size * 0.5;
+    this.ctx.fillStyle = this.color;
+    this.ctx.fillRect(this.x + centerOffset, this.y + centerOffset, this.size, this.size);
+  }
 
-    const setVars = (x, y) => {
-      const wrap = wrapRef.current;
-      if (!wrap) return;
-      
-      // محاسبه درصد موقعیت موس
-      const px = Math.min(Math.max(x, 0), 100);
-      const py = Math.min(Math.max(y, 0), 100);
-      
-      wrap.style.setProperty('--pointer-x', `${px}%`);
-      wrap.style.setProperty('--pointer-y', `${py}%`);
-      
-      // محاسبه چرخش (Tilt)
-      const rx = (px - 50) / 5;
-      const ry = -(py - 50) / 5;
-      wrap.style.setProperty('--rotate-x', `${rx}deg`);
-      wrap.style.setProperty('--rotate-y', `${ry}deg`);
-    };
+  appear() {
+    this.isIdle = false;
+    if (this.counter <= this.delay) { this.counter += this.counterStep; return; }
+    if (this.size >= this.maxSize) { this.isShimmer = true; }
+    if (this.isShimmer) { this.shimmer(); } else { this.size += this.sizeStep; }
+    this.draw();
+  }
 
-    const step = () => {
-      currentX += (targetX - currentX) * 0.1;
-      currentY += (targetY - currentY) * 0.1;
-      setVars(currentX, currentY);
-      rafId = requestAnimationFrame(step);
-    };
+  disappear() {
+    this.isShimmer = false;
+    this.counter = 0;
+    if (this.size <= 0) { this.isIdle = true; return; } else { this.size -= 0.1; }
+    this.draw();
+  }
 
-    return {
-      setTarget(x, y) {
-        targetX = x; targetY = y;
-        if (!running) { running = true; rafId = requestAnimationFrame(step); }
-      },
-      stop() { cancelAnimationFrame(rafId); running = false; }
-    };
-  }, []);
+  shimmer() {
+    if (this.size >= this.maxSize) { this.isReverse = true; } 
+    else if (this.size <= this.minSize) { this.isReverse = false; }
+    if (this.isReverse) { this.size -= this.speed; } else { this.size += this.speed; }
+  }
+}
 
-  useEffect(() => {
-    const wrap = wrapRef.current;
-    if (!wrap) return;
+function getEffectiveSpeed(value, reducedMotion) {
+  const throttle = 0.001;
+  return reducedMotion ? 0 : parseInt(value, 10) * throttle;
+}
 
-    const move = (e) => {
-      const rect = wrap.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 100;
-      const y = ((e.clientY - rect.top) / rect.height) * 100;
-      tiltEngine.setTarget(x, y);
-    };
-
-    const leave = () => tiltEngine.setTarget(50, 50);
-
-    wrap.addEventListener('pointermove', move);
-    wrap.addEventListener('pointerleave', leave);
-    return () => {
-      wrap.removeEventListener('pointermove', move);
-      wrap.removeEventListener('pointerleave', leave);
-      tiltEngine.stop();
-    };
-  }, [tiltEngine]);
-
-  return (
-    <div ref={wrapRef} className="pc-card-wrapper">
-      <div className="pc-behind" />
-      <div className="pc-card-shell">
-        <section className="pc-card">
-          <div className="pc-inside" style={{ '--inner-gradient': DEFAULT_INNER_GRADIENT }}>
-            
-            {/* لایه‌های افکت درخشش */}
-            <div className="pc-shine" />
-            <div className="pc-glitter" />
-            <div className="pc-glare" />
-
-            {/* Header: Name and Title */}
-            <div className="pc-header-info">
-              <h3 className="dual-name">
-                <span className="en-name">{nameEn}</span>
-                <span className="fa-name">{nameFa}</span>
-              </h3>
-              <div className="dual-title">
-                <span>{titleEn}</span>
-                <span className="sep">-</span>
-                <span>{titleFa}</span>
-              </div>
-            </div>
-
-            {/* Content: Avatar and Buttons */}
-            <div className="pc-avatar-container">
-              <img className="avatar" src={avatarUrl} alt="Profile" />
-              
-              <button className="flag-corner en-corner" onClick={() => onSelectLang('en')}>
-                <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" alt="EN" />
-              </button>
-              
-              <button className="flag-corner fa-corner" onClick={() => onSelectLang('fa')}>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Flag_of_Iran.svg" alt="FA" />
-              </button>
-            </div>
-
-          </div>
-        </section>
-      </div>
-    </div>
-  );
+const VARIANTS = {
+  resume: {
+    activeColor: 'rgba(160, 16, 214, 0.7)',
+    gap: 6,
+    speed: 35,
+    colors: 'rgba(243, 188, 8, 0.7),rgba(209, 118, 92, 0.7),rgba(160, 10, 214, 0.7),rgba(223, 147, 57, 0.7)',
+    noFocus: false
+  }
 };
 
-export default ProfileCard;
+export default function PixelCard({ variant = 'resume', gap, speed, colors, noFocus, className = '', children, isStatic = false }) {
+  const containerRef = useRef(null);
+  const canvasRef = useRef(null);
+  const pixelsRef = useRef([]);
+  const animationRef = useRef(null);
+  const timePreviousRef = useRef(performance.now());
+  
+  const reducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const variantCfg = VARIANTS[variant] || VARIANTS.resume;
+  const finalGap = gap ?? variantCfg.gap;
+  const finalSpeed = speed ?? variantCfg.speed;
+  const finalColors = colors ?? variantCfg.colors;
+
+  const initPixels = () => {
+    if (!containerRef.current || !canvasRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const width = Math.floor(rect.width);
+    const height = Math.floor(rect.height);
+    const ctx = canvasRef.current.getContext('2d');
+    canvasRef.current.width = width;
+    canvasRef.current.height = height;
+    const colorsArray = finalColors.split('),').map(c => c.endsWith(')') ? c : c + ')');
+    const pxs = [];
+    for (let x = 0; x < width; x += parseInt(finalGap, 10)) {
+      for (let y = 0; y < height; y += parseInt(finalGap, 10)) {
+        const color = colorsArray[Math.floor(Math.random() * colorsArray.length)];
+        const delay = Math.sqrt(Math.pow(x - width/2, 2) + Math.pow(y - height/2, 2));
+        pxs.push(new Pixel(canvasRef.current, ctx, x, y, color, getEffectiveSpeed(finalSpeed, reducedMotion), delay));
+      }
+    }
+    pixelsRef.current = pxs;
+    if (isStatic) handleAnimation('appear');
+  };
+
+  const doAnimate = fnName => {
+    animationRef.current = requestAnimationFrame(() => doAnimate(fnName));
+    const timeNow = performance.now();
+    const timePassed = timeNow - timePreviousRef.current;
+    if (timePassed < 1000 / 60) return;
+    timePreviousRef.current = timeNow - (timePassed % (1000 / 60));
+
+    const ctx = canvasRef.current?.getContext('2d');
+    if (!ctx || !canvasRef.current) return;
+    ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+    let allIdle = true;
+    pixelsRef.current.forEach(pixel => {
+      pixel[fnName]();
+      if (!pixel.isIdle) allIdle = false;
+    });
+    if (allIdle && !isStatic) cancelAnimationFrame(animationRef.current);
+  };
+
+  const handleAnimation = name => {
+    cancelAnimationFrame(animationRef.current);
+    animationRef.current = requestAnimationFrame(() => doAnimate(name));
+  };
+
+  useEffect(() => {
+    initPixels();
+    const resizeObserver = new ResizeObserver(() => initPixels());
+    if (containerRef.current) resizeObserver.observe(containerRef.current);
+    return () => {
+      resizeObserver.disconnect();
+      cancelAnimationFrame(animationRef.current);
+    };
+  }, [finalGap, finalSpeed, finalColors, isStatic]);
+
+  return (
+    <div
+      ref={containerRef}
+      className={`pixel-card ${className}`}
+      onMouseEnter={() => !isStatic && handleAnimation('appear')}
+      onMouseLeave={() => !isStatic && handleAnimation('disappear')}
+    >
+      <canvas className="pixel-canvas" ref={canvasRef} />
+      <div className="pixel-content">{children}</div>
+    </div>
+  );
+}
