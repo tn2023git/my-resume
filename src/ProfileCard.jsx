@@ -14,6 +14,14 @@ const ProfileCard = ({
   const wrapRef = useRef(null);
   const shellRef = useRef(null);
 
+  useEffect(() => {
+    const originalStyle = window.getComputedStyle(document.body).overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = originalStyle;
+    };
+  }, []);
+
   const tiltEngine = useMemo(() => {
     let rafId = null;
     let running = false;
@@ -54,8 +62,10 @@ const ProfileCard = ({
     };
 
     const handleOrientation = (e) => {
-      const x = Math.min(Math.max(((e.gamma || 0) + 20) / 40 * 100, 0), 100);
-      const y = Math.min(Math.max(((e.beta || 0) - 20) / 40 * 100, 0), 100);
+      // ضریب حساسیت برای موبایل (قابل تنظیم)
+      const sens = 15; 
+      const x = Math.min(Math.max(((e.gamma || 0) + sens) / (sens * 2) * 100, 0), 100);
+      const y = Math.min(Math.max(((e.beta || 0) - (sens + 10)) / (sens * 2) * 100, 0), 100);
       tiltEngine.setTarget(x, y);
     };
 
@@ -63,7 +73,11 @@ const ProfileCard = ({
 
     shell.addEventListener('pointermove', onMove);
     shell.addEventListener('pointerleave', onLeave);
-    window.addEventListener('deviceorientation', handleOrientation);
+    
+    // فعال‌سازی سنسور حرکت در موبایل
+    if (window.DeviceOrientationEvent) {
+      window.addEventListener('deviceorientation', handleOrientation);
+    }
 
     return () => {
       shell.removeEventListener('pointermove', onMove);
@@ -74,7 +88,6 @@ const ProfileCard = ({
   }, [tiltEngine]);
 
   return (
-    /* اضافه شدن کلاس gateway-mode برای کنترل ارتفاع کل صفحه */
     <div className="gateway-mode">
       <div ref={wrapRef} className="pc-card-wrapper">
         <svg style={{ position: 'absolute', width: 0, height: 0 }}>
@@ -90,6 +103,13 @@ const ProfileCard = ({
           <section className="pc-card">
             <div className="pc-inside" style={{ '--inner-gradient': DEFAULT_INNER_GRADIENT }}>
               
+              {/* آواتار در لایه پایین‌تر */}
+              <div className="pc-avatar-container">
+                <div className="pc-avatar-bg" />
+                <img className="avatar-minimal" src={avatarUrl} alt="Profile" />
+              </div>
+
+              {/* افکت‌ها در لایه بالاتر برای انداختن سایه و درخشش روی عکس */}
               <div className="pc-glitter" />
               <div className="pc-shine" />
               <div className="pc-glare" />
@@ -104,11 +124,6 @@ const ProfileCard = ({
                   <span className="sep">-</span>
                   <span className="fa-title-text">{titleFa}</span>
                 </div>
-              </div>
-
-              <div className="pc-avatar-container">
-                <div className="pc-avatar-bg" />
-                <img className="avatar-minimal" src={avatarUrl} alt="Profile" />
               </div>
 
               <div className="pc-lang-overlay">
