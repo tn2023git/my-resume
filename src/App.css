@@ -223,7 +223,7 @@ body, html {
 
 /* --- CRITICAL PRINT FIXES --- */
 @media print {
-  @page { size: A4; margin: 10mm; }
+  @page { size: A4; margin: 8mm; }
   
   html, body { 
     background: white !important; 
@@ -246,26 +246,26 @@ body, html {
     position: static !important;
   }
   
-  .pdf-page { max-width: 100% !important; gap: 15px !important; }
+  .pdf-page { max-width: 100% !important; gap: 8px !important; }
 
-  /* Fixing 3-column layout for print */
+  /* Reverting to Columns for print with overflow fixes */
   .info-columns-container { 
-    column-count: auto !important; 
-    display: flex !important;
-    flex-wrap: wrap !important;
-    gap: 15px !important;
+    display: block !important;
+    column-count: 3 !important; 
+    column-gap: 15px !important; 
     width: 100% !important;
+    overflow: visible !important;
   }
 
-  .side-pixel-wrapper { 
-    width: calc(33.33% - 10px) !important; /* Forces 3 boxes per row */
-    min-width: 200px;
+  .side-pixel-wrapper {
+    break-inside: avoid-column !important;
+    display: block !important;
     background: white !important;
     border: 1.5px solid #000 !important;
     color: black !important;
-    break-inside: avoid !important;
-    margin-bottom: 0 !important;
-    padding: 15px !important;
+    margin-bottom: 15px !important;
+    padding: 12px !important;
+    position: relative !important;
   }
 
   .exp-pixel-wrapper, .full-width-summary, .mobile-glass-card {
@@ -275,6 +275,8 @@ body, html {
     break-inside: avoid !important;
     margin-bottom: 10px !important;
     padding: 15px !important;
+    width: 100% !important;
+    display: block !important;
   }
 
   .side-section, .exp-card, .summary-inner { padding: 5px !important; }
@@ -297,7 +299,7 @@ body, html {
     color: black !important;
   }
 
-  /* Dot and Progress Bar Printing Fixes */
+  /* Dot and Progress Bar Printing Fixes (Pure Black) */
   .dot { 
     border: 1px solid #000 !important; 
     background: #fff !important; 
@@ -329,4 +331,4 @@ body, html {
     color: black !important;
     text-decoration: underline !important;
   }
-} 
+}
