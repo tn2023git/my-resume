@@ -48,15 +48,12 @@ const ProfileCard = ({
     const shell = shellRef.current;
     if (!shell) return;
 
-    // Desktop Mouse Move
     const onMove = e => {
       const rect = shell.getBoundingClientRect();
       tiltEngine.setTarget(((e.clientX - rect.left) / rect.width) * 100, ((e.clientY - rect.top) / rect.height) * 100);
     };
 
-    // Mobile Tilt (Gyroscope)
     const handleOrientation = (e) => {
-      // Mapping beta (-30 to 30) and gamma (-30 to 30) to 0-100 range
       const x = Math.min(Math.max(((e.gamma || 0) + 20) / 40 * 100, 0), 100);
       const y = Math.min(Math.max(((e.beta || 0) - 20) / 40 * 100, 0), 100);
       tiltEngine.setTarget(x, y);
@@ -80,8 +77,8 @@ const ProfileCard = ({
     <div ref={wrapRef} className="pc-card-wrapper">
       <svg style={{ position: 'absolute', width: 0, height: 0 }}>
         <filter id="noiseFilter">
-          {/* Lower baseFrequency (0.4) makes the noise "chunky" and larger */}
-          <feTurbulence type="fractalNoise" baseFrequency="0.4" numOctaves="3" stitchTiles="stitch" />
+          {/* Increased frequency for sand-like fine grain */}
+          <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="4" stitchTiles="stitch" />
           <feColorMatrix type="saturate" values="0" />
         </filter>
       </svg>

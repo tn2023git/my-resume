@@ -10,7 +10,6 @@
   position: relative;
   width: 380px;
   margin: auto;
-  /* Mobile Scaling */
   transition: width 0.3s ease;
 }
 
@@ -38,19 +37,19 @@
   padding: 30px 20px;
 }
 
-/* --- CHUNKY GLITTER --- */
+/* --- SAND-LIKE GLITTER --- */
 .pc-glitter {
   position: absolute;
   inset: 0;
   z-index: 10;
-  opacity: 0.18;
-  /* Massive contrast and brightness for chunky/rocky look */
-  filter: url(#noiseFilter) contrast(450%) brightness(1200%);
+  opacity: 0.15;
+  /* Balanced contrast for fine sand effect */
+  filter: url(#noiseFilter) contrast(180%) brightness(1000%);
   mix-blend-mode: screen;
   pointer-events: none;
   transition: opacity 0.3s ease;
 }
-.pc-card-wrapper:hover .pc-glitter { opacity: 0.45; }
+.pc-card-wrapper:hover .pc-glitter { opacity: 0.35; }
 
 .pc-shine {
   position: absolute;
@@ -171,10 +170,10 @@
 /* --- MOBILE OPTIMIZATION --- */
 @media (max-width: 480px) {
   .pc-card-wrapper {
-    width: 320px; /* Smaller width on mobile */
+    width: 320px;
   }
   .pc-card {
-    height: 460px; /* Slightly shorter */
+    height: 460px;
   }
   .en-name { font-size: 1.3rem; }
   .fa-name { font-size: 1.1rem; }
