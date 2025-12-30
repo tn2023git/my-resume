@@ -67,25 +67,16 @@ const ProfileCard = ({
       tiltEngine.setTarget(x, y);
     };
 
-    const onLeave = () => tiltEngine.setTarget(50, 50);
-
     shell.addEventListener('pointermove', onMove);
-    shell.addEventListener('pointerleave', onLeave);
+    shell.addEventListener('pointerleave', () => tiltEngine.setTarget(50, 50));
     window.addEventListener('deviceorientation', handleOrientation);
 
     return () => {
       shell.removeEventListener('pointermove', onMove);
-      shell.removeEventListener('pointerleave', onLeave);
       window.removeEventListener('deviceorientation', handleOrientation);
       tiltEngine.stop();
     };
   }, [tiltEngine]);
-
-  const handleLangSelect = (e, lang) => {
-    e.preventDefault();
-    e.stopPropagation();
-    onSelectLang(lang);
-  };
 
   return (
     <div className="gateway-mode">
@@ -99,6 +90,25 @@ const ProfileCard = ({
 
         <div className="pc-behind" />
         
+        {/* بخش دکمه‌ها کاملاً بیرون از shell سه‌بعدی قرار گرفت */}
+        <div className="pc-lang-overlay">
+          <button 
+            className="flag-btn" 
+            onClick={() => onSelectLang('en')}
+            aria-label="English"
+          >
+            <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" alt="EN" />
+          </button>
+          
+          <button 
+            className="flag-btn" 
+            onClick={() => onSelectLang('fa')}
+            aria-label="Farsi"
+          >
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Flag_of_Iran.svg" alt="FA" />
+          </button>
+        </div>
+
         <div ref={shellRef} className="pc-card-shell">
           <section className="pc-card">
             <div className="pc-inside" style={{ '--inner-gradient': DEFAULT_INNER_GRADIENT }}>
@@ -123,23 +133,6 @@ const ProfileCard = ({
                 <div className="pc-avatar-bg" />
                 <img className="avatar-minimal" src={avatarUrl} alt="Profile" />
               </div>
-
-              <div className="pc-lang-overlay">
-                <div 
-                  className="flag-btn en-corner" 
-                  onPointerDown={(e) => handleLangSelect(e, 'en')}
-                >
-                  <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" alt="EN" />
-                </div>
-                
-                <div 
-                  className="flag-btn fa-corner" 
-                  onPointerDown={(e) => handleLangSelect(e, 'fa')}
-                >
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Flag_of_Iran.svg" alt="FA" />
-                </div>
-              </div>
-
             </div>
           </section>
         </div>
