@@ -13,7 +13,6 @@ const ProfileCard = ({
 }) => {
   const wrapRef = useRef(null);
   const shellRef = useRef(null);
-  const glowRef = useRef(null);
 
   useEffect(() => {
     const originalStyle = window.getComputedStyle(document.body).overflow;
@@ -64,7 +63,7 @@ const ProfileCard = ({
 
     const handleOrientation = (e) => {
       if (e.gamma === null || e.beta === null) return;
-      // استفاده از سنسور ژیروسکوپ برای حرکت هاله و کارت
+      // اصلاح سنسور موبایل برای حرکت نرم کارت و هاله
       const x = Math.min(Math.max(((e.gamma || 0) + 20) / 40 * 100, 0), 100);
       const y = Math.min(Math.max(((e.beta || 0) - 25) / 40 * 100, 0), 100);
       tiltEngine.setTarget(x, y);
@@ -76,17 +75,17 @@ const ProfileCard = ({
 
     return () => {
       shell.removeEventListener('pointermove', onMove);
-      window.removeEventListener('deviceorientation', handleOrientation);
+      window.removeEventListener('deviceorientation', handleOrientation, true);
       tiltEngine.stop();
     };
   }, [tiltEngine]);
 
   return (
     <div className="gateway-mode">
-      {/* هاله نوری بیرونی اصلاح شده */}
-      <div ref={glowRef} className="pc-global-glow" />
-
       <div ref={wrapRef} className="pc-card-wrapper">
+        {/* هاله بیرونی با رنگ‌های گرادینت */}
+        <div className="pc-behind" />
+
         <svg style={{ position: 'absolute', width: 0, height: 0 }}>
           <filter id="noiseFilter">
             <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="3" stitchTiles="stitch" />
@@ -115,6 +114,7 @@ const ProfileCard = ({
                 <img className="avatar-minimal" src={avatarUrl} alt="Profile" />
               </div>
 
+              {/* Glitter با پوشش بزرگتر برای رفع Cutoff */}
               <div className="pc-glitter" />
               <div className="pc-shine" />
               <div className="pc-glare" />
