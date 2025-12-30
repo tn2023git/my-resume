@@ -54,23 +54,35 @@ const ProfileCard = ({
 
   useEffect(() => {
     const shell = shellRef.current;
-    if (!shell || isMobile) return;
+    if (!shell) return;
 
-    const onMove = e => {
-      const rect = shell.getBoundingClientRect();
-      tiltEngine.setTarget(((e.clientX - rect.left) / rect.width) * 100, ((e.clientY - rect.top) / rect.height) * 100);
-    };
-    
-    const onLeave = () => tiltEngine.setTarget(50, 50);
-
-    shell.addEventListener('pointermove', onMove);
-    shell.addEventListener('pointerleave', onLeave);
-
-    return () => {
-      shell.removeEventListener('pointermove', onMove);
-      shell.removeEventListener('pointerleave', onLeave);
-      tiltEngine.stop();
-    };
+    if (isMobile) {
+      // Automatic Floating Animation for Mobile using JS for smoothness
+      let angle = 0;
+      const autoAnimate = () => {
+        angle += 0.015; // Speed of rotation
+        const x = 50 + Math.cos(angle) * 25;
+        const y = 50 + Math.sin(angle) * 25;
+        tiltEngine.setTarget(x, y);
+        requestAnimationFrame(autoAnimate);
+      };
+      const mobileRaf = requestAnimationFrame(autoAnimate);
+      return () => cancelAnimationFrame(mobileRaf);
+    } else {
+      // Standard Mouse Logic for PC
+      const onMove = e => {
+        const rect = shell.getBoundingClientRect();
+        tiltEngine.setTarget(((e.clientX - rect.left) / rect.width) * 100, ((e.clientY - rect.top) / rect.height) * 100);
+      };
+      const onLeave = () => tiltEngine.setTarget(50, 50);
+      shell.addEventListener('pointermove', onMove);
+      shell.addEventListener('pointerleave', onLeave);
+      return () => {
+        shell.removeEventListener('pointermove', onMove);
+        shell.removeEventListener('pointerleave', onLeave);
+        tiltEngine.stop();
+      };
+    }
   }, [tiltEngine, isMobile]);
 
   return (
