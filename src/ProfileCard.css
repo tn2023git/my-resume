@@ -18,7 +18,7 @@
   overflow: hidden;
 }
 
-/* --- MOBILE SPECIFIC FIXES --- */
+/* --- MOBILE SPECIFIC: Effects always ON --- */
 .pc-is-mobile .pc-glitter-color,
 .pc-is-mobile .pc-shine,
 .pc-is-mobile .pc-glare {
@@ -28,6 +28,12 @@
 .pc-is-mobile .pc-behind {
   opacity: 0.2 !important;
 }
+
+/* --- DESKTOP SPECIFIC: Effects only on Hover --- */
+.pc-is-desktop:hover .pc-glitter-color { opacity: 0.35; }
+.pc-is-desktop:hover .pc-shine, 
+.pc-is-desktop:hover .pc-glare { opacity: 0.8; }
+.pc-is-desktop:hover .pc-behind { opacity: 0.25; }
 
 /* ----------------------------- */
 
@@ -88,8 +94,6 @@
   transition: opacity 0.4s ease;
 }
 
-.pc-card-wrapper:hover .pc-glitter-color { opacity: 0.35; }
-
 .pc-shine {
   position: absolute;
   inset: 0;
@@ -108,11 +112,6 @@
   z-index: 13;
   opacity: 0;
   background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(255,255,255,0.15) 0%, transparent 60%);
-}
-
-.pc-card-wrapper:hover .pc-shine, 
-.pc-card-wrapper:hover .pc-glare { 
-  opacity: 0.8; 
 }
 
 .pc-header-info {
@@ -174,9 +173,9 @@
 .pc-lang-overlay {
   position: absolute;
   inset: 0;
-  z-index: 100; /* Increased to stay above all glitter/glare */
+  z-index: 100;
   pointer-events: none;
-  transform: translateZ(50px); /* Push forward in 3D space for touch reliability */
+  transform: translateZ(50px);
 }
 
 .flag-btn {
@@ -222,7 +221,6 @@
   z-index: -1;
   pointer-events: none;
 }
-.pc-card-wrapper:hover .pc-behind { opacity: 0.25; }
 
 @media (max-width: 480px) {
   .pc-card-shell { width: 310px; }
@@ -231,10 +229,10 @@
   .en-name { font-size: 1.3rem; }
   .fa-name { font-size: 1.1rem; }
   
-  .pc-behind { opacity: 0.2; }
+  .pc-behind { opacity: 0.2 !important; }
   .pc-glitter-base { opacity: 0.15; }
-  .pc-glitter-color { opacity: 0.25; }
-  .pc-shine, .pc-glare { opacity: 0.6; }
+  .pc-glitter-color { opacity: 0.25 !important; }
+  .pc-shine, .pc-glare { opacity: 0.6 !important; }
 
   .flag-btn { bottom: 12px; }
   .en-corner { left: 12px; }

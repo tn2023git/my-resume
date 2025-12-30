@@ -16,7 +16,10 @@ const ProfileCard = ({
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    const checkMobile = () => {
+      // استفاده از Touch support برای تشخیص دقیق‌تر موبایل
+      setIsMobile('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    };
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
@@ -57,22 +60,29 @@ const ProfileCard = ({
     if (!shell) return;
 
     if (isMobile) {
+      // --- ONLY FOR MOBILE: Auto Animation ---
       let angle = 0;
+      let mobileRaf;
       const autoAnimate = () => {
-        angle += 0.008; // Slower speed for luxury feel
-        const x = 50 + Math.cos(angle) * 35; // Stronger angles (Radius 35)
+        angle += 0.008; 
+        const x = 50 + Math.cos(angle) * 35;
         const y = 50 + Math.sin(angle) * 35;
         tiltEngine.setTarget(x, y);
-        requestAnimationFrame(autoAnimate);
+        mobileRaf = requestAnimationFrame(autoAnimate);
       };
-      const mobileRaf = requestAnimationFrame(autoAnimate);
-      return () => cancelAnimationFrame(mobileRaf);
+      mobileRaf = requestAnimationFrame(autoAnimate);
+      return () => {
+        cancelAnimationFrame(mobileRaf);
+        tiltEngine.stop();
+      };
     } else {
+      // --- ONLY FOR PC: Mouse Interaction ---
       const onMove = e => {
         const rect = shell.getBoundingClientRect();
         tiltEngine.setTarget(((e.clientX - rect.left) / rect.width) * 100, ((e.clientY - rect.top) / rect.height) * 100);
       };
       const onLeave = () => tiltEngine.setTarget(50, 50);
+      
       shell.addEventListener('pointermove', onMove);
       shell.addEventListener('pointerleave', onLeave);
       return () => {
@@ -84,7 +94,7 @@ const ProfileCard = ({
   }, [tiltEngine, isMobile]);
 
   return (
-    <div ref={wrapRef} className={`pc-card-wrapper ${isMobile ? 'pc-is-mobile' : ''}`}>
+    <div ref={wrapRef} className={`pc-card-wrapper ${isMobile ? 'pc-is-mobile' : 'pc-is-desktop'}`}>
       <svg style={{ position: 'absolute', width: 0, height: 0 }}>
         <filter id="glitterNoise">
           <feTurbulence type="fractalNoise" baseFrequency="0.99" numOctaves="1" stitchTiles="stitch" />
