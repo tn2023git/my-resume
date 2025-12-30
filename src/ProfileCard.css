@@ -137,8 +137,6 @@
 
 .en-title-text { font-family: 'ProductSans', sans-serif; color: rgba(255,255,255,0.8); }
 .fa-title-text { font-family: 'Anjoman', sans-serif; color: rgba(255,255,255,0.8); }
-
-/* --- Updated separator color to Yellow --- */
 .sep { color: #ffd700; font-weight: bold; }
 
 .pc-avatar-container {
@@ -152,8 +150,8 @@
 
 .pc-avatar-bg {
   position: absolute;
-  width: 240px;
-  height: 240px;
+  width: 320px; /* Increased from 240px to match larger photo */
+  height: 320px;
   background: conic-gradient(from 180deg at 50% 50%, var(--c4) 0deg, var(--c1) 160deg, var(--c4) 360deg);
   filter: blur(55px);
   opacity: 0.25;
@@ -168,11 +166,12 @@
 }
 
 .avatar-minimal {
-  width: 70%;
-  max-width: 250px;
+  width: 105%; /* Increased from 70% to make it ~1.5x bigger */
+  max-width: 320px;
   height: auto;
   object-fit: contain;
   mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+  z-index: 2;
 }
 
 .pc-lang-overlay {
@@ -230,7 +229,8 @@
 @media (max-width: 768px) {
   .pc-card-shell { width: 310px; }
   .pc-card { height: 460px; }
-  .pc-avatar-bg { width: 180px; height: 180px; }
+  .pc-avatar-bg { width: 240px; height: 240px; } /* Proportional reduction for mobile */
+  .avatar-minimal { width: 100%; } 
   .en-name { font-size: 1.3rem; }
   .fa-name { font-size: 1.1rem; }
   
