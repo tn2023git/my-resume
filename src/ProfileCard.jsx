@@ -54,29 +54,28 @@ const ProfileCard = ({
     const shell = shellRef.current;
     if (!shell) return;
 
-    // حرکت ماوس در دسکتاپ
     const onMove = e => {
       const rect = shell.getBoundingClientRect();
       tiltEngine.setTarget(((e.clientX - rect.left) / rect.width) * 100, ((e.clientY - rect.top) / rect.height) * 100);
     };
 
-    // حرکت ژیروسکوپ در موبایل
     const handleOrientation = (e) => {
       if (e.gamma === null || e.beta === null) return;
-      // نرمال‌سازی اعداد ژیروسکوپ برای محدوده ۰ تا ۱۰۰
+      // اصلاح زاویه برای موبایل
       const x = Math.min(Math.max(((e.gamma || 0) + 20) / 40 * 100, 0), 100);
       const y = Math.min(Math.max(((e.beta || 0) - 25) / 40 * 100, 0), 100);
       tiltEngine.setTarget(x, y);
     };
 
+    const onLeave = () => tiltEngine.setTarget(50, 50);
+
     shell.addEventListener('pointermove', onMove);
-    shell.addEventListener('pointerleave', () => tiltEngine.setTarget(50, 50));
-    
-    // فعال‌سازی سنسور حرکت
+    shell.addEventListener('pointerleave', onLeave);
     window.addEventListener('deviceorientation', handleOrientation, true);
 
     return () => {
       shell.removeEventListener('pointermove', onMove);
+      shell.removeEventListener('pointerleave', onLeave);
       window.removeEventListener('deviceorientation', handleOrientation);
       tiltEngine.stop();
     };
@@ -92,9 +91,21 @@ const ProfileCard = ({
           </filter>
         </svg>
 
-        <div className="pc-behind" />
+        <div className="pc-behind" style={{ 
+          position: 'absolute', 
+          inset: '-100px', 
+          background: 'radial-gradient(circle at var(--pointer-x) var(--pointer-y), var(--c4) 0%, transparent 70%)',
+          filter: 'blur(80px)',
+          opacity: 'var(--behind-op, 0)',
+          transition: 'opacity 0.4s'
+        }} />
         
-        <div ref={shellRef} className="pc-card-shell">
+        <div 
+          ref={shellRef} 
+          className="pc-card-shell"
+          onMouseEnter={() => wrapRef.current?.style.setProperty('--behind-op', '0.5')}
+          onMouseLeave={() => wrapRef.current?.style.setProperty('--behind-op', '0')}
+        >
           <section className="pc-card">
             <div className="pc-inside" style={{ '--inner-gradient': DEFAULT_INNER_GRADIENT }}>
               

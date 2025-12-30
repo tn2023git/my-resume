@@ -30,6 +30,7 @@
   transition: transform 0.2s ease-out;
   transform: rotateX(var(--rotate-y)) rotateY(var(--rotate-x));
   transform-style: preserve-3d;
+  pointer-events: auto; /* اطمینان از دریافت رویدادها */
 }
 
 .pc-card {
@@ -39,6 +40,7 @@
   overflow: hidden;
   border: 1px solid var(--glass-border);
   position: relative;
+  pointer-events: none; /* اجازه عبور رویداد به shell */
 }
 
 .pc-inside {
@@ -57,6 +59,7 @@
   z-index: 50;
   margin-top: 10px;
   transform: translateZ(40px);
+  pointer-events: none;
 }
 .en-name { font-family: 'ProductSans', sans-serif; font-size: 1.6rem; color: #fff; margin: 0; }
 .fa-name { font-family: 'Anjoman', sans-serif; font-size: 1.4rem; color: var(--c1); margin: 5px 0; }
@@ -74,7 +77,7 @@
 .fa-title-text { font-family: 'Anjoman', sans-serif; color: rgba(255,255,255,0.7); font-weight: 500; }
 .sep { color: var(--c4); }
 
-/* --- AVATAR (UPGRADED TO CENTER) --- */
+/* --- AVATAR --- */
 .pc-avatar-container {
   flex: 1;
   display: flex;
@@ -82,8 +85,9 @@
   align-items: center;
   z-index: 5;
   position: relative;
-  margin-top: -40px; /* انتقال به سمت مرکز */
+  margin-top: -50px; 
   transform: translateZ(10px);
+  pointer-events: none;
 }
 
 .pc-avatar-bg {
@@ -110,7 +114,7 @@
   mask-image: linear-gradient(to bottom, black 82%, transparent 100%);
 }
 
-/* --- EFFECTS ON TOP OF AVATAR --- */
+/* --- EFFECTS (ON TOP) --- */
 .pc-glitter {
   position: absolute;
   inset: 0;
@@ -133,6 +137,7 @@
   background-position: var(--pointer-x) var(--pointer-y);
   pointer-events: none;
   transform: translateZ(5px);
+  transition: opacity 0.3s ease;
 }
 
 .pc-glare {
@@ -142,9 +147,14 @@
   opacity: 0;
   background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(255,255,255,0.2) 0%, transparent 60%);
   transform: translateZ(10px);
+  pointer-events: none;
+  transition: opacity 0.3s ease;
 }
-.pc-card-wrapper:hover .pc-glitter { opacity: 0.35; }
-.pc-card-wrapper:hover .pc-shine, .pc-card-wrapper:hover .pc-glare { opacity: 1; }
+
+/* بازگشت هاور به دسکتاپ */
+.pc-card-shell:hover .pc-glitter { opacity: 0.35; }
+.pc-card-shell:hover .pc-shine, 
+.pc-card-shell:hover .pc-glare { opacity: 1; }
 
 /* --- LANGUAGES --- */
 .pc-lang-overlay {
@@ -157,21 +167,21 @@
 
 .flag-btn {
   position: absolute;
-  bottom: 15px;
+  bottom: 20px;
   width: 44px;
   height: 44px;
   border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
-  pointer-events: auto;
+  pointer-events: auto; /* دکمه‌ها باید کلیک بخورند */
   background: rgba(15, 15, 15, 0.9);
   backdrop-filter: blur(8px);
   border: 1px solid var(--glass-border);
   transform: translateZ(60px);
   transition: all 0.3s ease;
 }
-.en-corner { left: 15px; }
-.fa-corner { right: 15px; }
+.en-corner { left: 20px; }
+.fa-corner { right: 20px; }
 .flag-btn:hover { transform: translateZ(70px) scale(1.15); border-color: var(--c1); }
 .flag-btn img { width: 100%; height: 100%; object-fit: cover; }
 
@@ -183,20 +193,21 @@
   filter: blur(100px);
   opacity: 0;
   transition: opacity 0.5s;
+  pointer-events: none;
 }
-.pc-card-wrapper:hover .pc-behind { opacity: 0.6; }
+.pc-card-shell:hover ~ .pc-behind,
+.pc-card-shell:hover + .pc-behind { opacity: 0.6; } /* در صورت وجود لایه پشت سر */
 
 /* --- MOBILE OPTIMIZATION --- */
 @media (max-width: 480px) {
   .pc-card-wrapper { width: 310px; }
   .pc-card { height: 480px; }
-  .pc-avatar-container { margin-top: -30px; }
+  .pc-avatar-container { margin-top: -35px; }
   
-  .pc-shine, .pc-glare { opacity: 0.8 !important; }
+  .pc-shine, .pc-glare { opacity: 0.85 !important; }
   .pc-glitter { opacity: 0.35 !important; }
-  .pc-behind { opacity: 0.5; inset: -70px; }
   
-  .flag-btn { width: 48px; height: 48px; bottom: 12px; }
-  .en-corner { left: 12px; }
-  .fa-corner { right: 12px; }
+  .flag-btn { width: 48px; height: 48px; bottom: 15px; }
+  .en-corner { left: 15px; }
+  .fa-corner { right: 15px; }
 }
