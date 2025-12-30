@@ -101,7 +101,7 @@ function App() {
               { text: "YouTube Channel (Gaming Archive)", url: "https://www.youtube.com/@tnonyoutube", isVideo: true },
               { text: "Twitch Streamer (Former)", url: "https://www.twitch.tv/tn2023", isVideo: true },
               { text: "Semi-Professional Gamer: 10,000+ hours in DotA 2", detail: "Focus on strategy & high-level play" },
-              { text: "FPS & Narrative Games: Battlefield 6, Rainbow Six Siege, Complex Storylines" }
+              { text: "FPS & Narrative Games: Battlefield 6, Rainbow Six: Siege, Complex Storylines" }
             ]
           }
         ],
@@ -182,7 +182,7 @@ function App() {
               { text: "کانال یوتیوب (آرشیو گیمینگ)", url: "https://www.youtube.com/@tnonyoutube", isVideo: true },
               { text: "استریمر سابق توییچ", url: "https://www.twitch.tv/tn2023", isVideo: true },
               { text: "گیمر نیمه‌حرفه‌ای: بیش از ۱۰,۰۰۰ ساعت تجربه در DotA 2", detail: "تمرکز بر تفکر استراتژیک" },
-              { text: "بازی‌های FPS و داستانی: Battlefield 6، Siege و داستان‌های پیچیده" }
+              { text: "بازی‌های FPS و داستانی: Battlefield 6، Rainbow Six: Siege و داستان‌های پیچیده" }
             ]
           }
         ],
