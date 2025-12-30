@@ -43,22 +43,48 @@
   padding: 30px 20px;
 }
 
-.pc-glitter {
+/* --- NEW RANDOM COLOR GLITTER --- */
+/* لایه نویز پایه */
+.pc-glitter-base {
   position: absolute;
-  inset: 0;
+  inset: -20%;
   z-index: 10;
-  opacity: 0.15;
-  filter: url(#noiseFilter) contrast(300%) brightness(1500%);
+  filter: url(#glitterNoise);
+  opacity: 0.2;
   mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+/* لایه رنگ‌های تم که روی نویز می‌نشیند */
+.pc-glitter-color {
+  position: absolute;
+  inset: -50%;
+  z-index: 11;
+  opacity: 0;
+  /* توزیع تصادفی چهار رنگ اصلی تم شما */
+  background-image: radial-gradient(circle at center, 
+    var(--c1) 0%, 
+    var(--c2) 25%, 
+    var(--c4) 50%, 
+    var(--c1) 75%, 
+    var(--c2) 100%
+  );
+  background-size: 20px 20px; /* اندازه کوچک برای ایجاد حالت دانه دانه رنگی */
+  filter: contrast(150%) brightness(120%);
+  mix-blend-mode: color-dodge;
+  transform: translate(calc(var(--pointer-x) * -0.2), calc(var(--pointer-y) * -0.2));
   pointer-events: none;
   transition: opacity 0.3s ease;
 }
-.pc-card-wrapper:hover .pc-glitter { opacity: 0.4; }
+
+.pc-card-wrapper:hover .pc-glitter-color { opacity: 0.45; }
+
+/* ----------------------------- */
 
 .pc-shine {
   position: absolute;
   inset: 0;
-  z-index: 11;
+  z-index: 12;
   opacity: 0;
   mix-blend-mode: overlay;
   background: linear-gradient(110deg, transparent 20%, var(--c4) 40%, var(--c1) 50%, var(--c2) 60%, transparent 80%);
@@ -70,7 +96,7 @@
 .pc-glare {
   position: absolute;
   inset: 0;
-  z-index: 12;
+  z-index: 13;
   opacity: 0;
   background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(255,255,255,0.2) 0%, transparent 60%);
 }
@@ -192,8 +218,8 @@
   .en-name { font-size: 1.3rem; }
   .fa-name { font-size: 1.1rem; }
   
-  /* نمایش هاله نوری، شاین و گلایتر در موبایل بدون نیاز به هاور */
   .pc-behind { opacity: 0.35; }
-  .pc-glitter { opacity: 0.25; }
+  .pc-glitter-base { opacity: 0.25; }
+  .pc-glitter-color { opacity: 0.35; }
   .pc-shine, .pc-glare { opacity: 0.8; }
 }

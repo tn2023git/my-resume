@@ -48,20 +48,15 @@ const ProfileCard = ({
     const shell = shellRef.current;
     if (!shell) return;
 
-    // حرکت با ماوس
     const onMove = e => {
       const rect = shell.getBoundingClientRect();
       tiltEngine.setTarget(((e.clientX - rect.left) / rect.width) * 100, ((e.clientY - rect.top) / rect.height) * 100);
     };
     
-    // حرکت با سنسور موبایل
     const handleOrientation = (e) => {
       if (e.beta === null || e.gamma === null) return;
-      
-      // تبدیل زاویه گوشی به درصد (محدوده معمولی حرکت دست: بتا ۱۵ تا ۴۵، گاما -۲۰ تا ۲۰)
       const x = Math.min(Math.max(((e.gamma || 0) + 20) / 40 * 100, 0), 100);
       const y = Math.min(Math.max(((e.beta || 0) - 25) / 40 * 100, 0), 100);
-      
       tiltEngine.setTarget(x, y);
     };
 
@@ -82,9 +77,10 @@ const ProfileCard = ({
   return (
     <div ref={wrapRef} className="pc-card-wrapper">
       <svg style={{ position: 'absolute', width: 0, height: 0 }}>
-        <filter id="noiseFilter">
+        <filter id="glitterNoise">
+          {/* نویز شدید برای ایجاد نقاط اکلیلی */}
           <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch" />
-          <feColorMatrix type="saturate" values="0" />
+          <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 10 -4" />
         </filter>
       </svg>
 
@@ -94,7 +90,10 @@ const ProfileCard = ({
         <section className="pc-card">
           <div className="pc-inside" style={{ '--inner-gradient': DEFAULT_INNER_GRADIENT }}>
             
-            <div className="pc-glitter" />
+            {/* لایه‌های جدید اکلیل */}
+            <div className="pc-glitter-base" />
+            <div className="pc-glitter-color" />
+            
             <div className="pc-shine" />
             <div className="pc-glare" />
 
