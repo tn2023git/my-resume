@@ -218,13 +218,12 @@ body, html {
   .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary { background: rgba(10, 10, 10, 0.95) !important; margin-bottom: 0 !important; }
   .app-wrapper { padding: 40px 15px 100px 15px; }
   .floating-actions-container { bottom: 20px; }
-  /* Hide the print button (last button in container) on mobile */
   .floating-actions-container .floating-btn:last-child { display: none !important; }
 }
 
 /* --- CRITICAL PRINT FIXES --- */
 @media print {
-  @page { size: A4; margin: 5mm; }
+  @page { size: A4; margin: 10mm; }
   
   html, body { 
     background: white !important; 
@@ -247,21 +246,38 @@ body, html {
     position: static !important;
   }
   
-  .pdf-page { max-width: 100% !important; gap: 10px !important; }
+  .pdf-page { max-width: 100% !important; gap: 15px !important; }
 
-  .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary, .mobile-glass-card {
+  /* Fixing 3-column layout for print */
+  .info-columns-container { 
+    column-count: auto !important; 
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 15px !important;
+    width: 100% !important;
+  }
+
+  .side-pixel-wrapper { 
+    width: calc(33.33% - 10px) !important; /* Forces 3 boxes per row */
+    min-width: 200px;
     background: white !important;
-    border: 1px solid #000 !important;
-    box-shadow: none !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
+    border: 1.5px solid #000 !important;
     color: black !important;
-    break-inside: avoid;
+    break-inside: avoid !important;
+    margin-bottom: 0 !important;
+    padding: 15px !important;
+  }
+
+  .exp-pixel-wrapper, .full-width-summary, .mobile-glass-card {
+    background: white !important;
+    border: 1.5px solid #000 !important;
+    color: black !important;
+    break-inside: avoid !important;
     margin-bottom: 10px !important;
     padding: 15px !important;
   }
 
-  .side-section, .exp-card, .summary-inner { padding: 10px !important; }
+  .side-section, .exp-card, .summary-inner { padding: 5px !important; }
 
   * { 
     color: black !important; 
@@ -269,6 +285,8 @@ body, html {
     text-shadow: none !important;
     animation: none !important;
     transition: none !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
   }
 
   .yellow-text {
@@ -276,23 +294,39 @@ body, html {
     border-bottom: 2px solid #000 !important;
     margin-bottom: 10px !important;
     padding-bottom: 5px !important;
+    color: black !important;
   }
 
-  .info-columns-container { 
-    column-count: 3 !important; 
-    column-gap: 10px !important; 
-    display: block !important;
-    width: 100% !important;
+  /* Dot and Progress Bar Printing Fixes */
+  .dot { 
+    border: 1px solid #000 !important; 
+    background: #fff !important; 
+  }
+  .dot.filled { 
+    background: #000 !important; 
+    background-color: #000 !important;
+    box-shadow: none !important;
+  }
+
+  .progress-bar-bg { 
+    border: 1px solid #000 !important; 
+    background: #fff !important; 
+  }
+  .progress-bar-fill { 
+    background: #000 !important; 
+    background-color: #000 !important;
+    box-shadow: none !important;
   }
 
   .soft-tag, .tag {
     border: 1px solid #000 !important;
     background: #fff !important;
     color: #000 !important;
+    padding: 2px 8px !important;
   }
 
-  .progress-bar-bg { border: 1px solid #000; background: #eee !important; }
-  .progress-bar-fill { background: #000 !important; }
-  .dot { border: 1px solid #000; background: #fff !important; }
-  .dot.filled { background: #000 !important; }
-}
+  .contact-link, .video-link, .project-link {
+    color: black !important;
+    text-decoration: underline !important;
+  }
+} 
