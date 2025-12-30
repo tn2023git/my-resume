@@ -5,7 +5,7 @@
   --rotate-y: 0deg;
 }
 
-/* تغییر به fixed برای جلوگیری از اسکرول و قفل شدن در مرکز */
+/* کارت را در مرکز صفحه قفل می‌کند */
 .pc-card-wrapper {
   perspective: 1200px;
   position: fixed;
@@ -23,7 +23,7 @@
   transition: transform 0.15s ease-out;
   transform: rotateX(var(--rotate-y)) rotateY(var(--rotate-x));
   transform-style: preserve-3d;
-  width: 380px; /* عرض ثابت برای کارت داخل کانتینر فیکس */
+  width: 380px;
 }
 
 .pc-card {
@@ -44,7 +44,7 @@
   padding: 30px 20px;
 }
 
-/* --- HARSH GLITTER --- */
+/* --- GLITTER --- */
 .pc-glitter {
   position: absolute;
   inset: 0;
@@ -78,7 +78,7 @@
 }
 .pc-card-wrapper:hover .pc-shine, .pc-card-wrapper:hover .pc-glare { opacity: 1; }
 
-/* --- HEADER INFO --- */
+/* --- HEADER INFO & FIXED FONTS --- */
 .pc-header-info {
   text-align: center;
   z-index: 15;
@@ -96,7 +96,19 @@
   font-size: 1rem;
   direction: ltr !important; 
 }
-.en-title-text, .fa-title-text { font-family: inherit; color: rgba(255,255,255,0.8); }
+
+/* اصلاح فونت تایتل انگلیسی */
+.en-title-text { 
+  font-family: 'ProductSans', sans-serif; 
+  color: rgba(255,255,255,0.8); 
+}
+
+/* اصلاح فونت تایتل فارسی */
+.fa-title-text { 
+  font-family: 'Anjoman', sans-serif; 
+  color: rgba(255,255,255,0.8); 
+}
+
 .sep { color: var(--c4); font-weight: bold; }
 
 /* --- AVATAR & GLOW --- */
@@ -165,16 +177,14 @@
 .en-corner { left: 35px; }
 .fa-corner { right: 35px; }
 
-/* --- MULTICOLOR BACKGROUND GLOW --- */
+/* --- BACKGROUND GLOW --- */
 .pc-behind {
   position: absolute;
-  /* ایجاد فضای بزرگتر برای نمایش هاله حول کارت فیکس شده */
   top: 50%;
   left: 50%;
   width: 600px;
   height: 600px;
   transform: translate(-50%, -50%);
-  /* استفاده از تمام رنگ‌های گرادینت */
   background: radial-gradient(
     circle at var(--pointer-x) var(--pointer-y), 
     var(--c4) 0%, 
@@ -189,3 +199,12 @@
   pointer-events: none;
 }
 .pc-card-wrapper:hover .pc-behind { opacity: 0.4; }
+
+/* --- MOBILE OPTIMIZATION --- */
+@media (max-width: 480px) {
+  .pc-card-shell { width: 310px; }
+  .pc-card { height: 460px; }
+  .pc-avatar-bg { width: 180px; height: 180px; }
+  .en-name { font-size: 1.3rem; }
+  .fa-name { font-size: 1.1rem; }
+}
