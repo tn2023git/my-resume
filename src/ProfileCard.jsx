@@ -14,11 +14,9 @@ const ProfileCard = ({
   const wrapRef = useRef(null);
   const shellRef = useRef(null);
 
-  // قفل کردن اسکرول کل صفحه هنگام نمایش کارت
   useEffect(() => {
     const originalStyle = window.getComputedStyle(document.body).overflow;
     document.body.style.overflow = 'hidden';
-    
     return () => {
       document.body.style.overflow = originalStyle;
     };
@@ -64,6 +62,7 @@ const ProfileCard = ({
     };
 
     const handleOrientation = (e) => {
+      // بهبود محاسبات سنسور برای فعال بودن دائم در موبایل
       const x = Math.min(Math.max(((e.gamma || 0) + 20) / 40 * 100, 0), 100);
       const y = Math.min(Math.max(((e.beta || 0) - 20) / 40 * 100, 0), 100);
       tiltEngine.setTarget(x, y);
@@ -73,6 +72,7 @@ const ProfileCard = ({
 
     shell.addEventListener('pointermove', onMove);
     shell.addEventListener('pointerleave', onLeave);
+    // گوش دادن به حرکت گوشی برای موبایل
     window.addEventListener('deviceorientation', handleOrientation);
 
     return () => {
@@ -99,6 +99,12 @@ const ProfileCard = ({
           <section className="pc-card">
             <div className="pc-inside" style={{ '--inner-gradient': DEFAULT_INNER_GRADIENT }}>
               
+              <div className="pc-avatar-container">
+                <div className="pc-avatar-bg" />
+                <img className="avatar-minimal" src={avatarUrl} alt="Profile" />
+              </div>
+
+              {/* لایه‌های افکت نوری - حالا بالای آواتار هستند */}
               <div className="pc-glitter" />
               <div className="pc-shine" />
               <div className="pc-glare" />
@@ -113,11 +119,6 @@ const ProfileCard = ({
                   <span className="sep">-</span>
                   <span className="fa-title-text">{titleFa}</span>
                 </div>
-              </div>
-
-              <div className="pc-avatar-container">
-                <div className="pc-avatar-bg" />
-                <img className="avatar-minimal" src={avatarUrl} alt="Profile" />
               </div>
 
               <div className="pc-lang-overlay">
