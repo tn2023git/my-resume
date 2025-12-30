@@ -14,11 +14,9 @@ const ProfileCard = ({
   const wrapRef = useRef(null);
   const shellRef = useRef(null);
 
-  // قفل کردن اسکرول کل صفحه هنگام نمایش کارت
   useEffect(() => {
     const originalStyle = window.getComputedStyle(document.body).overflow;
     document.body.style.overflow = 'hidden';
-    
     return () => {
       document.body.style.overflow = originalStyle;
     };
@@ -83,6 +81,12 @@ const ProfileCard = ({
     };
   }, [tiltEngine]);
 
+  const handleLangSelect = (e, lang) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onSelectLang(lang);
+  };
+
   return (
     <div className="gateway-mode">
       <div ref={wrapRef} className="pc-card-wrapper">
@@ -121,11 +125,17 @@ const ProfileCard = ({
               </div>
 
               <div className="pc-lang-overlay">
-                <div className="flag-btn en-corner" onClick={(e) => { e.stopPropagation(); onSelectLang('en'); }}>
+                <div 
+                  className="flag-btn en-corner" 
+                  onPointerDown={(e) => handleLangSelect(e, 'en')}
+                >
                   <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" alt="EN" />
                 </div>
                 
-                <div className="flag-btn fa-corner" onClick={(e) => { e.stopPropagation(); onSelectLang('fa'); }}>
+                <div 
+                  className="flag-btn fa-corner" 
+                  onPointerDown={(e) => handleLangSelect(e, 'fa')}
+                >
                   <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Flag_of_Iran.svg" alt="FA" />
                 </div>
               </div>
