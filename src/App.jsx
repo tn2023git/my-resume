@@ -200,6 +200,14 @@ function App() {
       </div>
 
       <div className="pdf-page">
+        {/* Full-width Summary Header */}
+        <SmartCard className="full-width-summary">
+          <section className="side-section">
+            <GradientText className="yellow-text bold-font">{isEn ? "Professional Summary" : "خلاصه حرفه‌ای"}</GradientText>
+            <p className="summary-text">{content.summary}</p>
+          </section>
+        </SmartCard>
+
         <div className="resume-grid">
           <aside className="sidebar">
             <SmartCard className="side-pixel-wrapper">
@@ -305,13 +313,6 @@ function App() {
           </aside>
 
           <main className="main-content">
-            <SmartCard className="exp-pixel-wrapper summary-card">
-              <div className="exp-card">
-                <GradientText className="yellow-text bold-font">{isEn ? "Professional Summary" : "خلاصه حرفه‌ای"}</GradientText>
-                <p className="job-desc summary-text">{content.summary}</p>
-              </div>
-            </SmartCard>
-
             {content.experience.map((job, i) => (
               <SmartCard key={i} className="exp-pixel-wrapper">
                 <div className="exp-card">
