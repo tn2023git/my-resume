@@ -221,14 +221,15 @@ body, html {
   .floating-actions-container .floating-btn:last-child { display: none !important; }
 }
 
-/* --- PRINT OPTIMIZATION --- */
+/* --- PRINT OPTIMIZATION (WHITE MARGINS, NO GAPS, BLACK TITLES) --- */
 @media print {
   @page { 
     size: A4; 
     margin: 10mm; 
   }
   
-  html, body { 
+  /* Critical: Force white background to all root levels to fix margins */
+  html, body, #root, .app-wrapper { 
     background-color: #ffffff !important; 
     background: #ffffff !important;
     color: #000000 !important; 
@@ -240,54 +241,49 @@ body, html {
     print-color-adjust: exact !important;
   }
 
-  #root, .app-wrapper {
-    background-color: #ffffff !important;
-    background: #ffffff !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    display: block !important;
-    width: 100% !important;
-  }
-
   .bg-container, .floating-actions-container, .gateway-container, canvas, .pixel-card-canvas { 
     display: none !important; 
   }
   
   .pdf-page { 
     max-width: 100% !important; 
-    gap: 10px !important; 
+    gap: 8px !important; /* Tighter gap for printing */
     display: block !important;
     background: #ffffff !important;
   }
 
-  /* RAW CONTENT FLOW - Removes gaps by allowing natural page breaks */
+  /* ELIMINATING EMPTY SPACES & GAPS */
   .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary, .mobile-glass-card {
     background: transparent !important;
     border: none !important;
     border-radius: 0 !important;
     padding: 0 !important;
-    margin-bottom: 20px !important;
+    margin-bottom: 12px !important; /* Reduced margin */
     box-shadow: none !important;
     backdrop-filter: none !important;
     display: block !important;
     width: 100% !important;
+    /* Allow breaking to prevent huge gaps */
     break-inside: auto !important;
     page-break-inside: auto !important;
   }
 
-  /* FORCING MAIN TITLES TO BLACK */
-  .yellow-text, 
-  .interest-cat-name, 
-  h1, h2, h3, h4 {
-    font-size: 1.3rem !important;
+  /* FORCING MAIN TITLES TO PURE BLACK */
+  .yellow-text {
+    font-size: 1.25rem !important;
     color: #000000 !important;
-    -webkit-text-fill-color: #000000 !important;
     border-bottom: 1.5px solid #000000 !important;
-    margin-top: 15px !important;
-    margin-bottom: 10px !important;
-    padding-bottom: 5px !important;
+    margin-top: 10px !important;
+    margin-bottom: 8px !important;
+    padding-bottom: 4px !important;
     font-weight: bold !important;
-    display: block !important;
+    display: flex !important;
+  }
+
+  .interest-cat-name {
+    color: #000000 !important;
+    border-bottom: 1px solid #000000 !important;
+    font-weight: bold !important;
   }
 
   .info-columns-container { 
@@ -296,19 +292,12 @@ body, html {
     width: 100% !important;
   }
 
-  .summary-text, .job-desc, .skill-name, .cert-name, .interest-item { 
+  /* Text details to black */
+  .summary-text, .job-desc, .skill-name, .cert-name, .interest-item, .job-company { 
     color: #000000 !important; 
-    -webkit-text-fill-color: #000000 !important;
-    line-height: 1.6 !important;
+    line-height: 1.5 !important;
   }
 
-  .job-company { 
-    color: #000000 !important; 
-    -webkit-text-fill-color: #000000 !important;
-    font-weight: bold !important; 
-  }
-
-  /* Proficiency Marks Printing */
   .dot { border: 1px solid #000 !important; background: transparent !important; }
   .dot.filled { background: #000 !important; background-color: #000 !important; }
   .progress-bar-bg { border: 1px solid #000 !important; background: #fff !important; }
@@ -317,19 +306,17 @@ body, html {
   .soft-tag, .tag {
     border: 1px solid #000 !important;
     background: #ffffff !important;
-    color: #000000 !important;
-    -webkit-text-fill-color: #000000 !important;
-    padding: 2px 8px !important;
+    color: #000 !important;
+    padding: 1px 6px !important;
     display: inline-block !important;
   }
 
-  /* Global Black Text Force */
+  /* Final Global Black Force */
   * { 
     color: #000000 !important; 
-    -webkit-text-fill-color: #000000 !important;
+    background-color: transparent !important;
     text-shadow: none !important;
     box-shadow: none !important;
     animation: none !important;
-    transition: none !important;
   }
 }
