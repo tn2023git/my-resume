@@ -221,16 +221,22 @@ body, html {
   .floating-actions-container .floating-btn:last-child { display: none !important; }
 }
 
-/* --- CRITICAL PRINT FIXES (RAW TEXT MODE) --- */
+/* --- CRITICAL PRINT FIXES (WHITE BACKGROUND & RAW TEXT) --- */
 @media print {
-  @page { size: A4; margin: 15mm; }
+  @page { 
+    size: A4; 
+    margin: 10mm; /* Minimal white margin around the page content */
+  }
   
   html, body { 
-    background: white !important; 
+    background-color: white !important; 
+    background: white !important;
     color: black !important; 
     overflow: visible !important; 
     height: auto !important;
-    font-size: 11pt !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   ::-webkit-scrollbar { display: none !important; }
@@ -245,41 +251,40 @@ body, html {
     background: white !important;
     min-height: auto !important;
     position: static !important;
+    width: 100% !important;
   }
   
   .pdf-page { 
     max-width: 100% !important; 
-    gap: 20px !important; 
+    margin: 0 !important;
+    gap: 15px !important; 
     display: block !important;
   }
 
-  /* Remove all box styling and make content flow naturally */
+  /* Clear all glassmorphism and box styles */
   .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary, .mobile-glass-card {
     background: transparent !important;
     border: none !important;
     border-radius: 0 !important;
     padding: 0 !important;
-    margin-bottom: 25px !important;
+    margin-bottom: 20px !important;
     box-shadow: none !important;
     backdrop-filter: none !important;
     display: block !important;
     width: 100% !important;
-    page-break-inside: auto !important;
+    page-break-inside: avoid !important;
   }
 
-  /* Headers in Raw Mode */
   .yellow-text {
-    font-size: 1.4rem !important;
+    font-size: 1.3rem !important;
     color: black !important;
-    border-bottom: 1.5px solid #000 !important;
-    margin-top: 15px !important;
-    margin-bottom: 10px !important;
-    padding-bottom: 4px !important;
+    border-bottom: 1px solid #000 !important;
+    margin-top: 10px !important;
+    margin-bottom: 8px !important;
+    padding-bottom: 3px !important;
     font-weight: bold !important;
-    text-transform: uppercase;
   }
 
-  /* Info Columns forced to a clean list/flow */
   .info-columns-container { 
     column-count: 1 !important; 
     display: block !important;
@@ -292,34 +297,39 @@ body, html {
 
   .summary-text, .job-desc { 
     color: black !important; 
-    line-height: 1.6 !important;
-    text-align: justify !important;
+    line-height: 1.5 !important;
   }
 
-  /* Reset Dots and Progress to simple text/lines */
+  /* Proficiencies as black/white lists */
   .dot { border: 1px solid #000 !important; background: transparent !important; }
   .dot.filled { background: #000 !important; }
-  .progress-bar-bg { border: 1px solid #000 !important; background: white !important; height: 8px !important; }
+  .progress-bar-bg { border: 1px solid #000 !important; background: white !important; height: 6px !important; }
   .progress-bar-fill { background: black !important; }
 
-  /* Soft Tags as simple comma-separated or plain text with border */
   .soft-tag, .tag {
-    border: 1px solid #ccc !important;
+    border: 1px solid #000 !important;
     background: white !important;
     color: black !important;
-    margin-right: 5px !important;
+    margin: 2px !important;
+    padding: 1px 6px !important;
     display: inline-block !important;
   }
 
-  .job-company { color: black !important; font-size: 1.1rem !important; }
-  .cert-detail, .cert-validity, .interest-detail { color: #444 !important; }
-
+  .job-company { color: black !important; font-weight: bold !important; }
+  
+  /* Global reset to force black text and white bg */
   * { 
     color: black !important; 
+    background-color: transparent !important;
     text-shadow: none !important;
+    box-shadow: none !important;
     animation: none !important;
     transition: none !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
+  }
+  
+  html, body, .app-wrapper {
+    background-color: white !important;
   }
 }
