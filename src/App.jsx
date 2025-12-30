@@ -284,7 +284,7 @@ function App() {
             </SmartCard>
 
             <SmartCard className="side-pixel-wrapper">
-              <section className="section">
+              <section className="side-section">
                 <GradientText className="yellow-text bold-font">{isEn ? "Technical Skills" : "مهارت‌های تخصصی"}</GradientText>
                 <div className="technical-skills-list">
                   {content.technicalSkills.map((skill, i) => (
