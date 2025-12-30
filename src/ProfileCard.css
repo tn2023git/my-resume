@@ -18,26 +18,37 @@
   overflow: hidden;
 }
 
-/* --- MOBILE AUTO-ANIMATION (Direction: Top-Left to Bottom-Right) --- */
+/* --- REFINED MOBILE ANIMATION (Continuous stream) --- */
 @keyframes autoTilt {
-  0%, 100% { 
+  0% { 
     transform: rotateX(4deg) rotateY(-6deg); 
-    --pointer-x: 15%; --pointer-y: 15%;
+    --pointer-x: 20%; --pointer-y: 20%;
+  }
+  25% {
+    --pointer-x: 80%; --pointer-y: 20%;
   }
   50% { 
     transform: rotateX(-4deg) rotateY(6deg); 
-    --pointer-x: 85%; --pointer-y: 85%;
+    --pointer-x: 80%; --pointer-y: 80%;
+  }
+  75% {
+    --pointer-x: 20%; --pointer-y: 80%;
+  }
+  100% { 
+    transform: rotateX(4deg) rotateY(-6deg); 
+    --pointer-x: 20%; --pointer-y: 20%;
   }
 }
 
 .pc-is-mobile .pc-card-shell {
-  animation: autoTilt 7s ease-in-out infinite;
+  animation: autoTilt 10s linear infinite;
 }
 
 .pc-is-mobile .pc-glitter-color,
 .pc-is-mobile .pc-shine,
 .pc-is-mobile .pc-glare {
   opacity: 0.6 !important;
+  transition: none; /* جلوگیری از پرش رنگی */
 }
 
 .pc-is-mobile .pc-behind {
