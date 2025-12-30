@@ -75,7 +75,7 @@
 .pc-header-info {
   text-align: center;
   z-index: 15;
-  margin-bottom: 10px; /* Reduced to give space for bigger image */
+  margin-bottom: 10px;
 }
 .en-name { font-family: 'ProductSans', sans-serif; font-size: 1.6rem; color: #fff; margin: 0; }
 .fa-name { font-family: 'Anjoman', sans-serif; font-size: 1.4rem; color: var(--c1); margin: 5px 0; }
@@ -89,7 +89,14 @@
   font-size: 0.95rem;
   direction: ltr !important; 
 }
-.en-title-text, .fa-title-text { color: rgba(255,255,255,0.7); }
+.en-title-text { font-family: inherit; color: rgba(255,255,255,0.7); }
+
+/* --- FIXED FARSI FONT FOR JOB TITLE --- */
+.fa-title-text { 
+  font-family: 'Anjoman', sans-serif; 
+  color: rgba(255,255,255,0.7); 
+  font-weight: 500;
+}
 .sep { color: var(--c4); }
 
 /* --- AVATAR & GLOW --- */
@@ -100,7 +107,6 @@
   align-items: center;
   z-index: 5;
   position: relative;
-  /* Moved up to avoid overlapping language buttons */
   margin-top: -25px; 
 }
 
@@ -122,7 +128,6 @@
 }
 
 .avatar-minimal {
-  /* Increased from 81% to 88% */
   width: 88%;
   max-width: 310px;
   height: auto;
