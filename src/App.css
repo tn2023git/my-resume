@@ -298,8 +298,8 @@ body, html {
   display: flex; 
   justify-content: space-between; 
   align-items: center; 
-  flex-wrap: wrap;
-  gap: 20px;
+  flex-wrap: nowrap; /* Prevent breaking on mobile to keep side-by-side */
+  gap: 10px;
   margin-bottom: 8px;
 }
 .exp-row span.job-duration { white-space: nowrap; font-weight: bold; }
@@ -353,10 +353,22 @@ body, html {
   .mobile-glass-card, 
   .full-width-summary { 
     margin-bottom: var(--spacing-mobile); 
-    background: var(--glass-bg) !important; /* Force correct bg on mobile */
+    background: rgba(10, 10, 10, 0.95) !important; /* Opaque background as requested */
   }
+
+  /* Keep job duration on opposite side on mobile */
+  .exp-row { flex-direction: row; justify-content: space-between; }
+  .exp-row span.job-role { flex: 1; }
+
+  /* Ensure animations work for all boxes on mobile */
+  .sidebar, .main-content {
+      animation: slideLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .rtl-mode .sidebar, .rtl-mode .main-content {
+      animation-name: slideRight;
+  }
+
   .resume-grid { grid-template-columns: 1fr; gap: var(--spacing-mobile); }
-  .exp-row { flex-direction: column; align-items: flex-start; gap: 5px; }
   .app-wrapper { padding: 40px 15px 100px 15px; }
   .floating-return-btn { bottom: 20px; width: 50px; height: 50px; }
 }
