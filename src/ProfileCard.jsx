@@ -62,9 +62,8 @@ const ProfileCard = ({
     };
 
     const handleOrientation = (e) => {
-      // بهبود حساسیت سنسور برای موبایل
-      const x = Math.min(Math.max(((e.gamma || 0) + 25) / 50 * 100, 0), 100);
-      const y = Math.min(Math.max(((e.beta || 0) - 25) / 50 * 100, 0), 100);
+      const x = Math.min(Math.max(((e.gamma || 0) + 20) / 40 * 100, 0), 100);
+      const y = Math.min(Math.max(((e.beta || 0) - 20) / 40 * 100, 0), 100);
       tiltEngine.setTarget(x, y);
     };
 
@@ -116,19 +115,12 @@ const ProfileCard = ({
                 <img className="avatar-minimal" src={avatarUrl} alt="Profile" />
               </div>
 
-              {/* دکمه‌ها دوباره بخشی از کارت شدند اما با Z-index فیزیکی بالاتر */}
               <div className="pc-lang-overlay">
-                <div 
-                  className="flag-btn en-corner" 
-                  onClick={(e) => { e.stopPropagation(); onSelectLang('en'); }}
-                >
+                <div className="flag-btn en-corner" onClick={() => onSelectLang('en')}>
                   <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" alt="EN" />
                 </div>
                 
-                <div 
-                  className="flag-btn fa-corner" 
-                  onClick={(e) => { e.stopPropagation(); onSelectLang('fa'); }}
-                >
+                <div className="flag-btn fa-corner" onClick={() => onSelectLang('fa')}>
                   <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Flag_of_Iran.svg" alt="FA" />
                 </div>
               </div>
