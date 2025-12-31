@@ -191,13 +191,11 @@
   overflow: visible;
 }
 
-/* Base Tooltip Styling - Centered */
+/* Base Tooltip Styling - Centered between buttons */
 .flag-btn::after {
   content: attr(data-tooltip);
   position: absolute;
-  bottom: 55px; /* Moved higher to clear the button */
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 30px; 
   background: rgba(15, 15, 15, 0.4);
   color: rgba(255, 255, 255, 0.85);
   padding: 5px 12.5px;
@@ -212,14 +210,28 @@
   backdrop-filter: blur(2px);
 }
 
-/* Specific Fonts for Tooltips */
+/* Tooltip for English button: center horizontally in card */
 .en-corner::after {
   font-family: 'ProductSans', sans-serif;
+  left: calc(50vw - 20px - 30px); /* Center relative to card width */
+  transform: translateX(-50%);
+}
+
+/* Tooltip for Farsi button: center horizontally in card */
+.fa-corner::after {
+  font-family: 'Anjoman', sans-serif;
+  right: calc(50vw - 20px - 30px); /* Center relative to card width */
+  transform: translateX(50%);
+  direction: rtl;
+}
+
+/* Specific centering logic for absolute positions within the shell */
+.en-corner::after {
+  left: calc(190px - 20px - 30px); /* (Half card width) - (button left offset) - (half button width) */
 }
 
 .fa-corner::after {
-  font-family: 'Anjoman', sans-serif;
-  direction: rtl;
+  right: calc(190px - 20px - 30px);
 }
 
 .flag-btn:hover::after {
