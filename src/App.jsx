@@ -391,10 +391,10 @@ function App() {
                 <path d="M19 12H5M12 19l-7-7 7-7"/>
               </svg>
             </button>
-            <button className="floating-btn btn-print" onClick={handlePrint} aria-label="Print">
+            <button className="floating-btn" onClick={handlePrint} aria-label="Print">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
-                <rect x="6" y="14" width="12" height="8"></rect>
+                <path d="M18 6H20c1.1 0 2 .9 2 2v5c0 1.1-.9 2-2 2h-2M6 6H4c-1.1 0-2 .9-2 2v5c0 1.1.9 2 2 2h2"></path>
+                <rect x="6" y="2" width="12" height="8"></rect>
               </svg>
             </button>
           </div>

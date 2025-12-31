@@ -41,10 +41,9 @@
   box-sizing: border-box;
 }
 
-/* Reinforced black background to stop white flickering */
+/* Hard reset to prevent white flashes */
 html, body, #root {
   background: #000000 !important;
-  background-color: #000000 !important;
   color: white;
   overflow-x: hidden;
   min-height: 100vh;
@@ -60,13 +59,12 @@ html, body, #root {
   z-index: -1;
   pointer-events: none;
   background-color: #000000;
-  /* Removed opacity transition from container to prevent "fade-from-white" flicker */
+  will-change: transform; /* Helps GPU maintain black layer */
 }
 
-/* Only the child effects (Aurora/Pixels) should fade */
 .bg-container > * {
   opacity: 0;
-  transition: opacity 0.6s ease-in-out;
+  transition: opacity 0.8s ease-in-out;
 }
 
 .bg-container.is-active > * {
@@ -91,7 +89,6 @@ html, body, #root {
   width: 100%;
   min-height: 90vh;
   animation: fadeIn 1s ease;
-  background: #000000; /* Extra safety */
 }
 
 .profile-card-glow {
@@ -120,7 +117,7 @@ html, body, #root {
   padding: 60px 20px 120px 20px;
   position: relative;
   z-index: 1;
-  background: #000000; /* Reinforced background */
+  background: #000000;
 }
 
 .fade-out { opacity: 0; transition: opacity 0.5s ease; pointer-events: none; }
@@ -237,20 +234,17 @@ html, body, #root {
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Rotates the button 180deg to flip it correctly while maintaining centering */
-.btn-print {
-  transform: rotate(180deg);
-}
-
-/* Keeps the internal SVG scale/centering correct inside the flipped button */
-.btn-print:hover {
-  transform: rotate(180deg) scale(1.1);
+.floating-btn:hover {
+  transform: scale(1.1);
+  background: rgba(30, 30, 30, 0.9);
+  box-shadow: 0 0 15px var(--c1);
 }
 
 .floating-btn svg {
   width: 26px;
   height: 26px;
   color: white;
+  display: block; /* Ensures no line-height spacing issues */
 }
 
 /* --- Mobile Fixes --- */
