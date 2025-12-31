@@ -10,11 +10,22 @@ const ProfileCard = ({
   titleEn = "Job Seeker",
   titleFa = "کارجو",
   onSelectLang,
-  isExiting,
+  isExiting: isExitingProp,
 }) => {
   const wrapRef = useRef(null);
   const shellRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [localExiting, setLocalExiting] = useState(false);
+
+  // Sync internal exiting state with prop or trigger locally
+  const isExiting = isExitingProp || localExiting;
+
+  const handleLangSelect = (lang) => {
+    setLocalExiting(true);
+    setTimeout(() => {
+      onSelectLang(lang);
+    }, 800); // Matches the CSS fade-out duration
+  };
 
   useEffect(() => {
     const checkMobile = () => {
@@ -37,7 +48,6 @@ const ProfileCard = ({
       if (!wrap) return;
       wrap.style.setProperty('--pointer-x', `${x}%`);
       wrap.style.setProperty('--pointer-y', `${y}%`);
-      // Significant 3D rotation intensity to match PC hover experience
       wrap.style.setProperty('--rotate-x', `${(x - 50) / 3.5}deg`);
       wrap.style.setProperty('--rotate-y', `${-(y - 50) / 3.5}deg`);
     };
@@ -70,16 +80,11 @@ const ProfileCard = ({
     if (isMobile) {
       let angle = 0;
       const autoAnimate = () => {
-        // --- PROMINENT MOVEMENT SETTINGS ---
         const speed = 0.015;      
-        const intensity = 100;    // Increased to 100 to cover the full card area like a mouse
-        
+        const intensity = 100;    
         angle += speed;
-        
-        // Simulates wide mouse movements across the card's surface
         const x = 50 + Math.cos(angle) * intensity;
         const y = 50 + Math.sin(angle * 0.8) * intensity;
-        
         tiltEngine.setTarget(x, y);
         mobileRaf = requestAnimationFrame(autoAnimate);
       };
@@ -157,7 +162,7 @@ const ProfileCard = ({
                 className="flag-btn en-corner" 
                 onClick={(e) => { 
                   e.stopPropagation(); 
-                  onSelectLang('en'); 
+                  handleLangSelect('en'); 
                 }}
               >
                 <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" alt="English" />
@@ -167,7 +172,7 @@ const ProfileCard = ({
                 className="flag-btn fa-corner" 
                 onClick={(e) => { 
                   e.stopPropagation(); 
-                  onSelectLang('fa'); 
+                  handleLangSelect('fa'); 
                 }}
               >
                 <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Flag_of_Iran.svg" alt="Farsi" />

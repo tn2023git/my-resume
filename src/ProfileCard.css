@@ -17,22 +17,24 @@
   z-index: 9999;
   overflow: hidden;
   pointer-events: none;
-  background: transparent; /* Changed to transparent to let App.jsx glow show through */
+  background: transparent;
   animation: pc-fade-in 0.8s ease-out forwards;
 }
 
+/* Enhanced exiting animation with scale and blur */
 .pc-card-wrapper.pc-exiting {
-  animation: pc-fade-out 0.8s ease-in forwards;
+  animation: pc-fade-out 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  pointer-events: none;
 }
 
 @keyframes pc-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from { opacity: 0; transform: scale(0.95); filter: blur(10px); }
+  to { opacity: 1; transform: scale(1); filter: blur(0); }
 }
 
 @keyframes pc-fade-out {
-  from { opacity: 1; }
-  to { opacity: 0; }
+  from { opacity: 1; transform: scale(1); filter: blur(0); }
+  to { opacity: 0; transform: scale(1.05); filter: blur(20px); }
 }
 
 /* --- MOBILE SPECIFIC --- */
