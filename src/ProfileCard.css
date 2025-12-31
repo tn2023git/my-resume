@@ -195,22 +195,23 @@
   overflow: visible;
 }
 
-/* Central Tooltip Styling - Updated to prevent empty box */
+/* Central Tooltip Styling */
 .pc-central-tooltip {
   position: absolute;
   bottom: 85px; 
   left: 50%;
   transform: translateX(-50%) translateY(10px);
-  background: transparent; /* No background until hovered */
+  background: transparent;
   color: #ffffff;
-  padding: 0; /* No padding until hovered */
+  padding: 0;
   border-radius: 8px;
   font-size: 0.85rem;
   white-space: nowrap;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.2s ease-in-out;
-  border: 0 solid transparent; /* No border until hovered */
+  /* Exit transition: NONE (snap back instantly) */
+  transition: none; 
+  border: 0 solid transparent;
   backdrop-filter: blur(8px);
   box-shadow: none;
   z-index: 120;
@@ -232,6 +233,8 @@
   padding: 6px 14px;
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  /* Entrance transition: ENABLED */
+  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
 }
 
 /* Show correct text based on which button is hovered */
