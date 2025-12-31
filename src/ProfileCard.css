@@ -195,51 +195,44 @@
   overflow: visible;
 }
 
-/* Central Tooltip Styling */
+/* Base Tooltip Styling */
 .pc-central-tooltip {
   position: absolute;
   bottom: 85px; 
   left: 50%;
   transform: translateX(-50%) translateY(10px);
-  background: transparent;
+  background: rgba(10, 10, 10, 0.85);
   color: #ffffff;
-  padding: 0;
+  padding: 6px 14px;
   border-radius: 8px;
   font-size: 0.85rem;
   white-space: nowrap;
   opacity: 0;
   visibility: hidden;
-  /* Exit transition: NONE (snap back instantly) */
-  transition: none; 
-  border: 0 solid transparent;
+  /* Back to smooth transition for exit */
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(8px);
-  box-shadow: none;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
   z-index: 120;
+  pointer-events: none;
 }
 
-.tooltip-text-en, .tooltip-text-fa {
-  display: none;
-}
+.en-tooltip { font-family: 'ProductSans', sans-serif; }
+.fa-tooltip { font-family: 'Anjoman', sans-serif; direction: rtl; }
 
-.tooltip-text-en { font-family: 'ProductSans', sans-serif; }
-.tooltip-text-fa { font-family: 'Anjoman', sans-serif; direction: rtl; }
-
-/* Styles when EITHER button is hovered */
-.pc-lang-overlay:has(.flag-btn:hover) .pc-central-tooltip {
+/* Individual Hover Logic */
+.pc-lang-overlay:has(.en-corner:hover) .en-tooltip {
   opacity: 1;
   visibility: visible;
   transform: translateX(-50%) translateY(0);
-  background: rgba(10, 10, 10, 0.85);
-  padding: 6px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-  /* Entrance transition: ENABLED */
-  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
 }
 
-/* Show correct text based on which button is hovered */
-.pc-lang-overlay:has(.en-corner:hover) .tooltip-text-en { display: block; }
-.pc-lang-overlay:has(.fa-corner:hover) .tooltip-text-fa { display: block; }
+.pc-lang-overlay:has(.fa-corner:hover) .fa-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
 
 .flag-btn {
   position: absolute;
