@@ -100,19 +100,29 @@ body, html {
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* --- Entrance Animations (Optimized) --- */
+/* --- Entrance Animations (Optimized to fix Stutter) --- */
 .slide-in-left, .slide-in-right, .slide-in-top {
   will-change: transform, opacity;
-  transform: translateZ(0); /* Force GPU Layer */
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
 .slide-in-left { animation: slideLeft 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
 .slide-in-right { animation: slideRight 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
 .slide-in-top { animation: slideTop 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
 
-@keyframes slideLeft { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes slideRight { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes slideTop { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideLeft { 
+  from { opacity: 0; transform: translateX(-30px) translateZ(0); } 
+  to { opacity: 1; transform: translateX(0) translateZ(0); } 
+}
+@keyframes slideRight { 
+  from { opacity: 0; transform: translateX(30px) translateZ(0); } 
+  to { opacity: 1; transform: translateX(0) translateZ(0); } 
+}
+@keyframes slideTop { 
+  from { opacity: 0; transform: translateY(-20px) translateZ(0); } 
+  to { opacity: 1; transform: translateY(0) translateZ(0); } 
+}
 
 .rtl-mode .slide-in-left { animation-name: slideRight; }
 .rtl-mode .slide-in-right { animation-name: slideLeft; }
