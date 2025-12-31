@@ -21,9 +21,10 @@ const ProfileCard = ({
 
   const handleLangSelect = (lang) => {
     setLocalExiting(true);
+    // Reduced from 800 to 400 to remove the black screen delay
     setTimeout(() => {
       onSelectLang(lang);
-    }, 800);
+    }, 400);
   };
 
   useEffect(() => {
@@ -47,7 +48,6 @@ const ProfileCard = ({
       if (!wrap) return;
       wrap.style.setProperty('--pointer-x', `${x}%`);
       wrap.style.setProperty('--pointer-y', `${y}%`);
-      // Keeping the tilt divisor at /6 for a noticeable but balanced 3D effect
       wrap.style.setProperty('--rotate-x', `${(x - 50) / 6}deg`);
       wrap.style.setProperty('--rotate-y', `${-(y - 50) / 6}deg`);
     };
@@ -81,7 +81,7 @@ const ProfileCard = ({
       let angle = 0;
       const autoAnimate = () => {
         const speed = 0.012;      
-        const intensity = 50;    // Reduced by 50% as requested for a balanced prominent feel
+        const intensity = 50;    
         
         angle += speed;
         
