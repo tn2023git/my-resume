@@ -191,16 +191,18 @@
   overflow: visible;
 }
 
-/* Base Tooltip Styling - Updated size by 1.25x */
+/* Base Tooltip Styling - Centered */
 .flag-btn::after {
   content: attr(data-tooltip);
   position: absolute;
-  bottom: 32px; /* Adjusted from 25px to accommodate larger size */
+  bottom: 55px; /* Moved higher to clear the button */
+  left: 50%;
+  transform: translateX(-50%);
   background: rgba(15, 15, 15, 0.4);
   color: rgba(255, 255, 255, 0.85);
-  padding: 5px 12.5px; /* Scaled from 4px 10px */
-  border-radius: 5px; /* Scaled from 4px */
-  font-size: 0.8125rem; /* Scaled from 0.65rem */
+  padding: 5px 12.5px;
+  border-radius: 5px;
+  font-size: 0.8125rem;
   white-space: nowrap;
   opacity: 0;
   visibility: hidden;
@@ -213,14 +215,10 @@
 /* Specific Fonts for Tooltips */
 .en-corner::after {
   font-family: 'ProductSans', sans-serif;
-  left: 170%;
-  transform: translateX(0);
 }
 
 .fa-corner::after {
   font-family: 'Anjoman', sans-serif;
-  right: 170%;
-  transform: translateX(0);
   direction: rtl;
 }
 
