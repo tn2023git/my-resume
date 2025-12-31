@@ -18,6 +18,9 @@
   overflow: hidden;
   pointer-events: none;
   background: transparent;
+  /* Hardware acceleration */
+  will-change: transform, opacity;
+  transform: translateZ(0);
   animation: pc-fade-in 0.8s ease-out forwards;
 }
 
@@ -26,7 +29,6 @@
   pointer-events: none;
 }
 
-/* Added specific fade for the card section to ensure the black background vanishes with the wrapper */
 .pc-exiting .pc-card {
   animation: pc-card-fade-only 0.8s ease-out forwards;
 }
@@ -36,36 +38,37 @@
 }
 
 @keyframes pc-fade-in {
-  from { opacity: 0; transform: scale(0.95); filter: blur(10px); }
-  to { opacity: 1; transform: scale(1); filter: blur(0); }
+  from { opacity: 0; transform: scale(0.95) translateZ(0); filter: blur(10px); }
+  to { opacity: 1; transform: scale(1) translateZ(0); filter: blur(0); }
 }
 
 @keyframes pc-fade-out {
-  from { opacity: 1; transform: scale(1); filter: blur(0); }
-  to { opacity: 0; transform: scale(1.05); filter: blur(20px); }
+  from { opacity: 1; transform: scale(1) translateZ(0); filter: blur(0); }
+  to { opacity: 0; transform: scale(1.05) translateZ(0); filter: blur(20px); }
 }
 
-/* --- MOBILE SPECIFIC --- */
-.pc-is-mobile .pc-glitter-color {
-  opacity: 0.18 !important;
+/* Optimization for laggy mobile devices */
+@media (max-width: 768px) {
+  @keyframes pc-fade-in {
+    from { opacity: 0; transform: scale(0.95) translateZ(0); }
+    to { opacity: 1; transform: scale(1) translateZ(0); }
+  }
+  
+  @keyframes pc-fade-out {
+    from { opacity: 1; transform: scale(1) translateZ(0); }
+    to { opacity: 0; transform: scale(1.02) translateZ(0); }
+  }
+
+  .pc-card-wrapper {
+    animation-duration: 0.5s;
+  }
+  
+  .pc-exiting .pc-card {
+    animation-duration: 0.5s;
+  }
 }
 
-.pc-is-mobile .pc-shine,
-.pc-is-mobile .pc-glare {
-  opacity: 0.7 !important;
-}
-
-.pc-is-mobile .pc-behind {
-  opacity: 0.2 !important;
-}
-
-/* --- DESKTOP SPECIFIC --- */
-.pc-is-desktop:hover .pc-glitter-color { opacity: 0.22; }
-.pc-is-desktop:hover .pc-shine, 
-.pc-is-desktop:hover .pc-glare { opacity: 0.8; }
-.pc-is-desktop:hover .pc-behind { opacity: 0.25; }
-
-/* ----------------------------- */
+/* --- REST OF THE CSS UNCHANGED --- */
 
 .pc-card-shell {
   transition: transform 0.1s ease-out;

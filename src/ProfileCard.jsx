@@ -21,7 +21,7 @@ const ProfileCard = ({
 
   const handleLangSelect = (lang) => {
     setLocalExiting(true);
-    // Triggering almost immediately so the resume mounts behind the fading card
+    // Fast switch to sync with mobile optimized animation
     setTimeout(() => {
       onSelectLang(lang);
     }, 100);
