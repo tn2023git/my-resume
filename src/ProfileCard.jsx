@@ -37,8 +37,9 @@ const ProfileCard = ({
       if (!wrap) return;
       wrap.style.setProperty('--pointer-x', `${x}%`);
       wrap.style.setProperty('--pointer-y', `${y}%`);
-      wrap.style.setProperty('--rotate-x', `${(x - 50) / 8}deg`);
-      wrap.style.setProperty('--rotate-y', `${-(y - 50) / 8}deg`);
+      // Increased tilt intensity from /8 to /4 for significantly more prominent 3D rotation
+      wrap.style.setProperty('--rotate-x', `${(x - 50) / 4}deg`);
+      wrap.style.setProperty('--rotate-y', `${-(y - 50) / 4}deg`);
     };
 
     const step = () => {
@@ -69,10 +70,16 @@ const ProfileCard = ({
     if (isMobile) {
       let angle = 0;
       const autoAnimate = () => {
-        angle += 0.015; 
-        // Generates a smooth figure-8 movement to cover 3D space effectively
-        const x = 50 + Math.cos(angle) * 40;
-        const y = 50 + Math.sin(angle * 1.5) * 40;
+        // --- VISIBLE ANIMATION SETTINGS ---
+        const speed = 0.02;       // Speed of the movement
+        const intensity = 80;     // Range of motion (0-100 scale, 80 is very wide)
+        
+        angle += speed;
+        
+        // Complex Lissajous curve for a more organic and "prominent" 3D feel
+        const x = 50 + Math.cos(angle * 0.7) * intensity;
+        const y = 50 + Math.sin(angle * 1.2) * intensity;
+        
         tiltEngine.setTarget(x, y);
         mobileRaf = requestAnimationFrame(autoAnimate);
       };
