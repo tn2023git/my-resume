@@ -32,12 +32,11 @@ function App() {
 
   const handleReturn = () => {
     setIsReturning(true);
-    // Reduced slightly to 550ms to ensure state changes 
-    // just before the CSS transition (600ms) fully ends
+    // Adjusted timing to ensure state change happens comfortably within the transition
     setTimeout(() => {
         setShowResume(false);
         setIsReturning(false);
-    }, 550);
+    }, 500);
   };
 
   const handlePrint = () => {
@@ -145,7 +144,7 @@ function App() {
         contact: [
           { label: "موبایل", value: "۰۹۳۷۱۷۸۳۶۶۹" },
           { label: "ایمیل", value: "a.dmaram2023@gmail.com" },
-          { label: "تلگرام", value: "tn2023", url: "https://t.me/tn2023" }
+          { label: "تلگرام", value: "تلگرام", url: "https://t.me/tn2023" }
         ],
         languages: [{ name: "انگلیسی", level: "Native" }],
         software: [
