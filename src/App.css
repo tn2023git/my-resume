@@ -41,15 +41,11 @@
   box-sizing: border-box;
 }
 
-body, html {
+/* Strict black background for base layers to stop white flicker */
+body, html, #root {
   background-color: #000000 !important;
   color: white;
   overflow-x: hidden;
-  min-height: 100vh;
-}
-
-#root {
-  background-color: #000000;
   min-height: 100vh;
 }
 
@@ -61,20 +57,26 @@ body, html {
   height: 100vh;
   z-index: -1;
   pointer-events: none;
-  background-color: #000000; /* Solid black base */
-}
-
-/* --- Aurora Fade-In Effect --- */
-.aurora-container {
-  width: 100%;
-  height: 100%;
+  background-color: #000000;
   opacity: 0;
-  animation: auroraFadeIn 2s ease-out forwards;
+  transition: opacity 1s ease-in-out; /* Smooth Fade-out */
 }
 
-@keyframes auroraFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+.bg-container.show-aurora {
+  opacity: 1; /* Smooth Fade-in */
+}
+
+/* Restore Profile Card Glow */
+.profile-card-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(160, 16, 214, 0.2) 0%, transparent 70%);
+  z-index: -1;
+  pointer-events: none;
 }
 
 .app-wrapper {
@@ -107,10 +109,8 @@ body, html {
 /* --- Entrance & Exit Animation Logic --- */
 .is-entering .slide-top-logic { animation: slideInTop 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 .is-exiting .slide-top-logic { animation: slideOutTop 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-
 .is-entering .slide-left-logic { animation: slideInLeft 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 .is-exiting .slide-left-logic { animation: slideOutLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-
 .is-entering .slide-right-logic { animation: slideInRight 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 .is-exiting .slide-right-logic { animation: slideOutRight 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
 
@@ -247,6 +247,7 @@ body, html {
   .app-wrapper { padding: 40px 15px 100px 15px; }
   .floating-actions-container { bottom: 20px; }
   .floating-actions-container .floating-btn:last-child { display: none !important; }
+  .bg-container.show-aurora { opacity: 1 !important; transition: none; }
 }
 
 /* --- PRINT OPTIMIZATION --- */
