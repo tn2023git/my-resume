@@ -1,5 +1,5 @@
 import { Renderer, Program, Mesh, Color, Triangle } from 'ogl';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useMemo } from 'react';
 
 const VERT = `#version 300 es
 in vec2 position;
@@ -84,6 +84,10 @@ export default function Aurora(props) {
     speed = 1.25 
   } = props;
 
+  // Use memoization to prevent the component from re-running the heavy useEffect
+  // unless the core visual props actually change.
+  const memoizedColorStops = useMemo(() => JSON.stringify(colorStops), [colorStops]);
+
   const propsRef = useRef(props);
   propsRef.current = props;
   const ctnDom = useRef(null);
@@ -95,14 +99,11 @@ export default function Aurora(props) {
     const renderer = new Renderer({ alpha: true, premultipliedAlpha: true, antialias: true });
     const gl = renderer.gl;
     
-    // Set styles for the canvas to prevent flickering
     gl.canvas.style.position = 'absolute';
     gl.canvas.style.top = '0';
     gl.canvas.style.left = '0';
     gl.canvas.style.width = '100%';
     gl.canvas.style.height = '100%';
-    gl.canvas.style.opacity = '0';
-    gl.canvas.style.transition = 'opacity 0.5s ease-in';
     
     gl.clearColor(0, 0, 0, 0);
     gl.enable(gl.BLEND);
@@ -121,7 +122,7 @@ export default function Aurora(props) {
     const geometry = new Triangle(gl);
     if (geometry.attributes.uv) delete geometry.attributes.uv;
 
-    const colorStopsArray = colorStops.map(hex => {
+    const colorStopsArray = JSON.parse(memoizedColorStops).map(hex => {
       const c = new Color(hex);
       return [c.r, c.g, c.b];
     });
@@ -142,8 +143,6 @@ export default function Aurora(props) {
     ctn.appendChild(gl.canvas);
 
     let animateId = 0;
-    let framesRendered = 0;
-    
     const update = t => {
       animateId = requestAnimationFrame(update);
       const { currentSpeed = speed } = propsRef.current;
@@ -151,14 +150,6 @@ export default function Aurora(props) {
       program.uniforms.uAmplitude.value = propsRef.current.amplitude ?? 1.0;
       program.uniforms.uBlend.value = propsRef.current.blend ?? blend;
       renderer.render({ scene: mesh });
-      
-      // Once the first few frames are processed, show the canvas
-      if (framesRendered < 5) {
-        framesRendered++;
-        if (framesRendered === 5) {
-          gl.canvas.style.opacity = '1';
-        }
-      }
     };
     
     animateId = requestAnimationFrame(update);
@@ -170,7 +161,7 @@ export default function Aurora(props) {
       if (ctn && gl.canvas.parentNode === ctn) ctn.removeChild(gl.canvas);
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
-  }, [amplitude, blend, colorStops, speed]);
+  }, [amplitude, blend, memoizedColorStops, speed]);
 
-  return <div ref={ctnDom} style={{ width: '100%', height: '100%', position: 'relative', background: '#000' }} />;
+  return <div ref={ctnDom} style={{ width: '100%', height: '100%', position: 'relative' }} />;
 }
