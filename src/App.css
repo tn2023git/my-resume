@@ -48,6 +48,7 @@ body, html {
   min-height: 100vh;
 }
 
+/* --- Hardware Acceleration for PrismaticBurst Container --- */
 .bg-container {
   position: fixed;
   top: 0;
@@ -56,6 +57,10 @@ body, html {
   height: 100vh;
   z-index: -1;
   pointer-events: none;
+  /* Accelerates the entire background layer */
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .app-wrapper {
@@ -86,9 +91,18 @@ body, html {
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 /* --- Entrance Animations --- */
-.slide-in-left { animation: slideLeft 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.slide-in-right { animation: slideRight 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.slide-in-top { animation: slideTop 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.slide-in-left { 
+  animation: slideLeft 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+  will-change: transform, opacity;
+}
+.slide-in-right { 
+  animation: slideRight 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+  will-change: transform, opacity;
+}
+.slide-in-top { 
+  animation: slideTop 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+  will-change: transform, opacity;
+}
 
 @keyframes slideLeft { from { opacity: 0; transform: translateX(-50px); } to { opacity: 1; transform: translateX(0); } }
 @keyframes slideRight { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
@@ -197,6 +211,7 @@ body, html {
   justify-content: center;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  will-change: transform, background-color, box-shadow;
 }
 
 .floating-btn:hover {
