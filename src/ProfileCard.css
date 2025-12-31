@@ -195,24 +195,24 @@
   overflow: visible;
 }
 
-/* Central Tooltip Styling */
+/* Central Tooltip Styling - Updated to prevent empty box */
 .pc-central-tooltip {
   position: absolute;
   bottom: 85px; 
   left: 50%;
   transform: translateX(-50%) translateY(10px);
-  background: rgba(10, 10, 10, 0.85);
+  background: transparent; /* No background until hovered */
   color: #ffffff;
-  padding: 6px 14px;
+  padding: 0; /* No padding until hovered */
   border-radius: 8px;
   font-size: 0.85rem;
   white-space: nowrap;
   opacity: 0;
   visibility: hidden;
   transition: all 0.2s ease-in-out;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 0 solid transparent; /* No border until hovered */
   backdrop-filter: blur(8px);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  box-shadow: none;
   z-index: 120;
 }
 
@@ -223,19 +223,19 @@
 .tooltip-text-en { font-family: 'ProductSans', sans-serif; }
 .tooltip-text-fa { font-family: 'Anjoman', sans-serif; direction: rtl; }
 
-/* Show correct text based on which button is hovered */
-.pc-lang-overlay:has(.en-corner:hover) .pc-central-tooltip {
+/* Styles when EITHER button is hovered */
+.pc-lang-overlay:has(.flag-btn:hover) .pc-central-tooltip {
   opacity: 1;
   visibility: visible;
   transform: translateX(-50%) translateY(0);
+  background: rgba(10, 10, 10, 0.85);
+  padding: 6px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
-.pc-lang-overlay:has(.en-corner:hover) .tooltip-text-en { display: block; }
 
-.pc-lang-overlay:has(.fa-corner:hover) .pc-central-tooltip {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(0);
-}
+/* Show correct text based on which button is hovered */
+.pc-lang-overlay:has(.en-corner:hover) .tooltip-text-en { display: block; }
 .pc-lang-overlay:has(.fa-corner:hover) .tooltip-text-fa { display: block; }
 
 .flag-btn {
