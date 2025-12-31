@@ -85,27 +85,35 @@ body, html {
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* --- Entrance Animations --- */
-.slide-in-left { animation: slideLeft 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.slide-in-right { animation: slideRight 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.slide-in-top { animation: slideTop 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+/* --- Entrance & Exit Animation Logic (Symmetrical) --- */
 
-@keyframes slideLeft { from { opacity: 0; transform: translateX(-50px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes slideRight { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes slideTop { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+/* TOP SECTION */
+.is-entering .slide-top-logic { animation: slideInTop 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.is-exiting .slide-top-logic { animation: slideOutTop 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
 
-/* --- Exit Animation --- */
-.slide-out-anim {
-  animation: slideOut 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
+/* LEFT SECTION (Columns) */
+.is-entering .slide-left-logic { animation: slideInLeft 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.is-exiting .slide-left-logic { animation: slideOutLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
 
-@keyframes slideOut {
-  from { opacity: 1; transform: translateY(0); }
-  to { opacity: 0; transform: translateY(50px); }
-}
+/* RIGHT SECTION (Experience) */
+.is-entering .slide-right-logic { animation: slideInRight 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.is-exiting .slide-right-logic { animation: slideOutRight 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
 
-.rtl-mode .slide-in-left { animation-name: slideRight; }
-.rtl-mode .slide-in-right { animation-name: slideLeft; }
+/* Keyframes */
+@keyframes slideInTop { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideOutTop { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-50px); } }
+
+@keyframes slideInLeft { from { opacity: 0; transform: translateX(-80px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes slideOutLeft { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(-80px); } }
+
+@keyframes slideInRight { from { opacity: 0; transform: translateX(80px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes slideOutRight { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(80px); } }
+
+/* RTL Flip Logic */
+.rtl-mode .is-entering .slide-left-logic { animation-name: slideInRight; }
+.rtl-mode .is-exiting .slide-left-logic { animation-name: slideOutRight; }
+.rtl-mode .is-entering .slide-right-logic { animation-name: slideInLeft; }
+.rtl-mode .is-exiting .slide-right-logic { animation-name: slideOutLeft; }
 
 /* --- Direction & Alignment --- */
 .ltr-mode { direction: ltr; font-family: 'ProductSans', sans-serif !important; text-align: left; }
@@ -141,7 +149,6 @@ body, html {
 
 /* --- Software Section --- */
 .software-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-.software-container > .software-item:last-child { margin-bottom: 0; }
 .dots-container { display: flex; gap: 6px; }
 .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.1); }
 .dot.filled { background: var(--purple); box-shadow: 0 0 8px var(--purple); }
@@ -160,9 +167,9 @@ body, html {
 /* --- Certificates Section --- */
 .certs-list { display: flex; flex-direction: column; gap: 12px; }
 .cert-name { font-size: 1rem; color: white; }
-.cert-detail, .cert-validity { font-size: 0.85rem; color: var(--yellow); opacity: 0.9; margin-top: 2px; }
+.cert-detail { font-size: 0.85rem; color: var(--yellow); opacity: 0.9; margin-top: 2px; }
 
-/* --- Interests & Projects Section --- */
+/* --- Interests & Hobbies Section --- */
 .interests-list { display: flex; flex-direction: column; gap: 20px; }
 .interest-cat { display: flex; flex-direction: column; gap: 8px; }
 .interest-cat-name { font-size: 0.85rem; text-transform: uppercase; color: var(--purple); letter-spacing: 1px; border-bottom: 1px solid rgba(160, 16, 214, 0.2); padding-bottom: 4px; margin-bottom: 4px; }
@@ -233,102 +240,17 @@ body, html {
 
 /* --- PRINT OPTIMIZATION --- */
 @media print {
-  @page { 
-    size: A4; 
-    margin: 10mm; 
-  }
-  
+  @page { size: A4; margin: 10mm; }
   html, body, #root, .app-wrapper { 
-    background-color: #ffffff !important; 
-    background: #ffffff !important;
-    color: #000000 !important; 
-    margin: 0 !important;
-    padding: 0 !important;
-    height: auto !important;
-    width: 100% !important;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
+    background-color: #ffffff !important; background: #ffffff !important; color: #000000 !important; 
+    margin: 0 !important; padding: 0 !important; height: auto !important; width: 100% !important;
+    -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
   }
-
-  .bg-container, .floating-actions-container, .gateway-container, canvas, .pixel-card-canvas { 
-    display: none !important; 
-  }
-  
-  .pdf-page { 
-    max-width: 100% !important; 
-    gap: 4px !important; 
-    display: block !important;
-    background: #ffffff !important;
-    padding: 0 15px !important;
-  }
-
-  .side-pixel-wrapper:has(.interests-list) {
-    display: block !important;
-    break-before: page !important;
-    page-break-before: always !important;
-    margin-top: 30px !important; 
-  }
-
-  .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary, .mobile-glass-card {
-    background: transparent !important;
-    border: none !important;
-    padding: 0 !important;
-    margin-bottom: 6px !important;
-    display: block !important;
-    width: 100% !important;
-  }
-
-  .summary-inner, .side-section, .exp-card {
-    padding: 5px 0 !important;
-  }
-
-  .yellow-text {
-    font-size: 1.15rem !important;
-    color: #000000 !important;
-    border-bottom: 1.2px solid #000000 !important;
-    margin-top: 8px !important;
-    margin-bottom: 4px !important;
-    padding-bottom: 2px !important;
-    font-weight: bold !important;
-    display: flex !important;
-  }
-
-  .interest-cat-name {
-    color: #000000 !important;
-    margin-bottom: 2px !important;
-    padding-bottom: 2px !important;
-    font-size: 0.8rem !important;
-  }
-
-  .info-columns-container { 
-    column-count: 1 !important; 
-    display: block !important;
-    width: 100% !important;
-  }
-
-  .summary-text, .job-desc, .skill-name, .cert-name, .interest-item, .job-company { 
-    color: #000000 !important; 
-    line-height: 1.4 !important;
-  }
-
-  .dot.filled, .progress-bar-fill { 
-    background: #000 !important; 
-    background-color: #000 !important; 
-  }
-
-  .soft-tag, .tag {
-    border: 1px solid #000 !important;
-    padding: 0 4px !important;
-    margin: 1px !important;
-    font-size: 0.75rem !important;
-  }
-
-  * { 
-    color: #000000 !important; 
-    -webkit-text-fill-color: #000000 !important;
-    text-shadow: none !important;
-    box-shadow: none !important;
-    animation: none !important;
-    transition: none !important;
-  }
+  .bg-container, .floating-actions-container, .gateway-container, canvas, .pixel-card-canvas { display: none !important; }
+  .pdf-page { max-width: 100% !important; gap: 4px !important; display: block !important; background: #ffffff !important; padding: 0 15px !important; }
+  .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary, .mobile-glass-card { background: transparent !important; border: none !important; padding: 0 !important; margin-bottom: 6px !important; display: block !important; width: 100% !important; }
+  .summary-inner, .side-section, .exp-card { padding: 5px 0 !important; }
+  .yellow-text { font-size: 1.15rem !important; color: #000000 !important; border-bottom: 1.2px solid #000000 !important; margin-top: 8px !important; margin-bottom: 4px !important; padding-bottom: 2px !important; font-weight: bold !important; display: flex !important; }
+  .info-columns-container { column-count: 1 !important; display: block !important; width: 100% !important; }
+  * { color: #000000 !important; -webkit-text-fill-color: #000000 !important; text-shadow: none !important; box-shadow: none !important; animation: none !important; transition: none !important; }
 }

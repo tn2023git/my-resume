@@ -246,15 +246,15 @@ function App() {
            />
         </div>
       ) : (
-        <div className={`pdf-page entrance-anim ${isReturning ? 'slide-out-anim' : ''}`}>
-          <SmartCard className={`full-width-summary ${isFirstEntry ? 'slide-in-top' : ''}`}>
+        <div className={`pdf-page ${isReturning ? 'is-exiting' : 'is-entering'}`}>
+          <SmartCard className="full-width-summary slide-top-logic">
             <section className="side-section summary-inner">
               <GradientText className="yellow-text bold-font">{isEn ? "Professional Summary" : "درباره من"}</GradientText>
               <p className="summary-text">{content.summary}</p>
             </section>
           </SmartCard>
 
-          <div className={`info-columns-container ${isFirstEntry ? 'slide-in-left' : ''}`}>
+          <div className="info-columns-container slide-left-logic">
             {/* 1. Personal & Contact */}
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
@@ -367,7 +367,7 @@ function App() {
             </SmartCard>
           </div>
 
-          <div className={`experience-full-width ${isFirstEntry ? 'slide-in-right' : ''}`}>
+          <div className="experience-full-width slide-right-logic">
             {content.experience.map((job, i) => (
               <SmartCard key={i} className="exp-pixel-wrapper">
                 <div className="exp-card">
