@@ -46,8 +46,6 @@ body, html {
   color: white;
   overflow-x: hidden;
   min-height: 100vh;
-  /* Optimization: Stop the browser from over-calculating layout */
-  contain: content;
 }
 
 .bg-container {
@@ -60,8 +58,6 @@ body, html {
   pointer-events: none;
   opacity: 0;
   transition: opacity 1.2s ease-in-out;
-  /* Keep background on its own layer */
-  transform: translateZ(0);
 }
 
 .bg-container.visible {
@@ -84,7 +80,7 @@ body, html {
   align-items: center;
   width: 100%;
   min-height: 90vh;
-  animation: fadeIn 0.8s ease-out forwards;
+  animation: fadeIn 1s ease;
 }
 
 .fade-out {
@@ -96,31 +92,30 @@ body, html {
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 /* --- Entrance & Exit Animations --- */
+/* Replaced slide-ins with simple, smooth fades to eliminate stutter */
 .fade-in-content { 
-  animation: simpleFadeIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  /* CRITICAL: Force GPU layer to prevent the 'hand-off' stutter */
-  transform: translateZ(0);
+  animation: simpleFadeIn 1s ease-out forwards; 
   will-change: opacity;
-  backface-visibility: hidden;
 }
 
 .fade-out-content {
   animation: simpleFadeOut 0.4s ease-in forwards !important;
+  will-change: opacity;
 }
 
 @keyframes simpleFadeIn { 
-  0% { opacity: 0; } 
-  100% { opacity: 1; } 
+  from { opacity: 0; } 
+  to { opacity: 1; } 
 }
 
 @keyframes simpleFadeOut { 
-  0% { opacity: 1; } 
-  100% { opacity: 0; } 
+  from { opacity: 1; } 
+  to { opacity: 0; } 
 }
 
-/* Fallbacks */
+/* Fallbacks for class names used in JSX to prevent breaking logic */
 .slide-in-left, .slide-in-right, .slide-in-top { 
-  animation: simpleFadeIn 0.8s ease-out forwards; 
+  animation: simpleFadeIn 1s ease-out forwards; 
 }
 
 /* --- Direction & Alignment --- */
@@ -138,14 +133,12 @@ body, html {
 /* --- Card Wrappers & Glassmorphism --- */
 .side-pixel-wrapper, .exp-pixel-wrapper, .mobile-glass-card, .full-width-summary {
   background: var(--glass-bg) !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
   border: 1px solid var(--glass-border) !important;
   border-radius: 20px !important;
   overflow: hidden;
   height: auto !important;
-  /* Prevent layout shifts */
-  transform: translateZ(0);
 }
 
 .side-pixel-wrapper { display: inline-block; width: 100%; break-inside: avoid; margin-bottom: var(--spacing-desktop); }
@@ -169,7 +162,7 @@ body, html {
 .skill-progress-item { display: flex; flex-direction: column; gap: 8px; }
 .skill-name { font-size: 0.9rem; color: rgba(255, 255, 255, 0.9); }
 .progress-bar-bg { width: 100%; height: 6px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; overflow: hidden; }
-.progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--purple), var(--c1)); border-radius: 10px; }
+.progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--purple), var(--c1)); border-radius: 10px; box-shadow: 0 0 10px rgba(160, 16, 214, 0.4); }
 
 /* --- Soft Skills Tags --- */
 .soft-skills-tags { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -199,14 +192,7 @@ body, html {
 .exp-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 8px; }
 .job-company { color: var(--yellow); margin-bottom: 10px; font-weight: bold; }
 .job-desc { color: rgba(255,255,255,0.75); line-height: 1.7; }
-.yellow-text { 
-  font-size: 1.4rem; 
-  border-bottom: 1px solid rgba(255,255,255,0.1); 
-  padding-bottom: 12px; 
-  margin-bottom: 20px; 
-  display: flex;
-  transform: translateZ(0);
-}
+.yellow-text { font-size: 1.4rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; margin-bottom: 20px; display: flex; }
 
 /* --- Floating Buttons --- */
 .floating-actions-container {
@@ -231,12 +217,13 @@ body, html {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform 0.3s ease, background 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .floating-btn:hover {
   transform: scale(1.1);
   background: rgba(30, 30, 30, 0.9);
+  box-shadow: 0 0 15px var(--c1);
 }
 
 .floating-btn svg {
@@ -252,6 +239,7 @@ body, html {
   .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary { background: rgba(10, 10, 10, 0.95) !important; margin-bottom: 0 !important; }
   .app-wrapper { padding: 40px 15px 100px 15px; }
   .floating-actions-container { bottom: 20px; }
+  .floating-actions-container .floating-btn:last-child { display: none !important; }
 }
 
 /* --- PRINT OPTIMIZATION --- */
@@ -260,7 +248,14 @@ body, html {
   html, body, #root, .app-wrapper { background-color: #ffffff !important; background: #ffffff !important; color: #000000 !important; margin: 0 !important; padding: 0 !important; height: auto !important; width: 100% !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
   .bg-container, .floating-actions-container, .gateway-container, canvas, .pixel-card-canvas { display: none !important; }
   .pdf-page { max-width: 100% !important; gap: 4px !important; display: block !important; background: #ffffff !important; padding: 0 15px !important; }
+  .side-pixel-wrapper:has(.interests-list) { display: block !important; break-before: page !important; page-break-before: always !important; margin-top: 30px !important; }
   .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary, .mobile-glass-card { background: transparent !important; border: none !important; padding: 0 !important; margin-bottom: 6px !important; display: block !important; width: 100% !important; }
-  .yellow-text { font-size: 1.15rem !important; color: #000000 !important; border-bottom: 1.2px solid #000000 !important; margin-top: 8px !important; margin-bottom: 4px !important; padding-bottom: 2px !important; font-weight: bold !important; display: flex !important; transform: none !important; }
+  .summary-inner, .side-section, .exp-card { padding: 5px 0 !important; }
+  .yellow-text { font-size: 1.15rem !important; color: #000000 !important; border-bottom: 1.2px solid #000000 !important; margin-top: 8px !important; margin-bottom: 4px !important; padding-bottom: 2px !important; font-weight: bold !important; display: flex !important; }
+  .interest-cat-name { color: #000000 !important; margin-bottom: 2px !important; padding-bottom: 2px !important; font-size: 0.8rem !important; }
+  .info-columns-container { column-count: 1 !important; display: block !important; width: 100% !important; }
+  .summary-text, .job-desc, .skill-name, .cert-name, .interest-item, .job-company { color: #000000 !important; line-height: 1.4 !important; }
+  .dot.filled, .progress-bar-fill { background: #000 !important; background-color: #000 !important; }
+  .soft-tag, .tag { border: 1px solid #000 !important; padding: 0 4px !important; margin: 1px !important; font-size: 0.75rem !important; }
   * { color: #000000 !important; -webkit-text-fill-color: #000000 !important; text-shadow: none !important; box-shadow: none !important; animation: none !important; transition: none !important; }
 }
