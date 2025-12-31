@@ -46,9 +46,9 @@ struct ColorStop { vec3 color; float position; };
 #define COLOR_RAMP(colors, factor, finalColor) { \
   int index = 0; \
   for (int i = 0; i < 2; i++) { \
-     ColorStop currentColor = colors[i]; \
-     bool isInBetween = currentColor.position <= factor; \
-     index = int(mix(float(index), float(i), float(isInBetween))); \
+      ColorStop currentColor = colors[i]; \
+      bool isInBetween = currentColor.position <= factor; \
+      index = int(mix(float(index), float(i), float(isInBetween))); \
   } \
   ColorStop currentColor = colors[index]; \
   ColorStop nextColor = colors[index + 1]; \
@@ -77,7 +77,6 @@ void main() {
 `;
 
 export default function Aurora(props) {
-  // Setting your requested parameters as defaults
   const { 
     colorStops = ['#f3bc08', '#d8854b', '#a010d6'], 
     amplitude = 1.0, 
@@ -92,8 +91,19 @@ export default function Aurora(props) {
   useEffect(() => {
     const ctn = ctnDom.current;
     if (!ctn) return;
+
     const renderer = new Renderer({ alpha: true, premultipliedAlpha: true, antialias: true });
     const gl = renderer.gl;
+    
+    // Set styles for the canvas to prevent flickering
+    gl.canvas.style.position = 'absolute';
+    gl.canvas.style.top = '0';
+    gl.canvas.style.left = '0';
+    gl.canvas.style.width = '100%';
+    gl.canvas.style.height = '100%';
+    gl.canvas.style.opacity = '0';
+    gl.canvas.style.transition = 'opacity 0.5s ease-in';
+    
     gl.clearColor(0, 0, 0, 0);
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
@@ -132,6 +142,8 @@ export default function Aurora(props) {
     ctn.appendChild(gl.canvas);
 
     let animateId = 0;
+    let framesRendered = 0;
+    
     const update = t => {
       animateId = requestAnimationFrame(update);
       const { currentSpeed = speed } = propsRef.current;
@@ -139,7 +151,16 @@ export default function Aurora(props) {
       program.uniforms.uAmplitude.value = propsRef.current.amplitude ?? 1.0;
       program.uniforms.uBlend.value = propsRef.current.blend ?? blend;
       renderer.render({ scene: mesh });
+      
+      // Once the first few frames are processed, show the canvas
+      if (framesRendered < 5) {
+        framesRendered++;
+        if (framesRendered === 5) {
+          gl.canvas.style.opacity = '1';
+        }
+      }
     };
+    
     animateId = requestAnimationFrame(update);
     resize();
 
@@ -151,5 +172,5 @@ export default function Aurora(props) {
     };
   }, [amplitude, blend, colorStops, speed]);
 
-  return <div ref={ctnDom} style={{ width: '100%', height: '100%' }} />;
+  return <div ref={ctnDom} style={{ width: '100%', height: '100%', position: 'relative', background: '#000' }} />;
 }
