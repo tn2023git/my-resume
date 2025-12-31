@@ -20,6 +20,7 @@ function App() {
     checkDevice();
     window.addEventListener('resize', checkDevice);
     
+    // Updated to 350ms as requested
     const timer = setTimeout(() => {
       setBgActivated(true);
     }, 350);

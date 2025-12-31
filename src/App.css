@@ -64,7 +64,7 @@ html, body, #root {
 }
 
 .bg-container.is-active {
-  display: block !important; 
+  display: block; 
   opacity: 1 !important;
 }
 
@@ -297,7 +297,7 @@ html, body, #root {
 @media print {
   @page { 
     size: A4; 
-    margin: 20mm 15mm 20mm 15mm; /* Increased Margin */
+    margin: 15mm 11mm 15mm 11mm; /* Reduced by ~25% from previous and made white */
   }
 
   html, body, #root {
@@ -334,21 +334,22 @@ html, body, #root {
     box-shadow: none !important;
     backdrop-filter: none !important;
     padding: 0 !important;
-    margin: 0 0 25px 0 !important;
+    margin: 0 0 15px 0 !important;
     width: 100% !important;
   }
 
+  /* Show Progress Bars and Dots in Black */
   .progress-bar-bg {
-    background: #e0e0e0 !important;
-    border: 1px solid #ccc !important;
+    background: #eeeeee !important;
+    border: 1px solid #dddddd !important;
   }
   .progress-bar-fill {
     background: black !important;
     box-shadow: none !important;
   }
   .dot {
-    background: #e0e0e0 !important;
-    border: 1px solid #ccc !important;
+    background: #eeeeee !important;
+    border: 1px solid #dddddd !important;
   }
   .dot.filled {
     background: black !important;
@@ -369,10 +370,12 @@ html, body, #root {
     display: block !important;
   }
 
+  /* Font size reduction for printing */
   * {
     color: black !important;
     -webkit-text-fill-color: black !important;
     text-shadow: none !important;
+    font-size: 9pt !important;
   }
 
   .bg-container, .floating-actions-container, .gateway-container, 
@@ -382,15 +385,15 @@ html, body, #root {
 
   .yellow-text {
     color: black !important;
-    border-bottom: 2px solid black !important;
+    border-bottom: 1.5px solid black !important;
     font-weight: bold !important;
-    font-size: 1.2rem !important;
-    margin-top: 15px !important;
-    padding-bottom: 5px !important;
+    font-size: 11pt !important;
+    margin-top: 10px !important;
+    padding-bottom: 3px !important;
   }
 
-  .job-role { font-weight: bold !important; font-size: 1.1rem !important; }
-  .job-company { font-weight: bold !important; margin-bottom: 2px !important; }
-  .job-date { color: #555 !important; font-size: 0.85rem !important; }
-  .summary-text, .job-desc { line-height: 1.5 !important; font-size: 10pt !important; }
+  .job-role { font-weight: bold !important; font-size: 10pt !important; }
+  .job-company { font-weight: bold !important; margin-bottom: 1px !important; }
+  .job-date { color: #555 !important; font-size: 8pt !important; }
+  .summary-text, .job-desc { line-height: 1.4 !important; font-size: 9pt !important; }
 }
