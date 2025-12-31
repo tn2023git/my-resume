@@ -27,7 +27,7 @@
   --c4: #A010D6;
   --purple: var(--c4);
   --yellow: #F3BC08;
-  --bg: #000000; /* Darkened to pure black to prevent edge flickers */
+  --bg: #000000; 
   --glass-bg: rgba(15, 15, 15, 0.45); 
   --glass-border: rgba(255, 255, 255, 0.08);
   --spacing-desktop: 25px;
@@ -41,7 +41,6 @@
   box-sizing: border-box;
 }
 
-/* Added background-color here to ensure the base layer is never white */
 body, html {
   background-color: #000000 !important;
   color: white;
@@ -62,7 +61,20 @@ body, html {
   height: 100vh;
   z-index: -1;
   pointer-events: none;
-  background-color: #000000; /* This acts as a placeholder while Aurora loads */
+  background-color: #000000; /* Solid black base */
+}
+
+/* --- Aurora Fade-In Effect --- */
+.aurora-container {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  animation: auroraFadeIn 2s ease-out forwards;
+}
+
+@keyframes auroraFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .app-wrapper {
@@ -92,31 +104,23 @@ body, html {
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* --- Entrance & Exit Animation Logic (Symmetrical) --- */
-
-/* TOP SECTION */
+/* --- Entrance & Exit Animation Logic --- */
 .is-entering .slide-top-logic { animation: slideInTop 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 .is-exiting .slide-top-logic { animation: slideOutTop 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
 
-/* LEFT SECTION (Columns) */
 .is-entering .slide-left-logic { animation: slideInLeft 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 .is-exiting .slide-left-logic { animation: slideOutLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
 
-/* RIGHT SECTION (Experience) */
 .is-entering .slide-right-logic { animation: slideInRight 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 .is-exiting .slide-right-logic { animation: slideOutRight 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
 
-/* Keyframes */
 @keyframes slideInTop { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes slideOutTop { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-50px); } }
-
 @keyframes slideInLeft { from { opacity: 0; transform: translateX(-80px); } to { opacity: 1; transform: translateX(0); } }
 @keyframes slideOutLeft { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(-80px); } }
-
 @keyframes slideInRight { from { opacity: 0; transform: translateX(80px); } to { opacity: 1; transform: translateX(0); } }
 @keyframes slideOutRight { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(80px); } }
 
-/* RTL Flip Logic */
 .rtl-mode .is-entering .slide-left-logic { animation-name: slideInRight; }
 .rtl-mode .is-exiting .slide-left-logic { animation-name: slideOutRight; }
 .rtl-mode .is-entering .slide-right-logic { animation-name: slideInLeft; }
