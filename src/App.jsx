@@ -229,8 +229,7 @@ function App() {
 
   return (
     <div className={`app-wrapper ${isEn ? 'ltr-mode' : 'rtl-mode'} ${isExiting ? 'fade-out' : ''}`}>
-      <div className={`bg-container ${showResume && !isMobile ? 'show-aurora' : ''}`}>
-        {/* Only show Aurora on Desktop and when Resume is active */}
+      <div className={`bg-container ${showResume ? 'is-active' : ''}`}>
         {showResume && !isMobile && (
           <Aurora 
               colorStops={['#f3bc08', '#d8854b', '#a010d6']} 
@@ -239,14 +238,16 @@ function App() {
           />
         )}
         
-        {/* Use Pixel background for Mobile only */}
         {showResume && isMobile && (
-          <PixelCard isStatic={true} className="mobile-bg-pixel" gap={5} speed={25} />
+          <div className="mobile-pixel-bg-wrapper">
+             <PixelCard isStatic={true} className="mobile-bg-pixel" gap={5} speed={25} />
+          </div>
         )}
       </div>
 
       {!showResume ? (
         <div className="gateway-container">
+           <div className="profile-card-glow"></div>
            <ProfileCard 
              avatarUrl={profilePic} 
              onSelectLang={handleStart} 
