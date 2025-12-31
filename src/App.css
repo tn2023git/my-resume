@@ -298,90 +298,85 @@ html, body, #root {
 @media print {
   @page { size: A4; margin: 10mm; }
 
-  /* Force visibility and reset colors */
-  html, body, #root, .app-wrapper { 
-    background-color: white !important; 
-    background: white !important;
+  /* Reset everything to visible, static, and black-on-white */
+  html, body, #root {
+    background-color: white !important;
     color: black !important;
-    width: 100% !important;
     height: auto !important;
+    min-height: 0 !important;
     overflow: visible !important;
-    display: block !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    font-family: Arial, sans-serif !important; /* Fallback for printing */
   }
 
-  /* Kill all layout-breaking wrappers */
-  .pdf-page, .app-wrapper {
+  .app-wrapper {
+    background: white !important;
+    padding: 0 !important;
     display: block !important;
-    max-width: 100% !important;
     position: static !important;
-    transform: none !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  /* Force content to be visible and ignore animations */
+  .pdf-page, .fade-in-section, .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary {
     opacity: 1 !important;
     visibility: visible !important;
+    display: block !important;
+    position: static !important;
+    transform: none !important;
+    animation: none !important;
   }
 
-  /* Force raw text / Remove boxes */
-  .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary, 
-  .mobile-glass-card, .side-section, .exp-card, .summary-inner {
+  /* Strip all box containers and layouts */
+  .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary, .mobile-glass-card {
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
     backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    padding: 10px 0 !important;
-    margin: 0 !important;
-    display: block !important;
+    padding: 0 !important;
+    margin: 0 0 20px 0 !important;
     width: 100% !important;
-    position: static !important;
-    opacity: 1 !important;
-    visibility: visible !important;
   }
 
-  /* Single Column Vertical Order */
-  .info-columns-container, .experience-full-width {
+  .summary-inner, .side-section, .exp-card {
+    padding: 0 !important;
+  }
+
+  /* Ensure vertical flow */
+  .info-columns-container {
     column-count: 1 !important;
     display: block !important;
-    width: 100% !important;
   }
 
-  /* Ensure text is actually black and visible */
+  .experience-full-width {
+    display: block !important;
+  }
+
+  /* Force all text to black */
   * {
     color: black !important;
-    background-color: transparent !important;
     -webkit-text-fill-color: black !important;
     text-shadow: none !important;
-    box-shadow: none !important;
-    animation: none !important;
-    transition: none !important;
-    opacity: 1 !important;
-    visibility: visible !important;
+    background: transparent !important;
   }
 
-  /* Headings & Dividers */
-  .yellow-text {
-    font-size: 1.3rem !important;
-    color: black !important;
-    border-bottom: 2px solid black !important;
-    margin: 20px 0 10px 0 !important;
-    display: block !important;
-    font-weight: bold !important;
-  }
-
-  .job-role { font-weight: bold !important; font-size: 1.1rem !important; }
-  .job-company { font-weight: bold !important; }
-  .job-date { color: #333 !important; margin-bottom: 5px !important; }
-
-  /* Hide everything else */
+  /* Kill UI elements */
   .bg-container, .floating-actions-container, .gateway-container, 
-  .profile-card-glow, canvas, .pixel-card-canvas, .fade-in-section, .exit-section {
+  .profile-card-glow, canvas, .pixel-card-canvas {
     display: none !important;
   }
 
-  /* Reset lists for print */
-  .software-item, .skill-progress-item, .cert-item {
-    break-inside: avoid;
-    margin-bottom: 8px !important;
+  /* Text formatting */
+  .yellow-text {
+    color: black !important;
+    border-bottom: 2px solid black !important;
+    font-weight: bold !important;
+    font-size: 1.2rem !important;
+    margin-top: 15px !important;
+    padding-bottom: 5px !important;
   }
+
+  .job-role { font-weight: bold !important; font-size: 1.1rem !important; }
+  .job-company { font-weight: bold !important; margin-bottom: 2px !important; }
+  .job-date { color: #555 !important; font-size: 0.85rem !important; }
+  .summary-text, .job-desc { line-height: 1.5 !important; font-size: 10pt !important; }
 }
