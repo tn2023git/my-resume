@@ -17,15 +17,15 @@ precision highp int;
 
 out vec4 fragColor;
 
-uniform vec2   uResolution;
+uniform vec2  uResolution;
 uniform float uTime;
 uniform float uIntensity;
 uniform float uSpeed;
 uniform int   uAnimType;
-uniform vec2   uMouse;
+uniform vec2  uMouse;
 uniform int   uColorCount;
 uniform float uDistort;
-uniform vec2   uOffset;
+uniform vec2  uOffset;
 uniform sampler2D uGradient;
 uniform float uNoiseAmount;
 uniform int   uRayCount;
@@ -112,7 +112,7 @@ void main(){
     }
 
     float marchT = 0.0;
-    for (int i = 0; i < 44; ++i) {
+    for (int i = 0; i < 26; ++i) {
         vec3 P = marchT * dir;
         P.z -= 2.0;
         float rad = length(P);
@@ -193,7 +193,7 @@ const PrismaticBurst = ({
   paused = false,
   offset = { x: 0, y: 0 },
   hoverDampness = 0.1,
-  rayCount = 25,
+  rayCount = 0,
   mixBlendMode = 'lighten'
 }) => {
   const containerRef = useRef(null);
@@ -308,8 +308,7 @@ const PrismaticBurst = ({
     programRef.current.uniforms.uSpeed.value = speed;
     programRef.current.uniforms.uDistort.value = distort;
     programRef.current.uniforms.uAnimType.value = animationType === 'rotate' ? 0 : animationType === 'rotate3d' ? 1 : 2;
-    programRef.current.uniforms.uRayCount.value = rayCount;
-  }, [color0, color1, color2, isMobile, intensity, speed, animationType, distort, rayCount]);
+  }, [color0, color1, color2, isMobile, intensity, speed, animationType, distort]);
 
   if (isMobile) return null;
 
