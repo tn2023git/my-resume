@@ -83,11 +83,11 @@
   opacity: 0;
   background: conic-gradient(
     from 0deg,
-    rgba(243, 188, 8, 0.4),  /* Softened --c1 */
-    rgba(223, 147, 57, 0.4), /* Softened --c2 */
-    rgba(160, 16, 214, 0.4), /* Softened --c4 */
-    rgba(243, 188, 8, 0.4),  /* Softened --c1 */
-    rgba(223, 147, 57, 0.4)  /* Softened --c2 */
+    rgba(243, 188, 8, 0.4),
+    rgba(223, 147, 57, 0.4),
+    rgba(160, 16, 214, 0.4),
+    rgba(243, 188, 8, 0.4),
+    rgba(223, 147, 57, 0.4)
   );
   background-size: 100px 100px;
   filter: blur(30px) contrast(110%) saturate(45%);
@@ -103,7 +103,15 @@
   z-index: 12;
   opacity: 0;
   mix-blend-mode: overlay;
-  background: linear-gradient(110deg, transparent 20%, var(--c4) 40%, var(--c1) 50%, var(--c2) 60%, transparent 80%);
+  /* Updated to use softened RGBA colors for less intense hover/tilt */
+  background: linear-gradient(
+    110deg, 
+    transparent 20%, 
+    rgba(160, 16, 214, 0.3) 40%, 
+    rgba(243, 188, 8, 0.3) 50%, 
+    rgba(223, 147, 57, 0.3) 60%, 
+    transparent 80%
+  );
   background-size: 200% 200%;
   background-position: var(--pointer-x) var(--pointer-y);
   pointer-events: none;
@@ -271,11 +279,12 @@
   width: 600px;
   height: 600px;
   transform: translate(-50%, -50%);
+  /* Updated to use softened RGBA colors for the background glow */
   background: radial-gradient(
     circle at var(--pointer-x) var(--pointer-y), 
-    var(--c4) 0%, 
-    var(--c1) 30%, 
-    var(--c2) 60%, 
+    rgba(160, 16, 214, 0.3) 0%, 
+    rgba(243, 188, 8, 0.3) 30%, 
+    rgba(223, 147, 57, 0.25) 60%, 
     transparent 80%
   );
   filter: blur(80px);
