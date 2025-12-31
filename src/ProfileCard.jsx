@@ -17,14 +17,13 @@ const ProfileCard = ({
   const [isMobile, setIsMobile] = useState(false);
   const [localExiting, setLocalExiting] = useState(false);
 
-  // Sync internal exiting state with prop or trigger locally
   const isExiting = isExitingProp || localExiting;
 
   const handleLangSelect = (lang) => {
     setLocalExiting(true);
     setTimeout(() => {
       onSelectLang(lang);
-    }, 800); // Matches the CSS fade-out duration
+    }, 800);
   };
 
   useEffect(() => {
@@ -48,8 +47,9 @@ const ProfileCard = ({
       if (!wrap) return;
       wrap.style.setProperty('--pointer-x', `${x}%`);
       wrap.style.setProperty('--pointer-y', `${y}%`);
-      wrap.style.setProperty('--rotate-x', `${(x - 50) / 3.5}deg`);
-      wrap.style.setProperty('--rotate-y', `${-(y - 50) / 3.5}deg`);
+      // Adjusted tilt back to /8 for a subtler, more natural 3D effect
+      wrap.style.setProperty('--rotate-x', `${(x - 50) / 8}deg`);
+      wrap.style.setProperty('--rotate-y', `${-(y - 50) / 8}deg`);
     };
 
     const step = () => {
@@ -80,11 +80,14 @@ const ProfileCard = ({
     if (isMobile) {
       let angle = 0;
       const autoAnimate = () => {
-        const speed = 0.015;      
-        const intensity = 100;    
+        const speed = 0.012;      
+        const intensity = 25;    // Reduced by 75% for a subtle feel
+        
         angle += speed;
+        
         const x = 50 + Math.cos(angle) * intensity;
         const y = 50 + Math.sin(angle * 0.8) * intensity;
+        
         tiltEngine.setTarget(x, y);
         mobileRaf = requestAnimationFrame(autoAnimate);
       };

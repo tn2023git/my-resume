@@ -21,7 +21,6 @@
   animation: pc-fade-in 0.8s ease-out forwards;
 }
 
-/* Enhanced exiting animation with scale and blur */
 .pc-card-wrapper.pc-exiting {
   animation: pc-fade-out 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   pointer-events: none;
