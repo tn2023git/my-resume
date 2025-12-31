@@ -198,8 +198,8 @@ function App() {
             category: "گیمینگ", 
             items: [
               { text: "گیمر نیمه‌حرفه‌ای MOBA: بیش از ۱۰,۰۰۰ ساعت تجربه در DotA 2", detail: "تمرکز بر تفکر استراتژیک و بازی در سطح بالا" },
-              { text: "بازی‌های FPS: مجموعه‌های Battlefield و Rainbow Six: Siege", detail: "تقویت سرعت واکنش و برنامه‌ریزی تاکتیکی" },
-              { text: "بازی‌های ARPG: عنوان Path Of Exile", detail: "سیستم‌های ساخت و ساز پیچیده و مکانیزم‌های پیشرفت عمیق" },
+              { text: "بازی‌های FPS: Battlefield و Rainbow Six: Siege", detail: "تقویت سرعت واکنش و برنامه‌ریزی تاکتیکی" },
+              { text: "بازی‌های ARPG: Path Of Exile", detail: "سیستم‌های ساخت و ساز پیچیده و مکانیزم‌های پیشرفت عمیق" },
               { text: "بازی‌های داستانی: Alan Wake، Control، LA. Noire", detail: "روایت‌های پیچیده و عمیق" }
             ]
           }
