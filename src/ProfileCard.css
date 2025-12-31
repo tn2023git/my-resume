@@ -191,47 +191,41 @@
   overflow: visible;
 }
 
-/* Base Tooltip Styling - Centered between buttons */
+/* Sharp Tooltip Styling */
 .flag-btn::after {
   content: attr(data-tooltip);
   position: absolute;
   bottom: 30px; 
-  background: rgba(15, 15, 15, 0.4);
-  color: rgba(255, 255, 255, 0.85);
-  padding: 5px 12.5px;
-  border-radius: 5px;
-  font-size: 0.8125rem;
+  background: rgba(10, 10, 10, 0.7); /* Darker for better contrast */
+  color: #ffffff;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.85rem;
   white-space: nowrap;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: opacity 0.2s ease-in-out;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   pointer-events: none;
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(4px);
+  /* Fix for low-res/blurriness */
+  -webkit-font-smoothing: antialiased;
+  backface-visibility: hidden;
 }
 
 /* Tooltip for English button: center horizontally in card */
 .en-corner::after {
   font-family: 'ProductSans', sans-serif;
-  left: calc(50vw - 20px - 30px); /* Center relative to card width */
-  transform: translateX(-50%);
+  left: calc(190px - 20px - 30px);
+  transform: translate3d(-50%, 0, 0);
 }
 
 /* Tooltip for Farsi button: center horizontally in card */
 .fa-corner::after {
   font-family: 'Anjoman', sans-serif;
-  right: calc(50vw - 20px - 30px); /* Center relative to card width */
-  transform: translateX(50%);
-  direction: rtl;
-}
-
-/* Specific centering logic for absolute positions within the shell */
-.en-corner::after {
-  left: calc(190px - 20px - 30px); /* (Half card width) - (button left offset) - (half button width) */
-}
-
-.fa-corner::after {
   right: calc(190px - 20px - 30px);
+  transform: translate3d(50%, 0, 0);
+  direction: rtl;
 }
 
 .flag-btn:hover::after {
