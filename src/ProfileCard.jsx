@@ -138,7 +138,6 @@ const ProfileCard = ({
             </div>
 
             <div className="pc-lang-overlay">
-              {/* Separate tooltips in the same central spot */}
               <div className="pc-central-tooltip en-tooltip">View English Resume</div>
               <div className="pc-central-tooltip fa-tooltip">مشاهده رزومه فارسی</div>
 
