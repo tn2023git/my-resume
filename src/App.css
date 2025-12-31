@@ -1,763 +1,373 @@
 /* --- Fonts Configuration --- */
-
 @font-face {
-
   font-family: 'Anjoman';
-
   src: url('./assets/fonts/Anjoman Regular.ttf') format('truetype');
-
   font-weight: normal;
-
 }
 
-
-
 @font-face {
-
   font-family: 'Anjoman';
-
   src: url('./assets/fonts/Anjoman Bold.ttf') format('truetype');
-
   font-weight: bold;
-
 }
-
-
 
 @font-face {
-
   font-family: 'ProductSans';
-
   src: url('./assets/fonts/Product Sans Regular.ttf') format('truetype');
-
   font-weight: normal;
-
 }
-
-
 
 .bold-font { font-weight: bold !important; }
 
-
-
 /* --- Global Variables --- */
-
 :root {
-
   --c1: #F3BC08;
-
   --c2: #DF9339;
-
   --c3: #D1765C;
-
   --c4: #A010D6;
-
   --purple: var(--c4);
-
   --yellow: #F3BC08;
-
   --bg: #000000; 
-
   --glass-bg: rgba(15, 15, 15, 0.45); 
-
   --glass-border: rgba(255, 255, 255, 0.08);
-
   --spacing-desktop: 25px;
-
   --spacing-mobile: 20px;
-
 }
-
-
 
 /* --- Base Layout --- */
-
 * {
-
   margin: 0;
-
   padding: 0;
-
   box-sizing: border-box;
-
 }
-
-
 
 html, body, #root {
-
   background: #000000 !important;
-
   color: white;
-
   overflow-x: hidden;
-
   min-height: 100vh;
-
 }
-
-
 
 /* --- Background Logic --- */
-
 .bg-container {
-
   position: fixed;
-
   top: 0;
-
   left: 0;
-
   width: 100vw;
-
   height: 100vh;
-
   z-index: -1;
-
   pointer-events: none;
-
   background-color: #000000;
-
-}
-
-
-
-.bg-container > * {
-
   opacity: 0;
-
   transition: opacity 1s ease-in-out;
-
 }
 
-
-
-.bg-container.is-active > * {
-
+.bg-container.is-active {
   opacity: 1 !important;
-
 }
-
-
 
 .mobile-pixel-bg-wrapper {
-
   position: absolute;
-
   top: 0;
-
   left: 0;
-
   width: 100%;
-
   height: 100%;
-
   z-index: 0;
-
 }
-
-
 
 /* --- Animations for All Boxes --- */
-
 .fade-in-section {
-
   animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-
   opacity: 0;
-
 }
-
-
 
 .exit-section {
-
   animation: fadeOutDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-
 }
-
-
 
 @keyframes fadeInUp {
-
   from {
-
     opacity: 0;
-
     transform: translateY(30px);
-
   }
-
   to {
-
     opacity: 1;
-
     transform: translateY(0);
-
   }
-
 }
-
-
 
 @keyframes fadeOutDown {
-
   from {
-
     opacity: 1;
-
     transform: translateY(0);
-
   }
-
   to {
-
     opacity: 0;
-
     transform: translateY(30px);
-
   }
-
 }
-
-
 
 /* --- Gateway / Profile Card Container --- */
-
 .gateway-container {
-
   position: fixed; 
-
   inset: 0;
-
   display: flex;
-
   justify-content: center;
-
   align-items: center;
-
   width: 100vw;
-
   height: 100vh;
-
   background: #000000; 
-
   z-index: 2000; 
-
   animation: fadeIn 1s ease;
-
 }
-
-
 
 .profile-card-glow {
-
   position: absolute;
-
   top: 50%;
-
   left: 50%;
-
   transform: translate(-50%, -50%);
-
   width: 700px; 
-
   height: 700px;
-
   background: radial-gradient(
-
     circle, 
-
     rgba(160, 16, 214, 0.35) 0%, 
-
     rgba(243, 188, 8, 0.12) 45%, 
-
     transparent 70%
-
   );
-
   filter: blur(60px);
-
   z-index: -1;
-
   pointer-events: none;
-
   animation: glowFadeIn 1.2s ease forwards;
-
 }
-
-
 
 @keyframes glowFadeIn {
-
   from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
-
   to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-
 }
-
-
 
 /* --- App Wrapper & Layout --- */
-
 .app-wrapper {
-
   min-height: 100vh;
-
   display: flex;
-
   justify-content: center;
-
   padding: 60px 20px 120px 20px;
-
   position: relative;
-
   z-index: 1;
-
   background: #000000;
-
 }
-
-
 
 .fade-out { opacity: 0; transition: opacity 0.5s ease; pointer-events: none; }
-
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-
-
 /* --- Direction & Alignment --- */
-
 .ltr-mode { direction: ltr; font-family: 'ProductSans', sans-serif !important; text-align: left; }
-
 .rtl-mode { direction: rtl; font-family: 'Anjoman', sans-serif !important; text-align: right; }
 
-
-
 .pdf-page {
-
   width: 100%;
-
   max-width: 1100px;
-
   display: flex;
-
   flex-direction: column;
-
   gap: var(--spacing-desktop);
-
   transition: opacity 0.5s ease;
-
 }
-
-
 
 /* --- Card Wrappers --- */
-
 .side-pixel-wrapper, .exp-pixel-wrapper, .mobile-glass-card, .full-width-summary {
-
   background: var(--glass-bg) !important;
-
   backdrop-filter: blur(15px);
-
   -webkit-backdrop-filter: blur(15px);
-
   border: 1px solid var(--glass-border) !important;
-
   border-radius: 20px !important;
-
   overflow: hidden;
-
   height: auto !important;
-
 }
 
-
-
 .side-pixel-wrapper { display: inline-block; width: 100%; break-inside: avoid; margin-bottom: var(--spacing-desktop); }
-
 .full-width-summary { width: 100% !important; }
-
 .summary-inner { padding: 25px 30px !important; }
-
 .summary-text { font-size: 1.05rem; line-height: 1.8; color: rgba(255, 255, 255, 0.85); margin: 0; text-align: inherit; }
 
-
-
 .info-columns-container { column-count: 3; column-gap: var(--spacing-desktop); width: 100%; }
-
 .experience-full-width { display: flex; flex-direction: column; gap: var(--spacing-desktop); width: 100%; }
-
 .side-section, .exp-card { padding: 30px; }
-
 .contact-link { color: var(--yellow); text-decoration: underline; }
 
-
-
 /* --- Software & Skills --- */
-
 .software-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-
 .dots-container { display: flex; gap: 6px; }
-
 .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); }
-
 .dot.filled { background: var(--purple); box-shadow: 0 0 8px var(--purple); border-color: var(--purple); }
 
-
-
 .technical-skills-list { display: flex; flex-direction: column; gap: 15px; }
-
 .skill-progress-item { display: flex; flex-direction: column; gap: 8px; }
-
 .skill-name { font-size: 0.9rem; color: rgba(255, 255, 255, 0.9); }
-
 .progress-bar-bg { width: 100%; height: 6px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; overflow: hidden; }
-
 .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--purple), var(--c1)); border-radius: 10px; box-shadow: 0 0 10px rgba(160, 16, 214, 0.4); }
 
-
-
 .soft-skills-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-
 .soft-tag { font-size: 0.85rem; background: rgba(255, 255, 255, 0.05); color: rgba(255, 255, 255, 0.9); padding: 4px 12px; border-radius: 100px; border: 1px solid rgba(255, 255, 255, 0.1); }
 
-
-
 /* --- Certificates Section Fixes --- */
-
 .certs-list { display: flex; flex-direction: column; gap: 15px; }
-
 .cert-item { display: flex; flex-direction: column; gap: 4px; }
-
 .cert-name { font-size: 1rem; color: white; }
-
 .cert-detail { font-size: 0.9rem; color: var(--yellow); font-weight: 500; }
 
-
-
 /* --- Interests & Projects --- */
-
 .interests-list { display: flex; flex-direction: column; gap: 20px; }
-
 .interest-cat { display: flex; flex-direction: column; gap: 8px; }
-
 .interest-cat-name { font-size: 0.85rem; text-transform: uppercase; color: var(--purple); letter-spacing: 1px; border-bottom: 1px solid rgba(160, 16, 214, 0.2); padding-bottom: 4px; margin-bottom: 4px; }
-
 .interest-item { display: flex; flex-direction: column; font-size: 0.9rem; line-height: 1.5; margin-bottom: 4px; }
-
 .video-link { color: var(--yellow); text-decoration: underline; text-underline-offset: 3px; font-size: 0.9rem; transition: opacity 0.3s ease; }
-
 .interest-detail { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: 2px; }
 
-
-
 .projects-list { display: flex; flex-direction: column; gap: 20px; }
-
 .project-item { display: flex; flex-direction: column; gap: 8px; }
-
 .project-link { color: var(--c1); text-decoration: underline; text-underline-offset: 4px; font-weight: bold; font-size: 1.1rem; }
-
 .project-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-
 .tag { font-size: 0.75rem; background: rgba(160, 16, 214, 0.1); color: var(--c1); padding: 2px 10px; border-radius: 6px; border: 1px solid rgba(160, 16, 214, 0.2); }
 
-
-
 /* --- Experience Content --- */
-
 .exp-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 8px; }
-
 .job-role { font-size: 1.2rem; color: white; }
-
 .duration-text { font-size: 0.9rem; }
-
 .job-company { color: var(--yellow); margin-bottom: 5px; font-weight: bold; }
-
 .job-date { font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-bottom: 12px; }
-
 .job-desc { color: rgba(255,255,255,0.75); line-height: 1.7; font-size: 0.95rem; }
-
-
 
 .yellow-text { font-size: 1.4rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; margin-bottom: 20px; display: flex; }
 
-
-
 /* --- Floating Buttons --- */
-
 .floating-actions-container {
-
   position: fixed;
-
   bottom: 30px;
-
   left: 50%;
-
   transform: translateX(-50%);
-
   display: flex;
-
   gap: 15px;
-
   z-index: 1000;
-
   direction: ltr !important; 
-
 }
-
-
 
 .floating-btn {
-
   width: 60px;
-
   height: 60px;
-
   border-radius: 50%;
-
   background: rgba(15, 15, 15, 0.7);
-
   backdrop-filter: blur(12px);
-
   border: 2px solid var(--c1);
-
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
   cursor: pointer;
-
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-
   padding: 0;
-
 }
-
-
 
 .floating-btn:hover {
-
   transform: scale(1.1);
-
   background: rgba(30, 30, 30, 0.9);
-
   box-shadow: 0 0 15px var(--c1);
-
 }
-
-
 
 .floating-btn svg {
-
   width: 24px;
-
   height: 24px;
-
   color: white;
-
   display: block;
-
 }
-
-
 
 /* --- Mobile Fixes --- */
-
 @media (max-width: 768px) {
-
   .info-columns-container { display: flex; flex-direction: column; gap: var(--spacing-mobile); column-count: unset; }
-
   .pdf-page, .experience-full-width { gap: var(--spacing-mobile); }
-
   .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary { background: rgba(10, 10, 10, 0.95) !important; margin-bottom: 0 !important; }
-
   .app-wrapper { padding: 40px 15px 100px 15px; }
-
   .floating-actions-container { bottom: 20px; }
-
   .floating-actions-container .floating-btn:last-child { display: none !important; }
-
   .gateway-container { background: #000000; } 
-
   .profile-card-glow { width: 450px; height: 450px; }
-
   .exp-row { flex-direction: column; align-items: flex-start; gap: 4px; }
-
 }
 
-
-
 /* --- PRINT OPTIMIZATION --- */
-
 @media print {
-
-  @page { size: A4; margin: 10mm; }
-
-
-
-  /* Reset everything to visible, static, and black-on-white */
+  @page { 
+    size: A4; 
+    margin: 8mm 6mm 8mm 6mm; /* White margins, reduced by ~45% */
+  }
 
   html, body, #root {
-
     background-color: white !important;
-
     color: black !important;
-
     height: auto !important;
-
     min-height: 0 !important;
-
     overflow: visible !important;
-
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
-
-
 
   .app-wrapper {
-
     background: white !important;
-
     padding: 0 !important;
-
     display: block !important;
-
     position: static !important;
-
     height: auto !important;
-
     min-height: 0 !important;
-
   }
-
-
-
-  /* Force content to be visible and ignore animations */
 
   .pdf-page, .fade-in-section, .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary {
-
     opacity: 1 !important;
-
     visibility: visible !important;
-
     display: block !important;
-
     position: static !important;
-
     transform: none !important;
-
     animation: none !important;
-
   }
-
-
-
-  /* Strip all box containers and layouts */
 
   .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary, .mobile-glass-card {
-
     background: transparent !important;
-
     border: none !important;
-
     box-shadow: none !important;
-
     backdrop-filter: none !important;
-
-    padding: 0 !important;
-
-    margin: 0 0 20px 0 !important;
-
+    padding: 4px 8px !important; /* Internal padding for text safety */
+    margin: 0 0 10px 0 !important;
     width: 100% !important;
-
   }
 
+  .progress-bar-bg { background: #eeeeee !important; border: 1px solid #ddd !important; }
+  .progress-bar-fill { background: black !important; box-shadow: none !important; }
+  .dot { background: #eee !important; border: 1px solid #ddd !important; }
+  .dot.filled { background: black !important; border-color: black !important; box-shadow: none !important; }
 
-
-  .summary-inner, .side-section, .exp-card {
-
-    padding: 0 !important;
-
-  }
-
-
-
-  /* Ensure vertical flow */
-
-  .info-columns-container {
-
-    column-count: 1 !important;
-
-    display: block !important;
-
-  }
-
-
-
-  .experience-full-width {
-
-    display: block !important;
-
-  }
-
-
-
-  /* Force all text to black */
+  .summary-inner, .side-section, .exp-card { padding: 5px 0 !important; }
+  .info-columns-container { column-count: 1 !important; display: block !important; }
+  .experience-full-width { display: block !important; }
 
   * {
-
     color: black !important;
-
     -webkit-text-fill-color: black !important;
-
     text-shadow: none !important;
-
-    background: transparent !important;
-
+    font-size: 8.5pt !important; /* Reduced font size for better fit */
   }
-
-
-
-  /* Kill UI elements */
 
   .bg-container, .floating-actions-container, .gateway-container, 
-
   .profile-card-glow, canvas, .pixel-card-canvas {
-
     display: none !important;
-
   }
-
-
-
-  /* Text formatting */
 
   .yellow-text {
-
     color: black !important;
-
-    border-bottom: 2px solid black !important;
-
+    border-bottom: 1px solid black !important;
     font-weight: bold !important;
-
-    font-size: 1.2rem !important;
-
-    margin-top: 15px !important;
-
-    padding-bottom: 5px !important;
-
+    font-size: 10.5pt !important;
+    margin-top: 8px !important;
+    padding-bottom: 2px !important;
   }
 
-
-
-  .job-role { font-weight: bold !important; font-size: 1.1rem !important; }
-
-  .job-company { font-weight: bold !important; margin-bottom: 2px !important; }
-
-  .job-date { color: #555 !important; font-size: 0.85rem !important; }
-
-  .summary-text, .job-desc { line-height: 1.5 !important; font-size: 10pt !important; }
-
+  .job-role { font-weight: bold !important; font-size: 9.5pt !important; }
+  .job-company { font-weight: bold !important; margin-bottom: 1px !important; }
+  .job-date { color: #555 !important; font-size: 7.5pt !important; }
+  .summary-text, .job-desc { line-height: 1.35 !important; font-size: 8.5pt !important; }
 }
