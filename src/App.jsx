@@ -12,6 +12,7 @@ function App() {
   const [isExiting, setIsExiting] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isFirstEntry, setIsFirstEntry] = useState(true); 
+  const [bgVisible, setBgVisible] = useState(false); 
   const isEn = lang === 'en';
 
   useEffect(() => {
@@ -20,6 +21,16 @@ function App() {
     window.addEventListener('resize', checkDevice);
     return () => window.removeEventListener('resize', checkDevice);
   }, []);
+
+  // Background fade logic only for non-mobile
+  useEffect(() => {
+    if (showResume && !isMobile) {
+      const timer = setTimeout(() => setBgVisible(true), 100);
+      return () => clearTimeout(timer);
+    } else {
+      setBgVisible(false);
+    }
+  }, [showResume, isMobile]);
 
   const handleStart = (selectedLang) => {
     setLang(selectedLang);
@@ -231,7 +242,7 @@ function App() {
 
   return (
     <div className={`app-wrapper ${isEn ? 'ltr-mode' : 'rtl-mode'} ${isExiting ? 'fade-out' : ''}`}>
-      <div className="bg-container">
+      <div className={`bg-container ${(!isMobile && bgVisible) ? 'visible' : ''}`}>
         {showResume && (
            isMobile ? (
             <PixelCard isStatic={true} className="mobile-bg-pixel" gap={5} speed={25} />

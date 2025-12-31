@@ -57,10 +57,20 @@ body, html {
   height: 100vh;
   z-index: -1;
   pointer-events: none;
-  /* Accelerates the entire background layer */
   transform: translateZ(0);
-  will-change: transform;
+  will-change: transform, opacity;
   backface-visibility: hidden;
+}
+
+/* Only apply fade-in transition on Desktop */
+@media (min-width: 769px) {
+  .bg-container {
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+  }
+  .bg-container.visible {
+    opacity: 1;
+  }
 }
 
 .app-wrapper {
@@ -267,12 +277,11 @@ body, html {
     padding: 0 15px !important;
   }
 
-  /* FORCING PAGE BREAK ON INTERESTS WRAPPER */
   .side-pixel-wrapper:has(.interests-list) {
     display: block !important;
     break-before: page !important;
     page-break-before: always !important;
-    margin-top: 30px !important; /* Adding space at the top of new page */
+    margin-top: 30px !important; 
   }
 
   .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary, .mobile-glass-card {
