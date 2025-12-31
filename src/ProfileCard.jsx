@@ -21,10 +21,10 @@ const ProfileCard = ({
 
   const handleLangSelect = (lang) => {
     setLocalExiting(true);
-    // Reduced from 800 to 400 to remove the black screen delay
+    // Triggering the parent slightly before the 0.6s animation ends to ensure zero gap
     setTimeout(() => {
       onSelectLang(lang);
-    }, 400);
+    }, 550);
   };
 
   useEffect(() => {
