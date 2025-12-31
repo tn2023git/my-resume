@@ -65,31 +65,33 @@
     to { opacity: 0; transform: scale(1.05); }
   }
 
+  /* Faster duration: 3s instead of 4s for tilt/shine, 4.5s instead of 6s for glow */
   .pc-is-mobile .pc-card-shell {
-    animation: mobileTilt 4s ease-in-out infinite alternate;
+    animation: mobileTilt 3s ease-in-out infinite alternate;
   }
 
   .pc-is-mobile .pc-shine {
-    animation: mobileShine 4s ease-in-out infinite alternate;
+    animation: mobileShine 3s ease-in-out infinite alternate;
   }
 
   .pc-is-mobile .pc-behind {
-    animation: mobileGlow 6s ease-in-out infinite alternate;
+    animation: mobileGlow 4.5s ease-in-out infinite alternate;
   }
 
+  /* Movement direction flipped: starts bottom-right (pos), ends top-left (neg) */
   @keyframes mobileTilt {
-    0% { transform: rotateX(-9deg) rotateY(-9deg); }
-    100% { transform: rotateX(9deg) rotateY(9deg); }
+    0% { transform: rotateX(7deg) rotateY(7deg); }
+    100% { transform: rotateX(-7deg) rotateY(-7deg); }
   }
 
   @keyframes mobileShine {
-    0% { background-position: 0% 50%; opacity: 0.4; }
-    100% { background-position: 100% 50%; opacity: 0.7; }
+    0% { background-position: 100% 50%; opacity: 0.7; }
+    100% { background-position: 0% 50%; opacity: 0.4; }
   }
 
   @keyframes mobileGlow {
-    0% { transform: translate(-55%, -55%) scale(0.95); opacity: 0.15; }
-    100% { transform: translate(-45%, -45%) scale(1.05); opacity: 0.25; }
+    0% { transform: translate(-45%, -45%) scale(1.05); opacity: 0.25; }
+    100% { transform: translate(-55%, -55%) scale(0.95); opacity: 0.15; }
   }
 }
 
