@@ -6,7 +6,7 @@ export default function GradientText({
   children,
   className = '',
   colors = ["#f3bc08", "#df9339", "#d1765c", "#a010d6", "#d1765c", "#df9339"],
-  animationSpeed = 4, 
+  animationSpeed = 8, // slowed down slightly for smoother visual during transitions
   showBorder = false,
   direction = 'horizontal',
   pauseOnHover = false
@@ -22,14 +22,12 @@ export default function GradientText({
 
   useEffect(() => {
     if (textRef.current) {
-      // Measure width but provide a fallback to prevent 0-width jumps
-      const width = textRef.current.offsetWidth;
-      if (width > 0) setTextWidth(width);
+      setTextWidth(textRef.current.offsetWidth || 500);
     }
   }, [children]);
 
   useAnimationFrame((time) => {
-    if (isPaused || textWidth <= 0) {
+    if (isPaused || textWidth === 0) {
       lastTimeRef.current = null;
       return;
     }
@@ -39,13 +37,16 @@ export default function GradientText({
       return;
     }
 
-    const deltaTime = time - lastTimeRef.current;
+    const deltaTime = Math.min(time - lastTimeRef.current, 60); // Cap delta to prevent jump/stutter
     lastTimeRef.current = time;
 
-    // Use modulo to keep the value within the bounds of textWidth smoothly
     const moveAmount = (deltaTime / animationDuration) * textWidth;
-    const currentX = x.get();
-    x.set((currentX + moveAmount) % textWidth);
+    let nextX = x.get() + moveAmount;
+
+    if (nextX >= textWidth) {
+      nextX -= textWidth;
+    }
+    x.set(nextX);
   });
 
   const backgroundPosition = useTransform(x, value => `${value}px 50%`);
@@ -59,12 +60,11 @@ export default function GradientText({
   }, [pauseOnHover]);
 
   const gradientAngle = direction === 'horizontal' ? 'to right' : direction === 'vertical' ? 'to bottom' : 'to bottom right';
-  const gradientColors = [...colors, colors[0], ...colors].join(', ');
+  const gradientColors = [...colors, colors[0]].join(', ');
 
   const gradientStyle = {
     backgroundImage: `linear-gradient(${gradientAngle}, ${gradientColors})`,
-    // We double the background size to ensure there is always color data to pull from during shifts
-    backgroundSize: `${textWidth * 2}px 100%`,
+    backgroundSize: `${textWidth}px 100%`,
     backgroundRepeat: 'repeat-x',
     WebkitBackgroundClip: 'text',
     backgroundClip: 'text',
@@ -92,6 +92,7 @@ export default function GradientText({
           backgroundPosition,
           display: 'inline-flex',
           flexWrap: 'nowrap',
+          color: 'transparent'
         }}
       >
         {children}
