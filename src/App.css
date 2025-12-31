@@ -48,7 +48,7 @@ body, html {
   min-height: 100vh;
 }
 
-/* --- PrismaticBurst Container --- */
+/* --- Hardware Acceleration for PrismaticBurst Container --- */
 .bg-container {
   position: fixed;
   top: 0;
@@ -57,17 +57,10 @@ body, html {
   height: 100vh;
   z-index: -1;
   pointer-events: none;
-}
-
-/* Only apply fade-in transition on Desktop */
-@media (min-width: 769px) {
-  .bg-container {
-    opacity: 0;
-    transition: opacity 1.5s ease-in-out;
-  }
-  .bg-container.visible {
-    opacity: 1;
-  }
+  /* Accelerates the entire background layer */
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .app-wrapper {
@@ -86,25 +79,34 @@ body, html {
   align-items: center;
   width: 100%;
   min-height: 90vh;
-  animation: fadeIn 0.8s ease-out;
+  animation: fadeIn 1s ease;
 }
 
 .fade-out {
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.5s ease;
   pointer-events: none;
 }
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* --- Simple Entrance Animations (No Hardware Acceleration) --- */
-.slide-in-left { animation: slideLeft 1.2s ease-out forwards; }
-.slide-in-right { animation: slideRight 1.2s ease-out forwards; }
-.slide-in-top { animation: slideTop 1.2s ease-out forwards; }
+/* --- Entrance Animations --- */
+.slide-in-left { 
+  animation: slideLeft 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+  will-change: transform, opacity;
+}
+.slide-in-right { 
+  animation: slideRight 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+  will-change: transform, opacity;
+}
+.slide-in-top { 
+  animation: slideTop 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+  will-change: transform, opacity;
+}
 
-@keyframes slideLeft { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes slideRight { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes slideTop { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideLeft { from { opacity: 0; transform: translateX(-50px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes slideRight { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes slideTop { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
 
 .rtl-mode .slide-in-left { animation-name: slideRight; }
 .rtl-mode .slide-in-right { animation-name: slideLeft; }
@@ -124,8 +126,8 @@ body, html {
 /* --- Card Wrappers & Glassmorphism --- */
 .side-pixel-wrapper, .exp-pixel-wrapper, .mobile-glass-card, .full-width-summary {
   background: var(--glass-bg) !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
   border: 1px solid var(--glass-border) !important;
   border-radius: 20px !important;
   overflow: hidden;
@@ -153,7 +155,7 @@ body, html {
 .skill-progress-item { display: flex; flex-direction: column; gap: 8px; }
 .skill-name { font-size: 0.9rem; color: rgba(255, 255, 255, 0.9); }
 .progress-bar-bg { width: 100%; height: 6px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; overflow: hidden; }
-.progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--purple), var(--c1)); border-radius: 10px; }
+.progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--purple), var(--c1)); border-radius: 10px; box-shadow: 0 0 10px rgba(160, 16, 214, 0.4); }
 
 /* --- Soft Skills Tags --- */
 .soft-skills-tags { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -183,13 +185,7 @@ body, html {
 .exp-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 8px; }
 .job-company { color: var(--yellow); margin-bottom: 10px; font-weight: bold; }
 .job-desc { color: rgba(255,255,255,0.75); line-height: 1.7; }
-.yellow-text { 
-  font-size: 1.4rem; 
-  border-bottom: 1px solid rgba(255,255,255,0.1); 
-  padding-bottom: 12px; 
-  margin-bottom: 20px; 
-  display: flex;
-}
+.yellow-text { font-size: 1.4rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; margin-bottom: 20px; display: flex; }
 
 /* --- Floating Buttons --- */
 .floating-actions-container {
@@ -214,21 +210,27 @@ body, html {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.3s ease-out;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  will-change: transform, background-color, box-shadow;
 }
 
 .floating-btn:hover {
   transform: scale(1.1);
+  background: rgba(30, 30, 30, 0.9);
   box-shadow: 0 0 15px var(--c1);
 }
 
-.floating-btn svg { width: 26px; height: 26px; color: white; }
+.floating-btn svg {
+  width: 26px;
+  height: 26px;
+  color: white;
+}
 
 /* --- Mobile Fixes --- */
 @media (max-width: 768px) {
   .info-columns-container { display: flex; flex-direction: column; gap: var(--spacing-mobile); column-count: unset; }
   .pdf-page, .experience-full-width { gap: var(--spacing-mobile); }
-  .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary { background: rgba(10, 10, 10, 0.95) !important; margin-bottom: 0 !important; backdrop-filter: none; }
+  .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary { background: rgba(10, 10, 10, 0.95) !important; margin-bottom: 0 !important; }
   .app-wrapper { padding: 40px 15px 100px 15px; }
   .floating-actions-container { bottom: 20px; }
   .floating-actions-container .floating-btn:last-child { display: none !important; }
@@ -236,11 +238,103 @@ body, html {
 
 /* --- PRINT OPTIMIZATION --- */
 @media print {
-  @page { size: A4; margin: 10mm; }
-  html, body, #root, .app-wrapper { background-color: #fff !important; color: #000 !important; margin: 0 !important; padding: 0 !important; }
-  .bg-container, .floating-actions-container, .gateway-container, canvas { display: none !important; }
-  .pdf-page { max-width: 100% !important; display: block !important; padding: 0 15px !important; }
-  .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary { border: none !important; background: transparent !important; margin-bottom: 6px !important; }
-  .yellow-text { color: #000 !important; border-bottom: 1.2px solid #000 !important; font-size: 1.15rem !important; }
-  * { color: #000 !important; text-shadow: none !important; animation: none !important; transition: none !important; }
+  @page { 
+    size: A4; 
+    margin: 10mm; 
+  }
+  
+  html, body, #root, .app-wrapper { 
+    background-color: #ffffff !important; 
+    background: #ffffff !important;
+    color: #000000 !important; 
+    margin: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+    width: 100% !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .bg-container, .floating-actions-container, .gateway-container, canvas, .pixel-card-canvas { 
+    display: none !important; 
+  }
+  
+  .pdf-page { 
+    max-width: 100% !important; 
+    gap: 4px !important; 
+    display: block !important;
+    background: #ffffff !important;
+    padding: 0 15px !important;
+  }
+
+  /* FORCING PAGE BREAK ON INTERESTS WRAPPER */
+  .side-pixel-wrapper:has(.interests-list) {
+    display: block !important;
+    break-before: page !important;
+    page-break-before: always !important;
+    margin-top: 30px !important; /* Adding space at the top of new page */
+  }
+
+  .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary, .mobile-glass-card {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin-bottom: 6px !important;
+    display: block !important;
+    width: 100% !important;
+  }
+
+  .summary-inner, .side-section, .exp-card {
+    padding: 5px 0 !important;
+  }
+
+  .yellow-text {
+    font-size: 1.15rem !important;
+    color: #000000 !important;
+    border-bottom: 1.2px solid #000000 !important;
+    margin-top: 8px !important;
+    margin-bottom: 4px !important;
+    padding-bottom: 2px !important;
+    font-weight: bold !important;
+    display: flex !important;
+  }
+
+  .interest-cat-name {
+    color: #000000 !important;
+    margin-bottom: 2px !important;
+    padding-bottom: 2px !important;
+    font-size: 0.8rem !important;
+  }
+
+  .info-columns-container { 
+    column-count: 1 !important; 
+    display: block !important;
+    width: 100% !important;
+  }
+
+  .summary-text, .job-desc, .skill-name, .cert-name, .interest-item, .job-company { 
+    color: #000000 !important; 
+    line-height: 1.4 !important;
+  }
+
+  .dot.filled, .progress-bar-fill { 
+    background: #000 !important; 
+    background-color: #000 !important; 
+  }
+
+  .soft-tag, .tag {
+    border: 1px solid #000 !important;
+    padding: 0 4px !important;
+    margin: 1px !important;
+    font-size: 0.75rem !important;
+  }
+
+  * { 
+    color: #000000 !important; 
+    -webkit-text-fill-color: #000000 !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
 }
