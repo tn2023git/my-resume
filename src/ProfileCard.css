@@ -21,10 +21,18 @@
   animation: pc-fade-in 0.8s ease-out forwards;
 }
 
-/* Balanced fade out duration at 0.6s */
 .pc-card-wrapper.pc-exiting {
-  animation: pc-fade-out 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: pc-fade-out 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   pointer-events: none;
+}
+
+/* Added specific fade for the card section to ensure the black background vanishes with the wrapper */
+.pc-exiting .pc-card {
+  animation: pc-card-fade-only 0.8s ease-out forwards;
+}
+
+@keyframes pc-card-fade-only {
+  to { background-color: transparent; border-color: transparent; }
 }
 
 @keyframes pc-fade-in {

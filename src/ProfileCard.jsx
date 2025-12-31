@@ -21,10 +21,10 @@ const ProfileCard = ({
 
   const handleLangSelect = (lang) => {
     setLocalExiting(true);
-    // Triggering the parent slightly before the 0.6s animation ends to ensure zero gap
+    // Triggering almost immediately so the resume mounts behind the fading card
     setTimeout(() => {
       onSelectLang(lang);
-    }, 550);
+    }, 100);
   };
 
   useEffect(() => {
