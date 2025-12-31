@@ -12,6 +12,7 @@ function App() {
   const [isMobile, setIsMobile] = useState(false);
   const [bgActivated, setBgActivated] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
+  const [isReturning, setIsReturning] = useState(false);
   const isEn = lang === 'en';
 
   useEffect(() => {
@@ -26,15 +27,18 @@ function App() {
     setIsExiting(true);
     
     setTimeout(() => {
-      setBgActivated(true); // Triggers pixel rendering
+      setBgActivated(true); 
       setShowResume(true);
       setIsExiting(false);
     }, 800);
   };
 
   const handleReturn = () => {
-    setShowResume(false);
-    // bgActivated stays true so background doesn't vanish/reset
+    setIsReturning(true);
+    setTimeout(() => {
+      setShowResume(false);
+      setIsReturning(false);
+    }, 800);
   };
 
   const handlePrint = () => {
@@ -222,8 +226,9 @@ function App() {
   const renderDots = (count) => Array.from({ length: 5 }, (_, i) => <span key={i} className={`dot ${i < count ? 'filled' : ''}`}></span>);
 
   const SmartCard = ({ children, className }) => {
-    if (isMobile) return <div className={`mobile-glass-card fade-in-section ${className}`}>{children}</div>;
-    return <PixelCard variant="resume" className={`fade-in-section ${className}`}>{children}</PixelCard>;
+    const animationClass = isReturning ? 'exit-section' : 'fade-in-section';
+    if (isMobile) return <div className={`mobile-glass-card ${animationClass} ${className}`}>{children}</div>;
+    return <PixelCard variant="resume" className={`${animationClass} ${className}`}>{children}</PixelCard>;
   };
 
   return (
@@ -239,11 +244,12 @@ function App() {
         ) : (
           <div className="mobile-pixel-bg-wrapper">
               <PixelCard 
+                key={lang}
                 isStatic={true} 
                 className="mobile-bg-pixel" 
                 gap={5} 
                 speed={25} 
-                active={bgActivated} // RESTARTS on lang selection, stays on return
+                active={bgActivated} 
               />
           </div>
         )}
