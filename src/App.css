@@ -64,7 +64,7 @@ html, body, #root {
 }
 
 .bg-container.is-active {
-  display: block; 
+  display: block !important; 
   opacity: 1 !important;
 }
 
@@ -295,7 +295,10 @@ html, body, #root {
 
 /* --- PRINT OPTIMIZATION --- */
 @media print {
-  @page { size: A4; margin: 10mm; }
+  @page { 
+    size: A4; 
+    margin: 20mm 15mm 20mm 15mm; /* Increased Margin */
+  }
 
   html, body, #root {
     background-color: white !important;
@@ -331,11 +334,10 @@ html, body, #root {
     box-shadow: none !important;
     backdrop-filter: none !important;
     padding: 0 !important;
-    margin: 0 0 20px 0 !important;
+    margin: 0 0 25px 0 !important;
     width: 100% !important;
   }
 
-  /* Show Progress Bars and Dots in Black */
   .progress-bar-bg {
     background: #e0e0e0 !important;
     border: 1px solid #ccc !important;

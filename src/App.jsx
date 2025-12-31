@@ -20,7 +20,6 @@ function App() {
     checkDevice();
     window.addEventListener('resize', checkDevice);
     
-    // Hold off background until card is ready - updated to 350ms
     const timer = setTimeout(() => {
       setBgActivated(true);
     }, 350);
