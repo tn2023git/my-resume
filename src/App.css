@@ -187,6 +187,12 @@ html, body, #root {
 .soft-skills-tags { display: flex; flex-wrap: wrap; gap: 8px; }
 .soft-tag { font-size: 0.85rem; background: rgba(255, 255, 255, 0.05); color: rgba(255, 255, 255, 0.9); padding: 4px 12px; border-radius: 100px; border: 1px solid rgba(255, 255, 255, 0.1); }
 
+/* --- Certificates Section Fixes --- */
+.certs-list { display: flex; flex-direction: column; gap: 15px; }
+.cert-item { display: flex; flex-direction: column; gap: 4px; }
+.cert-name { font-size: 1rem; color: white; }
+.cert-detail { font-size: 0.9rem; color: var(--yellow); font-weight: 500; }
+
 /* --- Interests & Projects --- */
 .interests-list { display: flex; flex-direction: column; gap: 20px; }
 .interest-cat { display: flex; flex-direction: column; gap: 8px; }
