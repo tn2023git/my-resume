@@ -37,6 +37,7 @@ function App() {
     setIsReturning(true);
     setTimeout(() => {
       setShowResume(false);
+      setBgActivated(false); // Reset background state for next time
       setIsReturning(false);
     }, 800);
   };
@@ -239,12 +240,12 @@ function App() {
               colorStops={['#f3bc08', '#d8854b', '#a010d6']} 
               speed={1.25} 
               blend={0.75} 
-              active={true}
+              active={bgActivated} 
           />
         ) : (
           <div className="mobile-pixel-bg-wrapper">
               <PixelCard 
-                key={lang}
+                key={`${lang}-${bgActivated}`} // Reset when language changes OR when bg first activates
                 isStatic={true} 
                 className="mobile-bg-pixel" 
                 gap={5} 

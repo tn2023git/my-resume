@@ -110,14 +110,17 @@ html, body, #root {
   }
 }
 
-/* --- Profile Card Glow --- */
+/* --- Gateway / Profile Card Container --- */
 .gateway-container {
-  position: relative;
+  position: fixed; /* Keep it fixed over the backgrounds */
+  inset: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  min-height: 90vh;
+  width: 100vw;
+  height: 100vh;
+  background: #000000; /* Force black background to hide aurora/pixels */
+  z-index: 2000; /* Higher than background layers */
   animation: fadeIn 1s ease;
 }
 
@@ -135,7 +138,7 @@ html, body, #root {
     transparent 70%
   );
   filter: blur(60px);
-  z-index: -1; /* Behind the profile card */
+  z-index: -1;
   pointer-events: none;
   animation: glowFadeIn 1.2s ease forwards;
 }
@@ -286,6 +289,7 @@ html, body, #root {
   .app-wrapper { padding: 40px 15px 100px 15px; }
   .floating-actions-container { bottom: 20px; }
   .floating-actions-container .floating-btn:last-child { display: none !important; }
+  .gateway-container { background: #000000; } /* Ensure mobile also hides background */
   .profile-card-glow { width: 450px; height: 450px; }
   .exp-row { flex-direction: column; align-items: flex-start; gap: 4px; }
 }
