@@ -241,7 +241,7 @@ function App() {
           />
         ) : (
           <div className="mobile-pixel-bg-wrapper">
-              {showResume && (
+              {isBgActive && (
                 <PixelCard 
                   isStatic={true} 
                   className="mobile-bg-pixel" 
