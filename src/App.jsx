@@ -32,17 +32,12 @@ function App() {
   };
 
   const handleReturn = () => {
-    // ابتدا انیمیشن خروج را فعال می‌کنیم
     setIsReturning(true);
-    // وضعیت ورود اول را غیرفعال می‌کنیم تا انیمیشن ورود مجدداً اجرا نشود
     setIsFirstEntry(false); 
-
-    // تا اتمام کامل انیمیشن CSS (۵۰۰ میلی‌ثانیه) صبر می‌کنیم
-    // سپس تغییرات ساختاری را اعمال می‌کنیم
     setTimeout(() => {
         setShowResume(false);
         setIsReturning(false);
-    }, 500); 
+    }, 500);
   };
 
   const handlePrint = () => {
@@ -260,6 +255,7 @@ function App() {
           </SmartCard>
 
           <div className="info-columns-container slide-left-logic">
+            {/* 1. Personal & Contact */}
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
                 <GradientText className="yellow-text bold-font">{isEn ? "Personal & Contact" : "اطلاعات فردی و تماس"}</GradientText>
@@ -274,6 +270,7 @@ function App() {
               </section>
             </SmartCard>
 
+            {/* 2. Software */}
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
                 <GradientText className="yellow-text bold-font">{isEn ? "Software" : "نرم‌افزارها"}</GradientText>
@@ -288,6 +285,7 @@ function App() {
               </section>
             </SmartCard>
 
+            {/* 3. Certificates */}
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
                 <GradientText className="yellow-text bold-font">{isEn ? "Certificates" : "گواهینامه‌ها"}</GradientText>
@@ -302,6 +300,7 @@ function App() {
               </section>
             </SmartCard>
 
+            {/* 4. Technical Skills */}
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
                 <GradientText className="yellow-text bold-font">{isEn ? "Technical Skills" : "مهارت‌های تخصصی"}</GradientText>
@@ -318,6 +317,7 @@ function App() {
               </section>
             </SmartCard>
 
+            {/* 5. Soft Skills */}
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
                 <GradientText className="yellow-text bold-font">{isEn ? "Soft Skills" : "مهارت‌های تکمیلی"}</GradientText>
@@ -327,6 +327,7 @@ function App() {
               </section>
             </SmartCard>
 
+            {/* 6. Projects */}
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
                 <GradientText className="yellow-text bold-font">{isEn ? "Projects" : "پروژه‌ها"}</GradientText>
@@ -343,6 +344,7 @@ function App() {
               </section>
             </SmartCard>
 
+            {/* 7. Interests & Hobbies */}
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
                 <GradientText className="yellow-text bold-font">{isEn ? "Interests & Hobbies" : "علایق و سرگرمی‌ها"}</GradientText>
