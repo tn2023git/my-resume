@@ -73,7 +73,7 @@ const ProfileCard = ({
 
   useEffect(() => {
     const shell = shellRef.current;
-    if (!shell || isMobile) return; // Completely skip JS logic for mobile
+    if (!shell || isMobile) return; 
 
     const onMove = e => {
       const rect = shell.getBoundingClientRect();
@@ -98,12 +98,20 @@ const ProfileCard = ({
       ref={wrapRef} 
       className={`pc-card-wrapper ${isMobile ? 'pc-is-mobile' : 'pc-is-desktop'} ${isExiting ? 'pc-exiting' : ''}`}
     >
+      <svg style={{ position: 'absolute', width: 0, height: 0 }}>
+        <filter id="glitterNoise">
+          <feTurbulence type="fractalNoise" baseFrequency="0.99" numOctaves="1" stitchTiles="stitch" />
+          <feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 15 -7" />
+        </filter>
+      </svg>
+
       <div className="pc-behind" />
       
       <div ref={shellRef} className="pc-card-shell">
         <section className="pc-card">
           <div className="pc-inside" style={{ '--inner-gradient': DEFAULT_INNER_GRADIENT }}>
             
+            <div className="pc-glitter-base" />
             <div className="pc-glitter-color" />
             
             <div className="pc-shine" />

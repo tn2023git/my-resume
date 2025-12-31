@@ -65,23 +65,31 @@
     to { opacity: 0; transform: scale(1.05); }
   }
 
-  /* CSS-only animation for mobile to replace JS tiltEngine */
   .pc-is-mobile .pc-card-shell {
-    animation: mobileTilt 8s ease-in-out infinite alternate;
+    animation: mobileTilt 4s ease-in-out infinite alternate;
   }
 
   .pc-is-mobile .pc-shine {
-    animation: mobileShine 8s ease-in-out infinite alternate;
+    animation: mobileShine 4s ease-in-out infinite alternate;
+  }
+
+  .pc-is-mobile .pc-behind {
+    animation: mobileGlow 6s ease-in-out infinite alternate;
   }
 
   @keyframes mobileTilt {
-    0% { transform: rotateX(-5deg) rotateY(-5deg); }
-    100% { transform: rotateX(5deg) rotateY(5deg); }
+    0% { transform: rotateX(-12deg) rotateY(-12deg); }
+    100% { transform: rotateX(12deg) rotateY(12deg); }
   }
 
   @keyframes mobileShine {
     0% { background-position: 0% 50%; opacity: 0.4; }
     100% { background-position: 100% 50%; opacity: 0.7; }
+  }
+
+  @keyframes mobileGlow {
+    0% { transform: translate(-60%, -60%) scale(0.9); opacity: 0.15; }
+    100% { transform: translate(-40%, -40%) scale(1.1); opacity: 0.25; }
   }
 }
 
@@ -138,6 +146,16 @@
   position: relative;
   padding: 30px 20px;
   transform-style: preserve-3d;
+}
+
+.pc-glitter-base {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  filter: url(#glitterNoise);
+  opacity: 0.15;
+  mix-blend-mode: screen;
+  pointer-events: none;
 }
 
 .pc-glitter-color {
