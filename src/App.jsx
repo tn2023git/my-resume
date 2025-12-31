@@ -25,9 +25,8 @@ function App() {
     setLang(selectedLang);
     setIsExiting(true);
     
-    // 800ms matches the CSS animation duration
     setTimeout(() => {
-      setBgActivated(true);
+      setBgActivated(true); // Triggers pixel rendering
       setShowResume(true);
       setIsExiting(false);
     }, 800);
@@ -35,7 +34,7 @@ function App() {
 
   const handleReturn = () => {
     setShowResume(false);
-    setBgActivated(false);
+    // bgActivated stays true so background doesn't vanish/reset
   };
 
   const handlePrint = () => {
@@ -223,8 +222,8 @@ function App() {
   const renderDots = (count) => Array.from({ length: 5 }, (_, i) => <span key={i} className={`dot ${i < count ? 'filled' : ''}`}></span>);
 
   const SmartCard = ({ children, className }) => {
-    if (isMobile) return <div className={`mobile-glass-card ${className}`}>{children}</div>;
-    return <PixelCard variant="resume" className={className}>{children}</PixelCard>;
+    if (isMobile) return <div className={`mobile-glass-card fade-in-section ${className}`}>{children}</div>;
+    return <PixelCard variant="resume" className={`fade-in-section ${className}`}>{children}</PixelCard>;
   };
 
   return (
@@ -244,7 +243,7 @@ function App() {
                 className="mobile-bg-pixel" 
                 gap={5} 
                 speed={25} 
-                active={bgActivated || !showResume} // Render during gateway and resume
+                active={bgActivated} // RESTARTS on lang selection, stays on return
               />
           </div>
         )}
