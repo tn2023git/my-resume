@@ -156,7 +156,8 @@ html, body, #root {
   background: #000000;
 }
 
-.fade-out { opacity: 0; transition: opacity 0.5s ease; pointer-events: none; }
+/* Reduced transition time for faster transition */
+.fade-out { opacity: 0; transition: opacity 0.4s ease; pointer-events: none; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 /* --- Direction & Alignment --- */
@@ -169,7 +170,7 @@ html, body, #root {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-desktop);
-  transition: opacity 0.5s ease;
+  transition: opacity 0.4s ease;
 }
 
 /* --- Card Wrappers --- */
@@ -295,7 +296,7 @@ html, body, #root {
 @media print {
   @page { 
     size: A4; 
-    margin: 8mm 6mm 8mm 6mm; /* White margins, reduced by ~45% */
+    margin: 8mm 6mm 8mm 6mm; 
   }
 
   html, body, #root {
@@ -331,7 +332,7 @@ html, body, #root {
     border: none !important;
     box-shadow: none !important;
     backdrop-filter: none !important;
-    padding: 4px 8px !important; /* Internal padding for text safety */
+    padding: 4px 8px !important; 
     margin: 0 0 10px 0 !important;
     width: 100% !important;
   }
@@ -349,7 +350,7 @@ html, body, #root {
     color: black !important;
     -webkit-text-fill-color: black !important;
     text-shadow: none !important;
-    font-size: 8.5pt !important; /* Reduced font size for better fit */
+    font-size: 8.5pt !important; 
   }
 
   .bg-container, .floating-actions-container, .gateway-container, 

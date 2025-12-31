@@ -33,10 +33,11 @@ function App() {
   const handleStart = (selectedLang) => {
     setLang(selectedLang);
     setIsExiting(true);
+    // Reduced delay to match the faster fade animation
     setTimeout(() => {
       setShowResume(true);
       setIsExiting(false);
-    }, 800);
+    }, 400); 
   };
 
   const handleReturn = () => {
@@ -44,7 +45,7 @@ function App() {
     setTimeout(() => {
       setShowResume(false);
       setIsReturning(false);
-    }, 800);
+    }, 400);
   };
 
   const handlePrint = () => {
