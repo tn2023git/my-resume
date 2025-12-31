@@ -32,11 +32,12 @@ function App() {
 
   const handleReturn = () => {
     setIsReturning(true);
-    // Increased timeout to match CSS transition to prevent flicker
+    // Reduced slightly to 550ms to ensure state changes 
+    // just before the CSS transition (600ms) fully ends
     setTimeout(() => {
         setShowResume(false);
         setIsReturning(false);
-    }, 600);
+    }, 550);
   };
 
   const handlePrint = () => {
@@ -230,7 +231,6 @@ function App() {
 
   return (
     <div className={`app-wrapper ${isEn ? 'ltr-mode' : 'rtl-mode'} ${isExiting ? 'fade-out' : ''}`}>
-      {/* Glow stays active if we are returning to preserve background consistency */}
       <div className={`bg-container ${(showResume || isReturning) ? 'is-active' : ''}`}>
         {(showResume || isReturning) && !isMobile && (
           <Aurora 
@@ -242,7 +242,7 @@ function App() {
         
         {(showResume || isReturning) && isMobile && (
           <div className="mobile-pixel-bg-wrapper">
-             <PixelCard isStatic={true} className="mobile-bg-pixel" gap={5} speed={25} />
+              <PixelCard isStatic={true} className="mobile-bg-pixel" gap={5} speed={25} />
           </div>
         )}
       </div>

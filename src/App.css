@@ -59,11 +59,18 @@ body, html, #root {
   pointer-events: none;
   background-color: #000000;
   opacity: 0;
-  transition: opacity 0.6s ease-in-out; /* Matched to handleReturn timeout */
+  /* Delay the fade-out of the background until the resume fade-out finishes */
+  transition: opacity 0.6s ease-in-out;
 }
 
 .bg-container.is-active {
   opacity: 1;
+  transition-delay: 0s;
+}
+
+/* When returning, we keep the background solid for a bit longer to prevent white flash */
+.bg-container:not(.is-active) {
+  transition-delay: 0.2s; 
 }
 
 .mobile-pixel-bg-wrapper {
@@ -112,6 +119,7 @@ body, html, #root {
   padding: 60px 20px 120px 20px;
   position: relative;
   z-index: 1;
+  background-color: #000000; /* Ensure the wrapper itself isn't white */
 }
 
 .fade-out { opacity: 0; transition: opacity 0.5s ease; pointer-events: none; }
