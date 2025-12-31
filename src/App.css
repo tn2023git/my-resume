@@ -60,14 +60,14 @@ html, body, #root {
   background-color: #000000;
 }
 
-/* Force child opacity to stay at 1 during exit to prevent unmounting flicker */
+/* Maintain background during all transitions */
 .bg-container > * {
   opacity: 0;
-  transition: opacity 0.8s ease-in-out;
+  transition: opacity 1s ease-in-out;
 }
 
 .bg-container.is-active > * {
-  opacity: 1 !important; /* Ensures background stays solid during transition */
+  opacity: 1 !important;
 }
 
 .mobile-pixel-bg-wrapper {
@@ -123,19 +123,19 @@ html, body, #root {
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 /* --- Entrance & Exit Animation Logic --- */
-.is-entering .slide-top-logic { animation: slideInTop 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.is-exiting .slide-top-logic { animation: slideOutTop 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-.is-entering .slide-left-logic { animation: slideInLeft 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.is-exiting .slide-left-logic { animation: slideOutLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-.is-entering .slide-right-logic { animation: slideInRight 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.is-exiting .slide-right-logic { animation: slideOutRight 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+.is-entering .slide-top-logic { animation: slideInTop 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.is-exiting .slide-top-logic { animation: slideOutTop 0.4s ease-in forwards; }
+.is-entering .slide-left-logic { animation: slideInLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.is-exiting .slide-left-logic { animation: slideOutLeft 0.4s ease-in forwards; }
+.is-entering .slide-right-logic { animation: slideInRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.is-exiting .slide-right-logic { animation: slideOutRight 0.4s ease-in forwards; }
 
-@keyframes slideInTop { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes slideOutTop { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-30px); } }
-@keyframes slideInLeft { from { opacity: 0; transform: translateX(-50px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes slideOutLeft { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(-50px); } }
-@keyframes slideInRight { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes slideOutRight { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(50px); } }
+@keyframes slideInTop { from { opacity: 0; transform: translateY(-30px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes slideOutTop { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(-30px) scale(0.98); } }
+@keyframes slideInLeft { from { opacity: 0; transform: translateX(-50px) scale(0.98); } to { opacity: 1; transform: translateX(0) scale(1); } }
+@keyframes slideOutLeft { from { opacity: 1; transform: translateX(0) scale(1); } to { opacity: 0; transform: translateX(-50px) scale(0.98); } }
+@keyframes slideInRight { from { opacity: 0; transform: translateX(50px) scale(0.98); } to { opacity: 1; transform: translateX(0) scale(1); } }
+@keyframes slideOutRight { from { opacity: 1; transform: translateX(0) scale(1); } to { opacity: 0; transform: translateX(50px) scale(0.98); } }
 
 .rtl-mode .is-entering .slide-left-logic { animation-name: slideInRight; }
 .rtl-mode .is-exiting .slide-left-logic { animation-name: slideOutRight; }

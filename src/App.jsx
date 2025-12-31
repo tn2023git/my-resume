@@ -32,11 +32,10 @@ function App() {
 
   const handleReturn = () => {
     setIsReturning(true);
-    // Keep showResume true during the animation to prevent background unmounting
     setTimeout(() => {
         setShowResume(false);
         setIsReturning(false);
-    }, 500); 
+    }, 500);
   };
 
   const handlePrint = () => {
@@ -230,8 +229,8 @@ function App() {
 
   return (
     <div className={`app-wrapper ${isEn ? 'ltr-mode' : 'rtl-mode'} ${isExiting ? 'fade-out' : ''}`}>
-      <div className={`bg-container ${(showResume || isReturning) ? 'is-active' : ''}`}>
-        {(showResume || isReturning) && !isMobile && (
+      <div className={`bg-container ${(showResume || isReturning || isExiting) ? 'is-active' : ''}`}>
+        {!isMobile && (
           <Aurora 
               colorStops={['#f3bc08', '#d8854b', '#a010d6']} 
               speed={1.25} 
@@ -239,7 +238,7 @@ function App() {
           />
         )}
         
-        {(showResume || isReturning) && isMobile && (
+        {isMobile && (
           <div className="mobile-pixel-bg-wrapper">
               <PixelCard isStatic={true} className="mobile-bg-pixel" gap={5} speed={25} />
           </div>
@@ -259,7 +258,7 @@ function App() {
         <div className={`pdf-page ${isReturning ? 'is-exiting' : 'is-entering'}`}>
           <SmartCard className="full-width-summary slide-top-logic">
             <section className="side-section summary-inner">
-              <GradientText className="yellow-text bold-font">{isEn ? "Professional Summary" : "درباره من"}</GradientText>
+              <GradientText className="yellow-text bold-font" animationSpeed={3}>{isEn ? "Professional Summary" : "درباره من"}</GradientText>
               <p className="summary-text">{content.summary}</p>
             </section>
           </SmartCard>
@@ -267,7 +266,7 @@ function App() {
           <div className="info-columns-container slide-left-logic">
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
-                <GradientText className="yellow-text bold-font">{isEn ? "Personal & Contact" : "اطلاعات فردی و تماس"}</GradientText>
+                <GradientText className="yellow-text bold-font" animationSpeed={3}>{isEn ? "Personal & Contact" : "اطلاعات فردی و تماس"}</GradientText>
                 {content.personal.map((p, i) => <p key={i}><b className="bold-font">{p.label}:</b> {p.value}</p>)}
                 {content.contact.map((c, i) => (
                   <p key={i}>
@@ -281,7 +280,7 @@ function App() {
 
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
-                <GradientText className="yellow-text bold-font">{isEn ? "Software" : "نرم‌افزارها"}</GradientText>
+                <GradientText className="yellow-text bold-font" animationSpeed={3}>{isEn ? "Software" : "نرم‌افزارها"}</GradientText>
                 <div className="software-container">
                   {content.software.map((s, i) => (
                     <div key={i} className="software-item">
@@ -295,7 +294,7 @@ function App() {
 
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
-                <GradientText className="yellow-text bold-font">{isEn ? "Certificates" : "گواهینامه‌ها"}</GradientText>
+                <GradientText className="yellow-text bold-font" animationSpeed={3}>{isEn ? "Certificates" : "گواهینامه‌ها"}</GradientText>
                 <div className="certs-list">
                   {content.certificates.map((cert, i) => (
                     <div key={i} className="cert-item">
@@ -309,7 +308,7 @@ function App() {
 
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
-                <GradientText className="yellow-text bold-font">{isEn ? "Technical Skills" : "مهارت‌های تخصصی"}</GradientText>
+                <GradientText className="yellow-text bold-font" animationSpeed={3}>{isEn ? "Technical Skills" : "مهارت‌های تخصصی"}</GradientText>
                 <div className="technical-skills-list">
                   {content.technicalSkills.map((skill, i) => (
                     <div key={i} className="skill-progress-item">
@@ -325,7 +324,7 @@ function App() {
 
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
-                <GradientText className="yellow-text bold-font">{isEn ? "Soft Skills" : "مهارت‌های تکمیلی"}</GradientText>
+                <GradientText className="yellow-text bold-font" animationSpeed={3}>{isEn ? "Soft Skills" : "مهارت‌های تکمیلی"}</GradientText>
                 <div className="soft-skills-tags">
                   {content.softSkills.map((skill, i) => <span key={i} className="soft-tag">{skill}</span>)}
                 </div>
@@ -334,7 +333,7 @@ function App() {
 
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
-                <GradientText className="yellow-text bold-font">{isEn ? "Projects" : "پروژه‌ها"}</GradientText>
+                <GradientText className="yellow-text bold-font" animationSpeed={3}>{isEn ? "Projects" : "پروژه‌ها"}</GradientText>
                 <div className="projects-list">
                   {content.projects.map((proj, i) => (
                     <div key={i} className="project-item">
@@ -350,7 +349,7 @@ function App() {
 
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
-                <GradientText className="yellow-text bold-font">{isEn ? "Interests & Hobbies" : "علایق و سرگرمی‌ها"}</GradientText>
+                <GradientText className="yellow-text bold-font" animationSpeed={3}>{isEn ? "Interests & Hobbies" : "علایق و سرگرمی‌ها"}</GradientText>
                 <div className="interests-list">
                   {content.interests.map((cat, i) => (
                     <div key={i} className="interest-cat">
@@ -376,7 +375,7 @@ function App() {
                 <div className="exp-card">
                     <div className="exp-row">
                         <span className="job-role bold-font">{job.role}</span>
-                        <GradientText className="duration-text bold-font">{job.duration}</GradientText>
+                        <GradientText className="duration-text bold-font" animationSpeed={3}>{job.duration}</GradientText>
                     </div>
                     <div className="job-company bold-font">{job.company}</div>
                     <div className="job-date">{job.date}</div>
