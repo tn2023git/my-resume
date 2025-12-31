@@ -92,28 +92,25 @@ body, html {
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 /* --- Entrance & Exit Animations --- */
-/* Replaced slide-ins with simple, smooth fades to eliminate stutter */
 .fade-in-content { 
-  animation: simpleFadeIn 1s ease-out forwards; 
-  will-change: opacity;
+  animation: simpleFadeIn 1s ease-out forwards;
 }
 
 .fade-out-content {
   animation: simpleFadeOut 0.4s ease-in forwards !important;
-  will-change: opacity;
 }
 
 @keyframes simpleFadeIn { 
-  from { opacity: 0; } 
-  to { opacity: 1; } 
+  0% { opacity: 0; } 
+  100% { opacity: 1; } 
 }
 
 @keyframes simpleFadeOut { 
-  from { opacity: 1; } 
-  to { opacity: 0; } 
+  0% { opacity: 1; } 
+  100% { opacity: 0; } 
 }
 
-/* Fallbacks for class names used in JSX to prevent breaking logic */
+/* Fallbacks for class names used in JSX */
 .slide-in-left, .slide-in-right, .slide-in-top { 
   animation: simpleFadeIn 1s ease-out forwards; 
 }
