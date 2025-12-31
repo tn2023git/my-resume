@@ -32,16 +32,10 @@ function App() {
 
   const handleReturn = () => {
     setIsReturning(true);
-    // Timing is crucial here: 
-    // 1. Resume content disappears after 600ms
-    // 2. We keep isReturning true for 700ms so the background can finish its fade
     setTimeout(() => {
         setShowResume(false);
-    }, 600);
-
-    setTimeout(() => {
         setIsReturning(false);
-    }, 700);
+    }, 600);
   };
 
   const handlePrint = () => {
@@ -233,7 +227,6 @@ function App() {
     return <PixelCard variant="resume" className={className}>{children}</PixelCard>;
   };
 
-  // isBgActive determines if the background is rendered in the DOM
   const isBgActive = showResume || isExiting || isReturning;
 
   return (
@@ -248,7 +241,7 @@ function App() {
           />
         ) : (
           <div className="mobile-pixel-bg-wrapper">
-              {isBgActive && (
+              {showResume && (
                 <PixelCard 
                   isStatic={true} 
                   className="mobile-bg-pixel" 
