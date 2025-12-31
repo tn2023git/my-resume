@@ -227,18 +227,27 @@ function App() {
     return <PixelCard variant="resume" className={className}>{children}</PixelCard>;
   };
 
+  const isBgActive = showResume || isExiting || isReturning;
+
   return (
     <div className={`app-wrapper ${isEn ? 'ltr-mode' : 'rtl-mode'} ${isExiting ? 'fade-out' : ''}`}>
-      <div className="bg-container is-active">
+      <div className={`bg-container ${isBgActive ? 'is-active' : ''}`}>
         {!isMobile ? (
           <Aurora 
               colorStops={['#f3bc08', '#d8854b', '#a010d6']} 
               speed={1.25} 
               blend={0.75} 
+              active={isBgActive}
           />
         ) : (
           <div className="mobile-pixel-bg-wrapper">
-              <PixelCard isStatic={true} className="mobile-bg-pixel" gap={5} speed={25} />
+              <PixelCard 
+                isStatic={true} 
+                className="mobile-bg-pixel" 
+                gap={5} 
+                speed={25} 
+                active={isBgActive}
+              />
           </div>
         )}
       </div>
