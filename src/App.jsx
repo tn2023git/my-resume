@@ -26,18 +26,22 @@ function App() {
     setLang(selectedLang);
     setIsExiting(true);
     
+    // Toggle off immediately
+    setBgActivated(false); 
+    
+    // Toggle back on after a minimal tick to force a fresh mount via the 'key' prop
     setTimeout(() => {
       setBgActivated(true); 
       setShowResume(true);
       setIsExiting(false);
-    }, 800);
+    }, 10);
   };
 
   const handleReturn = () => {
     setIsReturning(true);
     setTimeout(() => {
       setShowResume(false);
-      // bgActivated is NOT reset to false here, so animation keeps running
+      // bgActivated remains true so the background stays running
       setIsReturning(false);
     }, 800);
   };
