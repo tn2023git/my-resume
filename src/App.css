@@ -60,7 +60,6 @@ html, body, #root {
   background-color: #000000;
 }
 
-/* Maintain background during all transitions */
 .bg-container > * {
   opacity: 0;
   transition: opacity 1s ease-in-out;
@@ -77,6 +76,23 @@ html, body, #root {
   width: 100%;
   height: 100%;
   z-index: 0;
+}
+
+/* --- Fade-in Animation for All Boxes --- */
+.fade-in-section {
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* --- Profile Card Glow --- */
@@ -122,26 +138,6 @@ html, body, #root {
 .fade-out { opacity: 0; transition: opacity 0.5s ease; pointer-events: none; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* --- Entrance & Exit Animation Logic --- */
-.is-entering .slide-top-logic { animation: slideInTop 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.is-exiting .slide-top-logic { animation: slideOutTop 0.4s ease-in forwards; }
-.is-entering .slide-left-logic { animation: slideInLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.is-exiting .slide-left-logic { animation: slideOutLeft 0.4s ease-in forwards; }
-.is-entering .slide-right-logic { animation: slideInRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.is-exiting .slide-right-logic { animation: slideOutRight 0.4s ease-in forwards; }
-
-@keyframes slideInTop { from { opacity: 0; transform: translateY(-30px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
-@keyframes slideOutTop { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(-30px) scale(0.98); } }
-@keyframes slideInLeft { from { opacity: 0; transform: translateX(-50px) scale(0.98); } to { opacity: 1; transform: translateX(0) scale(1); } }
-@keyframes slideOutLeft { from { opacity: 1; transform: translateX(0) scale(1); } to { opacity: 0; transform: translateX(-50px) scale(0.98); } }
-@keyframes slideInRight { from { opacity: 0; transform: translateX(50px) scale(0.98); } to { opacity: 1; transform: translateX(0) scale(1); } }
-@keyframes slideOutRight { from { opacity: 1; transform: translateX(0) scale(1); } to { opacity: 0; transform: translateX(50px) scale(0.98); } }
-
-.rtl-mode .is-entering .slide-left-logic { animation-name: slideInRight; }
-.rtl-mode .is-exiting .slide-left-logic { animation-name: slideOutRight; }
-.rtl-mode .is-entering .slide-right-logic { animation-name: slideInLeft; }
-.rtl-mode .is-exiting .slide-right-logic { animation-name: slideOutLeft; }
-
 /* --- Direction & Alignment --- */
 .ltr-mode { direction: ltr; font-family: 'ProductSans', sans-serif !important; text-align: left; }
 .rtl-mode { direction: rtl; font-family: 'Anjoman', sans-serif !important; text-align: right; }
@@ -169,7 +165,8 @@ html, body, #root {
 .side-pixel-wrapper { display: inline-block; width: 100%; break-inside: avoid; margin-bottom: var(--spacing-desktop); }
 .full-width-summary { width: 100% !important; }
 .summary-inner { padding: 25px 30px !important; }
-.summary-text { font-size: 1.05rem; line-height: 1.8; color: rgba(255, 255, 255, 0.85); margin: 0; }
+.summary-text { font-size: 1.05rem; line-height: 1.8; color: rgba(255, 255, 255, 0.85); margin: 0; text-align: justify; }
+
 .info-columns-container { column-count: 3; column-gap: var(--spacing-desktop); width: 100%; }
 .experience-full-width { display: flex; flex-direction: column; gap: var(--spacing-desktop); width: 100%; }
 .side-section, .exp-card { padding: 30px; }
@@ -178,13 +175,15 @@ html, body, #root {
 /* --- Software & Skills --- */
 .software-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
 .dots-container { display: flex; gap: 6px; }
-.dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.1); }
-.dot.filled { background: var(--purple); box-shadow: 0 0 8px var(--purple); }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); }
+.dot.filled { background: var(--purple); box-shadow: 0 0 8px var(--purple); border-color: var(--purple); }
+
 .technical-skills-list { display: flex; flex-direction: column; gap: 15px; }
 .skill-progress-item { display: flex; flex-direction: column; gap: 8px; }
 .skill-name { font-size: 0.9rem; color: rgba(255, 255, 255, 0.9); }
 .progress-bar-bg { width: 100%; height: 6px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; overflow: hidden; }
 .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--purple), var(--c1)); border-radius: 10px; box-shadow: 0 0 10px rgba(160, 16, 214, 0.4); }
+
 .soft-skills-tags { display: flex; flex-wrap: wrap; gap: 8px; }
 .soft-tag { font-size: 0.85rem; background: rgba(255, 255, 255, 0.05); color: rgba(255, 255, 255, 0.9); padding: 4px 12px; border-radius: 100px; border: 1px solid rgba(255, 255, 255, 0.1); }
 
@@ -195,6 +194,7 @@ html, body, #root {
 .interest-item { display: flex; flex-direction: column; font-size: 0.9rem; line-height: 1.5; margin-bottom: 4px; }
 .video-link { color: var(--yellow); text-decoration: underline; text-underline-offset: 3px; font-size: 0.9rem; transition: opacity 0.3s ease; }
 .interest-detail { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: 2px; }
+
 .projects-list { display: flex; flex-direction: column; gap: 20px; }
 .project-item { display: flex; flex-direction: column; gap: 8px; }
 .project-link { color: var(--c1); text-decoration: underline; text-underline-offset: 4px; font-weight: bold; font-size: 1.1rem; }
@@ -203,8 +203,12 @@ html, body, #root {
 
 /* --- Experience Content --- */
 .exp-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 8px; }
-.job-company { color: var(--yellow); margin-bottom: 10px; font-weight: bold; }
-.job-desc { color: rgba(255,255,255,0.75); line-height: 1.7; }
+.job-role { font-size: 1.2rem; color: white; }
+.duration-text { font-size: 0.9rem; }
+.job-company { color: var(--yellow); margin-bottom: 5px; font-weight: bold; }
+.job-date { font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-bottom: 12px; }
+.job-desc { color: rgba(255,255,255,0.75); line-height: 1.7; font-size: 0.95rem; }
+
 .yellow-text { font-size: 1.4rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; margin-bottom: 20px; display: flex; }
 
 /* --- Floating Buttons --- */
@@ -256,6 +260,7 @@ html, body, #root {
   .floating-actions-container { bottom: 20px; }
   .floating-actions-container .floating-btn:last-child { display: none !important; }
   .profile-card-glow { width: 450px; height: 450px; }
+  .exp-row { flex-direction: column; align-items: flex-start; gap: 4px; }
 }
 
 /* --- PRINT OPTIMIZATION --- */
