@@ -7,8 +7,8 @@ const ProfileCard = ({
   avatarUrl,
   nameEn = "Amirali Dabiri Maram",
   nameFa = "امیرعلی دبیری مرام",
-  titleEn = "Digital Designer",
-  titleFa = "طراح دیجیتال",
+  titleEn = "Job Seeker",
+  titleFa = "کارجو",
   onSelectLang,
 }) => {
   const wrapRef = useRef(null);
