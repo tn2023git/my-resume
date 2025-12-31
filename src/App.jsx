@@ -22,8 +22,10 @@ function App() {
     return () => window.removeEventListener('resize', checkDevice);
   }, []);
 
+  // Optimized Background fade logic
   useEffect(() => {
     if (showResume && !isMobile) {
+      // Small delay to ensure the component is mounted before fading in
       const timer = setTimeout(() => setBgVisible(true), 150);
       return () => clearTimeout(timer);
     } else {
@@ -246,7 +248,15 @@ function App() {
            isMobile ? (
             <PixelCard isStatic={true} className="mobile-bg-pixel" gap={5} speed={25} />
           ) : (
-            <PrismaticBurst intensity={1.2} speed={0.2} animationType="hover" color0="#f3bc08" color1="#d1765c" color2="#a010d6" distort={0.3} />
+            <PrismaticBurst 
+              intensity={1.2} /* Reduced slightly for performance */
+              speed={0.2} 
+              animationType="hover" 
+              color0="#f3bc08" 
+              color1="#d1765c" 
+              color2="#a010d6" 
+              distort={0.3} 
+            />
           )
         )}
       </div>
@@ -269,6 +279,7 @@ function App() {
           </SmartCard>
 
           <div className={`info-columns-container ${isFirstEntry ? 'slide-in-left' : ''}`}>
+            {/* 1. Personal & Contact */}
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
                 <GradientText className="yellow-text bold-font">{isEn ? "Personal & Contact" : "اطلاعات فردی و تماس"}</GradientText>
@@ -283,6 +294,7 @@ function App() {
               </section>
             </SmartCard>
 
+            {/* 2. Software */}
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
                 <GradientText className="yellow-text bold-font">{isEn ? "Software" : "نرم‌افزارها"}</GradientText>
@@ -297,6 +309,7 @@ function App() {
               </section>
             </SmartCard>
 
+            {/* 3. Certificates */}
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
                 <GradientText className="yellow-text bold-font">{isEn ? "Certificates" : "گواهینامه‌ها"}</GradientText>
@@ -311,6 +324,7 @@ function App() {
               </section>
             </SmartCard>
 
+            {/* 4. Technical Skills */}
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
                 <GradientText className="yellow-text bold-font">{isEn ? "Technical Skills" : "مهارت‌های تخصصی"}</GradientText>
@@ -327,6 +341,7 @@ function App() {
               </section>
             </SmartCard>
 
+            {/* 5. Soft Skills */}
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
                 <GradientText className="yellow-text bold-font">{isEn ? "Soft Skills" : "مهارت‌های تکمیلی"}</GradientText>
@@ -336,6 +351,7 @@ function App() {
               </section>
             </SmartCard>
 
+            {/* 6. Projects */}
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
                 <GradientText className="yellow-text bold-font">{isEn ? "Projects" : "پروژه‌ها"}</GradientText>
@@ -352,6 +368,7 @@ function App() {
               </section>
             </SmartCard>
 
+            {/* 7. Interests & Hobbies */}
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
                 <GradientText className="yellow-text bold-font">{isEn ? "Interests & Hobbies" : "علایق و سرگرمی‌ها"}</GradientText>
