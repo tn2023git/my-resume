@@ -6,7 +6,7 @@ export default function GradientText({
   children,
   className = '',
   colors = ["#f3bc08", "#df9339", "#d1765c", "#a010d6", "#d1765c", "#df9339"],
-  animationSpeed = 2,
+  animationSpeed = 4, // سرعت طبق درخواست قبلی روی ۴ (سریع‌تر) تنظیم شده است
   showBorder = false,
   direction = 'horizontal',
   pauseOnHover = false,
@@ -18,18 +18,23 @@ export default function GradientText({
   
   const x = useMotionValue(0);
   const lastTimeRef = useRef(null);
+  // استفاده از Ref برای ذخیره مقدار موقعیت فعلی جهت جلوگیری از پرش در رندرهای مجدد
+  const currentXPos = useRef(0);
 
   const animationDuration = animationSpeed * 1000;
 
   useEffect(() => {
     if (textRef.current) {
-      // استفاده از offsetWidth برای دقت بیشتر در المان‌های inline-block
-      setTextWidth(textRef.current.offsetWidth || 500);
+      const width = textRef.current.offsetWidth;
+      if (width > 0) {
+        setTextWidth(width);
+      }
     }
   }, [children]);
 
-  useAnimationFrame((time, delta) => {
-    if (isPaused || textWidth === 0) {
+  useAnimationFrame((time) => {
+    // اگر عرض متن هنوز محاسبه نشده یا انیمیشن متوقف است، کاری انجام نده
+    if (isPaused || textWidth <= 0) {
       lastTimeRef.current = null;
       return;
     }
@@ -42,13 +47,13 @@ export default function GradientText({
     const deltaTime = time - lastTimeRef.current;
     lastTimeRef.current = time;
 
+    // محاسبه مقدار جابجایی بر اساس زمان سپری شده
     const moveAmount = (deltaTime / animationDuration) * textWidth;
-    let nextX = x.get() + moveAmount;
-
-    if (nextX >= textWidth) {
-      nextX -= textWidth;
-    }
-    x.set(nextX);
+    
+    // بروزرسانی مقدار فعلی با استفاده از باقیمانده (Modulo) برای چرخش بی‌نقص
+    currentXPos.current = (currentXPos.current + moveAmount) % textWidth;
+    
+    x.set(currentXPos.current);
   });
 
   const backgroundPosition = useTransform(x, value => `${value}px 50%`);
@@ -62,11 +67,14 @@ export default function GradientText({
   }, [pauseOnHover]);
 
   const gradientAngle = direction === 'horizontal' ? 'to right' : direction === 'vertical' ? 'to bottom' : 'to bottom right';
-  const gradientColors = [...colors, colors[0]].join(', ');
+  
+  // برای جلوگیری از پرش رنگ در انتهای تکرار، گرادینت را دو برابر می‌کنیم
+  const gradientColors = [...colors, ...colors].join(', ');
 
   const gradientStyle = {
     backgroundImage: `linear-gradient(${gradientAngle}, ${gradientColors})`,
-    backgroundSize: `${textWidth}px 100%`,
+    // سایز پس‌زمینه را دو برابر عرض متن می‌گذاریم تا حرکت نرم باقی بماند
+    backgroundSize: `${textWidth * 2}px 100%`,
     backgroundRepeat: 'repeat-x',
     WebkitBackgroundClip: 'text',
     backgroundClip: 'text',
@@ -78,7 +86,7 @@ export default function GradientText({
       className={`animated-gradient-text ${showBorder ? 'with-border' : ''} ${className}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      style={{ display: 'inline-flex' }} // اطمینان از قرارگیری درست در هدرها
+      style={{ display: 'inline-flex' }} 
     >
       {showBorder && (
         <motion.div 
@@ -93,8 +101,8 @@ export default function GradientText({
           ...gradientStyle, 
           backgroundPosition,
           display: 'inline-flex',
-          flexWrap: 'wrap',
-          color: 'transparent' // اطمینان از شفافیت برای نمایش گرادینت
+          flexWrap: 'nowrap', // تغییر به nowrap برای جلوگیری از شکستن خط در لحظه خروج
+          color: 'transparent'
         }}
       >
         {children}
