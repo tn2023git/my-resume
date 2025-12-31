@@ -81,18 +81,18 @@ export default function Aurora(props) {
     colorStops = ['#f3bc08', '#d8854b', '#a010d6'], 
     amplitude = 1.0, 
     blend = 0.75, 
-    speed = 1.25,
-    active = true
+    speed = 1.25 
   } = props;
 
+  // Use memoization to prevent the component from re-running the heavy useEffect
+  // unless the core visual props actually change.
   const memoizedColorStops = useMemo(() => JSON.stringify(colorStops), [colorStops]);
+
   const propsRef = useRef(props);
   propsRef.current = props;
   const ctnDom = useRef(null);
 
   useEffect(() => {
-    if (!active) return; // Exit if background shouldn't render
-
     const ctn = ctnDom.current;
     if (!ctn) return;
 
@@ -161,7 +161,7 @@ export default function Aurora(props) {
       if (ctn && gl.canvas.parentNode === ctn) ctn.removeChild(gl.canvas);
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
-  }, [amplitude, blend, memoizedColorStops, speed, active]);
+  }, [amplitude, blend, memoizedColorStops, speed]);
 
   return <div ref={ctnDom} style={{ width: '100%', height: '100%', position: 'relative' }} />;
 }
