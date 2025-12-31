@@ -27,7 +27,6 @@
   pointer-events: none;
 }
 
-/* Added specific fade for the card section to ensure the black background vanishes with the wrapper */
 .pc-exiting .pc-card {
   animation: pc-card-fade-only 0.6s ease-out forwards;
 }
@@ -64,6 +63,25 @@
   @keyframes pc-fade-out-mobile {
     from { opacity: 1; transform: scale(1); }
     to { opacity: 0; transform: scale(1.05); }
+  }
+
+  /* CSS-only animation for mobile to replace JS tiltEngine */
+  .pc-is-mobile .pc-card-shell {
+    animation: mobileTilt 8s ease-in-out infinite alternate;
+  }
+
+  .pc-is-mobile .pc-shine {
+    animation: mobileShine 8s ease-in-out infinite alternate;
+  }
+
+  @keyframes mobileTilt {
+    0% { transform: rotateX(-5deg) rotateY(-5deg); }
+    100% { transform: rotateX(5deg) rotateY(5deg); }
+  }
+
+  @keyframes mobileShine {
+    0% { background-position: 0% 50%; opacity: 0.4; }
+    100% { background-position: 100% 50%; opacity: 0.7; }
   }
 }
 

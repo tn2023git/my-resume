@@ -73,45 +73,22 @@ const ProfileCard = ({
 
   useEffect(() => {
     const shell = shellRef.current;
-    if (!shell) return;
+    if (!shell || isMobile) return; // Completely skip JS logic for mobile
 
-    let mobileRaf;
-
-    if (isMobile) {
-      let angle = 0;
-      const autoAnimate = () => {
-        const speed = 0.012;      
-        const intensity = 50;    
-        
-        angle += speed;
-        
-        const x = 50 + Math.cos(angle) * intensity;
-        const y = 50 + Math.sin(angle * 0.8) * intensity;
-        
-        tiltEngine.setTarget(x, y);
-        mobileRaf = requestAnimationFrame(autoAnimate);
-      };
-      mobileRaf = requestAnimationFrame(autoAnimate);
-    } else {
-      const onMove = e => {
-        const rect = shell.getBoundingClientRect();
-        const px = ((e.clientX - rect.left) / rect.width) * 100;
-        const py = ((e.clientY - rect.top) / rect.height) * 100;
-        tiltEngine.setTarget(px, py);
-      };
-      const onLeave = () => tiltEngine.setTarget(50, 50);
-      
-      shell.addEventListener('pointermove', onMove);
-      shell.addEventListener('pointerleave', onLeave);
-      
-      return () => {
-        shell.removeEventListener('pointermove', onMove);
-        shell.removeEventListener('pointerleave', onLeave);
-      };
-    }
-
+    const onMove = e => {
+      const rect = shell.getBoundingClientRect();
+      const px = ((e.clientX - rect.left) / rect.width) * 100;
+      const py = ((e.clientY - rect.top) / rect.height) * 100;
+      tiltEngine.setTarget(px, py);
+    };
+    const onLeave = () => tiltEngine.setTarget(50, 50);
+    
+    shell.addEventListener('pointermove', onMove);
+    shell.addEventListener('pointerleave', onLeave);
+    
     return () => {
-      if (mobileRaf) cancelAnimationFrame(mobileRaf);
+      shell.removeEventListener('pointermove', onMove);
+      shell.removeEventListener('pointerleave', onLeave);
       tiltEngine.stop();
     };
   }, [tiltEngine, isMobile]);
