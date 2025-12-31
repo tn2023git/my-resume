@@ -47,9 +47,9 @@ const ProfileCard = ({
       if (!wrap) return;
       wrap.style.setProperty('--pointer-x', `${x}%`);
       wrap.style.setProperty('--pointer-y', `${y}%`);
-      // Adjusted tilt back to /8 for a subtler, more natural 3D effect
-      wrap.style.setProperty('--rotate-x', `${(x - 50) / 8}deg`);
-      wrap.style.setProperty('--rotate-y', `${-(y - 50) / 8}deg`);
+      // Keeping the tilt divisor at /6 for a noticeable but balanced 3D effect
+      wrap.style.setProperty('--rotate-x', `${(x - 50) / 6}deg`);
+      wrap.style.setProperty('--rotate-y', `${-(y - 50) / 6}deg`);
     };
 
     const step = () => {
@@ -81,7 +81,7 @@ const ProfileCard = ({
       let angle = 0;
       const autoAnimate = () => {
         const speed = 0.012;      
-        const intensity = 25;    // Reduced by 75% for a subtle feel
+        const intensity = 50;    // Reduced by 50% as requested for a balanced prominent feel
         
         angle += speed;
         
