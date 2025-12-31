@@ -37,7 +37,7 @@ function App() {
     setIsReturning(true);
     setTimeout(() => {
       setShowResume(false);
-      setBgActivated(false); // Reset background state for next time
+      // bgActivated is NOT reset to false here, so animation keeps running
       setIsReturning(false);
     }, 800);
   };
@@ -245,7 +245,7 @@ function App() {
         ) : (
           <div className="mobile-pixel-bg-wrapper">
               <PixelCard 
-                key={`${lang}-${bgActivated}`} // Reset when language changes OR when bg first activates
+                key={`${lang}-${bgActivated}`} 
                 isStatic={true} 
                 className="mobile-bg-pixel" 
                 gap={5} 
