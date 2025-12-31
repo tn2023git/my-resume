@@ -20,14 +20,8 @@ function App() {
     checkDevice();
     window.addEventListener('resize', checkDevice);
     
-    // Updated to 350ms as requested
-    const timer = setTimeout(() => {
-      setBgActivated(true);
-    }, 350);
-
     return () => {
       window.removeEventListener('resize', checkDevice);
-      clearTimeout(timer);
     };
   }, []);
 
@@ -35,13 +29,13 @@ function App() {
     setLang(selectedLang);
     setIsExiting(true);
     
-    setBgActivated(false); 
+    // Trigger Aurora activation on button click
+    setBgActivated(true); 
     
     setTimeout(() => {
-      setBgActivated(true); 
       setShowResume(true);
       setIsExiting(false);
-    }, 10);
+    }, 800);
   };
 
   const handleReturn = () => {
@@ -49,6 +43,7 @@ function App() {
     setTimeout(() => {
       setShowResume(false);
       setIsReturning(false);
+      setBgActivated(false); // Reset background when returning to home
     }, 800);
   };
 

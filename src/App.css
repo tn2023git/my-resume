@@ -297,7 +297,7 @@ html, body, #root {
 @media print {
   @page { 
     size: A4; 
-    margin: 15mm 11mm 15mm 11mm; /* Reduced by ~25% from previous and made white */
+    margin: 8mm 6mm 8mm 6mm; /* Reduced by ~25% more */
   }
 
   html, body, #root {
@@ -328,17 +328,17 @@ html, body, #root {
     animation: none !important;
   }
 
+  /* Added padding to inner sections to prevent text from touching page edge */
   .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary, .mobile-glass-card {
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
     backdrop-filter: none !important;
-    padding: 0 !important;
-    margin: 0 0 15px 0 !important;
+    padding: 5px 10px !important; /* Internal padding for text breathing room */
+    margin: 0 0 10px 0 !important;
     width: 100% !important;
   }
 
-  /* Show Progress Bars and Dots in Black */
   .progress-bar-bg {
     background: #eeeeee !important;
     border: 1px solid #dddddd !important;
@@ -358,7 +358,7 @@ html, body, #root {
   }
 
   .summary-inner, .side-section, .exp-card {
-    padding: 0 !important;
+    padding: 5px 0 !important;
   }
 
   .info-columns-container {
@@ -370,12 +370,11 @@ html, body, #root {
     display: block !important;
   }
 
-  /* Font size reduction for printing */
   * {
     color: black !important;
     -webkit-text-fill-color: black !important;
     text-shadow: none !important;
-    font-size: 9pt !important;
+    font-size: 8.5pt !important; /* Slightly smaller for more density */
   }
 
   .bg-container, .floating-actions-container, .gateway-container, 
@@ -385,15 +384,15 @@ html, body, #root {
 
   .yellow-text {
     color: black !important;
-    border-bottom: 1.5px solid black !important;
+    border-bottom: 1px solid black !important;
     font-weight: bold !important;
-    font-size: 11pt !important;
-    margin-top: 10px !important;
-    padding-bottom: 3px !important;
+    font-size: 10.5pt !important;
+    margin-top: 8px !important;
+    padding-bottom: 2px !important;
   }
 
-  .job-role { font-weight: bold !important; font-size: 10pt !important; }
+  .job-role { font-weight: bold !important; font-size: 9.5pt !important; }
   .job-company { font-weight: bold !important; margin-bottom: 1px !important; }
-  .job-date { color: #555 !important; font-size: 8pt !important; }
-  .summary-text, .job-desc { line-height: 1.4 !important; font-size: 9pt !important; }
+  .job-date { color: #555 !important; font-size: 7.5pt !important; }
+  .summary-text, .job-desc { line-height: 1.35 !important; font-size: 8.5pt !important; }
 }
