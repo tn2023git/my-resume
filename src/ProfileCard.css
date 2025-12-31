@@ -68,8 +68,13 @@
 }
 
 /* --- MOBILE SPECIFIC --- */
+.pc-is-mobile .pc-glitter-base {
+  display: none; /* Disabling SVG noise on mobile to fix major lag */
+}
+
 .pc-is-mobile .pc-glitter-color {
   opacity: 0.18 !important;
+  transition: none; /* Transitions + RAF = Jitter on mobile */
 }
 
 .pc-is-mobile .pc-shine,
@@ -107,6 +112,9 @@
   border: 1px solid var(--glass-border);
   position: relative;
   z-index: 2;
+  /* Force GPU rendering */
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .pc-inside {
