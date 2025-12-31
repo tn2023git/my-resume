@@ -14,7 +14,8 @@ export default function GradientText({
 }) {
   const [isPaused, setIsPaused] = useState(false);
   const textRef = useRef(null);
-  const [textWidth, setTextWidth] = useState(0);
+  // Changed initial state to a non-zero value to prevent the blink during first paint
+  const [textWidth, setTextWidth] = useState(300); 
   
   const x = useMotionValue(0);
   const lastTimeRef = useRef(null);
@@ -23,8 +24,10 @@ export default function GradientText({
 
   useEffect(() => {
     if (textRef.current) {
-      // استفاده از offsetWidth برای دقت بیشتر در المان‌های inline-block
-      setTextWidth(textRef.current.offsetWidth || 500);
+      const width = textRef.current.offsetWidth;
+      if (width > 0) {
+        setTextWidth(width);
+      }
     }
   }, [children]);
 
@@ -78,7 +81,7 @@ export default function GradientText({
       className={`animated-gradient-text ${showBorder ? 'with-border' : ''} ${className}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      style={{ display: 'inline-flex' }} // اطمینان از قرارگیری درست در هدرها
+      style={{ display: 'inline-flex' }}
     >
       {showBorder && (
         <motion.div 
@@ -94,7 +97,7 @@ export default function GradientText({
           backgroundPosition,
           display: 'inline-flex',
           flexWrap: 'wrap',
-          color: 'transparent' // اطمینان از شفافیت برای نمایش گرادینت
+          // Removed manual color: transparent to rely on WebkitTextFillColor
         }}
       >
         {children}
