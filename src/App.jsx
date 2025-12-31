@@ -9,9 +9,8 @@ import Aurora from './Aurora';
 function App() {
   const [lang, setLang] = useState('en');
   const [showResume, setShowResume] = useState(false);
-  const [isExiting, setIsExiting] = useState(false);
-  const [isReturning, setIsReturning] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [bgActivated, setBgActivated] = useState(false);
   const isEn = lang === 'en';
 
   useEffect(() => {
@@ -23,19 +22,12 @@ function App() {
 
   const handleStart = (selectedLang) => {
     setLang(selectedLang);
-    setIsExiting(true);
-    setTimeout(() => {
-      setShowResume(true);
-      setIsExiting(false);
-    }, 600);
+    setBgActivated(true);
+    setShowResume(true);
   };
 
   const handleReturn = () => {
-    setIsReturning(true);
-    setTimeout(() => {
-        setShowResume(false);
-        setIsReturning(false);
-    }, 500);
+    setShowResume(false);
   };
 
   const handlePrint = () => {
@@ -129,7 +121,7 @@ function App() {
           { role: "Customer Support Specialist", company: "Tempus Logix - Armenia", date: "Jan 2020 - Sep 2020", duration: "8 Months", desc: "Managed customer inquiries in English, coordinated between drivers and clients for car transportation across the US, and resolved logistics issues in a fast-paced environment." },
           { role: "Salesperson", company: "Matin Mobile", date: "Jun 2016 - Dec 2016", duration: "6 Months", desc: "Cellphone software repairs, sale of peripherals and accessories." }
         ]
-      },
+    },
     fa: {
         name: "امیرعلی دبیری مرام",
         title: "کارجو",
@@ -216,7 +208,7 @@ function App() {
           { role: "کارشناس خدمات مشتریان", company: "Tempus Logix - ارمنستان", date: "دی ۱۳۹۸ - شهریور ۱۳۹۹", duration: "۸ ماه", desc: "برقراری ارتباط مستقیم با مشتریان خارجی به زبان انگلیسی، هماهنگی حمل و نقل خودروها بین رانندگان و مشتریان در سراسر آمریکا و حل مشکلات لجستیکی." },
           { role: "فروشنده", company: "موبایل متین", date: "خرداد ۱۳۹۵ - آذر ۱۳۹۵", duration: "۶ ماه", desc: "حل مشکلات نرم افزاری موبایل، فروش لوازم جانبی و فروش گوشی موبایل." }
         ]
-      }
+    }
   };
 
   const content = isEn ? data.en : data.fa;
@@ -227,17 +219,15 @@ function App() {
     return <PixelCard variant="resume" className={className}>{children}</PixelCard>;
   };
 
-  const isBgActive = showResume || isExiting || isReturning;
-
   return (
-    <div className={`app-wrapper ${isEn ? 'ltr-mode' : 'rtl-mode'} ${isExiting ? 'fade-out' : ''}`}>
-      <div className={`bg-container ${isBgActive ? 'is-active' : ''}`}>
+    <div className={`app-wrapper ${isEn ? 'ltr-mode' : 'rtl-mode'}`}>
+      <div className={`bg-container is-active`}>
         {!isMobile ? (
           <Aurora 
               colorStops={['#f3bc08', '#d8854b', '#a010d6']} 
               speed={1.25} 
               blend={0.75} 
-              active={isBgActive}
+              active={true}
           />
         ) : (
           <div className="mobile-pixel-bg-wrapper">
@@ -246,7 +236,7 @@ function App() {
                 className="mobile-bg-pixel" 
                 gap={5} 
                 speed={25} 
-                active={isBgActive}
+                active={bgActivated}
               />
           </div>
         )}
@@ -262,15 +252,15 @@ function App() {
            />
         </div>
       ) : (
-        <div className={`pdf-page ${isReturning ? 'is-exiting' : 'is-entering'}`}>
-          <SmartCard className="full-width-summary slide-top-logic">
+        <div className="pdf-page">
+          <SmartCard className="full-width-summary">
             <section className="side-section summary-inner">
               <GradientText className="yellow-text bold-font" animationSpeed={3}>{isEn ? "Professional Summary" : "درباره من"}</GradientText>
               <p className="summary-text">{content.summary}</p>
             </section>
           </SmartCard>
 
-          <div className="info-columns-container slide-left-logic">
+          <div className="info-columns-container">
             <SmartCard className="side-pixel-wrapper">
               <section className="side-section">
                 <GradientText className="yellow-text bold-font" animationSpeed={3}>{isEn ? "Personal & Contact" : "اطلاعات فردی و تماس"}</GradientText>
@@ -376,7 +366,7 @@ function App() {
             </SmartCard>
           </div>
 
-          <div className="experience-full-width slide-right-logic">
+          <div className="experience-full-width">
             {content.experience.map((job, i) => (
               <SmartCard key={i} className="exp-pixel-wrapper">
                 <div className="exp-card">
