@@ -16,6 +16,7 @@
   height: 100vh;
   z-index: 9999;
   overflow: hidden;
+  pointer-events: none; /* Allows clicks to pass through to the shell */
 }
 
 /* --- MOBILE SPECIFIC --- */
@@ -45,6 +46,8 @@
   transform: rotateX(var(--rotate-y)) rotateY(var(--rotate-x));
   transform-style: preserve-3d;
   width: 380px;
+  pointer-events: auto;
+  position: relative;
 }
 
 .pc-card {
@@ -54,6 +57,7 @@
   overflow: hidden;
   border: 1px solid var(--glass-border);
   position: relative;
+  z-index: 2;
 }
 
 .pc-inside {
@@ -195,42 +199,41 @@
 .flag-btn::after {
   content: attr(data-tooltip);
   position: absolute;
-  bottom: 30px; 
-  background: rgba(10, 10, 10, 0.7); /* Darker for better contrast */
+  bottom: 60px; 
+  background: rgba(10, 10, 10, 0.85);
   color: #ffffff;
   padding: 6px 14px;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 0.85rem;
   white-space: nowrap;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
   border: 1px solid rgba(255, 255, 255, 0.15);
   pointer-events: none;
-  backdrop-filter: blur(4px);
-  /* Fix for low-res/blurriness */
+  backdrop-filter: blur(8px);
   -webkit-font-smoothing: antialiased;
   backface-visibility: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
 
-/* Tooltip for English button: center horizontally in card */
 .en-corner::after {
   font-family: 'ProductSans', sans-serif;
-  left: calc(190px - 20px - 30px);
-  transform: translate3d(-50%, 0, 0);
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
 }
 
-/* Tooltip for Farsi button: center horizontally in card */
 .fa-corner::after {
   font-family: 'Anjoman', sans-serif;
-  right: calc(190px - 20px - 30px);
-  transform: translate3d(50%, 0, 0);
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
   direction: rtl;
 }
 
 .flag-btn:hover::after {
   opacity: 1;
   visibility: visible;
+  transform: translateX(-50%) translateY(0);
 }
 
 .flag-btn {
@@ -245,12 +248,6 @@
   pointer-events: auto;
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   z-index: 110;
-  animation: initialPulse 2s ease-in-out 3;
-}
-
-@keyframes initialPulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); box-shadow: 0 0 15px rgba(255, 215, 0, 0.1); }
 }
 
 .flag-btn img { 
@@ -292,7 +289,7 @@
   filter: blur(80px);
   opacity: 0;
   transition: opacity 0.5s;
-  z-index: -1;
+  z-index: 1; /* In front of global glow but behind card */
   pointer-events: none;
 }
 

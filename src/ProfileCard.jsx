@@ -7,8 +7,8 @@ const ProfileCard = ({
   avatarUrl,
   nameEn = "Amirali Dabiri Maram",
   nameFa = "امیرعلی دبیری مرام",
-  titleEn = "Job Seeker",
-  titleFa = "کارجو",
+  titleEn = "Digital Designer",
+  titleFa = "طراح دیجیتال",
   onSelectLang,
 }) => {
   const wrapRef = useRef(null);
@@ -34,15 +34,17 @@ const ProfileCard = ({
     const setVars = (x, y) => {
       const wrap = wrapRef.current;
       if (!wrap) return;
+      // Smooth interpolation for the CSS variables
       wrap.style.setProperty('--pointer-x', `${x}%`);
       wrap.style.setProperty('--pointer-y', `${y}%`);
-      wrap.style.setProperty('--rotate-x', `${(x - 50) / 7}deg`);
-      wrap.style.setProperty('--rotate-y', `${-(y - 50) / 7}deg`);
+      wrap.style.setProperty('--rotate-x', `${(x - 50) / 8}deg`);
+      wrap.style.setProperty('--rotate-y', `${-(y - 50) / 8}deg`);
     };
 
     const step = () => {
-      currentX += (targetX - currentX) * 0.1;
-      currentY += (targetY - currentY) * 0.1;
+      // Linear interpolation (lerp) for smooth motion
+      currentX += (targetX - currentX) * 0.08;
+      currentY += (targetY - currentY) * 0.08;
       setVars(currentX, currentY);
       rafId = requestAnimationFrame(step);
     };
@@ -52,7 +54,10 @@ const ProfileCard = ({
         targetX = x; targetY = y;
         if (!running) { running = true; rafId = requestAnimationFrame(step); }
       },
-      stop() { cancelAnimationFrame(rafId); running = false; }
+      stop() { 
+        if (rafId) cancelAnimationFrame(rafId); 
+        running = false; 
+      }
     };
   }, []);
 
@@ -65,9 +70,9 @@ const ProfileCard = ({
     if (isMobile) {
       let angle = 0;
       const autoAnimate = () => {
-        angle += 0.008; 
-        const x = 50 + Math.cos(angle) * 35;
-        const y = 50 + Math.sin(angle) * 35;
+        angle += 0.01; 
+        const x = 50 + Math.cos(angle) * 25;
+        const y = 50 + Math.sin(angle) * 25;
         tiltEngine.setTarget(x, y);
         mobileRaf = requestAnimationFrame(autoAnimate);
       };
@@ -75,7 +80,9 @@ const ProfileCard = ({
     } else {
       const onMove = e => {
         const rect = shell.getBoundingClientRect();
-        tiltEngine.setTarget(((e.clientX - rect.left) / rect.width) * 100, ((e.clientY - rect.top) / rect.height) * 100);
+        const px = ((e.clientX - rect.left) / rect.width) * 100;
+        const py = ((e.clientY - rect.top) / rect.height) * 100;
+        tiltEngine.setTarget(px, py);
       };
       const onLeave = () => tiltEngine.setTarget(50, 50);
       
@@ -136,17 +143,23 @@ const ProfileCard = ({
               <div 
                 className="flag-btn en-corner" 
                 data-tooltip="View English Resume"
-                onClick={(e) => { e.stopPropagation(); onSelectLang('en'); }}
+                onClick={(e) => { 
+                  e.stopPropagation(); 
+                  onSelectLang('en'); 
+                }}
               >
-                <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" alt="EN" />
+                <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" alt="English" />
               </div>
               
               <div 
                 className="flag-btn fa-corner" 
                 data-tooltip="مشاهده رزومه فارسی"
-                onClick={(e) => { e.stopPropagation(); onSelectLang('fa'); }}
+                onClick={(e) => { 
+                  e.stopPropagation(); 
+                  onSelectLang('fa'); 
+                }}
               >
-                <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Flag_of_Iran.svg" alt="FA" />
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Flag_of_Iran.svg" alt="Farsi" />
               </div>
             </div>
 

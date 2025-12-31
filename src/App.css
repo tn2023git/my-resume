@@ -59,7 +59,7 @@ body, html, #root {
   pointer-events: none;
   background-color: #000000;
   opacity: 0;
-  transition: opacity 0.8s ease-in-out;
+  transition: opacity 0.6s ease-in-out; /* Matched to handleReturn timeout */
 }
 
 .bg-container.is-active {
@@ -75,22 +75,32 @@ body, html, #root {
   z-index: 0;
 }
 
-/* --- Stronger Profile Card Glow --- */
+/* --- Profile Card Glow - Fixed & Centered --- */
+.gateway-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 90vh;
+  animation: fadeIn 1s ease;
+}
+
 .profile-card-glow {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 650px; 
-  height: 650px;
+  width: 700px; 
+  height: 700px;
   background: radial-gradient(
     circle, 
-    rgba(160, 16, 214, 0.5) 0%, 
-    rgba(243, 188, 8, 0.2) 40%, 
-    transparent 75%
+    rgba(160, 16, 214, 0.45) 0%, 
+    rgba(243, 188, 8, 0.15) 45%, 
+    transparent 70%
   );
-  filter: blur(50px);
-  z-index: -1;
+  filter: blur(60px);
+  z-index: 0; /* Behind the card but inside container */
   pointer-events: none;
 }
 
@@ -104,33 +114,23 @@ body, html, #root {
   z-index: 1;
 }
 
-.gateway-container {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  min-height: 90vh;
-  animation: fadeIn 1s ease;
-}
-
 .fade-out { opacity: 0; transition: opacity 0.5s ease; pointer-events: none; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 /* --- Entrance & Exit Animation Logic --- */
-.is-entering .slide-top-logic { animation: slideInTop 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.is-entering .slide-top-logic { animation: slideInTop 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 .is-exiting .slide-top-logic { animation: slideOutTop 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-.is-entering .slide-left-logic { animation: slideInLeft 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.is-entering .slide-left-logic { animation: slideInLeft 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 .is-exiting .slide-left-logic { animation: slideOutLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-.is-entering .slide-right-logic { animation: slideInRight 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.is-entering .slide-right-logic { animation: slideInRight 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 .is-exiting .slide-right-logic { animation: slideOutRight 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
 
-@keyframes slideInTop { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes slideOutTop { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-50px); } }
-@keyframes slideInLeft { from { opacity: 0; transform: translateX(-80px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes slideOutLeft { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(-80px); } }
-@keyframes slideInRight { from { opacity: 0; transform: translateX(80px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes slideOutRight { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(80px); } }
+@keyframes slideInTop { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideOutTop { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-30px); } }
+@keyframes slideInLeft { from { opacity: 0; transform: translateX(-50px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes slideOutLeft { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(-50px); } }
+@keyframes slideInRight { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes slideOutRight { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(50px); } }
 
 .rtl-mode .is-entering .slide-left-logic { animation-name: slideInRight; }
 .rtl-mode .is-exiting .slide-left-logic { animation-name: slideOutRight; }
@@ -147,6 +147,7 @@ body, html, #root {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-desktop);
+  transition: opacity 0.5s ease;
 }
 
 /* --- Card Wrappers & Glassmorphism --- */
@@ -264,12 +265,6 @@ body, html, #root {
   .profile-card-glow {
     width: 450px;
     height: 450px;
-    background: radial-gradient(
-      circle, 
-      rgba(160, 16, 214, 0.6) 0%, 
-      rgba(243, 188, 8, 0.25) 50%, 
-      transparent 80%
-    );
   }
 }
 

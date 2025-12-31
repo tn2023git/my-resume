@@ -32,10 +32,11 @@ function App() {
 
   const handleReturn = () => {
     setIsReturning(true);
+    // Increased timeout to match CSS transition to prevent flicker
     setTimeout(() => {
         setShowResume(false);
         setIsReturning(false);
-    }, 500);
+    }, 600);
   };
 
   const handlePrint = () => {
@@ -229,8 +230,9 @@ function App() {
 
   return (
     <div className={`app-wrapper ${isEn ? 'ltr-mode' : 'rtl-mode'} ${isExiting ? 'fade-out' : ''}`}>
-      <div className={`bg-container ${showResume ? 'is-active' : ''}`}>
-        {showResume && !isMobile && (
+      {/* Glow stays active if we are returning to preserve background consistency */}
+      <div className={`bg-container ${(showResume || isReturning) ? 'is-active' : ''}`}>
+        {(showResume || isReturning) && !isMobile && (
           <Aurora 
               colorStops={['#f3bc08', '#d8854b', '#a010d6']} 
               speed={1.25} 
@@ -238,7 +240,7 @@ function App() {
           />
         )}
         
-        {showResume && isMobile && (
+        {(showResume || isReturning) && isMobile && (
           <div className="mobile-pixel-bg-wrapper">
              <PixelCard isStatic={true} className="mobile-bg-pixel" gap={5} speed={25} />
           </div>
@@ -393,7 +395,6 @@ function App() {
             </button>
             <button className="floating-btn" onClick={handlePrint} aria-label="Print">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="6 9 6 2 18 2 18 9"></polyline>
                 <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
                 <rect x="6" y="14" width="12" height="8"></rect>
               </svg>
