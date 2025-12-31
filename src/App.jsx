@@ -11,6 +11,7 @@ function App() {
   const [showResume, setShowResume] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [bgActivated, setBgActivated] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
   const isEn = lang === 'en';
 
   useEffect(() => {
@@ -22,12 +23,19 @@ function App() {
 
   const handleStart = (selectedLang) => {
     setLang(selectedLang);
-    setBgActivated(true);
-    setShowResume(true);
+    setIsExiting(true);
+    
+    // 800ms matches the CSS animation duration
+    setTimeout(() => {
+      setBgActivated(true);
+      setShowResume(true);
+      setIsExiting(false);
+    }, 800);
   };
 
   const handleReturn = () => {
     setShowResume(false);
+    setBgActivated(false);
   };
 
   const handlePrint = () => {
@@ -236,7 +244,7 @@ function App() {
                 className="mobile-bg-pixel" 
                 gap={5} 
                 speed={25} 
-                active={bgActivated}
+                active={bgActivated || !showResume} // Render during gateway and resume
               />
           </div>
         )}
@@ -249,6 +257,7 @@ function App() {
              avatarUrl={profilePic} 
              onSelectLang={handleStart} 
              enableMobileTilt={true}
+             isExiting={isExiting}
            />
         </div>
       ) : (

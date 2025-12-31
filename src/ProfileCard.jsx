@@ -10,6 +10,7 @@ const ProfileCard = ({
   titleEn = "Job Seeker",
   titleFa = "کارجو",
   onSelectLang,
+  isExiting,
 }) => {
   const wrapRef = useRef(null);
   const shellRef = useRef(null);
@@ -100,7 +101,10 @@ const ProfileCard = ({
   }, [tiltEngine, isMobile]);
 
   return (
-    <div ref={wrapRef} className={`pc-card-wrapper ${isMobile ? 'pc-is-mobile' : 'pc-is-desktop'}`}>
+    <div 
+      ref={wrapRef} 
+      className={`pc-card-wrapper ${isMobile ? 'pc-is-mobile' : 'pc-is-desktop'} ${isExiting ? 'pc-exiting' : ''}`}
+    >
       <svg style={{ position: 'absolute', width: 0, height: 0 }}>
         <filter id="glitterNoise">
           <feTurbulence type="fractalNoise" baseFrequency="0.99" numOctaves="1" stitchTiles="stitch" />
