@@ -34,7 +34,6 @@ const ProfileCard = ({
     const setVars = (x, y) => {
       const wrap = wrapRef.current;
       if (!wrap) return;
-      // Smooth interpolation for the CSS variables
       wrap.style.setProperty('--pointer-x', `${x}%`);
       wrap.style.setProperty('--pointer-y', `${y}%`);
       wrap.style.setProperty('--rotate-x', `${(x - 50) / 8}deg`);
@@ -42,7 +41,6 @@ const ProfileCard = ({
     };
 
     const step = () => {
-      // Linear interpolation (lerp) for smooth motion
       currentX += (targetX - currentX) * 0.08;
       currentY += (targetY - currentY) * 0.08;
       setVars(currentX, currentY);
@@ -140,9 +138,13 @@ const ProfileCard = ({
             </div>
 
             <div className="pc-lang-overlay">
+              <div className="pc-central-tooltip">
+                <span className="tooltip-text-en">View English Resume</span>
+                <span className="tooltip-text-fa">مشاهده رزومه فارسی</span>
+              </div>
+
               <div 
                 className="flag-btn en-corner" 
-                data-tooltip="View English Resume"
                 onClick={(e) => { 
                   e.stopPropagation(); 
                   onSelectLang('en'); 
@@ -153,7 +155,6 @@ const ProfileCard = ({
               
               <div 
                 className="flag-btn fa-corner" 
-                data-tooltip="مشاهده رزومه فارسی"
                 onClick={(e) => { 
                   e.stopPropagation(); 
                   onSelectLang('fa'); 

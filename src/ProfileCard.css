@@ -16,7 +16,7 @@
   height: 100vh;
   z-index: 9999;
   overflow: hidden;
-  pointer-events: none; /* Allows clicks to pass through to the shell */
+  pointer-events: none;
 }
 
 /* --- MOBILE SPECIFIC --- */
@@ -195,11 +195,12 @@
   overflow: visible;
 }
 
-/* Sharp Tooltip Styling */
-.flag-btn::after {
-  content: attr(data-tooltip);
+/* Central Tooltip Styling */
+.pc-central-tooltip {
   position: absolute;
-  bottom: 60px; 
+  bottom: 85px; 
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
   background: rgba(10, 10, 10, 0.85);
   color: #ffffff;
   padding: 6px 14px;
@@ -210,31 +211,32 @@
   visibility: hidden;
   transition: all 0.2s ease-in-out;
   border: 1px solid rgba(255, 255, 255, 0.15);
-  pointer-events: none;
   backdrop-filter: blur(8px);
-  -webkit-font-smoothing: antialiased;
-  backface-visibility: hidden;
   box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  z-index: 120;
 }
 
-.en-corner::after {
-  font-family: 'ProductSans', sans-serif;
-  left: 50%;
-  transform: translateX(-50%) translateY(10px);
+.tooltip-text-en, .tooltip-text-fa {
+  display: none;
 }
 
-.fa-corner::after {
-  font-family: 'Anjoman', sans-serif;
-  left: 50%;
-  transform: translateX(-50%) translateY(10px);
-  direction: rtl;
-}
+.tooltip-text-en { font-family: 'ProductSans', sans-serif; }
+.tooltip-text-fa { font-family: 'Anjoman', sans-serif; direction: rtl; }
 
-.flag-btn:hover::after {
+/* Show correct text based on which button is hovered */
+.pc-lang-overlay:has(.en-corner:hover) .pc-central-tooltip {
   opacity: 1;
   visibility: visible;
   transform: translateX(-50%) translateY(0);
 }
+.pc-lang-overlay:has(.en-corner:hover) .tooltip-text-en { display: block; }
+
+.pc-lang-overlay:has(.fa-corner:hover) .pc-central-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+.pc-lang-overlay:has(.fa-corner:hover) .tooltip-text-fa { display: block; }
 
 .flag-btn {
   position: absolute;
@@ -289,7 +291,7 @@
   filter: blur(80px);
   opacity: 0;
   transition: opacity 0.5s;
-  z-index: 1; /* In front of global glow but behind card */
+  z-index: 1;
   pointer-events: none;
 }
 
@@ -306,5 +308,5 @@
   .flag-btn img { border-radius: 10px; }
   .en-corner { left: 15px; }
   .fa-corner { right: 15px; }
-  .flag-btn::after { display: none; }
+  .pc-central-tooltip { display: none; }
 }
