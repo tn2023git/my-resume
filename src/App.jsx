@@ -19,7 +19,16 @@ function App() {
     const checkDevice = () => setIsMobile(window.innerWidth <= 768);
     checkDevice();
     window.addEventListener('resize', checkDevice);
-    return () => window.removeEventListener('resize', checkDevice);
+    
+    // Initial 200ms delay for background loading
+    const timer = setTimeout(() => {
+      setBgActivated(true);
+    }, 200);
+
+    return () => {
+      window.removeEventListener('resize', checkDevice);
+      clearTimeout(timer);
+    };
   }, []);
 
   const handleStart = (selectedLang) => {
@@ -238,7 +247,7 @@ function App() {
 
   return (
     <div className={`app-wrapper ${isEn ? 'ltr-mode' : 'rtl-mode'}`}>
-      <div className={`bg-container is-active`}>
+      <div className={`bg-container ${bgActivated ? 'is-active' : ''}`}>
         {!isMobile ? (
           <Aurora 
               colorStops={['#f3bc08', '#d8854b', '#a010d6']} 
