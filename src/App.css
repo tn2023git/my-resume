@@ -56,6 +56,12 @@ body, html {
   height: 100vh;
   z-index: -1;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+}
+
+.bg-container.visible {
+  opacity: 1;
 }
 
 .app-wrapper {
@@ -86,13 +92,20 @@ body, html {
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 /* --- Entrance Animations --- */
-.slide-in-left { animation: slideLeft 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.slide-in-right { animation: slideRight 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.slide-in-top { animation: slideTop 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.slide-in-left { animation: slideLeft 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.slide-in-right { animation: slideRight 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+/* Fixed stuttering by using transform only and hardware acceleration */
+.slide-in-top { 
+  will-change: transform;
+  animation: slideTop 1s cubic-bezier(0.22, 1, 0.36, 1) forwards; 
+}
 
 @keyframes slideLeft { from { opacity: 0; transform: translateX(-50px); } to { opacity: 1; transform: translateX(0); } }
 @keyframes slideRight { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes slideTop { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideTop { 
+  from { opacity: 0; transform: translateY(-40px) translateZ(0); } 
+  to { opacity: 1; transform: translateY(0) translateZ(0); } 
+}
 
 .rtl-mode .slide-in-left { animation-name: slideRight; }
 .rtl-mode .slide-in-right { animation-name: slideLeft; }
@@ -252,12 +265,11 @@ body, html {
     padding: 0 15px !important;
   }
 
-  /* FORCING PAGE BREAK ON INTERESTS WRAPPER */
   .side-pixel-wrapper:has(.interests-list) {
     display: block !important;
     break-before: page !important;
     page-break-before: always !important;
-    margin-top: 30px !important; /* Adding space at the top of new page */
+    margin-top: 30px !important;
   }
 
   .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary, .mobile-glass-card {
