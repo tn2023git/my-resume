@@ -37,9 +37,9 @@ const ProfileCard = ({
       if (!wrap) return;
       wrap.style.setProperty('--pointer-x', `${x}%`);
       wrap.style.setProperty('--pointer-y', `${y}%`);
-      // Increased tilt intensity from /8 to /4 for significantly more prominent 3D rotation
-      wrap.style.setProperty('--rotate-x', `${(x - 50) / 4}deg`);
-      wrap.style.setProperty('--rotate-y', `${-(y - 50) / 4}deg`);
+      // Significant 3D rotation intensity to match PC hover experience
+      wrap.style.setProperty('--rotate-x', `${(x - 50) / 3.5}deg`);
+      wrap.style.setProperty('--rotate-y', `${-(y - 50) / 3.5}deg`);
     };
 
     const step = () => {
@@ -70,15 +70,15 @@ const ProfileCard = ({
     if (isMobile) {
       let angle = 0;
       const autoAnimate = () => {
-        // --- VISIBLE ANIMATION SETTINGS ---
-        const speed = 0.02;       // Speed of the movement
-        const intensity = 80;     // Range of motion (0-100 scale, 80 is very wide)
+        // --- PROMINENT MOVEMENT SETTINGS ---
+        const speed = 0.015;      
+        const intensity = 100;    // Increased to 100 to cover the full card area like a mouse
         
         angle += speed;
         
-        // Complex Lissajous curve for a more organic and "prominent" 3D feel
-        const x = 50 + Math.cos(angle * 0.7) * intensity;
-        const y = 50 + Math.sin(angle * 1.2) * intensity;
+        // Simulates wide mouse movements across the card's surface
+        const x = 50 + Math.cos(angle) * intensity;
+        const y = 50 + Math.sin(angle * 0.8) * intensity;
         
         tiltEngine.setTarget(x, y);
         mobileRaf = requestAnimationFrame(autoAnimate);
