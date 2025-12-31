@@ -69,10 +69,10 @@ const ProfileCard = ({
     if (isMobile) {
       let angle = 0;
       const autoAnimate = () => {
-        angle += 0.015; // Slightly faster oscillation
-        // Increased range from 25 to 65 for more prominent movement
-        const x = 50 + Math.cos(angle) * 65; 
-        const y = 50 + Math.sin(angle * 0.8) * 65; 
+        angle += 0.015; 
+        // Generates a smooth figure-8 movement to cover 3D space effectively
+        const x = 50 + Math.cos(angle) * 40;
+        const y = 50 + Math.sin(angle * 1.5) * 40;
         tiltEngine.setTarget(x, y);
         mobileRaf = requestAnimationFrame(autoAnimate);
       };
