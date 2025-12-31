@@ -83,11 +83,11 @@
   opacity: 0;
   background: conic-gradient(
     from 0deg,
-    var(--c1),
-    var(--c2),
-    var(--c4),
-    var(--c1),
-    var(--c2)
+    rgba(243, 188, 8, 0.4),  /* Softened --c1 */
+    rgba(223, 147, 57, 0.4), /* Softened --c2 */
+    rgba(160, 16, 214, 0.4), /* Softened --c4 */
+    rgba(243, 188, 8, 0.4),  /* Softened --c1 */
+    rgba(223, 147, 57, 0.4)  /* Softened --c2 */
   );
   background-size: 100px 100px;
   filter: blur(30px) contrast(110%) saturate(45%);
