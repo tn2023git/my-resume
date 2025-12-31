@@ -58,11 +58,14 @@ html, body, #root {
   z-index: -1;
   pointer-events: none;
   background-color: #000000;
+}
+
+.bg-container > * {
   opacity: 0;
   transition: opacity 1s ease-in-out;
 }
 
-.bg-container.is-active {
+.bg-container.is-active > * {
   opacity: 1 !important;
 }
 
