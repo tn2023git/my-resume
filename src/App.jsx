@@ -247,6 +247,7 @@ function App() {
 
       {!showResume ? (
         <div className="gateway-container">
+           <div className="profile-card-glow"></div>
            <ProfileCard 
              avatarUrl={profilePic} 
              onSelectLang={handleStart} 
