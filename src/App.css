@@ -41,7 +41,6 @@
   box-sizing: border-box;
 }
 
-/* Hard reset to prevent white flashes */
 html, body, #root {
   background: #000000 !important;
   color: white;
@@ -59,16 +58,16 @@ html, body, #root {
   z-index: -1;
   pointer-events: none;
   background-color: #000000;
-  will-change: transform; /* Helps GPU maintain black layer */
 }
 
+/* Force child opacity to stay at 1 during exit to prevent unmounting flicker */
 .bg-container > * {
   opacity: 0;
   transition: opacity 0.8s ease-in-out;
 }
 
 .bg-container.is-active > * {
-  opacity: 1;
+  opacity: 1 !important; /* Ensures background stays solid during transition */
 }
 
 .mobile-pixel-bg-wrapper {
@@ -232,6 +231,7 @@ html, body, #root {
   justify-content: center;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  padding: 0;
 }
 
 .floating-btn:hover {
@@ -241,10 +241,10 @@ html, body, #root {
 }
 
 .floating-btn svg {
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   color: white;
-  display: block; /* Ensures no line-height spacing issues */
+  display: block;
 }
 
 /* --- Mobile Fixes --- */

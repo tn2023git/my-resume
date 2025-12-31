@@ -32,10 +32,11 @@ function App() {
 
   const handleReturn = () => {
     setIsReturning(true);
+    // Keep showResume true during the animation to prevent background unmounting
     setTimeout(() => {
         setShowResume(false);
         setIsReturning(false);
-    }, 500);
+    }, 500); 
   };
 
   const handlePrint = () => {
@@ -393,8 +394,8 @@ function App() {
             </button>
             <button className="floating-btn" onClick={handlePrint} aria-label="Print">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M18 6H20c1.1 0 2 .9 2 2v5c0 1.1-.9 2-2 2h-2M6 6H4c-1.1 0-2 .9-2 2v5c0 1.1.9 2 2 2h2"></path>
-                <rect x="6" y="2" width="12" height="8"></rect>
+                <path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+                <path d="M6 14h12v8H6z" />
               </svg>
             </button>
           </div>
