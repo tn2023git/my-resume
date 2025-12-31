@@ -17,15 +17,15 @@ precision highp int;
 
 out vec4 fragColor;
 
-uniform vec2   uResolution;
+uniform vec2  uResolution;
 uniform float uTime;
 uniform float uIntensity;
 uniform float uSpeed;
 uniform int   uAnimType;
-uniform vec2   uMouse;
+uniform vec2  uMouse;
 uniform int   uColorCount;
 uniform float uDistort;
-uniform vec2   uOffset;
+uniform vec2  uOffset;
 uniform sampler2D uGradient;
 uniform float uNoiseAmount;
 uniform int   uRayCount;
@@ -112,8 +112,7 @@ void main(){
     }
 
     float marchT = 0.0;
-    // Reduced from 44 to 33 (~25% reduction)
-    for (int i = 0; i < 33; ++i) {
+    for (int i = 0; i < 44; ++i) {
         vec3 P = marchT * dir;
         P.z -= 2.0;
         float rad = length(P);
