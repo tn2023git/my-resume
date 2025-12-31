@@ -35,7 +35,7 @@ function App() {
     setTimeout(() => {
         setShowResume(false);
         setIsReturning(false);
-    }, 500);
+    }, 600);
   };
 
   const handlePrint = () => {
@@ -241,13 +241,15 @@ function App() {
           />
         ) : (
           <div className="mobile-pixel-bg-wrapper">
-              <PixelCard 
-                isStatic={true} 
-                className="mobile-bg-pixel" 
-                gap={5} 
-                speed={25} 
-                active={isBgActive}
-              />
+              {showResume && (
+                <PixelCard 
+                  isStatic={true} 
+                  className="mobile-bg-pixel" 
+                  gap={5} 
+                  speed={25} 
+                  active={isBgActive}
+                />
+              )}
           </div>
         )}
       </div>
