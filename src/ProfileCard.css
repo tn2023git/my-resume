@@ -6,7 +6,7 @@
 }
 
 .pc-card-wrapper {
-  perspective: none !important;
+  perspective: 1200px;
   position: fixed;
   inset: 0;
   display: flex;
@@ -42,8 +42,8 @@
 
 .pc-card-shell {
   transition: transform 0.1s ease-out;
-  /* Use 2D rotates to avoid triggering GPU 3D compositing */
-  transform: rotate(var(--rotate-y)) rotate(var(--rotate-x));
+  transform: rotateX(var(--rotate-y)) rotateY(var(--rotate-x));
+  transform-style: preserve-3d;
   width: 380px;
 }
 
@@ -63,7 +63,7 @@
   flex-direction: column;
   position: relative;
   padding: 30px 20px;
-
+  transform-style: preserve-3d;
 }
 
 .pc-glitter-base {
@@ -187,8 +187,7 @@
   inset: 0;
   z-index: 100;
   pointer-events: none;
-  /* Avoid translateZ to prevent GPU compositing */
-  transform: none !important;
+  transform: translateZ(50px);
   overflow: visible;
 }
 
@@ -218,14 +217,14 @@
 .en-corner::after {
   font-family: 'ProductSans', sans-serif;
   left: calc(190px - 20px - 30px);
-  transform: translateX(-50%);
+  transform: translate3d(-50%, 0, 0);
 }
 
 /* Tooltip for Farsi button: center horizontally in card */
 .fa-corner::after {
   font-family: 'Anjoman', sans-serif;
   right: calc(190px - 20px - 30px);
-  transform: translateX(50%);
+  transform: translate3d(50%, 0, 0);
   direction: rtl;
 }
 
