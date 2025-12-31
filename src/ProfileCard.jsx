@@ -21,6 +21,7 @@ const ProfileCard = ({
 
   const handleLangSelect = (lang) => {
     setLocalExiting(true);
+    // Triggering almost immediately so the resume mounts behind the fading card
     setTimeout(() => {
       onSelectLang(lang);
     }, 100);
@@ -44,16 +45,11 @@ const ProfileCard = ({
 
     const setVars = (x, y) => {
       const wrap = wrapRef.current;
-      const shell = shellRef.current;
-      if (!wrap || !shell) return;
-      
-      // Direct DOM manipulation for maximum performance
-      wrap.style.setProperty('--pointer-x', `${x.toFixed(2)}%`);
-      wrap.style.setProperty('--pointer-y', `${y.toFixed(2)}%`);
-      
-      const rotX = (x - 50) / 6;
-      const rotY = -(y - 50) / 6;
-      shell.style.transform = `rotateX(${rotY.toFixed(2)}deg) rotateY(${rotX.toFixed(2)}deg)`;
+      if (!wrap) return;
+      wrap.style.setProperty('--pointer-x', `${x}%`);
+      wrap.style.setProperty('--pointer-y', `${y}%`);
+      wrap.style.setProperty('--rotate-x', `${(x - 50) / 6}deg`);
+      wrap.style.setProperty('--rotate-y', `${-(y - 50) / 6}deg`);
     };
 
     const step = () => {
@@ -84,9 +80,14 @@ const ProfileCard = ({
     if (isMobile) {
       let angle = 0;
       const autoAnimate = () => {
-        angle += 0.015; // Slightly faster for smoother perception
-        const x = 50 + Math.cos(angle) * 40;
-        const y = 50 + Math.sin(angle * 0.8) * 40;
+        const speed = 0.012;      
+        const intensity = 50;    
+        
+        angle += speed;
+        
+        const x = 50 + Math.cos(angle) * intensity;
+        const y = 50 + Math.sin(angle * 0.8) * intensity;
+        
         tiltEngine.setTarget(x, y);
         mobileRaf = requestAnimationFrame(autoAnimate);
       };
