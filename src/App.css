@@ -27,7 +27,7 @@
   --c4: #A010D6;
   --purple: var(--c4);
   --yellow: #F3BC08;
-  --bg: #050505;
+  --bg: #000000; /* Darkened to pure black to prevent edge flickers */
   --glass-bg: rgba(15, 15, 15, 0.45); 
   --glass-border: rgba(255, 255, 255, 0.08);
   --spacing-desktop: 25px;
@@ -41,10 +41,16 @@
   box-sizing: border-box;
 }
 
+/* Added background-color here to ensure the base layer is never white */
 body, html {
-  background-color: var(--bg);
+  background-color: #000000 !important;
   color: white;
   overflow-x: hidden;
+  min-height: 100vh;
+}
+
+#root {
+  background-color: #000000;
   min-height: 100vh;
 }
 
@@ -56,6 +62,7 @@ body, html {
   height: 100vh;
   z-index: -1;
   pointer-events: none;
+  background-color: #000000; /* This acts as a placeholder while Aurora loads */
 }
 
 .app-wrapper {
