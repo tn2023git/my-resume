@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import profilePic from './assets/profile.png';
 import GradientText from './GradientText';
-import PrismaticBurst from './PrismaticBurst';
 import PixelCard from './PixelCard';
 import ProfileCard from './ProfileCard';
 
@@ -10,6 +9,7 @@ function App() {
   const [lang, setLang] = useState('en');
   const [showResume, setShowResume] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
+  const [isReturning, setIsReturning] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isFirstEntry, setIsFirstEntry] = useState(true); 
   const isEn = lang === 'en';
@@ -32,11 +32,11 @@ function App() {
   };
 
   const handleReturn = () => {
-    setIsExiting(true);
+    setIsReturning(true);
     setIsFirstEntry(false); 
     setTimeout(() => {
         setShowResume(false);
-        setIsExiting(false);
+        setIsReturning(false);
     }, 500);
   };
 
@@ -232,12 +232,8 @@ function App() {
   return (
     <div className={`app-wrapper ${isEn ? 'ltr-mode' : 'rtl-mode'} ${isExiting ? 'fade-out' : ''}`}>
       <div className="bg-container">
-        {showResume && (
-           isMobile ? (
-            <PixelCard isStatic={true} className="mobile-bg-pixel" gap={5} speed={25} />
-          ) : (
-            <PrismaticBurst intensity={1.8} speed={0.2} animationType="hover" color0="#f3bc08" color1="#d1765c" color2="#a010d6" distort={0.3} />
-          )
+        {showResume && isMobile && (
+          <PixelCard isStatic={true} className="mobile-bg-pixel" gap={5} speed={25} />
         )}
       </div>
 
@@ -250,7 +246,7 @@ function App() {
            />
         </div>
       ) : (
-        <div className="pdf-page entrance-anim">
+        <div className={`pdf-page entrance-anim ${isReturning ? 'slide-out-anim' : ''}`}>
           <SmartCard className={`full-width-summary ${isFirstEntry ? 'slide-in-top' : ''}`}>
             <section className="side-section summary-inner">
               <GradientText className="yellow-text bold-font">{isEn ? "Professional Summary" : "درباره من"}</GradientText>

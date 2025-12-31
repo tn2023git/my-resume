@@ -6,11 +6,10 @@ export default function GradientText({
   children,
   className = '',
   colors = ["#f3bc08", "#df9339", "#d1765c", "#a010d6", "#d1765c", "#df9339"],
-  animationSpeed = 2,
+  animationSpeed = 8, // slowed down slightly for smoother visual during transitions
   showBorder = false,
   direction = 'horizontal',
-  pauseOnHover = false,
-  yoyo = false
+  pauseOnHover = false
 }) {
   const [isPaused, setIsPaused] = useState(false);
   const textRef = useRef(null);
@@ -23,12 +22,11 @@ export default function GradientText({
 
   useEffect(() => {
     if (textRef.current) {
-      // استفاده از offsetWidth برای دقت بیشتر در المان‌های inline-block
       setTextWidth(textRef.current.offsetWidth || 500);
     }
   }, [children]);
 
-  useAnimationFrame((time, delta) => {
+  useAnimationFrame((time) => {
     if (isPaused || textWidth === 0) {
       lastTimeRef.current = null;
       return;
@@ -39,7 +37,7 @@ export default function GradientText({
       return;
     }
 
-    const deltaTime = time - lastTimeRef.current;
+    const deltaTime = Math.min(time - lastTimeRef.current, 60); // Cap delta to prevent jump/stutter
     lastTimeRef.current = time;
 
     const moveAmount = (deltaTime / animationDuration) * textWidth;
@@ -78,7 +76,7 @@ export default function GradientText({
       className={`animated-gradient-text ${showBorder ? 'with-border' : ''} ${className}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      style={{ display: 'inline-flex' }} // اطمینان از قرارگیری درست در هدرها
+      style={{ display: 'inline-flex' }} 
     >
       {showBorder && (
         <motion.div 
@@ -93,8 +91,8 @@ export default function GradientText({
           ...gradientStyle, 
           backgroundPosition,
           display: 'inline-flex',
-          flexWrap: 'wrap',
-          color: 'transparent' // اطمینان از شفافیت برای نمایش گرادینت
+          flexWrap: 'nowrap',
+          color: 'transparent'
         }}
       >
         {children}

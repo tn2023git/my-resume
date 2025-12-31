@@ -94,6 +94,16 @@ body, html {
 @keyframes slideRight { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
 @keyframes slideTop { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
 
+/* --- Exit Animation --- */
+.slide-out-anim {
+  animation: slideOut 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes slideOut {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(50px); }
+}
+
 .rtl-mode .slide-in-left { animation-name: slideRight; }
 .rtl-mode .slide-in-right { animation-name: slideLeft; }
 
@@ -252,12 +262,11 @@ body, html {
     padding: 0 15px !important;
   }
 
-  /* FORCING PAGE BREAK ON INTERESTS WRAPPER */
   .side-pixel-wrapper:has(.interests-list) {
     display: block !important;
     break-before: page !important;
     page-break-before: always !important;
-    margin-top: 30px !important; /* Adding space at the top of new page */
+    margin-top: 30px !important; 
   }
 
   .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary, .mobile-glass-card {
