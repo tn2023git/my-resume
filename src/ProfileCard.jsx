@@ -21,6 +21,7 @@ const ProfileCard = ({
 
   const handleLangSelect = (lang) => {
     setLocalExiting(true);
+    // Fast switch to sync with mobile optimized animation
     setTimeout(() => {
       onSelectLang(lang);
     }, 100);
@@ -79,11 +80,14 @@ const ProfileCard = ({
     if (isMobile) {
       let angle = 0;
       const autoAnimate = () => {
-        const speed = 0.015;      
-        const intensity = 40;    
+        const speed = 0.012;      
+        const intensity = 50;    
+        
         angle += speed;
+        
         const x = 50 + Math.cos(angle) * intensity;
         const y = 50 + Math.sin(angle * 0.8) * intensity;
+        
         tiltEngine.setTarget(x, y);
         mobileRaf = requestAnimationFrame(autoAnimate);
       };
@@ -96,8 +100,10 @@ const ProfileCard = ({
         tiltEngine.setTarget(px, py);
       };
       const onLeave = () => tiltEngine.setTarget(50, 50);
+      
       shell.addEventListener('pointermove', onMove);
       shell.addEventListener('pointerleave', onLeave);
+      
       return () => {
         shell.removeEventListener('pointermove', onMove);
         shell.removeEventListener('pointerleave', onLeave);
@@ -154,13 +160,28 @@ const ProfileCard = ({
             <div className="pc-lang-overlay">
               <div className="pc-central-tooltip en-tooltip">View English Resume</div>
               <div className="pc-central-tooltip fa-tooltip">مشاهده رزومه فارسی</div>
-              <div className="flag-btn en-corner" onClick={(e) => { e.stopPropagation(); handleLangSelect('en'); }}>
+
+              <div 
+                className="flag-btn en-corner" 
+                onClick={(e) => { 
+                  e.stopPropagation(); 
+                  handleLangSelect('en'); 
+                }}
+              >
                 <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" alt="English" />
               </div>
-              <div className="flag-btn fa-corner" onClick={(e) => { e.stopPropagation(); handleLangSelect('fa'); }}>
+              
+              <div 
+                className="flag-btn fa-corner" 
+                onClick={(e) => { 
+                  e.stopPropagation(); 
+                  handleLangSelect('fa'); 
+                }}
+              >
                 <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Flag_of_Iran.svg" alt="Farsi" />
               </div>
             </div>
+
           </div>
         </section>
       </div>
