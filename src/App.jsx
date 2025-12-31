@@ -22,10 +22,11 @@ function App() {
     return () => window.removeEventListener('resize', checkDevice);
   }, []);
 
-  // Background fade logic only for non-mobile
+  // Optimized Background fade logic
   useEffect(() => {
     if (showResume && !isMobile) {
-      const timer = setTimeout(() => setBgVisible(true), 100);
+      // Small delay to ensure the component is mounted before fading in
+      const timer = setTimeout(() => setBgVisible(true), 150);
       return () => clearTimeout(timer);
     } else {
       setBgVisible(false);
@@ -247,7 +248,15 @@ function App() {
            isMobile ? (
             <PixelCard isStatic={true} className="mobile-bg-pixel" gap={5} speed={25} />
           ) : (
-            <PrismaticBurst intensity={1.8} speed={0.2} animationType="hover" color0="#f3bc08" color1="#d1765c" color2="#a010d6" distort={0.3} />
+            <PrismaticBurst 
+              intensity={1.2} /* Reduced slightly for performance */
+              speed={0.2} 
+              animationType="hover" 
+              color0="#f3bc08" 
+              color1="#d1765c" 
+              color2="#a010d6" 
+              distort={0.3} 
+            />
           )
         )}
       </div>
