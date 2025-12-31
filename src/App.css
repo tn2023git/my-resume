@@ -58,14 +58,13 @@ html, body, #root {
   z-index: -1;
   pointer-events: none;
   background-color: #000000;
-}
-
-.bg-container > * {
   opacity: 0;
+  display: none; 
   transition: opacity 1s ease-in-out;
 }
 
-.bg-container.is-active > * {
+.bg-container.is-active {
+  display: block; 
   opacity: 1 !important;
 }
 
@@ -298,13 +297,14 @@ html, body, #root {
 @media print {
   @page { size: A4; margin: 10mm; }
 
-  /* Reset everything to visible, static, and black-on-white */
   html, body, #root {
     background-color: white !important;
     color: black !important;
     height: auto !important;
     min-height: 0 !important;
     overflow: visible !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
   .app-wrapper {
@@ -316,7 +316,6 @@ html, body, #root {
     min-height: 0 !important;
   }
 
-  /* Force content to be visible and ignore animations */
   .pdf-page, .fade-in-section, .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary {
     opacity: 1 !important;
     visibility: visible !important;
@@ -326,7 +325,6 @@ html, body, #root {
     animation: none !important;
   }
 
-  /* Strip all box containers and layouts */
   .side-pixel-wrapper, .exp-pixel-wrapper, .full-width-summary, .mobile-glass-card {
     background: transparent !important;
     border: none !important;
@@ -337,11 +335,29 @@ html, body, #root {
     width: 100% !important;
   }
 
+  /* Show Progress Bars and Dots in Black */
+  .progress-bar-bg {
+    background: #e0e0e0 !important;
+    border: 1px solid #ccc !important;
+  }
+  .progress-bar-fill {
+    background: black !important;
+    box-shadow: none !important;
+  }
+  .dot {
+    background: #e0e0e0 !important;
+    border: 1px solid #ccc !important;
+  }
+  .dot.filled {
+    background: black !important;
+    border-color: black !important;
+    box-shadow: none !important;
+  }
+
   .summary-inner, .side-section, .exp-card {
     padding: 0 !important;
   }
 
-  /* Ensure vertical flow */
   .info-columns-container {
     column-count: 1 !important;
     display: block !important;
@@ -351,21 +367,17 @@ html, body, #root {
     display: block !important;
   }
 
-  /* Force all text to black */
   * {
     color: black !important;
     -webkit-text-fill-color: black !important;
     text-shadow: none !important;
-    background: transparent !important;
   }
 
-  /* Kill UI elements */
   .bg-container, .floating-actions-container, .gateway-container, 
   .profile-card-glow, canvas, .pixel-card-canvas {
     display: none !important;
   }
 
-  /* Text formatting */
   .yellow-text {
     color: black !important;
     border-bottom: 2px solid black !important;

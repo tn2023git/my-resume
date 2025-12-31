@@ -19,17 +19,24 @@ function App() {
     const checkDevice = () => setIsMobile(window.innerWidth <= 768);
     checkDevice();
     window.addEventListener('resize', checkDevice);
-    return () => window.removeEventListener('resize', checkDevice);
+    
+    // Hold off background until card is ready - updated to 350ms
+    const timer = setTimeout(() => {
+      setBgActivated(true);
+    }, 350);
+
+    return () => {
+      window.removeEventListener('resize', checkDevice);
+      clearTimeout(timer);
+    };
   }, []);
 
   const handleStart = (selectedLang) => {
     setLang(selectedLang);
     setIsExiting(true);
     
-    // Toggle off immediately
     setBgActivated(false); 
     
-    // Toggle back on after a minimal tick to force a fresh mount via the 'key' prop
     setTimeout(() => {
       setBgActivated(true); 
       setShowResume(true);
@@ -41,7 +48,6 @@ function App() {
     setIsReturning(true);
     setTimeout(() => {
       setShowResume(false);
-      // bgActivated remains true so the background stays running
       setIsReturning(false);
     }, 800);
   };
@@ -238,13 +244,12 @@ function App() {
 
   return (
     <div className={`app-wrapper ${isEn ? 'ltr-mode' : 'rtl-mode'}`}>
-      <div className={`bg-container is-active`}>
+      <div className={`bg-container ${bgActivated ? 'is-active' : ''}`}>
         {!isMobile ? (
           <Aurora 
               colorStops={['#f3bc08', '#d8854b', '#a010d6']} 
               speed={1.25} 
               blend={0.75} 
-              active={bgActivated} 
           />
         ) : (
           <div className="mobile-pixel-bg-wrapper">

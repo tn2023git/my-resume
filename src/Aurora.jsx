@@ -84,8 +84,6 @@ export default function Aurora(props) {
     speed = 1.25 
   } = props;
 
-  // Use memoization to prevent the component from re-running the heavy useEffect
-  // unless the core visual props actually change.
   const memoizedColorStops = useMemo(() => JSON.stringify(colorStops), [colorStops]);
 
   const propsRef = useRef(props);
