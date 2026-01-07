@@ -132,7 +132,7 @@ function App() {
           { name: "Atena Zist Darman", url: "https://atenazistdarman.com", tags: ["AI", "Wordpress", "Elementor", "Premiere", "Photoshop"] }
         ],
         experience: [
-          { role: "Office Assistant", company: "Atena Zist Darman", date: "Apr 2024 - Nov 2025", duration: "1 Year and 7 Months", desc: "Handling all administrative and clerical tasks, drafting correspondence, archiving, answering phones, issuing invoices, entering data into the Faradis CRM system, preparing reports, and troubleshooting routine software issues." },
+          { role: "Office Assistant", company: "Atena Zist Darman", date: "May 2024 - Dec 2025", duration: "1 Year and 7 Months", desc: "Handling all administrative and clerical tasks, drafting correspondence, archiving, answering phones, issuing invoices, entering data into the Faradis CRM system, preparing reports, and troubleshooting routine software issues." },
           { role: "English Teacher", company: "Pardisan - Narmak & Tehranpars", date: "Oct 2022 - Feb 2024", duration: "1 Year and 4 Months", desc: "Teaching English to various age groups, focusing on conversation and grammar. Developed lesson plans tailored to student needs and conducted both group and private sessions." },
           { role: "English Teacher", company: "Pouya Middle School - Rey", date: "Sep 2021 - May 2022", duration: "8 Months", desc: "Taught English to 7th and 8th graders using online education platforms like Skyroom and Adobe Connect during the pandemic." },
           { role: "English Teacher", company: "Pardisan - Narmak", date: "Apr 2021 - Sep 2021", duration: "5 Months", desc: "Instructed English learners through structured curriculum and interactive teaching methods to improve language proficiency." },
