@@ -7,8 +7,8 @@ const ProfileCard = ({
   avatarUrl,
   nameEn = "Amirali Dabiri Maram",
   nameFa = "امیرعلی دبیری مرام",
-  titleEn = "Job Seeker",
-  titleFa = "کارجو",
+  titleEn = "Customer Service & Sales Specialist",
+  titleFa = "کارشناس خدمات مشتریان و فروش",
   onSelectLang,
   isExiting: isExitingProp,
 }) => {
