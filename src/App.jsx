@@ -58,13 +58,13 @@ function App() {
         title: "Customer Support & Sales Specialist",
         summary: "Bilingual Retention & Customer Experience Specialist (English / Farsi) with extensive experience driving customer growth, lifetime value, and promotional engagement in fast-paced operational environments. Proven track record in orchestrating targeted customer communications, resolving complex account issues, and optimizing promotional campaign delivery to boost user engagement and lower churn. Skilled at leveraging user feedback and workflow analysis to improve CRM touchpoints, elevate brand trust, and deliver exceptional cross-channel support.",
         personal: [
-          { label: "Age", value: "26 Years (Born May 11th 1999)" },
+          { label: "Age", value: "27 Years (Born May 11th 1999)" },
           { label: "Military", value: "Exempted" },
-          { label: "Location", value: "Rey, Tehran" },
+          { label: "Location", value: "Yerevan, Armenia" },
           { label: "Status", value: "Single" }
         ],
         contact: [
-          { label: "Phone", value: "09371783669" },
+          { label: "Phone", value: "+374 77 603 208" },
           { label: "Email", value: "a.dmaram2023@gmail.com" },
           { label: "Telegram", value: "tn2023", url: "https://t.me/tn2023" }
         ],
@@ -146,13 +146,13 @@ function App() {
         title: "کارشناس خدمات مشتریان و فروش",
         summary: "متخصص دوزبانه (مسلط به انگلیسی و فارسی) در حوزه رشد، حفظ مشتریان (Retention) و مدیریت ارتباط با مشتری (CRM) با تجربه در افزایش ارزش طول عمر مشتری و اجرای کمپین‌های پروموشنال در محیط‌های پویا. دارای توانمندی در طراحی ارتباطات هدفمند، تحلیل رفتار کاربران و حل مسائل پیچیده جهت کاهش ریزش مشتریان (Churn) و ارتقای تعامل کاربران. فراتر از مهارت‌های ارتباطی و فن بیان، متعهد به بهینه‌سازی فرآیندهای پشتیبانی، ارائه استانداردهای جهانی در خدمات و تبدیل تجربه مشتری به فرصت‌های رشد پایدار.",
         personal: [
-          { label: "سن", value: "۲۶ سال (متولد ۲۱ اردیبهشت ۱۳۷۸)" },
+          { label: "سن", value: "۲۷ سال (متولد ۲۱ اردیبهشت ۱۳۷۸)" },
           { label: "سربازی", value: "معاف دائم" },
-          { label: "محل سکونت", value: "تهران، ری" },
+          { label: "محل سکونت", value: "ایروان، ارمنستان" },
           { label: "وضعیت تاهل", value: "مجرد" }
         ],
         contact: [
-          { label: "موبایل", value: "۰۹۳۷۱۷۸۳۶۶۹" },
+          { label: "موبایل", value: "۲۰۸ ۶۰۳ ۷۷ ۳۷۴+" },
           { label: "ایمیل", value: "a.dmaram2023@gmail.com" },
           { label: "تلگرام", value: "tn2023", url: "https://t.me/tn2023" }
         ],
