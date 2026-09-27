@@ -7,8 +7,8 @@ const ProfileCard = ({
   avatarUrl,
   nameEn = "Amirali Dabiri Maram",
   nameFa = "امیرعلی دبیری مرام",
-  titleEn = "Job Seeker",
-  titleFa = "کارجو",
+  titleEn = "Customer Support & Sales Specialist",
+  titleFa = "کارشناس خدمات مشتریان و فروش",
   onSelectLang,
   isExiting: isExitingProp,
 }) => {
@@ -124,7 +124,6 @@ const ProfileCard = ({
               </div>
               <div className="dual-title">
                 <span className="en-title-text">{titleEn}</span>
-                <span className="sep">-</span>
                 <span className="fa-title-text">{titleFa}</span>
               </div>
             </div>
