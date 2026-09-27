@@ -218,17 +218,17 @@
 
 .dual-title {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  gap: 2px;
   margin-top: 8px;
   font-size: 1rem;
-  direction: ltr !important; 
 }
 
 .en-title-text { font-family: 'ProductSans', sans-serif; color: rgba(255,255,255,0.8); }
 .fa-title-text { font-family: 'Anjoman', sans-serif; color: rgba(255,255,255,0.8); }
-.sep { color: #ffd700; font-weight: bold; }
+.sep { display: none; }
 
 .pc-avatar-container {
   flex: 1;
