@@ -55,7 +55,7 @@ function App() {
   const data = {
     en: {
         name: "Amirali Dabiri Maram",
-        title: "Job Seeker",
+        title: "Customer Support & Sales Specialist",
         summary: "With over 5 years of experience in educational and administrative environments, focusing on professional English proficiency and website design. Beyond technical skills, I possess strong capabilities in public speaking, strategic thinking for complex problem-solving, and a competitive drive to achieve peak quality in every project. Combined with high teamwork skills for advancing collective goals, I am committed to optimizing processes, continuous learning, and maintaining global standards in professional communication.",
         personal: [
           { label: "Age", value: "26 Years (Born May 11th 1999)" },
@@ -143,7 +143,7 @@ function App() {
     },
     fa: {
         name: "امیرعلی دبیری مرام",
-        title: "کارجو",
+        title: "کارشناس خدمات مشتریان و فروش",
         summary: "دارای بیش از ۵ سال تجربه در حوزه‌های آموزشی و اداری با تمرکز بر تسلط حرفه‌ای به زبان انگلیسی و طراحی وب‌سایت. فراتر از مهارت‌های فنی، دارای توانمندی بالا در فن بیان و سخنرانی عمومی و تفکر استراتژیک در حل مسائل پیچیده هستم. روحیه‌ی رقابتی در کنار مهارت‌های همکاری تیمی بالا برای پیشبرد اهداف مشترک، مرا در دستیابی به بالاترین سطح کیفیت در پروژه‌ها یاری می‌کند. متعهد به بهینه‌سازی فرآیندها، یادگیری مستمر و حفظ استانداردهای جهانی در ارتباطات حرفه‌ای.",
         personal: [
           { label: "سن", value: "۲۶ سال (متولد ۲۱ اردیبهشت ۱۳۷۸)" },
