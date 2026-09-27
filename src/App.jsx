@@ -132,6 +132,7 @@ function App() {
           { name: "Atena Zist Darman", url: "https://atenazistdarman.com", tags: ["AI", "Wordpress", "Elementor", "Premiere", "Photoshop"] }
         ],
         experience: [
+          { role: "Customer Support & Sales Specialist", company: "Tempus Logix - Armenia", date: "Started May 2026", duration: "Current", desc: "Managing customer inquiries in English, coordinating between drivers and clients for vehicle transport across the US, and resolving logistics issues in a fast-paced environment. Additionally, contributing to business growth by identifying new sales opportunities, building client relationships, and securing high-margin transport contracts." },
           { role: "Office Assistant", company: "Atena Zist Darman", date: "May 2024 - Dec 2025", duration: "1 Year and 7 Months", desc: "Handling all administrative and clerical tasks, drafting correspondence, archiving, answering phones, issuing invoices, entering data into the Faradis CRM system, preparing reports, and troubleshooting routine software issues." },
           { role: "English Teacher", company: "Pardisan - Narmak & Tehranpars", date: "Oct 2022 - Feb 2024", duration: "1 Year and 4 Months", desc: "Teaching English to various age groups, focusing on conversation and grammar. Developed lesson plans tailored to student needs and conducted both group and private sessions." },
           { role: "English Teacher", company: "Pouya Middle School - Rey", date: "Sep 2021 - May 2022", duration: "8 Months", desc: "Taught English to 7th and 8th graders using online education platforms like Skyroom and Adobe Connect during the pandemic." },
@@ -219,6 +220,7 @@ function App() {
           { name: "آتنا زیست درمان", url: "https://atenazistdarman.com", tags: ["AI", "Wordpress", "Elementor", "Premiere", "Photoshop"] }
         ],
         experience: [
+          { role: "کارشناس خدمات مشتریان و فروش", company: "Tempus Logix - ارمنستان", date: "شروع از اردیبهشت ۱۴۰۵", duration: "در حال کار", desc: "برقراری ارتباط مستقیم با مشتریان خارجی به زبان انگلیسی، هماهنگی حمل و نقل خودروها بین رانندگان و مشتریان در سراسر آمریکا و حل مشکلات لجستیکی. همچنین، همکاری با تیم فروش در جهت جذب مشتریان جدید، توسعه ارتباطات تجاری و عقد قراردادهای پربازده." },
           { role: "منشی و مسئول دفتر", company: "آتنا زیست درمان", date: "اردیبهشت ۱۴۰۳ - آذر ۱۴۰۴", duration: "۱ سال و ۷ ماه", desc: "انجام تمامی امور اداری و دفتری، تنظیم نامه ها، بایگانی، پاسخگویی به تلفن ها و صدور فاکتور ها، ثبت اطلاعات در سیستم CRM فرادیس، تهیه گزارش ها و رسیدگی به مشکلات ساده نرم افزاری روزمره." },
           { role: "مدرس زبان انگلیسی", company: "آموزشگاه پردیسان نارمک و تهرانپارس", date: "مهر ۱۴۰۱ - بهمن ۱۴۰۲", duration: "۱ سال و ۴ ماه", desc: "تدریس زبان انگلیسی به رده‌های سنی مختلف با تمرکز بر مهارت‌های گفتاری و گرامر. برنامه‌ریزی آموزشی بر اساس نیاز شاگردان در کلاس‌های گروهی و خصوصی." },
           { role: "مدرس زبان انگلیسی", company: "مدرسه پویا - شهرری", date: "شهریور ۱۴۰۰ - اردیبهشت ۱۴۰۱", duration: "۸ ماه", desc: "تدریس زبان انگلیسی به دانش‌آموزان پایه‌های هفتم و هشتم با استفاده از پلتفرم‌های آموزش آنلاین اسکای‌روم و ادوبی کانکت." },
